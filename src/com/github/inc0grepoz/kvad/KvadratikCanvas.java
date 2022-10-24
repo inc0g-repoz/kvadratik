@@ -5,6 +5,9 @@ import java.awt.Graphics;
 
 import com.github.inc0grepoz.Game;
 import com.github.inc0grepoz.kvad.entities.Camera;
+import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
+import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.entities.level.Level;
 
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
@@ -14,11 +17,15 @@ public class KvadratikCanvas extends Canvas {
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
-        worker = new RenderWorker(this, 33L);
+        worker = new RenderWorker(this);
     }
 
     public RenderWorker getWorker() {
         return worker;
+    }
+
+    public void setFrapsPerSecond(int fraps) {
+        worker.setDelay(1000L / fraps);
     }
 
     @Override
@@ -37,9 +44,19 @@ public class KvadratikCanvas extends Canvas {
         // Clearing stuff
         update(g);
 
-        // Drawing the player
-        Camera cam = game.getLevel().getCamera();
-        game.getLevel().getPlayer().draw(g, cam);
+        Level level = game.getLevel();
+        Camera cam = level.getCamera();
+        Player player = level.getPlayer();
+
+        // Focusing the camera on the player
+        if (cam.getMode() == CameraMode.FOLLOW) {
+            cam.focus(player);
+        }
+
+        // Drawing all entities
+        player.draw(g, cam);
+        level.getLevelObjects().forEach(o -> o.draw(g, cam));
+        level.getLivingEntities().forEach(e -> e.draw(g, cam));
     }
 
 }

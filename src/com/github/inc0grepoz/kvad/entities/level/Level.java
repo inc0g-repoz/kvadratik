@@ -10,13 +10,20 @@ import com.github.inc0grepoz.kvad.entities.Player;
 
 public class Level {
 
-    private Camera camera;
-    private Player player = new Player(new Rectangle(0, 0, 50, 50));
+    private final Game game;
+    private final Camera camera;
+
+    private Player player = new Player(new Rectangle(0, 0, 50, 50), this);
     private ArrayList<LevelObject> levelObjects = new ArrayList<>();
     private ArrayList<LivingEntity> livingEntities = new ArrayList<>();
 
     public Level(Game game) {
-        camera = new Camera(new Rectangle(0, 0, game.getWidth(), game.getHeight()));
+        this.game = game;
+        camera = new Camera(new Rectangle(0, 0, game.getWidth(), game.getHeight()), this);
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public Camera getCamera() {

@@ -6,8 +6,8 @@ import com.github.inc0grepoz.kvad.entities.Renderable;
 
 public abstract class LevelObject extends Renderable {
 
-    public LevelObject(Rectangle rect) {
-        super(rect);
+    public LevelObject(Rectangle rect, Level level) {
+        super(rect, level);
     }
 
 }

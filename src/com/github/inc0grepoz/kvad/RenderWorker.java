@@ -6,8 +6,8 @@ public class RenderWorker extends Worker {
 
     private final KvadratikCanvas canvas;
 
-    public RenderWorker(KvadratikCanvas canvas, long delay) {
-        super(delay);
+    public RenderWorker(KvadratikCanvas canvas) {
+        super(33L);
         this.canvas = canvas;
     }
 

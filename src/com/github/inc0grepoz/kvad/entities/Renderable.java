@@ -3,10 +3,12 @@ package com.github.inc0grepoz.kvad.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import com.github.inc0grepoz.kvad.entities.level.Level;
+
 public abstract class Renderable extends Entity {
 
-    public Renderable(Rectangle rect) {
-        super(rect);
+    public Renderable(Rectangle rect, Level level) {
+        super(rect, level);
     }
 
     public void draw(Graphics graphics, Camera camera) {

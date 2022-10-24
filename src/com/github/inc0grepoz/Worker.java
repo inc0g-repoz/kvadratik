@@ -12,7 +12,7 @@ public abstract class Worker {
         thread = new Thread(() -> {
             while (alive) {
                 try {
-                    Thread.sleep(delay);
+                    Thread.sleep(this.delay);
                     work();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -20,6 +20,10 @@ public abstract class Worker {
             }
         });
         thread.setName(getClass().getSimpleName());
+    }
+
+    public void setDelay(long delay) {
+        this.delay = delay;
     }
 
     public void start() {
