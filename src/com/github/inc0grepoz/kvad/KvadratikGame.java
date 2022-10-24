@@ -39,17 +39,6 @@ public class KvadratikGame extends Game {
         // Controls
         controls = new Controls();
         addKeysListener(canvas);
-
-        /*
-        setLocationRelativeTo(null);
-        pack();
-
-        Canvas canvas = new Canvas(null);
-        canvas.setBackground(Color.BLACK);
-        canvas.prepareImage(image, canvas);
-        canvas.imageUpdate(image, ALLBITS, MAXIMIZED_BOTH, ABORT, WIDTH, HEIGHT);
-        add(canvas);
-        */
     }
 
     public KvadratikCanvas getCanvas() {

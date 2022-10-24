@@ -7,6 +7,10 @@ import java.util.HashMap;
 
 public class Controls implements KeyListener {
 
+    public static enum Key {
+        MOVE_FORWARD, MOVE_BACK, MOVE_LEFT, MOVE_RIGHT, SPRINT, JUMP
+    }
+
     private final HashMap<Key, Integer> controls = new HashMap<>();
     private final ArrayList<Integer> pressed = new ArrayList<>();
 

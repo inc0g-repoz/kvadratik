@@ -1,8 +1,12 @@
 package com.github.inc0grepoz.kvad;
 
+import java.awt.Rectangle;
+
 import com.github.inc0grepoz.Controls;
-import com.github.inc0grepoz.Key;
+import com.github.inc0grepoz.Controls.Key;
 import com.github.inc0grepoz.Worker;
+import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class PhysicsWorker extends Worker {
 
@@ -20,17 +24,22 @@ public class PhysicsWorker extends Worker {
         if (ctrls.isPressed(Key.SPRINT)) {
             speed *= 2;
         }
+
+        Level level = game.getLevel();
+        Player player = level.getPlayer();
+        Rectangle pRect = player.getRectangle();
+
         if (ctrls.isPressed(Key.MOVE_FORWARD)) {
-            game.getLevel().getPlayer().getRectangle().y -= speed;
+            pRect.y -= speed;
         }
         if (ctrls.isPressed(Key.MOVE_LEFT)) {
-            game.getLevel().getPlayer().getRectangle().x -= speed;
+            pRect.x -= speed;
         }
         if (ctrls.isPressed(Key.MOVE_BACK)) {
-            game.getLevel().getPlayer().getRectangle().y += speed;
+            pRect.y += speed;
         }
         if (ctrls.isPressed(Key.MOVE_RIGHT)) {
-            game.getLevel().getPlayer().getRectangle().x += speed;
+            pRect.x += speed;
         }
     }
 

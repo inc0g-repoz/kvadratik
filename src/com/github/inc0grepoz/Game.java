@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 @SuppressWarnings("serial")
-public class Game extends Frame {
+public abstract class Game extends Frame {
 
     private Level level = new Level(this);
 

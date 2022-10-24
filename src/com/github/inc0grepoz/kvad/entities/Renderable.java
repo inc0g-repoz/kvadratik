@@ -11,10 +11,14 @@ public abstract class Renderable extends Entity {
         super(rect, level);
     }
 
-    public void draw(Graphics graphics, Camera camera) {
+    public void render(Graphics graphics, Camera camera) {
         Rectangle ent = getRectangle();
         Rectangle cam = camera.getRectangle();
-        graphics.drawRect(ent.x - cam.x, ent.y - cam.y, ent.width, ent.height);
+        draw(graphics, ent.x - cam.x, ent.y - cam.y, ent.width, ent.height);
+    }
+
+    public void draw(Graphics graphics, int x, int y, int width, int height) {
+        graphics.drawRect(x, y, width, height);
     }
 
 }

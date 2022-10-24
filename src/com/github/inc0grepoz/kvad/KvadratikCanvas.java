@@ -29,20 +29,10 @@ public class KvadratikCanvas extends Canvas {
     }
 
     @Override
-    public void update(Graphics g) {
+    public void paint(Graphics g) {
+
+        // Cleaning stuff
         g.clearRect(0, 0, getWidth(), getHeight());
-        paint(g);
-    }
-
-    public void update() {
-        Graphics g = getGraphics();
-        if (g == null) {
-            System.out.println("Null graphics");
-            return;
-        }
-
-        // Clearing stuff
-        update(g);
 
         Level level = game.getLevel();
         Camera cam = level.getCamera();
@@ -54,9 +44,9 @@ public class KvadratikCanvas extends Canvas {
         }
 
         // Drawing all entities
-        player.draw(g, cam);
-        level.getLevelObjects().forEach(o -> o.draw(g, cam));
-        level.getLivingEntities().forEach(e -> e.draw(g, cam));
+        player.render(g, cam);
+        level.getLevelObjects().forEach(o -> o.render(g, cam));
+        level.getLivingEntities().forEach(e -> e.render(g, cam));
     }
 
 }

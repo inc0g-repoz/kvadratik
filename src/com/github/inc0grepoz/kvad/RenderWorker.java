@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.kvad;
 
+import java.awt.Graphics;
+
 import com.github.inc0grepoz.Worker;
 
 public class RenderWorker extends Worker {
@@ -12,7 +14,12 @@ public class RenderWorker extends Worker {
     }
 
     public void work() {
-        canvas.update();
+        Graphics graphics = canvas.getGraphics();
+        if (graphics == null) {
+            System.out.println("Null graphics");
+        } else {
+            canvas.paint(graphics);
+        }
     }
 
 }
