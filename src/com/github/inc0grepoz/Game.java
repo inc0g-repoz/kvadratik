@@ -8,12 +8,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.github.inc0grepoz.kvad.entities.level.Level;
-
 @SuppressWarnings("serial")
 public abstract class Game extends Frame {
-
-    private Level level = new Level(this);
 
     {
         WindowAdapter adapter = new WindowAdapter() {
@@ -38,10 +34,6 @@ public abstract class Game extends Frame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Level getLevel() {
-        return level;
     }
 
 }

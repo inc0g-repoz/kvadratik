@@ -16,8 +16,11 @@ public class KvadratikGame extends Game {
     private final PhysicsWorker physics;
     private final Controls controls;
 
+    private Level level;
+
     {
-        Level level = getLevel();
+        // Loading the level
+        level = new Level(this);
         LevelObject[] lobj = {
                 new LevelObjectBox(new Rectangle(0, 0, 25, 25), level),
                 new LevelObjectBox(new Rectangle(100, 100, 25, 25), level)
@@ -25,10 +28,6 @@ public class KvadratikGame extends Game {
         for (int i = 0; i < lobj.length; i++) {
             level.getLevelObjects().add(lobj[i]);
         }
-
-        // Physics
-        physics = new PhysicsWorker(this, 100L);
-        physics.start();
 
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
@@ -39,6 +38,10 @@ public class KvadratikGame extends Game {
         // Controls
         controls = new Controls();
         addKeysListener(canvas);
+
+        // Physics
+        physics = new PhysicsWorker(this, 100L);
+        physics.start();
     }
 
     public KvadratikCanvas getCanvas() {
@@ -47,6 +50,10 @@ public class KvadratikGame extends Game {
 
     public Controls getControls() {
         return controls;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     public void addKeysListener(Canvas c) {

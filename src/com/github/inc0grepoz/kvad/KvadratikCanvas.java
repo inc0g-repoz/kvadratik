@@ -3,7 +3,6 @@ package com.github.inc0grepoz.kvad;
 import java.awt.Canvas;
 import java.awt.Graphics;
 
-import com.github.inc0grepoz.Game;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.Player;
@@ -12,7 +11,7 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
 
-    private final Game game;
+    private final KvadratikGame game;
     private final RenderWorker worker;
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
@@ -44,9 +43,8 @@ public class KvadratikCanvas extends Canvas {
         }
 
         // Drawing all entities
-        player.render(g, cam);
         level.getLevelObjects().forEach(o -> o.render(g, cam));
-        level.getLivingEntities().forEach(e -> e.render(g, cam));
+        level.getBeings().forEach(e -> e.render(g, cam));
     }
 
 }
