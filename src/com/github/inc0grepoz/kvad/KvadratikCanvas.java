@@ -34,6 +34,11 @@ public class KvadratikCanvas extends Canvas {
         g.clearRect(0, 0, getWidth(), getHeight());
 
         Level level = game.getLevel();
+        if (level == null) {
+            // TODO: Some menu code probably
+            return;
+        }
+
         Camera cam = level.getCamera();
         Player player = level.getPlayer();
 

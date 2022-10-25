@@ -4,16 +4,17 @@ import java.awt.Canvas;
 import java.awt.Rectangle;
 
 import com.github.inc0grepoz.Controls;
-import com.github.inc0grepoz.Game;
+import com.github.inc0grepoz.GameFrame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectBox;
 
 @SuppressWarnings("serial")
-public class KvadratikGame extends Game {
+public class KvadratikGame extends GameFrame {
 
     private final KvadratikCanvas canvas;
     private final PhysicsWorker physics;
+    private final ConsoleWorker console;
     private final Controls controls;
 
     private Level level;
@@ -35,8 +36,12 @@ public class KvadratikGame extends Game {
         canvas.getWorker().start();
 
         // Controls
-        controls = new Controls();
+        controls = new Controls(this);
         addKeysListener(canvas);
+
+        // Debug console
+        console = new ConsoleWorker(this, 500L);
+        console.start();
 
         // Physics
         physics = new PhysicsWorker(this, 100L);

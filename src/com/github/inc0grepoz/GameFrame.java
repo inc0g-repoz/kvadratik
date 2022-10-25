@@ -3,13 +3,11 @@ package com.github.inc0grepoz;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 @SuppressWarnings("serial")
-public abstract class Game extends Frame {
+public abstract class GameFrame extends Frame {
+
+    private final static Assets ASSETS = new Assets();
 
     {
         WindowAdapter adapter = new WindowAdapter() {
@@ -28,12 +26,12 @@ public abstract class Game extends Frame {
         }));
     }
 
+    public static Assets getAssets() {
+        return ASSETS;
+    }
+
     public void applyIcon(String fileName) {
-        try {
-            setIconImage(ImageIO.read(new File(fileName)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setIconImage(ASSETS.image(fileName));
     }
 
 }

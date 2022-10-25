@@ -6,6 +6,8 @@ import com.github.inc0grepoz.Controls;
 import com.github.inc0grepoz.Controls.Key;
 import com.github.inc0grepoz.Worker;
 import com.github.inc0grepoz.kvad.entities.Anim;
+import com.github.inc0grepoz.kvad.entities.Camera;
+import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
@@ -21,22 +23,28 @@ public class PhysicsWorker extends Worker {
     @Override
     public void work() {
         Controls ctrls = game.getControls();
+        Level level = game.getLevel();
+
+        if (level == null) {
+            // TODO: Some menu code probably
+            return;
+        }
+
         double speed = 2;
         if (ctrls.isPressed(Key.SPRINT)) {
             speed *= 3;
         }
 
-        Level level = game.getLevel();
         Player player = level.getPlayer();
         Rectangle pRect = player.getRectangle();
 
-        if (ctrls.isPressed(Key.MOVE_FORWARD)) {
+        if (ctrls.isPressed(Key.MOVE_UP)) {
             pRect.y -= speed;
             player.applyAnim(Anim.PLAYER_WALK_W);
         } else if (ctrls.isPressed(Key.MOVE_LEFT)) {
             pRect.x -= speed;
             player.applyAnim(Anim.PLAYER_WALK_A);
-        } else if (ctrls.isPressed(Key.MOVE_BACK)) {
+        } else if (ctrls.isPressed(Key.MOVE_DOWN)) {
             pRect.y += speed;
             player.applyAnim(Anim.PLAYER_WALK_S);
         } else if (ctrls.isPressed(Key.MOVE_RIGHT)) {
@@ -56,6 +64,22 @@ public class PhysicsWorker extends Worker {
                 default:
                     player.applyAnim(Anim.PLAYER_IDLE_S);
                     break;
+            }
+        }
+
+        // Moving the camera
+        Camera camera = level.getCamera();
+        Rectangle cRect = camera.getRectangle();
+
+        if (camera.getMode() == CameraMode.FREE) {
+            if (ctrls.isPressed(Key.SELECT_UP)) {
+                cRect.y -= speed;
+            } else if (ctrls.isPressed(Key.SELECT_LEFT)) {
+                cRect.x -= speed;
+            } else if (ctrls.isPressed(Key.SELECT_DOWN)) {
+                cRect.y += speed;
+            } else if (ctrls.isPressed(Key.SELECT_RIGHT)) {
+                cRect.x += speed;
             }
         }
     }

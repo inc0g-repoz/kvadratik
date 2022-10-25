@@ -2,7 +2,7 @@ package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.Bootstrap;
+import com.github.inc0grepoz.kvad.KvadratikGame;
 
 public enum Anim {
 
@@ -57,7 +57,7 @@ public enum Anim {
         images = new BufferedImage[paths.length];
         for (int i = 0; i < images.length; i++) {
             System.out.println("Loading " + paths[i]);
-            images[i] = Bootstrap.readImageFromAssets(paths[i]);
+            images[i] = KvadratikGame.getAssets().image(paths[i]);
         }
     }
 
