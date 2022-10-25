@@ -43,7 +43,20 @@ public class PhysicsWorker extends Worker {
             pRect.x += speed;
             player.applyAnim(Anim.PLAYER_WALK_D);
         } else {
-            player.applyAnim(Anim.PLAYER_IDLE_S);
+            switch (player.getAnim().getWay()) {
+                case W:
+                    player.applyAnim(Anim.PLAYER_IDLE_W);
+                    break;
+                case A:
+                    player.applyAnim(Anim.PLAYER_IDLE_A);
+                    break;
+                case D:
+                    player.applyAnim(Anim.PLAYER_IDLE_D);
+                    break;
+                default:
+                    player.applyAnim(Anim.PLAYER_IDLE_S);
+                    break;
+            }
         }
     }
 

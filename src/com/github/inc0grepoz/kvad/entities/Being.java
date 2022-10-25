@@ -21,8 +21,11 @@ public class Being extends Renderable {
     }
 
     public void applyAnim(Anim anim) {
-        this.anim = anim;
-        animExpiry = System.currentTimeMillis() + anim.getDelay();
+        if (this.anim != anim) {
+            this.anim = anim;
+            animSpriteIndex = 0;
+            animExpiry = System.currentTimeMillis() + anim.getDelay();
+        }
     }
 
     public Anim getAnim() {
@@ -34,9 +37,10 @@ public class Being extends Renderable {
     }
 
     public BufferedImage getSprite() {
-        if (animExpiry > 0 && System.currentTimeMillis() > animExpiry) {
-            animSpriteIndex += anim.getImages().length < animSpriteIndex
-                    ? 1 : -animSpriteIndex;
+        if (System.currentTimeMillis() > animExpiry) {
+            animSpriteIndex += anim.getImages().length < animSpriteIndex + 2 ?
+                    -animSpriteIndex : 1;
+            animExpiry = System.currentTimeMillis() + anim.getDelay();
         }
         return anim.getImages()[animSpriteIndex];
     }
