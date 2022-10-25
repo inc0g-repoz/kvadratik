@@ -56,6 +56,10 @@ public class KvadratikGame extends GameFrame {
         return controls;
     }
 
+    public ConsoleWorker getConsole() {
+        return console;
+    }
+
     public Level getLevel() {
         return level;
     }

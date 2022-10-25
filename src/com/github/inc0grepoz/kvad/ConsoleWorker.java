@@ -9,11 +9,14 @@ public class ConsoleWorker extends Worker {
 
     private final KvadratikGame game;
     private final String[] commandList = new String[] {
+            "cam_follow",
             "cam_free",
-            "cam_follow"
+            "log_keys"
+            
     };
 
     private Scanner scan;
+    private boolean logKeys;
 
     public ConsoleWorker(KvadratikGame game, long delay) {
         super(delay);
@@ -29,13 +32,17 @@ public class ConsoleWorker extends Worker {
             case "help":
                 System.out.println(String.join("\n", commandList));
                 break;
+            case "cam_follow":
+                game.getLevel().getCamera().setMode(CameraMode.FOLLOW);
+                System.out.println("Switched to default camera");
+                break;
             case "cam_free":
                 game.getLevel().getCamera().setMode(CameraMode.FREE);
                 System.out.println("Switched to freecam");
                 break;
-            case "cam_follow":
-                game.getLevel().getCamera().setMode(CameraMode.FOLLOW);
-                System.out.println("Switched to default camera");
+            case "log_keys":
+                logKeys = !logKeys;
+                System.out.println("Set logging keys to " + Boolean.toString(logKeys));
                 break;
         }
     }
@@ -44,6 +51,10 @@ public class ConsoleWorker extends Worker {
     public void kill() {
         scan.close();
         super.kill();
+    }
+
+    public boolean isLoggingKeys() {
+        return logKeys;
     }
 
 }

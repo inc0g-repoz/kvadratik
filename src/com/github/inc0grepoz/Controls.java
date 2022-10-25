@@ -69,7 +69,10 @@ public class Controls implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (!pressed.contains(e.getKeyCode())) {
             pressed.add(e.getKeyCode());
-            System.out.println("Pressed " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
+
+            if (game.getConsole().isLoggingKeys()) {
+                System.out.println("Pressed " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
+            }
         }
     }
 
@@ -82,7 +85,10 @@ public class Controls implements KeyListener {
         } catch (Exception ex) {
             System.err.println("Shit, won't release cuz " + ex.getCause());
         }
-        System.out.println("Released " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
+
+        if (game.getConsole().isLoggingKeys()) {
+            System.out.println("Released " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
+        }
     }
 
 }
