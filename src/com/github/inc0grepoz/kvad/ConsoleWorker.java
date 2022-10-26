@@ -34,24 +34,24 @@ public class ConsoleWorker extends Worker {
         switch (command) {
             case "help":
                 System.out.println(String.join("\n", commandList));
-                break;
+                return;
             case "cam_follow":
                 game.getLevel().getCamera().setMode(CameraMode.FOLLOW);
                 System.out.println("Switched to default camera");
-                break;
+                return;
             case "cam_free":
                 game.getLevel().getCamera().setMode(CameraMode.FREE);
                 System.out.println("Switched to freecam");
-                break;
+                return;
             case "log_keys":
                 logKeys = !logKeys;
                 System.out.println("Set logging keys to " + Boolean.toString(logKeys));
-                break;
+                return;
             case "show_fps":
                 FrapsCounter fps = game.getCanvas().getFrapsCounter();
                 fps.setEnabled(!fps.isEnabled());
                 System.out.println("FPS count is " + (fps.isEnabled() ? "shown" : "hidden"));
-                break;
+                return;
         }
 
         if (command.startsWith("fps ")) {
@@ -64,6 +64,8 @@ public class ConsoleWorker extends Worker {
             }
             return;
         }
+
+        System.out.println("Get some help");
     }
 
     @Override
