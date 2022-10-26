@@ -32,7 +32,7 @@ public class KvadratikGame extends GameFrame {
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
         add(canvas);
-        canvas.setFrapsPerSecond(10);
+        canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();
 
         // Controls
