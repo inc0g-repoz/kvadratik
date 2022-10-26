@@ -17,7 +17,7 @@ public class ImageCanvas extends Canvas {
 
     public ImageCanvas() {
         try {
-            img = ImageIO.read(new File("test.jpg"));
+            img = ImageIO.read(new File("src/assets/test.jpg"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

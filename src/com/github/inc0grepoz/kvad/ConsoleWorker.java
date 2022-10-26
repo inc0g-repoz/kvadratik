@@ -26,7 +26,7 @@ public class ConsoleWorker extends Worker {
     @Override
     public void work() {
         scan = new Scanner(System.in);
-        String command = scan.next();
+        String command = scan.nextLine().toLowerCase();
 
         switch (command) {
             case "help":
@@ -44,6 +44,17 @@ public class ConsoleWorker extends Worker {
                 logKeys = !logKeys;
                 System.out.println("Set logging keys to " + Boolean.toString(logKeys));
                 break;
+        }
+
+        if (command.startsWith("fps ")) {
+            try {
+                int cap = Integer.valueOf(command.substring(4));
+                game.getCanvas().setFrapsPerSecond(cap);
+                System.out.println("Set FPS capability to " + cap);
+            } catch (NumberFormatException nfe) {
+                System.out.println("Invalid value");
+            }
+            return;
         }
     }
 

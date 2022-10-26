@@ -31,8 +31,9 @@ public class PhysicsWorker extends Worker {
         }
 
         double speed = 2;
-        if (ctrls.isPressed(Key.SPRINT)) {
-            speed *= 3;
+        boolean sprint = ctrls.isPressed(Key.SPRINT);
+        if (sprint) {
+            speed *= 4;
         }
 
         Player player = level.getPlayer();
@@ -40,16 +41,16 @@ public class PhysicsWorker extends Worker {
 
         if (ctrls.isPressed(Key.MOVE_UP)) {
             pRect.y -= speed;
-            player.applyAnim(Anim.PLAYER_WALK_W);
+            player.applyAnim(sprint ? Anim.PLAYER_RUN_W : Anim.PLAYER_WALK_W);
         } else if (ctrls.isPressed(Key.MOVE_LEFT)) {
             pRect.x -= speed;
-            player.applyAnim(Anim.PLAYER_WALK_A);
+            player.applyAnim(sprint ? Anim.PLAYER_RUN_A : Anim.PLAYER_WALK_A);
         } else if (ctrls.isPressed(Key.MOVE_DOWN)) {
             pRect.y += speed;
-            player.applyAnim(Anim.PLAYER_WALK_S);
+            player.applyAnim(sprint ? Anim.PLAYER_RUN_S : Anim.PLAYER_WALK_S);
         } else if (ctrls.isPressed(Key.MOVE_RIGHT)) {
             pRect.x += speed;
-            player.applyAnim(Anim.PLAYER_WALK_D);
+            player.applyAnim(sprint ? Anim.PLAYER_RUN_D : Anim.PLAYER_WALK_D);
         } else {
             switch (player.getAnim().getWay()) {
                 case W:
