@@ -61,28 +61,4 @@ public class KvadratikCanvas extends Canvas {
         g.drawImage(image, 0, 0, game.getWidth(), game.getHeight(), this);
     }
 
-    public void paint_flickering(Graphics g) {
-
-        // Cleaning stuff
-        g.clearRect(0, 0, getWidth(), getHeight());
-
-        Level level = game.getLevel();
-        if (level == null) {
-            // TODO: Some menu code probably
-            return;
-        }
-
-        Camera cam = level.getCamera();
-        Player player = level.getPlayer();
-
-        // Focusing the camera on the player
-        if (cam.getMode() == CameraMode.FOLLOW) {
-            cam.focus(player);
-        }
-
-        // Drawing all entities
-        level.getLevelObjects().forEach(o -> o.render(g, cam));
-        level.getBeings().forEach(e -> e.render(g, cam));
-    }
-
 }
