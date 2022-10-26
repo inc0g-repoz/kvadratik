@@ -10,12 +10,14 @@ import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
 
     private final KvadratikGame game;
     private final RenderWorker worker;
+    private final FrapsCounter fps = new FrapsCounter();
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
@@ -24,6 +26,10 @@ public class KvadratikCanvas extends Canvas {
 
     public RenderWorker getWorker() {
         return worker;
+    }
+
+    public FrapsCounter getFrapsCounter() {
+        return fps;
     }
 
     public void setFrapsPerSecond(int fraps) {
@@ -56,6 +62,11 @@ public class KvadratikCanvas extends Canvas {
         g2d.setColor(Color.BLACK);
         level.getLevelObjects().forEach(o -> o.render(g2d, cam));
         level.getBeings().forEach(e -> e.render(g2d, cam));
+
+        // Showing misc info
+        if (fps.isEnabled()) {
+            g2d.drawString(String.valueOf(fps.getFPS()), 10, 10);
+        }
 
         g2d.dispose();
         g.drawImage(image, 0, 0, game.getWidth(), game.getHeight(), this);

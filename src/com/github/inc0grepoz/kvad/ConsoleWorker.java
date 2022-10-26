@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.github.inc0grepoz.Worker;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
+import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 
 public class ConsoleWorker extends Worker {
 
@@ -11,7 +12,9 @@ public class ConsoleWorker extends Worker {
     private final String[] commandList = new String[] {
             "cam_follow",
             "cam_free",
-            "log_keys"
+            "help",
+            "log_keys",
+            "show_fps"
             
     };
 
@@ -43,6 +46,11 @@ public class ConsoleWorker extends Worker {
             case "log_keys":
                 logKeys = !logKeys;
                 System.out.println("Set logging keys to " + Boolean.toString(logKeys));
+                break;
+            case "show_fps":
+                FrapsCounter fps = game.getCanvas().getFrapsCounter();
+                fps.setEnabled(!fps.isEnabled());
+                System.out.println("FPS count is " + (fps.isEnabled() ? "shown" : "hidden"));
                 break;
         }
 
