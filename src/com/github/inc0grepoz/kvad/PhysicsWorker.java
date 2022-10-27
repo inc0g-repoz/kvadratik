@@ -28,10 +28,10 @@ public class PhysicsWorker extends Worker {
             return;
         }
 
-        int speed = 2;
+        int speed = 4;
         boolean sprint = ctrls.isPressed(Key.SPRINT);
         if (sprint) {
-            speed *= 4;
+            speed *= 3;
         }
 
         // Moving the player
