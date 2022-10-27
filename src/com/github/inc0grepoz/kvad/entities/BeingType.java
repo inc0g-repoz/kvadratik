@@ -2,16 +2,11 @@ package com.github.inc0grepoz.kvad.entities;
 
 public enum BeingType {
 
-    PLAYER(Anim.PLAYER_IDLE_S);
+    PLAYER;
 
-    private final Anim idle;
-
-    BeingType(Anim idle) {
-        this.idle = idle;
-    }
-
-    public Anim getIdleAnim() {
-        return idle;
+    @Override
+    public String toString() {
+        return name().toLowerCase();
     }
 
 }

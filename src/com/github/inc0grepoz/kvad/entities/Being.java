@@ -10,14 +10,13 @@ public class Being extends Renderable {
 
     private final BeingType type;
 
-    private Anim anim;
+    private Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
     private int animSpriteIndex;
 
     public Being(Rectangle rect, Level level, BeingType type) {
         super(rect, level);
         this.type = type;
-        anim = type.getIdleAnim();
     }
 
     public void applyAnim(Anim anim) {
@@ -37,12 +36,13 @@ public class Being extends Renderable {
     }
 
     public BufferedImage getSprite() {
+        BufferedImage[] images = anim.getImages(type);
         if (System.currentTimeMillis() > animExpiry) {
-            animSpriteIndex += anim.getImages().length < animSpriteIndex + 2 ?
+            animSpriteIndex += images.length < animSpriteIndex + 2 ?
                     -animSpriteIndex : 1;
             animExpiry = System.currentTimeMillis() + anim.getDelay();
         }
-        return anim.getImages()[animSpriteIndex];
+        return images[animSpriteIndex];
     }
 
     @Override

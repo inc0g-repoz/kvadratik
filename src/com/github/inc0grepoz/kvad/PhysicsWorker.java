@@ -41,29 +41,29 @@ public class PhysicsWorker extends Worker {
 
         if (ctrls.isPressed(Key.MOVE_UP)) {
             pRect.y -= speed;
-            player.applyAnim(sprint ? Anim.PLAYER_RUN_W : Anim.PLAYER_WALK_W);
+            player.applyAnim(sprint ? Anim.RUN_W : Anim.WALK_W);
         } else if (ctrls.isPressed(Key.MOVE_LEFT)) {
             pRect.x -= speed;
-            player.applyAnim(sprint ? Anim.PLAYER_RUN_A : Anim.PLAYER_WALK_A);
+            player.applyAnim(sprint ? Anim.RUN_A : Anim.WALK_A);
         } else if (ctrls.isPressed(Key.MOVE_DOWN)) {
             pRect.y += speed;
-            player.applyAnim(sprint ? Anim.PLAYER_RUN_S : Anim.PLAYER_WALK_S);
+            player.applyAnim(sprint ? Anim.RUN_S : Anim.WALK_S);
         } else if (ctrls.isPressed(Key.MOVE_RIGHT)) {
             pRect.x += speed;
-            player.applyAnim(sprint ? Anim.PLAYER_RUN_D : Anim.PLAYER_WALK_D);
+            player.applyAnim(sprint ? Anim.RUN_D : Anim.WALK_D);
         } else {
             switch (player.getAnim().getWay()) {
                 case W:
-                    player.applyAnim(Anim.PLAYER_IDLE_W);
+                    player.applyAnim(Anim.IDLE_W);
                     break;
                 case A:
-                    player.applyAnim(Anim.PLAYER_IDLE_A);
+                    player.applyAnim(Anim.IDLE_A);
                     break;
                 case D:
-                    player.applyAnim(Anim.PLAYER_IDLE_D);
+                    player.applyAnim(Anim.IDLE_D);
                     break;
                 default:
-                    player.applyAnim(Anim.PLAYER_IDLE_S);
+                    player.applyAnim(Anim.IDLE_S);
                     break;
             }
         }
