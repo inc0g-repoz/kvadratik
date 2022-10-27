@@ -17,6 +17,7 @@ public class Being extends Renderable {
     public Being(Rectangle rect, Level level, BeingType type) {
         super(rect, level);
         this.type = type;
+        setCollidable(true);
     }
 
     public void applyAnim(Anim anim) {

@@ -13,6 +13,7 @@ public class LevelObjectAnimated extends LevelObject{
     public LevelObjectAnimated(Rectangle rect, Level level, LevelObjectAnimatedType type) {
         super(rect, level);
         this.type = type;
+        setCollidable(true);
     }
 
     public BufferedImage getSprite() {

@@ -36,19 +36,22 @@ public class PhysicsWorker extends Worker {
 
         // Moving the player
         Player player = level.getPlayer();
+        boolean moved = false;
         if (ctrls.isPressed(Key.MOVE_UP)) {
-            player.move(0, -speed);
+            moved |= player.move(0, -speed);
             player.applyAnim(sprint ? Anim.RUN_W : Anim.WALK_W);
         } else if (ctrls.isPressed(Key.MOVE_LEFT)) {
-            player.move(-speed, 0);
+            moved |= player.move(-speed, 0);
             player.applyAnim(sprint ? Anim.RUN_A : Anim.WALK_A);
         } else if (ctrls.isPressed(Key.MOVE_DOWN)) {
-            player.move(0, speed);
+            moved |= player.move(0, speed);
             player.applyAnim(sprint ? Anim.RUN_S : Anim.WALK_S);
         } else if (ctrls.isPressed(Key.MOVE_RIGHT)) {
-            player.move(speed, 0);
+            moved |= player.move(speed, 0);
             player.applyAnim(sprint ? Anim.RUN_D : Anim.WALK_D);
-        } else {
+        }
+
+        if (!moved) {
             switch (player.getAnim().getWay()) {
                 case W:
                     player.applyAnim(Anim.IDLE_W);

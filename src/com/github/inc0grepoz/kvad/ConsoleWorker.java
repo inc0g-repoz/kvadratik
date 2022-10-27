@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad;
 
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import com.github.inc0grepoz.Worker;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
@@ -12,10 +13,11 @@ public class ConsoleWorker extends Worker {
     private final String[] commandList = new String[] {
             "cam_follow",
             "cam_free",
+            "draw_colliders",
             "help",
             "log_keys",
-            "show_fps"
-            
+            "show_fps",
+            "teleport"
     };
 
     private Scanner scan;
@@ -32,9 +34,6 @@ public class ConsoleWorker extends Worker {
         String command = scan.nextLine().toLowerCase();
 
         switch (command) {
-            case "help":
-                System.out.println(String.join("\n", commandList));
-                return;
             case "cam_follow":
                 game.getLevel().getCamera().setMode(CameraMode.FOLLOW);
                 System.out.println("Switched to default camera");
@@ -42,6 +41,15 @@ public class ConsoleWorker extends Worker {
             case "cam_free":
                 game.getLevel().getCamera().setMode(CameraMode.FREE);
                 System.out.println("Switched to freecam");
+                return;
+            case "draw_colliders":
+                KvadratikCanvas canvas = game.getCanvas();
+                boolean draw = !canvas.isDrawCollidersEnabled();
+                canvas.setDrawColliders(draw);
+                System.out.println("Colliders are " + (draw ? "shown" : "hidden"));
+                return;
+            case "help":
+                System.out.println(String.join("\n", commandList));
                 return;
             case "log_keys":
                 logKeys = !logKeys;
@@ -61,6 +69,18 @@ public class ConsoleWorker extends Worker {
                 System.out.println("Set FPS capability to " + cap);
             } catch (NumberFormatException nfe) {
                 System.out.println("Invalid value");
+            }
+            return;
+        }
+
+        if (command.startsWith("teleport ")) {
+            try {
+                Integer[] args = Stream.of(command.substring(9).split(" "))
+                        .map(Integer::valueOf).toArray(Integer[]::new);
+                game.getLevel().getPlayer().teleport(args[0], args[1]);
+                System.out.println("Teleported to [" + args[0] + "," + args[1] + "]");
+            } catch (Exception e) {
+                System.out.println("Invalid arguments");
             }
             return;
         }

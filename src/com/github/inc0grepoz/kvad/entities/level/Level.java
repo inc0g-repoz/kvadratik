@@ -2,10 +2,12 @@ package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Camera;
+import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.Player;
 
 public class Level {
@@ -43,6 +45,10 @@ public class Level {
 
     public ArrayList<Being> getBeings() {
         return beings;
+    }
+
+    public Stream<? extends Entity> entitiesStream() {
+        return Stream.concat(levelObjects.stream(), beings.stream());
     }
 
 }

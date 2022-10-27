@@ -19,6 +19,8 @@ public class KvadratikCanvas extends Canvas {
     private final RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
+    private boolean drawColliders;
+
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
         worker = new RenderWorker(this);
@@ -34,6 +36,14 @@ public class KvadratikCanvas extends Canvas {
 
     public void setFrapsPerSecond(int fraps) {
         worker.setDelay(1000L / fraps);
+    }
+
+    public boolean isDrawCollidersEnabled() {
+        return drawColliders;
+    }
+
+    public void setDrawColliders(boolean drawColliders) {
+        this.drawColliders = drawColliders;
     }
 
     @Override
