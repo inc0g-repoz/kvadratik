@@ -13,7 +13,7 @@ public class Level {
     private final KvadratikGame game;
     private final Camera camera;
 
-    private Player player = new Player(new Rectangle(0, 0, 50, 50), this);
+    private Player player = new Player(new Rectangle(65, 30, 32, 32), this);
     private ArrayList<LevelObject> levelObjects = new ArrayList<>();
     private ArrayList<Being> beings = new ArrayList<>();
 
