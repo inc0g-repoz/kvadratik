@@ -26,7 +26,8 @@ public class KvadratikGame extends GameFrame {
         level = new Level(this);
         LevelObject[] lobj = {
                 new LevelObjectBox(new Rectangle(0, 0, 128, 97), level),
-                new LevelObjectAnimated(new Rectangle(0, 100, 30, 30), level, LevelObjectAnimatedType.MEWO)
+                new LevelObjectAnimated(new Rectangle(0, 100, 30, 30), level, LevelObjectAnimatedType.MEWO),
+                new LevelObjectAnimated(new Rectangle(40, 5, 22, 22), level, LevelObjectAnimatedType.LAPTOP),
         };
         for (int i = 0; i < lobj.length; i++) {
             level.getLevelObjects().add(lobj[i]);

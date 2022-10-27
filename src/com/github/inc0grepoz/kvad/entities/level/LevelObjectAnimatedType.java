@@ -6,7 +6,10 @@ import com.github.inc0grepoz.kvad.KvadratikGame;
 
 public enum LevelObjectAnimatedType {
 
-    MEWO(500,
+    LAPTOP(250,
+            "state_1.png",
+            "state_2.png"),
+    MEWO(1000,
             "state_1.png",
             "state_2.png");
 
