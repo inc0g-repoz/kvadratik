@@ -48,7 +48,7 @@ public class KvadratikGame extends GameFrame {
         console.start();
 
         // Physics
-        physics = new PhysicsWorker(this, 100L);
+        physics = new PhysicsWorker(this, 50L);
         physics.start();
     }
 
