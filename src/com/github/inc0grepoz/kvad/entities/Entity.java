@@ -14,6 +14,16 @@ public abstract class Entity {
         this.level = level;
     }
 
+    public void move(int x, int y) {
+        rect.x += x;
+        rect.y += y;
+    }
+
+    public void teleport(int x, int y) {
+        rect.x = x;
+        rect.y = y;
+    }
+
     public Rectangle getRectangle() {
         return rect;
     }
