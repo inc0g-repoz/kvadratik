@@ -15,11 +15,6 @@ public abstract class Entity {
         this.level = level;
     }
 
-    public boolean isColliding(Entity entity) {
-        return isCollidable() && entity.isCollidable()
-                && getRectangle().intersects(entity.getRectangle());
-    }
-
     public boolean isCollidable() {
         return collide;
     }
@@ -29,13 +24,21 @@ public abstract class Entity {
     }
 
     public boolean move(int x, int y) {
-        rect.x += x;
-        rect.y += y;
-        boolean moved = level.getGame().getLevel().entitiesStream()
-                .filter(e -> e != this).noneMatch(this::isColliding);
-        if (!moved) {
-            rect.x -= x;
-            rect.y -= y;
+        boolean moved;
+        if (isCollidable()) {
+            int nextMinX = (int) rect.getMinX() + x;
+            int nextMinY = (int) rect.getMinY() + y;
+            int nextMaxX = (int) rect.getMaxX() + x;
+            int nextMaxY = (int) rect.getMaxY() + y;
+            moved = level.entitiesStream().filter(e -> e != this && isCollidable())
+                    .noneMatch(e -> e.getRectangle()
+                            .intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
+        } else {
+            moved = true;
+        }
+        if (moved) {
+            rect.x += x;
+            rect.y += y;
         }
         return moved;
     }

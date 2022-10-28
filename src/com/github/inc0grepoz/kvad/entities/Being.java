@@ -20,6 +20,26 @@ public class Being extends Renderable {
         setCollidable(true);
     }
 
+    @Override
+    public boolean move(int x, int y) {
+        Rectangle rect = getRectangle();
+        boolean moved;
+        if (isCollidable()) {
+            int nextX = x + (int) rect.getCenterX();
+            int nextY = y + (int) rect.getY() + rect.height;
+            moved = getLevel().entitiesStream()
+                    .filter(e -> e != this && e.isCollidable())
+                    .noneMatch(e -> e.getRectangle().contains(nextX, nextY));
+        } else {
+            moved = true;
+        }
+        if (moved) {
+            rect.x += x;
+            rect.y += y;
+        }
+        return moved;
+    }
+
     public void applyAnim(Anim anim) {
         if (this.anim != anim) {
             this.anim = anim;
@@ -48,7 +68,7 @@ public class Being extends Renderable {
 
     @Override
     public void draw(Graphics graphics, int x, int y, int width, int height) {
-        graphics.drawImage(getSprite(), x, y, getLevel().getGame().getCanvas());
+        graphics.drawImage(getSprite(), x, y, width, height, getLevel().getGame().getCanvas());
     }
 
 }

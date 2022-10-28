@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Rectangle;
 
 import com.github.inc0grepoz.Controls;
@@ -35,6 +36,7 @@ public class KvadratikGame extends GameFrame {
 
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
+        canvas.setBackground(Color.BLACK);
         add(canvas);
         canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();

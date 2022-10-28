@@ -19,7 +19,7 @@ public class KvadratikCanvas extends Canvas {
     private final RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
-    private boolean drawColliders;
+    private boolean drawColliders = false;
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
@@ -52,7 +52,7 @@ public class KvadratikCanvas extends Canvas {
         Graphics2D g2d = image.createGraphics();
 
         // Clearing the buffer
-        g2d.fillRect(0, 0, game.getWidth(), game.getHeight());
+        g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
 
         Level level = game.getLevel();
         if (level == null) {

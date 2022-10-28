@@ -16,23 +16,30 @@ public abstract class Renderable extends Entity {
     public void render(Graphics graphics, Camera camera) {
         Rectangle ent = getRectangle();
         Rectangle cam = camera.getRectangle();
-        int x = ent.x - cam.x, y = ent.y - cam.y;
+        int x = ent.x - cam.x;
+        int y = ent.y - cam.y;
         draw(graphics, x, y, ent.width, ent.height);
 
         // Drawing the collider
         if (isCollidable()) {
             KvadratikCanvas canvas = getLevel().getGame().getCanvas();
             if (canvas.isDrawCollidersEnabled()) {
-                Color color = graphics.getColor();
-                graphics.setColor(Color.GREEN);
-                graphics.drawRect(x, y, ent.width, ent.height);
-                graphics.setColor(color);
+                drawCollider(graphics, x, y, ent);
             }
         }
     }
 
     public void draw(Graphics graphics, int x, int y, int width, int height) {
         graphics.drawRect(x, y, width, height);
+    }
+
+    public void drawCollider(Graphics gfx, int x, int y, Rectangle rect) {
+        Color color = gfx.getColor();
+        gfx.setColor(Color.GREEN);
+        int halfWidth = rect.width / 2;
+        gfx.drawLine(x + halfWidth, y, x + halfWidth, y + rect.height);
+        gfx.drawRect(x, y, rect.width, rect.height);
+        gfx.setColor(color);
     }
 
 }

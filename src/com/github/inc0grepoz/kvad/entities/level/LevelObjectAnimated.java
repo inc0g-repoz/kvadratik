@@ -28,7 +28,7 @@ public class LevelObjectAnimated extends LevelObject{
 
     @Override
     public void draw(Graphics graphics, int x, int y, int width, int height) {
-        graphics.drawImage(getSprite(), x, y, getLevel().getGame().getCanvas());
+        graphics.drawImage(getSprite(), x, y, width, height, getLevel().getGame().getCanvas());
     }
 
 }
