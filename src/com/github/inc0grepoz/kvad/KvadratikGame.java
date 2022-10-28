@@ -9,8 +9,8 @@ import com.github.inc0grepoz.GameFrame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnimated;
-import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnimatedType;
-import com.github.inc0grepoz.kvad.entities.level.LevelObjectBox;
+import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnim;
+import com.github.inc0grepoz.kvad.entities.level.LevelObjectRectangle;
 
 @SuppressWarnings("serial")
 public class KvadratikGame extends GameFrame {
@@ -26,9 +26,9 @@ public class KvadratikGame extends GameFrame {
         // Loading the level
         level = new Level(this);
         LevelObject[] lobj = {
-                new LevelObjectBox(new Rectangle(0, 0, 128, 97), level),
-                new LevelObjectAnimated(new Rectangle(0, 100, 30, 30), level, LevelObjectAnimatedType.MEWO),
-                new LevelObjectAnimated(new Rectangle(40, 5, 22, 22), level, LevelObjectAnimatedType.LAPTOP),
+                new LevelObjectRectangle(new Rectangle(0, 0, 128, 97), level),
+                new LevelObjectAnimated(new Rectangle(0, 100, 30, 30), level, LevelObjectAnim.MEWO),
+                new LevelObjectAnimated(new Rectangle(40, 5, 22, 22), level, LevelObjectAnim.LAPTOP),
         };
         for (int i = 0; i < lobj.length; i++) {
             level.getLevelObjects().add(lobj[i]);

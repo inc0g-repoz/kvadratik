@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 
 public class LevelObjectAnimated extends LevelObject{
 
-    private LevelObjectAnimatedType type;
+    private LevelObjectAnim type;
     private long stateExpiry; // 0 for infinite duration
     private int stateSpriteIndex;
 
-    public LevelObjectAnimated(Rectangle rect, Level level, LevelObjectAnimatedType type) {
+    public LevelObjectAnimated(Rectangle rect, Level level, LevelObjectAnim type) {
         super(rect, level);
         this.type = type;
         setCollidable(true);

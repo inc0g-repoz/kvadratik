@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.KvadratikGame;
 
-public enum LevelObjectAnimatedType {
+public enum LevelObjectAnim {
 
     LAPTOP(250,
             "state_1.png",
@@ -16,7 +16,7 @@ public enum LevelObjectAnimatedType {
     private final long delay;
     private final BufferedImage[] images;
 
-    LevelObjectAnimatedType(long delay, String... paths) {
+    LevelObjectAnim(long delay, String... paths) {
         this.delay = delay;
         images = new BufferedImage[paths.length];
 

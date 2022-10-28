@@ -7,7 +7,7 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 public class Player extends Being {
 
     public Player(Rectangle rect, Level level) {
-        super(rect, level, BeingType.PLAYER);
+        super(rect, level, BeingType.IOMOR);
     }
 
 }
