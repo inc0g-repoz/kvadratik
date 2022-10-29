@@ -59,12 +59,11 @@ public class PhysicsWorker extends Worker {
                 case A:
                     player.applyAnim(Anim.IDLE_A);
                     break;
-                case S:
-                    player.applyAnim(Anim.IDLE_S);
-                    break;
                 case D:
                     player.applyAnim(Anim.IDLE_D);
                     break;
+                default:
+                    player.applyAnim(Anim.IDLE_S);
             }
         }
 

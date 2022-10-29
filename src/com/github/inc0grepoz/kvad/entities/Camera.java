@@ -13,7 +13,7 @@ public class Camera extends Entity {
 
     private CameraMode mode = CameraMode.FOLLOW;
 
-    public Camera(Rectangle rect, Level level) {
+    public Camera(int[] rect, Level level) {
         super(rect, level);
     }
 

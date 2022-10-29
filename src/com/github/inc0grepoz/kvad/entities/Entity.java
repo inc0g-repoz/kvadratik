@@ -15,6 +15,10 @@ public abstract class Entity {
         this.level = level;
     }
 
+    public Entity(int[] rect, Level level) {
+        this(new Rectangle(rect[0], rect[1], rect[2], rect[3]), level);
+    }
+
     public boolean isCollidable() {
         return collide;
     }

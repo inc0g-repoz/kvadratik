@@ -13,6 +13,10 @@ public abstract class Renderable extends Entity {
         super(rect, level);
     }
 
+    public Renderable(int[] rect, Level level) {
+        super(rect, level);
+    }
+
     public void render(Graphics graphics, Camera camera) {
         Rectangle ent = getRectangle();
         Rectangle cam = camera.getRectangle();

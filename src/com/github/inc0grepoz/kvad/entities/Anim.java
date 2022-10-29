@@ -85,7 +85,6 @@ public enum Anim {
             BufferedImage[] btImages = new BufferedImage[paths.length];
             for (int j = 0; j < btImages.length; j++) {
                 String btPath = "assets/sprites/" + bt[i] + "/" + paths[j];
-                System.out.println("Loading " + btPath);
                 btImages[j] = KvadratikGame.getAssets().image(btPath);
             }
             images.put(bt[i], btImages);

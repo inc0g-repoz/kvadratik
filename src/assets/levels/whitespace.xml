@@ -1,5 +1,8 @@
 <root>
     <name>whitespace</name>
+    <camera>
+        <rectangle>0 0 0 0</rectangle>
+    </camera>
     <player>
         <beingType>IOMOR</beingType>
         <rectangle>65 30 32 32</rectangle>
@@ -13,7 +16,7 @@
         <mewo>
             <type>Animated</type>
             <anim>MEWO</anim>
-            <rectangle>0 0 128 97</rectangle>
+            <rectangle>0 100 30 30</rectangle>
         </mewo>
         <laptop>
             <type>Animated</type>

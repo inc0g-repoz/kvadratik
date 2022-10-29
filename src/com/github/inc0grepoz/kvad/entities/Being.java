@@ -14,7 +14,7 @@ public class Being extends Renderable {
     private long animExpiry; // 0 for infinite duration
     private int animSpriteIndex;
 
-    public Being(Rectangle rect, Level level, BeingType type) {
+    public Being(int[] rect, Level level, BeingType type) {
         super(rect, level);
         this.type = type;
         setCollidable(true);

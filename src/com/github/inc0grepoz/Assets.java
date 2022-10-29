@@ -9,9 +9,13 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import com.github.inc0grepoz.kvad.utils.XML;
+
 public class Assets {
 
     public BufferedImage image(String path) {
+        System.out.println("Loading " + path);
+
         try {
             return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
@@ -26,6 +30,7 @@ public class Assets {
     }
 
     public String textFile(String path) {
+        System.out.println("Loading " + path);
         InputStream stream;
 
         try {
@@ -48,6 +53,10 @@ public class Assets {
         System.out.println("Invalid image: " + path);
         System.exit(0);
         return null;
+    }
+
+    public XML readXml(String path) {
+        return XML.fromString(textFile(path));
     }
 
 }

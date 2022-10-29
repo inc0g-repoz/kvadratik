@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -9,22 +8,23 @@ import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.utils.XML;
+import com.github.inc0grepoz.kvad.utils.XMLSection;
 
 public class Level {
 
     private final KvadratikGame game;
-    private final Camera camera;
+    private final XML xml;
 
-    private Player player = new Player(new Rectangle(65, 30, 32, 32), this);
+    private Camera camera;
+    private Player player;
     private ArrayList<LevelObject> levelObjects = new ArrayList<>();
     private ArrayList<Being> beings = new ArrayList<>();
 
-    public Level(KvadratikGame game) {
+    public Level(KvadratikGame game, XML xml) {
         this.game = game;
-        camera = new Camera(new Rectangle(0, 0, game.getWidth(), game.getHeight()), this);
-
-        // Player is an instance of Being
-        beings.add(player);
+        this.xml = xml;
+        load();
     }
 
     public KvadratikGame getGame() {
@@ -49,6 +49,39 @@ public class Level {
 
     public Stream<? extends Entity> entitiesStream() {
         return Stream.concat(levelObjects.stream(), beings.stream());
+    }
+
+    public void load() {
+        levelObjects.clear();
+        beings.clear();
+
+        xml.getMap().forEach((e, k) -> System.out.println(e + " = " + k));
+
+        int[] pRect = xml.getIntArray("root.player.rectangle");
+        player = new Player(pRect, this);
+        beings.add(player);
+
+        int[] cRect = xml.getIntArray("root.camera.rectangle");
+        camera = new Camera(cRect, this);
+
+        XMLSection loSect = xml.getSection("root.levelObjects");
+        loSect.getKeys().forEach(key -> {
+            LevelObject lo = null;
+            int[] rect = loSect.getIntArray(key + ".rectangle");
+            String typeStr = loSect.getString(key + ".type");
+            switch (typeStr) {
+                case "Animated": {
+                    String animStr = loSect.getString(key + ".anim");
+                    LevelObjectAnim anim = LevelObjectAnim.valueOf(animStr);
+                    lo = new LevelObjectAnimated(rect, this, anim);
+                    break;
+                }
+                default: {
+                    lo = new LevelObjectRectangle(rect, this);
+                }
+            }
+            levelObjects.add(lo);
+        });
     }
 
 }

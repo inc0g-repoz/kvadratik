@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class LevelObjectAnimated extends LevelObject{
@@ -10,7 +9,7 @@ public class LevelObjectAnimated extends LevelObject{
     private long stateExpiry; // 0 for infinite duration
     private int stateSpriteIndex;
 
-    public LevelObjectAnimated(Rectangle rect, Level level, LevelObjectAnim type) {
+    public LevelObjectAnimated(int[] rect, Level level, LevelObjectAnim type) {
         super(rect, level);
         this.type = type;
         setCollidable(true);
