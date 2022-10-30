@@ -21,7 +21,7 @@ public class ConsoleWorker extends Worker {
             "view_misc"
     };
 
-    private Scanner scan;
+    private Scanner scan = new Scanner(System.in);
     private boolean logKeys;
 
     public ConsoleWorker(KvadratikGame game, long delay) {
@@ -31,7 +31,6 @@ public class ConsoleWorker extends Worker {
 
     @Override
     public void work() {
-        scan = new Scanner(System.in);
         String command = scan.nextLine().toLowerCase();
         KvadratikCanvas canvas = game.getCanvas();
 
