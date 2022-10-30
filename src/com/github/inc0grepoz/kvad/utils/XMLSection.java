@@ -1,7 +1,8 @@
 package com.github.inc0grepoz.kvad.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.IntStream.Builder;
@@ -10,9 +11,9 @@ import java.util.stream.Stream;
 public class XMLSection {
 
     protected static Map<String, String> deserialize(String xml) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
         StringBuilder value = new StringBuilder();
-        ArrayList<String> path = new ArrayList<>();
+        List<String> path = new ArrayList<>();
 
         boolean closeTag = false, readValue = false;
 
@@ -61,7 +62,7 @@ public class XMLSection {
     }
 
     private final Map<String, String> map;
-    private ArrayList<String> keys;
+    private List<String> keys;
     private String path;
 
     protected XMLSection(Map<String, String> map) {
@@ -110,7 +111,7 @@ public class XMLSection {
     }
 
     public XMLSection getSection(String path) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
         this.map.forEach((k, v) -> {
             if (k.startsWith(path)) {
                 map.put(k.substring(path.length() + 1), v);
@@ -122,15 +123,15 @@ public class XMLSection {
         return section;
     }
 
-    public ArrayList<String> getKeys() {
+    public List<String> getKeys() {
         if (keys == null) {
             keys = keys();
         }
         return keys;
     }
 
-    private ArrayList<String> keys() {
-        ArrayList<String> keys = new ArrayList<>();
+    private List<String> keys() {
+        List<String> keys = new ArrayList<>();
         map.keySet().forEach(key -> {
             if (key.contains(".")) {
                 key = key.split("\\.")[0];

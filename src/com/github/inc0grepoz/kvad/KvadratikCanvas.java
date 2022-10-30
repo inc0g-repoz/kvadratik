@@ -48,11 +48,8 @@ public class KvadratikCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        BufferedImage image = new BufferedImage(game.getWidth(), game.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(game.getWidth(), game.getHeight(), BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = image.createGraphics();
-
-        // Clearing the buffer
-        g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
 
         Level level = game.getLevel();
         if (level == null) {
@@ -70,8 +67,8 @@ public class KvadratikCanvas extends Canvas {
 
         // Drawing all entities
         g2d.setColor(Color.BLACK);
-        level.getLevelObjects().forEach(o -> o.render(g2d, cam));
-        level.getBeings().forEach(e -> e.render(g2d, cam));
+        level.getLevelObjects().forEach(o -> o.render(g2d));
+        level.getBeings().forEach(e -> e.render(g2d));
 
         // Showing misc info
         if (fps.isEnabled()) {

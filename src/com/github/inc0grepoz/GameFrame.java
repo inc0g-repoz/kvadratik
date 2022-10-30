@@ -4,10 +4,12 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import com.github.inc0grepoz.kvad.utils.AssetsManager;
+
 @SuppressWarnings("serial")
 public abstract class GameFrame extends Frame {
 
-    private final static Assets ASSETS = new Assets();
+    private final static AssetsManager ASSETS = new AssetsManager();
 
     {
         WindowAdapter adapter = new WindowAdapter() {
@@ -26,7 +28,7 @@ public abstract class GameFrame extends Frame {
         }));
     }
 
-    public static Assets getAssets() {
+    public static AssetsManager getAssets() {
         return ASSETS;
     }
 

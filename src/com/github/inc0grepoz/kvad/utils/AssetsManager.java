@@ -1,4 +1,4 @@
-package com.github.inc0grepoz;
+package com.github.inc0grepoz.kvad.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -9,12 +9,10 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import com.github.inc0grepoz.kvad.utils.XML;
-
-public class Assets {
+public class AssetsManager {
 
     public BufferedImage image(String path) {
-        System.out.println("Loading " + path);
+        Logger.info("Loading " + path);
 
         try {
             return ImageIO.read(getClass().getClassLoader().getResource(path));
@@ -24,13 +22,13 @@ public class Assets {
             return ImageIO.read(new File("src/" + path));
         } catch (Exception e) {}
 
-        System.out.println("Invalid image: " + path);
+        Logger.error("Invalid image: " + path);
         System.exit(0);
         return null;
     }
 
     public String textFile(String path) {
-        System.out.println("Loading " + path);
+        Logger.info("Loading " + path);
         InputStream stream;
 
         try {
@@ -50,7 +48,7 @@ public class Assets {
             return string;
         } catch (Exception e) {}
 
-        System.out.println("Invalid image: " + path);
+        Logger.error("Invalid image: " + path);
         System.exit(0);
         return null;
     }

@@ -1,5 +1,7 @@
 package com.github.inc0grepoz;
 
+import com.github.inc0grepoz.kvad.utils.Logger;
+
 public abstract class Worker {
 
     protected Thread thread;
@@ -31,13 +33,13 @@ public abstract class Worker {
             alive = true;
 
             thread.start();
-            System.out.println("Started " + thread.getName() + " thread");
+            Logger.info("Started " + thread.getName() + " thread");
         }
     }
 
     public void kill() {
         alive = false;
-        System.out.println("Killed " + thread.getName() + " thread");
+        Logger.info("Killed " + thread.getName() + " thread");
     }
 
     public boolean isRunning() {

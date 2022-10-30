@@ -3,6 +3,7 @@ package com.github.inc0grepoz.kvad;
 import java.awt.Graphics;
 
 import com.github.inc0grepoz.Worker;
+import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class RenderWorker extends Worker {
 
@@ -16,7 +17,7 @@ public class RenderWorker extends Worker {
     public void work() {
         Graphics graphics = canvas.getGraphics();
         if (graphics == null) {
-            System.out.println("Null graphics");
+            Logger.error("Null graphics");
         } else {
             canvas.paint(graphics);
         }

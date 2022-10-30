@@ -17,24 +17,31 @@ public abstract class Renderable extends Entity {
         super(rect, level);
     }
 
-    public void render(Graphics graphics, Camera camera) {
+    public int getOffsetX() {
+        return getRectangle().x - getLevel().getCamera().getRectangle().x;
+    }
+
+    public int getOffsetY() {
+        return getRectangle().y - getLevel().getCamera().getRectangle().y;
+    }
+
+    public void render(Graphics gfx) {
         Rectangle ent = getRectangle();
-        Rectangle cam = camera.getRectangle();
-        int x = ent.x - cam.x;
-        int y = ent.y - cam.y;
-        draw(graphics, x, y, ent.width, ent.height);
+        int x = getOffsetX();
+        int y = getOffsetY();
+        draw(gfx, x, y, ent.width, ent.height);
 
         // Drawing the collider
         if (isCollidable()) {
             KvadratikCanvas canvas = getLevel().getGame().getCanvas();
             if (canvas.isDrawCollidersEnabled()) {
-                drawCollider(graphics, x, y, ent);
+                drawCollider(gfx, x, y, ent);
             }
         }
     }
 
-    public void draw(Graphics graphics, int x, int y, int width, int height) {
-        graphics.drawRect(x, y, width, height);
+    public void draw(Graphics gfx, int x, int y, int width, int height) {
+        gfx.drawRect(x, y, width, height);
     }
 
     public void drawCollider(Graphics gfx, int x, int y, Rectangle rect) {

@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -8,6 +9,7 @@ import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.XML;
 import com.github.inc0grepoz.kvad.utils.XMLSection;
 
@@ -68,10 +70,23 @@ public class Level {
             int[] rect = loSect.getIntArray(key + ".rectangle");
             String typeStr = loSect.getString(key + ".type");
             switch (typeStr) {
+                case "Background": {
+                    String animStr = loSect.getString(key + ".anim");
+                    if (animStr != null) {
+                        LevelObjectAnim anim = LevelObjectAnim.valueOf(animStr);
+                        lo = new LevelObjectBackground(rect, this, anim);
+                    } else {
+                        int[] rgb = loSect.getIntArray(key + ".color");
+                        Color color = RGB.get(rgb);
+                        lo = new LevelObjectBackground(rect, this, color);
+                    }
+                    break;
+                }
                 case "Animated": {
                     String animStr = loSect.getString(key + ".anim");
                     LevelObjectAnim anim = LevelObjectAnim.valueOf(animStr);
                     lo = new LevelObjectAnimated(rect, this, anim);
+                    lo.setCollidable(true);
                     break;
                 }
                 default: {

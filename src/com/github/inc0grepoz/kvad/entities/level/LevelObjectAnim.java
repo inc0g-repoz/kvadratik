@@ -6,6 +6,7 @@ import com.github.inc0grepoz.kvad.KvadratikGame;
 
 public enum LevelObjectAnim {
 
+    COLOR(0),
     LAPTOP(250,
             "state_1.png",
             "state_2.png"),
