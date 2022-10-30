@@ -71,7 +71,9 @@ public class PhysicsWorker extends Worker {
 
         // Moving the camera
         Camera camera = level.getCamera();
-        if (camera.getMode() == CameraMode.FREE) {
+        if (camera.getMode() == CameraMode.FOLLOW) {
+            camera.focus(player);
+        } else if (camera.getMode() == CameraMode.FREE) {
             if (ctrls.isPressed(Key.SELECT_UP)) {
                 camera.move(0, -5);
             }

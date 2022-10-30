@@ -3,6 +3,7 @@ package com.github.inc0grepoz.kvad.entities;
 import java.awt.Rectangle;
 
 import com.github.inc0grepoz.GameFrame;
+import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class Camera extends Entity {
@@ -25,7 +26,13 @@ public class Camera extends Entity {
         this.mode = mode;
     }
 
-    public void focus(Entity entity) {
+    public void scale(KvadratikGame game) {
+        Rectangle cam = getRectangle();
+        cam.width = game.getWidth();
+        cam.height = game.getHeight();
+    }
+
+    public synchronized void focus(Entity entity) {
         GameFrame game = getLevel().getGame();
         Rectangle cam = getRectangle();
         Rectangle ent = entity.getRectangle();

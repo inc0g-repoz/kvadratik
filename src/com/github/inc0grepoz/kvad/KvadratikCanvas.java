@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
-import com.github.inc0grepoz.kvad.entities.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 
@@ -58,17 +56,12 @@ public class KvadratikCanvas extends Canvas {
         }
 
         Camera cam = level.getCamera();
-        Player player = level.getPlayer();
-
-        // Focusing the camera on the player
-        if (cam.getMode() == CameraMode.FOLLOW) {
-            cam.focus(player);
-        }
 
         // Drawing all entities
+        cam.scale(game);
         g2d.setColor(Color.BLACK);
-        level.getLevelObjects().forEach(o -> o.render(g2d));
-        level.getBeings().forEach(e -> e.render(g2d));
+        level.getLevelObjects().forEach(o -> o.render(g2d, cam));
+        level.getBeings().forEach(e -> e.render(g2d, cam));
 
         // Showing misc info
         if (fps.isEnabled()) {
