@@ -6,4 +6,4 @@
 **kvadratik**
 
 # Information
-kvadratik is a custom 2D game engine which only uses ![java.awt] to render the in-game objects.
+kvadratik is a custom 2D game engine which only uses [java.awt] to render the in-game objects.
