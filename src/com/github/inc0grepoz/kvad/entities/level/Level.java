@@ -55,8 +55,6 @@ public class Level {
         levelObjects.clear();
         beings.clear();
 
-        xml.getMap().forEach((e, k) -> System.out.println(e + " = " + k));
-
         int[] pRect = xml.getIntArray("root.player.rectangle");
         player = new Player(pRect, this);
         beings.add(player);
