@@ -80,7 +80,7 @@ public class KvadratikCanvas extends Canvas {
         }
 
         g2d.dispose();
-        g.drawImage(image, 0, 0, game.getWidth(), game.getHeight(), this);
+        g.drawImage(image, 0, 0, gw, gh, this);
     }
 
 }
