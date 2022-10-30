@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Logger {
 
-    private static final DateFormat DATE_FMT = new SimpleDateFormat("H:m:s");
+    private static final DateFormat DATE_FMT = new SimpleDateFormat("HH:mm:ss");
     private static final String LOG_FMT = "[%s] %s";
 
     public static void info(String message) {
