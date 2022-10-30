@@ -17,18 +17,15 @@ public abstract class Renderable extends Entity {
         super(rect, level);
     }
 
-    public void render(Graphics gfx, Camera camera) {
+    public boolean render(Graphics gfx, Camera camera) {
         Rectangle ent = getRectangle();
         Rectangle cam = camera.getRectangle();
-        int x = ent.x - cam.x;
-        int y = ent.y - cam.y;
 
-        /*
-        if (!cam.contains(x, y)) {
-            return;
+        if (!cam.intersects(ent)) {
+            return false;
         }
-        */
 
+        int x = ent.x - cam.x, y = ent.y - cam.y;
         draw(gfx, x, y, ent.width, ent.height);
 
         // Drawing the collider
@@ -38,6 +35,8 @@ public abstract class Renderable extends Entity {
                 drawCollider(gfx, x, y, ent);
             }
         }
+
+        return true;
     }
 
     public void draw(Graphics gfx, int x, int y, int width, int height) {

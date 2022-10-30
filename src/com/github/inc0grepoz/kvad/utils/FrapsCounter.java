@@ -2,7 +2,6 @@ package com.github.inc0grepoz.kvad.utils;
 
 public class FrapsCounter {
 
-    private boolean enable;
     private long last;
     private int fraps, counter;
 
@@ -16,14 +15,6 @@ public class FrapsCounter {
             counter++;
         }
         return fraps;
-    }
-
-    public boolean isEnabled() {
-        return enable;
-    }
-
-    public void setEnabled(boolean enable) {
-        this.enable = enable;
     }
 
 }

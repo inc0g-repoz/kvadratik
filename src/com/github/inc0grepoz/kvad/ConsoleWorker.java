@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import com.github.inc0grepoz.Worker;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
-import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class ConsoleWorker extends Worker {
@@ -15,10 +14,11 @@ public class ConsoleWorker extends Worker {
             "cam_follow",
             "cam_free",
             "draw_colliders",
+            "fps",
             "help",
             "log_keys",
-            "show_fps",
-            "teleport"
+            "teleport",
+            "view_misc"
     };
 
     private Scanner scan;
@@ -33,6 +33,7 @@ public class ConsoleWorker extends Worker {
     public void work() {
         scan = new Scanner(System.in);
         String command = scan.nextLine().toLowerCase();
+        KvadratikCanvas canvas = game.getCanvas();
 
         switch (command) {
             case "cam_follow":
@@ -44,7 +45,6 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Switched to freecam");
                 return;
             case "draw_colliders":
-                KvadratikCanvas canvas = game.getCanvas();
                 boolean draw = !canvas.isDrawCollidersEnabled();
                 canvas.setDrawColliders(draw);
                 Logger.info("Colliders are " + (draw ? "shown" : "hidden"));
@@ -56,10 +56,9 @@ public class ConsoleWorker extends Worker {
                 logKeys = !logKeys;
                 Logger.info("Set logging keys to " + Boolean.toString(logKeys));
                 return;
-            case "show_fps":
-                FrapsCounter fps = game.getCanvas().getFrapsCounter();
-                fps.setEnabled(!fps.isEnabled());
-                Logger.info("FPS count is " + (fps.isEnabled() ? "shown" : "hidden"));
+            case "view_misc":
+                canvas.setViewMiscInfo(!canvas.isMiscInfoViewed());
+                Logger.info("Misc info is " + (canvas.isMiscInfoViewed() ? "shown" : "hidden"));
                 return;
         }
 
@@ -79,7 +78,7 @@ public class ConsoleWorker extends Worker {
                 Integer[] args = Stream.of(command.substring(9).split(" "))
                         .map(Integer::valueOf).toArray(Integer[]::new);
                 game.getLevel().getPlayer().teleport(args[0], args[1]);
-                System.out.println("Teleported to [" + args[0] + "," + args[1] + "]");
+                Logger.info("Teleported to [" + args[0] + "," + args[1] + "]");
             } catch (Exception e) {
                 Logger.error("Invalid arguments");
             }

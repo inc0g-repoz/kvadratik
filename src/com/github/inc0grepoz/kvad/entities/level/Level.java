@@ -7,8 +7,8 @@ import java.util.stream.Stream;
 import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.XML;
 import com.github.inc0grepoz.kvad.utils.XMLSection;
@@ -49,7 +49,7 @@ public class Level {
         return beings;
     }
 
-    public Stream<? extends Entity> entitiesStream() {
+    public Stream<? extends Renderable> entitiesStream() {
         return Stream.concat(levelObjects.stream(), beings.stream());
     }
 

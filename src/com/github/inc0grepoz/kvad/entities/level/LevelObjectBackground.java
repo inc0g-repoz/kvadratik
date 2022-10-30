@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.github.inc0grepoz.GameFrame;
+import com.github.inc0grepoz.kvad.entities.Camera;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
@@ -20,7 +21,7 @@ public class LevelObjectBackground extends LevelObjectAnimated {
     }
 
     @Override
-    public void draw(Graphics graphics, int x, int y, int width, int height) {
+    public boolean render(Graphics graphics, Camera camera) {
         GameFrame gf = getLevel().getGame();
         int gfw = gf.getWidth(), gfh = gf.getHeight();
         if (getAnim() == LevelObjectAnim.COLOR) {
@@ -29,8 +30,9 @@ public class LevelObjectBackground extends LevelObjectAnimated {
             graphics.fillRect(0, 0, gfw, gfw);
             graphics.setColor(color);
         } else if (color != null) {
-            super.draw(graphics, 0, 0, gfw, gfh);
+            draw(graphics, 0, 0, gfw, gfh);
         }
+        return true;
     }
 
 }

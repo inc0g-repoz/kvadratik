@@ -17,7 +17,7 @@ public class KvadratikCanvas extends Canvas {
     private final RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
-    private boolean drawColliders = false;
+    private boolean drawColliders, miscInfo;
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
@@ -36,6 +36,14 @@ public class KvadratikCanvas extends Canvas {
         worker.setDelay(1000L / fraps);
     }
 
+    public boolean isMiscInfoViewed() {
+        return miscInfo;
+    }
+
+    public void setViewMiscInfo(boolean miscInfo) {
+        this.miscInfo = miscInfo;
+    }
+
     public boolean isDrawCollidersEnabled() {
         return drawColliders;
     }
@@ -46,7 +54,8 @@ public class KvadratikCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        BufferedImage image = new BufferedImage(game.getWidth(), game.getHeight(), BufferedImage.TYPE_BYTE_INDEXED);
+        int gw = game.getWidth(), gh = game.getHeight();
+        BufferedImage image = new BufferedImage(gw, gh, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = image.createGraphics();
 
         Level level = game.getLevel();
@@ -60,12 +69,14 @@ public class KvadratikCanvas extends Canvas {
         // Drawing all entities
         cam.scale(game);
         g2d.setColor(Color.BLACK);
-        level.getLevelObjects().forEach(o -> o.render(g2d, cam));
-        level.getBeings().forEach(e -> e.render(g2d, cam));
+
+        int renEnts = level.entitiesStream().map(o -> o.render(g2d, cam) ? 1 : 0)
+                .reduce(0, Integer::sum);
 
         // Showing misc info
-        if (fps.isEnabled()) {
-            g2d.drawString(String.valueOf(fps.getFPS()), 10, 10);
+        if (miscInfo) {
+            g2d.drawString("FPS: " + fps.getFPS(), 10, 10);
+            g2d.drawString("Ren-ents: " + renEnts, 10, 25);
         }
 
         g2d.dispose();
