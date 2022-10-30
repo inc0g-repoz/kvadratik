@@ -12,6 +12,7 @@ out/
 .classpath
 .project
 *.prefs
+bin/
 
 # Compiled class file
 *.class
