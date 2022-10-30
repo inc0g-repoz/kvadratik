@@ -17,18 +17,18 @@ public abstract class Renderable extends Entity {
         super(rect, level);
     }
 
-    public int getOffsetX() {
-        return getRectangle().x - getLevel().getCamera().getRectangle().x;
-    }
-
-    public int getOffsetY() {
-        return getRectangle().y - getLevel().getCamera().getRectangle().y;
-    }
-
-    public void render(Graphics gfx) {
+    public void render(Graphics gfx, Camera camera) {
         Rectangle ent = getRectangle();
-        int x = getOffsetX();
-        int y = getOffsetY();
+        Rectangle cam = camera.getRectangle();
+        int x = ent.x - cam.x;
+        int y = ent.y - cam.y;
+
+        /*
+        if (!cam.contains(x, y)) {
+            return;
+        }
+        */
+
         draw(gfx, x, y, ent.width, ent.height);
 
         // Drawing the collider
