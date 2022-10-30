@@ -18,6 +18,9 @@ public class KvadratikGame extends GameFrame {
     private Level level;
 
     {
+        setTitle("kvadratik");
+        applyIcon("assets/icon.png");
+
         // Loading the level
         level = new Level(this, getAssets().readXml("assets/levels/whitespace.xml"));
 
