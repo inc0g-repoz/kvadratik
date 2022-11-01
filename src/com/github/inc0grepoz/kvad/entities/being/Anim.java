@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.being;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;

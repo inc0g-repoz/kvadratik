@@ -89,6 +89,11 @@ public class XMLSection {
         return map.getOrDefault(path, null);
     }
 
+    public boolean getBoolean(String path) {
+        return map.getOrDefault(path, "").equals("true")
+                ? true : false;
+    }
+
     public int getInt(String path) {
         try {
             return Integer.valueOf(getString(path));

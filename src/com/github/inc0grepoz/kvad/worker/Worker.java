@@ -1,4 +1,4 @@
-package com.github.inc0grepoz;
+package com.github.inc0grepoz.kvad.worker;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 

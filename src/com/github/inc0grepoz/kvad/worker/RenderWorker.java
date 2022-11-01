@@ -1,8 +1,8 @@
-package com.github.inc0grepoz.kvad;
+package com.github.inc0grepoz.kvad.worker;
 
 import java.awt.Graphics;
 
-import com.github.inc0grepoz.Worker;
+import com.github.inc0grepoz.kvad.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class RenderWorker extends Worker {

@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.FrapsCounter;
+import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {

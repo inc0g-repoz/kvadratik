@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.KvadratikGame;
-import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.Player;
 import com.github.inc0grepoz.kvad.entities.Renderable;
+import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.XML;
 import com.github.inc0grepoz.kvad.utils.XMLSection;
@@ -67,8 +67,9 @@ public class Level {
         XMLSection loSect = xml.getSection("root.levelObjects");
         loSect.getKeys().forEach(key -> {
             LevelObject lo = null;
-            int[] rect = loSect.getIntArray(key + ".rectangle");
             String typeStr = loSect.getString(key + ".type");
+            int[] rect = loSect.getIntArray(key + ".rectangle");
+            boolean collide = loSect.getBoolean(key + ".collide");
             switch (typeStr) {
                 case "Background": {
                     String animStr = loSect.getString(key + ".anim");
@@ -86,13 +87,13 @@ public class Level {
                     String animStr = loSect.getString(key + ".anim");
                     LevelObjectAnim anim = LevelObjectAnim.valueOf(animStr);
                     lo = new LevelObjectAnimated(rect, this, anim);
-                    lo.setCollidable(true);
                     break;
                 }
                 default: {
                     lo = new LevelObjectRectangle(rect, this);
                 }
             }
+            lo.setCollidable(collide);
             levelObjects.add(lo);
         });
     }

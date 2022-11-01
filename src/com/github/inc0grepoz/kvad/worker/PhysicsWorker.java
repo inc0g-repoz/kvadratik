@@ -1,26 +1,27 @@
-package com.github.inc0grepoz.kvad;
+package com.github.inc0grepoz.kvad.worker;
 
-import com.github.inc0grepoz.Controls;
-import com.github.inc0grepoz.Controls.Key;
-import com.github.inc0grepoz.Worker;
-import com.github.inc0grepoz.kvad.entities.Anim;
+import com.github.inc0grepoz.kvad.Controls;
+import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.Controls.Key;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
-import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.entities.being.Anim;
+import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class PhysicsWorker extends Worker {
 
     private final KvadratikGame game;
+    private final Controls controls;
 
     public PhysicsWorker(KvadratikGame game, long delay) {
         super(delay);
         this.game = game;
+        controls = game.getControls();
     }
 
     @Override
     public void work() {
-        Controls ctrls = game.getControls();
         Level level = game.getLevel();
 
         if (level == null) {
@@ -28,25 +29,24 @@ public class PhysicsWorker extends Worker {
             return;
         }
 
-        int speed = 4;
-        boolean sprint = ctrls.isPressed(Key.SPRINT);
+        Player player = level.getPlayer();
+
+        // Moving the player
+        int speed = player.getWalkSpeed();
+        boolean moved, sprint = controls.isPressed(Key.SPRINT);
         if (sprint) {
             speed *= 3;
         }
-
-        // Moving the player
-        Player player = level.getPlayer();
-        boolean moved;
-        if (ctrls.isPressed(Key.MOVE_UP)) {
+        if (controls.isPressed(Key.MOVE_UP)) {
             moved = player.move(0, -speed);
             player.applyAnim(sprint ? Anim.RUN_W : Anim.WALK_W);
-        } else if (ctrls.isPressed(Key.MOVE_LEFT)) {
+        } else if (controls.isPressed(Key.MOVE_LEFT)) {
             moved = player.move(-speed, 0);
             player.applyAnim(sprint ? Anim.RUN_A : Anim.WALK_A);
-        } else if (ctrls.isPressed(Key.MOVE_DOWN)) {
+        } else if (controls.isPressed(Key.MOVE_DOWN)) {
             moved = player.move(0, speed);
             player.applyAnim(sprint ? Anim.RUN_S : Anim.WALK_S);
-        } else if (ctrls.isPressed(Key.MOVE_RIGHT)) {
+        } else if (controls.isPressed(Key.MOVE_RIGHT)) {
             moved = player.move(speed, 0);
             player.applyAnim(sprint ? Anim.RUN_D : Anim.WALK_D);
         } else {
@@ -74,16 +74,16 @@ public class PhysicsWorker extends Worker {
         if (camera.getMode() == CameraMode.FOLLOW) {
             camera.focus(player);
         } else if (camera.getMode() == CameraMode.FREE) {
-            if (ctrls.isPressed(Key.SELECT_UP)) {
+            if (controls.isPressed(Key.SELECT_UP)) {
                 camera.move(0, -5);
             }
-            if (ctrls.isPressed(Key.SELECT_LEFT)) {
+            if (controls.isPressed(Key.SELECT_LEFT)) {
                 camera.move(-5, 0);
             }
-            if (ctrls.isPressed(Key.SELECT_DOWN)) {
+            if (controls.isPressed(Key.SELECT_DOWN)) {
                 camera.move(0, 5);
             }
-            if (ctrls.isPressed(Key.SELECT_RIGHT)) {
+            if (controls.isPressed(Key.SELECT_RIGHT)) {
                 camera.move(5, 0);
             }
         }

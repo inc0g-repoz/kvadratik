@@ -1,9 +1,10 @@
-package com.github.inc0grepoz.kvad;
+package com.github.inc0grepoz.kvad.worker;
 
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.Worker;
+import com.github.inc0grepoz.kvad.KvadratikCanvas;
+import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
@@ -18,7 +19,8 @@ public class ConsoleWorker extends Worker {
             "help",
             "log_keys",
             "teleport",
-            "view_misc"
+            "view_misc",
+            "walk_speed"
     };
 
     private Scanner scan = new Scanner(System.in);
@@ -70,9 +72,7 @@ public class ConsoleWorker extends Worker {
                 Logger.error("Invalid value");
             }
             return;
-        }
-
-        if (command.startsWith("teleport ")) {
+        } else if (command.startsWith("teleport ")) {
             try {
                 Integer[] args = Stream.of(command.substring(9).split(" "))
                         .map(Integer::valueOf).toArray(Integer[]::new);
@@ -80,6 +80,15 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Teleported to [" + args[0] + "," + args[1] + "]");
             } catch (Exception e) {
                 Logger.error("Invalid arguments");
+            }
+            return;
+        } else if (command.startsWith("walk_speed ")) {
+            try {
+                int speed = Integer.valueOf(command.substring(11));
+                game.getLevel().getPlayer().setWalkSpeed(speed);
+                Logger.info("Set FPS walking speed to " + speed);
+            } catch (NumberFormatException nfe) {
+                Logger.error("Invalid value");
             }
             return;
         }

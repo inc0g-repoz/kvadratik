@@ -3,7 +3,7 @@ package com.github.inc0grepoz.kvad.entities.level;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.github.inc0grepoz.GameFrame;
+import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
@@ -22,7 +22,7 @@ public class LevelObjectBackground extends LevelObjectAnimated {
 
     @Override
     public boolean render(Graphics graphics, Camera camera) {
-        GameFrame gf = getLevel().getGame();
+        KvadratikGame gf = getLevel().getGame();
         int gfw = gf.getWidth(), gfh = gf.getHeight();
         if (getAnim() == LevelObjectAnim.COLOR) {
             Color color = graphics.getColor();

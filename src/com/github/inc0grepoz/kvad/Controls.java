@@ -1,11 +1,9 @@
-package com.github.inc0grepoz;
+package com.github.inc0grepoz.kvad;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.github.inc0grepoz.kvad.KvadratikGame;
 
 public class Controls implements KeyListener {
 

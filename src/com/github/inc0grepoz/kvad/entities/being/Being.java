@@ -1,9 +1,10 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.being;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class Being extends Renderable {
@@ -12,12 +13,20 @@ public class Being extends Renderable {
 
     private Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
-    private int animSpriteIndex;
+    private int animSpriteIndex, walkSpeed = 4;
 
     public Being(int[] rect, Level level, BeingType type) {
         super(rect, level);
         this.type = type;
         setCollidable(true);
+    }
+
+    public int getWalkSpeed() {
+        return walkSpeed;
+    }
+
+    public void setWalkSpeed(int walkSpeed) {
+        this.walkSpeed = walkSpeed;
     }
 
     @Override
