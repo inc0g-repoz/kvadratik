@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.kvad.entities.being;
 
-public enum BeingGoal {
+public enum Goal {
 
-    CHASE, WANDER
+    ATTACK, CHASE, ESCAPE, WANDER
 
 }
