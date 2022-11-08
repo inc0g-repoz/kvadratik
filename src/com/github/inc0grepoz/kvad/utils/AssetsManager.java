@@ -19,7 +19,7 @@ public class AssetsManager {
         } catch (Exception e) {}
 
         try {
-            return ImageIO.read(new File("src/" + path));
+            return ImageIO.read(new File(path));
         } catch (Exception e) {}
 
         Logger.error("Invalid image: " + path);
@@ -34,7 +34,7 @@ public class AssetsManager {
         try {
             stream = getClass().getClassLoader().getResourceAsStream(path);
             if (stream == null) {
-                File file = new File("src/" + path);
+                File file = new File(path);
                 stream = new FileInputStream(file);
             }
             InputStreamReader isr = new InputStreamReader(stream);
