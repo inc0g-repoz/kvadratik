@@ -3,11 +3,12 @@ package com.github.inc0grepoz.kvad.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import com.github.inc0grepoz.kvad.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
-public abstract class Renderable extends Entity {
+public abstract class Renderable extends Entity implements Serializable {
 
     private static final long serialVersionUID = 8618116457869292088L;
 
