@@ -1,10 +1,13 @@
 package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable {
+
+    private static final long serialVersionUID = -1006050154619034798L;
 
     private final Rectangle rect;
     private final Level level;

@@ -8,6 +8,8 @@ import com.github.inc0grepoz.kvad.entities.Camera;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
+    private static final long serialVersionUID = -1555713290029158193L;
+
     private final Color color;
 
     public LevelObjectBackground(int[] rect, Level level, LevelObjectAnim type) {

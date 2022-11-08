@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 
 public class LevelObjectAnimated extends LevelObject{
 
+    private static final long serialVersionUID = 5275574292016171605L;
+
     private LevelObjectAnim anim;
     private long stateExpiry; // 0 for infinite duration
     private int stateSpriteIndex;

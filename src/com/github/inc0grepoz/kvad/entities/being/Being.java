@@ -9,6 +9,8 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class Being extends Renderable {
 
+    private static final long serialVersionUID = -4932943854945885602L;
+
     private final BeingType type;
 
     private Anim anim = Anim.IDLE_S;
