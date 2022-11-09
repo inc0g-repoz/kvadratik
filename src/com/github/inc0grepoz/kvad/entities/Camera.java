@@ -7,6 +7,8 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class Camera extends Entity {
 
+    private static final long serialVersionUID = -1691535701248115167L;
+
     public static enum CameraMode {
         FOLLOW, FREE
     }

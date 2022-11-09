@@ -3,12 +3,11 @@ package com.github.inc0grepoz.kvad.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.io.Serializable;
 
 import com.github.inc0grepoz.kvad.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
-public abstract class Renderable extends Entity implements Serializable {
+public abstract class Renderable extends Entity {
 
     public Renderable(Rectangle rect, Level level) {
         super(rect, level);
