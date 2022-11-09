@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 public class KvadratikClient {
 
     private final Logger logger;
-    private final String host;
-    private final int port;
 
+    private int port;
+    private String host;
     private Socket socket;
 
     public KvadratikClient(String host, int port) {
@@ -40,10 +40,9 @@ public class KvadratikClient {
                 ioe.printStackTrace();
             }
         }
-        close();
     }
 
-    public void close() {
+    public void disconnect() {
         if (socket != null) {
             try {
                 socket.close();
@@ -54,7 +53,17 @@ public class KvadratikClient {
         }
     }
 
-    private void connect() {
+    public void reconnect(String host, int port) {
+        if (socket == null || !socket.isConnected()) {
+            try {
+                socket = new Socket(host, port);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+    }
+
+    public void connect() {
         if (socket == null || !socket.isConnected()) {
             try {
                 socket = new Socket(host, port);
