@@ -21,7 +21,7 @@ public class PhysicsWorker extends Worker {
     }
 
     @Override
-    public void work() {
+    protected void work() {
         Level level = game.getLevel();
 
         if (level == null) {

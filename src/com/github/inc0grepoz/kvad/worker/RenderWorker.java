@@ -14,7 +14,8 @@ public class RenderWorker extends Worker {
         this.canvas = canvas;
     }
 
-    public void work() {
+    @Override
+    protected void work() {
         Graphics graphics = canvas.getGraphics();
         if (graphics == null) {
             Logger.error("Null graphics");

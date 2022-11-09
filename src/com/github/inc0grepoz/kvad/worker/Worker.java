@@ -8,7 +8,7 @@ public abstract class Worker {
     protected long delay;
     protected boolean alive;
 
-    public Worker(long delay) {
+    protected Worker(long delay) {
         this.delay = delay;
 
         thread = new Thread(() -> {
@@ -46,6 +46,6 @@ public abstract class Worker {
         return alive;
     }
 
-    public abstract void work();
+    protected abstract void work();
 
 }

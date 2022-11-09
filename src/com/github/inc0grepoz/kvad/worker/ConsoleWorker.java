@@ -32,7 +32,7 @@ public class ConsoleWorker extends Worker {
     }
 
     @Override
-    public void work() {
+    protected void work() {
         String command = scan.nextLine().toLowerCase();
         KvadratikCanvas canvas = game.getCanvas();
 
