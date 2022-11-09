@@ -24,6 +24,10 @@ public class KvadratikClient {
         return logger;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     public boolean isConnected() {
         return socket == null || !socket.isConnected();
     }
