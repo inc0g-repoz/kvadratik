@@ -24,12 +24,15 @@ public class KvadratikClient {
         return logger;
     }
 
+    public boolean isConnected() {
+        return socket == null || !socket.isConnected();
+    }
+
     public void send(String message) {
         send(message.getBytes(StandardCharsets.UTF_8));
     }
 
     public void send(byte[] bytes) {
-        connect();
         if (socket == null) {
             logger.warning("Unable to connect to the socket server");
         } else {
@@ -53,8 +56,8 @@ public class KvadratikClient {
         }
     }
 
-    public void reconnect(String host, int port) {
-        if (socket == null || !socket.isConnected()) {
+    public void connect(String host, int port) {
+        if (isConnected()) {
             try {
                 socket = new Socket(host, port);
             } catch (IOException ioe) {
@@ -63,8 +66,8 @@ public class KvadratikClient {
         }
     }
 
-    public void connect() {
-        if (socket == null || !socket.isConnected()) {
+    public void reconnect() {
+        if (isConnected()) {
             try {
                 socket = new Socket(host, port);
             } catch (IOException ioe) {
