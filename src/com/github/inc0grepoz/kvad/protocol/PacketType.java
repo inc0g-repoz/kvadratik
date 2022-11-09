@@ -7,11 +7,13 @@ public enum PacketType {
     IN_CONSOLE_COMMAND(0),
     IN_KEEP_ALIVE(0),
     IN_LOGIN(0),
+    IN_PLAYER_ANIM(0),
     IN_PLAYER_MOVE(0),
     IN_PLAYER_TELEPORT(0),
     IN_POSITION(0),
 
     // Server -> Client
+    OUT_BEING_ANIM(0),
     OUT_BEING_DESPAWN(0),
     OUT_BEING_MOVE(0),
     OUT_BEING_SPAWN(0),
