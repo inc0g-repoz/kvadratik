@@ -10,8 +10,6 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public abstract class Renderable extends Entity implements Serializable {
 
-    private static final long serialVersionUID = 8618116457869292088L;
-
     public Renderable(Rectangle rect, Level level) {
         super(rect, level);
     }
