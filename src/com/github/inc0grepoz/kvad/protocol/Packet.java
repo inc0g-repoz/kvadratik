@@ -7,17 +7,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 
 public class Packet {
 
-    public static Packet[] in(Socket sock) {
-        List<Packet> packets = new ArrayList<Packet>();
+    public static Queue<Packet> in(Socket sock) {
+        Queue<Packet> packets = new LinkedList<>();
 
         try {
             InputStream in = sock.getInputStream();
@@ -39,7 +39,7 @@ public class Packet {
             e.printStackTrace();
         }
 
-        return packets.stream().toArray(Packet[]::new);
+        return packets;
     }
 
     public static Packet out(PacketType type, String string) {
@@ -68,13 +68,12 @@ public class Packet {
         return type;
     }
 
-    public void send(KvadratikClient client) {
-        try {
-            OutputStream out = client.getSocket().getOutputStream();
-            out.write(data, 0, data.length);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void queue(KvadratikClient client) {
+        client.queue(this);
+    }
+
+    public void send(OutputStream out) throws IOException {
+        out.write(data, 0, data.length);
     }
 
 }
