@@ -29,6 +29,11 @@ public class Level {
         load();
     }
 
+    @Override
+    public String toString() {
+        return xml.toString();
+    }
+
     public KvadratikGame getGame() {
         return game;
     }
