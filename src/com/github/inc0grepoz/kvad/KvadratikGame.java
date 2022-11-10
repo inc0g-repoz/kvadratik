@@ -5,9 +5,13 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
+import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
+import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
@@ -21,6 +25,7 @@ public class KvadratikGame extends Frame {
     }
 
     private final KvadratikCanvas canvas;
+    private final KvadratikClient client;
     private final PhysicsWorker physics;
     private final ConsoleWorker console;
     private final Controls controls;
@@ -46,8 +51,22 @@ public class KvadratikGame extends Frame {
         setTitle("kvadratik");
         applyIcon("assets/icon.png");
 
-        // Loading the level
-        level = new Level(this, getAssets().readXml("assets/levels/whitespace.xml"));
+        // Multiplayer client
+        client = new KvadratikClient(this, 50L);
+        join: if (client.isInfoProvided()) {
+            try {
+                client.connect();
+                client.start();
+                break join;
+            } catch (UnknownHostException e1) {
+                Logger.error("Unknown host");
+            } catch (IOException e1) {
+                Logger.error("Unable to join the server");
+            }
+
+            // Singleplayer
+            level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"));
+        }
 
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
@@ -77,6 +96,10 @@ public class KvadratikGame extends Frame {
         return canvas;
     }
 
+    public KvadratikClient getClient() {
+        return client;
+    }
+
     public Controls getControls() {
         return controls;
     }
@@ -87,6 +110,10 @@ public class KvadratikGame extends Frame {
 
     public Level getLevel() {
         return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     public void addKeysListener(Canvas c) {
