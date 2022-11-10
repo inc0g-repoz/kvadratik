@@ -51,17 +51,19 @@ public class KvadratikGame extends Frame {
         setTitle("kvadratik");
         applyIcon("assets/icon.png");
 
-        // Multiplayer client
         client = new KvadratikClient(this, 50L);
-        join: if (client.isInfoProvided()) {
-            try {
-                client.connect();
-                client.start();
-                break join;
-            } catch (UnknownHostException e1) {
-                Logger.error("Unknown host");
-            } catch (IOException e1) {
-                Logger.error("Unable to join the server");
+        join: {
+            // Multiplayer client
+            if (client.isInfoProvided()) {
+                try {
+                    client.connect();
+                    client.start();
+                    break join;
+                } catch (UnknownHostException e1) {
+                    Logger.error("Unknown host");
+                } catch (IOException e1) {
+                    Logger.error("Unable to join the server");
+                }
             }
 
             // Singleplayer
