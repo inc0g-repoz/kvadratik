@@ -3,24 +3,22 @@ package com.github.inc0grepoz.kvad.protocol;
 public enum PacketType {
 
     // Client -> Server
-    IN_CHAT_MESSAGE(0),
-    IN_CONSOLE_COMMAND(0),
-    IN_KEEP_ALIVE(0),
-    IN_LOGIN(0),
-    IN_PLAYER_ANIM(0),
-    IN_PLAYER_MOVE(0),
-    IN_PLAYER_TELEPORT(0),
-    IN_POSITION(0),
+    CLIENT_CHAT_MESSAGE(1),
+    CLIENT_CONSOLE_COMMAND(2),
+    CLIENT_KEEP_ALIVE(3),
+    CLIENT_LOGIN(4),
+    CLIENT_PLAYER_RECT(5),
+    CLIENT_PLAYER_SPEED(6),
 
     // Server -> Client
-    OUT_BEING_ANIM(0),
-    OUT_BEING_DESPAWN(0),
-    OUT_BEING_MOVE(0),
-    OUT_BEING_SPAWN(0),
-    OUT_CHAT_MESSAGE(0),
-    OUT_CONSOLE_MESSAGE(0),
-    OUT_PLAYER_TELEPORT(0),
-    OUT_LEVEL(0);
+    SERVER_BEING_DESPAWN(7),
+    SERVER_BEING_RECT(8),
+    SERVER_BEING_SPAWN(9),
+    SERVER_BEING_SPEED(10),
+    SERVER_CHAT_MESSAGE(11),
+    SERVER_CONSOLE_MESSAGE(12),
+    SERVER_PLAYER_TELEPORT(13),
+    SERVER_LEVEL(14);
 
     public static PacketType byId(int id) {
         PacketType[] values = values();
