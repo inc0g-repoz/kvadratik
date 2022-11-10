@@ -6,8 +6,16 @@ public class XML extends XMLSection {
         return new XML(string);
     }
 
-    protected XML(String xml) {
-        super(deserialize(xml));
+    private final String xmlString;
+
+    protected XML(String xmlString) {
+        super(deserialize(xmlString));
+        this.xmlString = xmlString;
+    }
+
+    @Override
+    public String toString() {
+        return xmlString;
     }
 
 }
