@@ -51,7 +51,7 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Colliders are " + (draw ? "shown" : "hidden"));
                 return;
             case "help":
-                Logger.info(String.join("\n", commandList));
+                Logger.info("Useful commands:\n" + String.join("\n", commandList));
                 return;
             case "log_keys":
                 logKeys = !logKeys;
