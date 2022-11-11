@@ -48,7 +48,7 @@ public class AssetsManager {
             return string;
         } catch (Exception e) {}
 
-        Logger.error("Invalid image: " + path);
+        Logger.error("Invalid text file: " + path);
         System.exit(0);
         return null;
     }
