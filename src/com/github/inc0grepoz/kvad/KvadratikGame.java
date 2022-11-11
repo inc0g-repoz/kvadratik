@@ -51,24 +51,8 @@ public class KvadratikGame extends Frame {
         setTitle("kvadratik");
         applyIcon("assets/icon.png");
 
+        // Multiplayer client
         client = new KvadratikClient(this, 50L);
-        join: {
-            // Multiplayer client
-            if (client.isInfoProvided()) {
-                try {
-                    client.connect();
-                    client.start();
-                    break join;
-                } catch (UnknownHostException e1) {
-                    Logger.error("Unknown host");
-                } catch (IOException e1) {
-                    Logger.error("Unable to join the server");
-                }
-            }
-
-            // Singleplayer
-            level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"));
-        }
 
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
@@ -88,6 +72,28 @@ public class KvadratikGame extends Frame {
         // Physics
         physics = new PhysicsWorker(this, 50L);
         physics.start();
+    }
+
+    public void run() {
+        join: {
+            // Multiplayer client
+            if (client.isInfoProvided()) {
+                try {
+                    client.connect();
+                    client.start();
+                    break join;
+                } catch (UnknownHostException e1) {
+                    Logger.error("Unknown host");
+                } catch (IOException e1) {
+                    Logger.error("Unable to join the server");
+                }
+            } else {
+                Logger.info("nothing provided");
+            }
+
+            // Singleplayer
+            level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"));
+        }
     }
 
     public void applyIcon(String fileName) {
