@@ -10,8 +10,8 @@ public class LevelObjectBackground extends LevelObjectAnimated {
 
     private final Color color;
 
-    public LevelObjectBackground(int[] rect, Level level, LevelObjectAnim type) {
-        super(rect, level, type);
+    public LevelObjectBackground(int[] rect, Level level, LevelObjectAnim anim) {
+        super(rect, level, anim);
         this.color = null;
     }
 
