@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
+import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Bootstrap {
 
@@ -13,6 +14,7 @@ public class Bootstrap {
 
         KvadratikClient client = game.getClient();
         for (int i = 0; i < args.length; i++) {
+            Logger.info("Reading launch args: " + args[i]);
             if (args[i].contains("=")) {
                 String[] split = args[i].split("=");
                 switch (split[0]) {
@@ -31,6 +33,8 @@ public class Bootstrap {
                 }
             }
         }
+
+        game.run();
     }
 
 }
