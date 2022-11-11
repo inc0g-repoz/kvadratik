@@ -18,6 +18,7 @@ public class Level {
     private final KvadratikGame game;
     private final XML xml;
 
+    private String name;
     private Camera camera;
     private Player player;
     private ArrayList<LevelObject> levelObjects = new ArrayList<>();
@@ -32,6 +33,10 @@ public class Level {
     @Override
     public String toString() {
         return xml.toString();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public KvadratikGame getGame() {
@@ -61,6 +66,7 @@ public class Level {
     public void load() {
         levelObjects.clear();
         beings.clear();
+        name = xml.getString("root.name");
 
         int[] pRect = xml.getIntArray("root.player.rectangle");
         player = new Player(pRect, this);
