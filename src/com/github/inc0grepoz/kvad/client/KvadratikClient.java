@@ -5,19 +5,18 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Logger;
 
 import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
+import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.XML;
 import com.github.inc0grepoz.kvad.worker.Worker;
 
 public class KvadratikClient extends Worker {
 
     private final KvadratikGame game;
-    private final Logger logger;
     private final Queue<Packet> queue = new LinkedList<>();
 
     private int port;
@@ -27,7 +26,6 @@ public class KvadratikClient extends Worker {
     public KvadratikClient(KvadratikGame game, long delay) {
         super(delay);
         this.game = game;
-        this.logger = Logger.getLogger(getClass().getSimpleName());
     }
 
     @Override
@@ -39,13 +37,16 @@ public class KvadratikClient extends Worker {
         // Reading the ingoing packets
         for (Packet packet : Packet.in(socket)) {
             switch (packet.type()) {
+                case SERVER_BEING_SPAWN: {
+                    packet.createBeing(game.getLevel());
+                    break;
+                }
                 case SERVER_LEVEL: {
                     Level level = new Level(game, XML.fromString(packet.toString()));
                     game.setLevel(level);
                     break;
                 }
                 default:
-                    break;
             }
         }
 
@@ -60,10 +61,6 @@ public class KvadratikClient extends Worker {
             }
             queue.clear();
         }
-    }
-
-    public Logger getLogger() {
-        return logger;
     }
 
     public Socket getSocket() {
@@ -120,6 +117,7 @@ public class KvadratikClient extends Worker {
     }
 
     public void connect() throws UnknownHostException, IOException {
+        Logger.info("Connecting to " + host + ":" + port);
         socket = new Socket(host, port);
         Packet.out(PacketType.CLIENT_LOGIN, nickname);
     }
