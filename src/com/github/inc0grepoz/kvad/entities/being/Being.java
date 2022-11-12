@@ -3,12 +3,14 @@ package com.github.inc0grepoz.kvad.entities.being;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.UUID;
 
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class Being extends Renderable {
 
+    private final UUID uid;
     private final BeingType type;
 
     private Anim anim = Anim.IDLE_S;
@@ -16,9 +18,18 @@ public class Being extends Renderable {
     private int animSpriteIndex, walkSpeed = 4;
 
     public Being(int[] rect, Level level, BeingType type) {
+        this(rect, level, type, null);
+    }
+
+    public Being(int[] rect, Level level, BeingType type, UUID uid) {
         super(rect, level);
+        this.uid = uid == null ? UUID.randomUUID() : uid;
         this.type = type;
         setCollidable(true);
+    }
+
+    public UUID getUniqueId() {
+        return uid;
     }
 
     public int getWalkSpeed() {
