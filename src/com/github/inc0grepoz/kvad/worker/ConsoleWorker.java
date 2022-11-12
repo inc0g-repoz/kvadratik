@@ -55,7 +55,7 @@ public class ConsoleWorker extends Worker {
                 return;
             case "log_keys":
                 logKeys = !logKeys;
-                Logger.info("Set logging keys to " + Boolean.toString(logKeys));
+                Logger.info("Set keys logging to " + Boolean.toString(logKeys));
                 return;
             case "view_misc":
                 canvas.setViewMiscInfo(!canvas.isMiscInfoViewed());

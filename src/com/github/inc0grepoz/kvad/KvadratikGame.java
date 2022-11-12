@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
@@ -79,8 +80,9 @@ public class KvadratikGame extends Frame {
             // Multiplayer client
             if (client.isInfoProvided()) {
                 try {
-                    client.connect();
                     client.start();
+                    client.connect();
+                    PacketType.CLIENT_LOGIN.create(client.getNickname()).queue(client);
                     break join;
                 } catch (UnknownHostException e1) {
                     Logger.error("Unknown host");
@@ -88,7 +90,7 @@ public class KvadratikGame extends Frame {
                     Logger.error("Unable to join the server");
                 }
             } else {
-                Logger.info("nothing provided");
+                Logger.info("Nothing provided for the client");
             }
 
             // Singleplayer

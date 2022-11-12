@@ -68,7 +68,7 @@ public class KvadratikClient extends Worker {
     }
 
     public boolean isConnected() {
-        return socket == null || !socket.isConnected();
+        return socket != null && socket.isConnected();
     }
 
     public boolean isInfoProvided() {

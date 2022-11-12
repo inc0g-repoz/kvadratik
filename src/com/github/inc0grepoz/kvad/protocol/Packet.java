@@ -1,10 +1,7 @@
 package com.github.inc0grepoz.kvad.protocol;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Base64;
@@ -12,7 +9,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.IntStream.Builder;
 import java.util.stream.Stream;
@@ -25,15 +21,27 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {
 
+    public static boolean logging;
+
     public static Queue<Packet> in(Socket sock) {
         Queue<Packet> packets = new LinkedList<>();
 
         try {
             InputStream in = sock.getInputStream();
-            DataInputStream dIn = new DataInputStream(in);
-            String msg = new BufferedReader(new InputStreamReader(dIn))
-                    .lines().collect(Collectors.joining());
 
+            // Got nothing to read
+            if (in.available() == 0) {
+                return packets;
+            }
+
+            // Converting into a string
+            StringBuilder sbMsg = new StringBuilder();
+            for (int c = in.read(); in.available() != 0; c = in.read()) {
+                sbMsg.append((char) c);
+            }
+            String msg = sbMsg.toString();
+
+            // Initializing some packet instances
             String[] split = msg.split(" ");
             for (int i = 0; i + 1 < split.length; i += 2) {
                 Packet packet = new Packet();
@@ -43,6 +51,18 @@ public class Packet {
                 packet.type = PacketType.byId(packet.id);
                 packet.data = (packet.id + " " + packet.b64 + " ").getBytes();
                 packets.add(packet);
+
+                if (logging) {
+                    String packetIn = new StringBuilder()
+                            .append("Packet In (")
+                            .append(packet.id)
+                            .append("):\nBase64: ")
+                            .append(packet.b64)
+                            .append("\nString: ")
+                            .append(packet.string)
+                            .toString();
+                    Logger.info(packetIn);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,6 +102,18 @@ public class Packet {
     }
 
     public void send(OutputStream out) throws IOException {
+        if (logging) {
+            String packetOut = new StringBuilder()
+                    .append("Packet Out (")
+                    .append(id)
+                    .append("):\nBase64: ")
+                    .append(b64)
+                    .append("\nString: ")
+                    .append(string)
+                    .toString();
+            Logger.info(packetOut);
+        }
+
         out.write(data, 0, data.length);
     }
 
