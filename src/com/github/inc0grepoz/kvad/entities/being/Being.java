@@ -3,61 +3,74 @@ package com.github.inc0grepoz.kvad.entities.being;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.UUID;
 
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class Being extends Renderable {
 
-    private final UUID uid;
+    private static int lastId;
+
+    public boolean move, sprint;
+
     private final BeingType type;
+    private final int uid;
+    private final Vector lastMove = new Vector();
 
     private Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
-    private int animSpriteIndex, walkSpeed = 4;
+    private int animSpriteIndex;
+
+    private String name;
 
     public Being(int[] rect, Level level, BeingType type) {
-        this(rect, level, type, null);
+        this(rect, level, type, -1);
+        setMoveSpeed(4);
     }
 
-    public Being(int[] rect, Level level, BeingType type, UUID uid) {
+    public Being(int[] rect, Level level, BeingType type, int id) {
         super(rect, level);
-        this.uid = uid == null ? UUID.randomUUID() : uid;
+        this.uid = id < 0 ? ++lastId : id;
         this.type = type;
         setCollidable(true);
     }
 
-    public UUID getUniqueId() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
         return uid;
-    }
-
-    public int getWalkSpeed() {
-        return walkSpeed;
-    }
-
-    public void setWalkSpeed(int walkSpeed) {
-        this.walkSpeed = walkSpeed;
     }
 
     @Override
     public boolean move(int x, int y) {
-        Rectangle rect = getRectangle();
-        boolean moved;
-        if (isCollidable()) {
-            int nextX = x + (int) rect.getCenterX();
-            int nextY = y + (int) rect.getY() + rect.height;
-            moved = getLevel().entitiesStream()
-                    .filter(e -> e != this && e.isCollidable())
-                    .noneMatch(e -> e.getRectangle().contains(nextX, nextY));
-        } else {
-            moved = true;
-        }
+        boolean moved = super.move(x, y);
+
         if (moved) {
-            rect.x += x;
-            rect.y += y;
+            if (lastMove.x != x || lastMove.y != y) {
+                getLevel().getGame().getClient().getPacketUtil()
+                        .rectThenSpeed(this, x, y);
+            }
+
+            lastMove.x = x;
+            lastMove.y = y;
         }
+
         return moved;
+    }
+
+    public void idle() {
+        lastMove.x = 0;
+        lastMove.y = 0;
+
+        getLevel().getGame().getClient().getPacketUtil()
+                .rectThenSpeed(this, 0, 0);
     }
 
     public void applyAnim(Anim anim) {
@@ -65,6 +78,9 @@ public class Being extends Renderable {
             this.anim = anim;
             animSpriteIndex = 0;
             animExpiry = System.currentTimeMillis() + anim.getDelay();
+
+            // Queue an anim packet
+            getLevel().getGame().getClient().getPacketUtil().anim();
         }
     }
 
@@ -89,6 +105,17 @@ public class Being extends Renderable {
     @Override
     public void draw(Graphics graphics, int x, int y, int width, int height) {
         graphics.drawImage(getSprite(), x, y, width, height, getLevel().getGame().getCanvas());
+    }
+
+    @Override
+    public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {
+        if (name != null) {
+            int x = (int) (rect.getCenterX() - cam.x), y = rect.y - cam.y;
+            int width = gfx.getFontMetrics().stringWidth(name);
+            x -= width / 2;
+            y -= 5;
+            gfx.drawString(name, x, y);
+        }
     }
 
 }

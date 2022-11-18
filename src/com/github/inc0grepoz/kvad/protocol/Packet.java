@@ -15,7 +15,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {
 
-    public static boolean logging;
+    public static boolean logging = true;
 
     public static Queue<Packet> in(Socket sock) {
         Queue<Packet> packets = new LinkedList<>();
@@ -47,15 +47,14 @@ public class Packet {
                 packets.add(packet);
 
                 if (logging) {
-                    String packetIn = new StringBuilder()
-                            .append("Packet In (")
-                            .append(packet.id)
-                            .append("):\nBase64: ")
-                            .append(packet.b64)
-                            .append("\nString: ")
-                            .append(packet.string)
-                            .toString();
-                    Logger.info(packetIn);
+                    StringBuilder sbPack = new StringBuilder();
+                    sbPack.append("Packet In (");
+                    sbPack.append(packet.id);
+                    sbPack.append("):\nBase64: ");
+                    sbPack.append(packet.b64);
+                    sbPack.append("\nString: ");
+                    sbPack.append(packet.string);
+                    Logger.info(sbPack.toString());
                 }
             }
         } catch (IOException e) {
@@ -87,7 +86,7 @@ public class Packet {
         return string;
     }
 
-    public PacketType type() {
+    public PacketType getType() {
         return type;
     }
 
@@ -96,16 +95,15 @@ public class Packet {
     }
 
     public void send(OutputStream out) throws IOException {
-        if (logging) {
-            String packetOut = new StringBuilder()
-                    .append("Packet Out (")
-                    .append(id)
-                    .append("):\nBase64: ")
-                    .append(b64)
-                    .append("\nString: ")
-                    .append(string)
-                    .toString();
-            Logger.info(packetOut);
+        if (logging && type != PacketType.CLIENT_KEEP_ALIVE) {
+            StringBuilder sbPack = new StringBuilder();
+            sbPack.append("Packet Out (");
+            sbPack.append(id);
+            sbPack.append("):\nBase64: ");
+            sbPack.append(b64);
+            sbPack.append("\nString: ");
+            sbPack.append(string);
+            Logger.info(sbPack.toString());
         }
 
         out.write(data, 0, data.length);

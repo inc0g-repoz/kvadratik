@@ -85,7 +85,7 @@ public class ConsoleWorker extends Worker {
         } else if (command.startsWith("walk_speed ")) {
             try {
                 int speed = Integer.valueOf(command.substring(11));
-                game.getLevel().getPlayer().setWalkSpeed(speed);
+                game.getLevel().getPlayer().setMoveSpeed(speed);
                 Logger.info("Set FPS walking speed to " + speed);
             } catch (NumberFormatException nfe) {
                 Logger.error("Invalid value");

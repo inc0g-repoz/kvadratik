@@ -5,9 +5,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.UUID;
 
 import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.protocol.PacketUtil;
@@ -38,11 +39,14 @@ public class KvadratikClient extends Worker {
 
         // Reading the ingoing packets
         for (Packet packet : Packet.in(socket)) {
-            switch (packet.type()) {
+            switch (packet.getType()) {
+                case SERVER_BEING_ANIM: {
+                    
+                }
                 case SERVER_BEING_DESPAWN: {
-                    UUID uid = UUID.fromString(packet.toString());
+                    int id = Integer.valueOf(packet.toString());
                     game.getLevel().getBeings().removeIf(being -> {
-                        return being.getUniqueId().equals(uid);
+                        return being.getId() == id;
                     });
                     break;
                 }
@@ -53,6 +57,16 @@ public class KvadratikClient extends Worker {
                 case SERVER_LEVEL: {
                     packetUtil.buildLevel(packet);
                     break;
+                }
+                case SERVER_TRANSFER_CONTROL: {
+                    int id = Integer.valueOf(packet.toString());
+                    Level level = game.getLevel();
+                    Being being = level.getBeings().stream()
+                            .filter(b -> id == b.getId())
+                            .findFirst().orElse(null);
+                    if (being != null) {
+                        level.setPlayerBeing(being);
+                    }
                 }
                 default:
             }
@@ -80,6 +94,10 @@ public class KvadratikClient extends Worker {
                 e.printStackTrace();
             }
         }
+    }
+
+    public PacketUtil getPacketUtil() {
+        return packetUtil;
     }
 
     public Socket getSocket() {
@@ -119,7 +137,9 @@ public class KvadratikClient extends Worker {
     }
 
     public void queue(Packet packet) {
-        queue.add(packet);
+        if (isConnected()) {
+            queue.add(packet);
+        }
     }
 
     public void disconnect() {

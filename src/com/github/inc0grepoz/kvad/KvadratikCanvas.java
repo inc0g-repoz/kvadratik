@@ -71,7 +71,8 @@ public class KvadratikCanvas extends Canvas {
         cam.scale(game);
         g2d.setColor(Color.BLACK);
 
-        int renEnts = level.entitiesStream().map(o -> o.render(g2d, cam) ? 1 : 0)
+        int renEnts = level.entitiesStream()
+                .map(o -> o.render(g2d, cam) ? 1 : 0)
                 .reduce(0, Integer::sum);
 
         // Showing misc info

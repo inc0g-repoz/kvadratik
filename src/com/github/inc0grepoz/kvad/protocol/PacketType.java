@@ -20,7 +20,8 @@ public enum PacketType {
     SERVER_CHAT_MESSAGE(13),
     SERVER_CONSOLE_MESSAGE(14),
     SERVER_PLAYER_TELEPORT(15),
-    SERVER_LEVEL(16);
+    SERVER_TRANSFER_CONTROL(16),
+    SERVER_LEVEL(17);
 
     public static PacketType byId(int id) {
         PacketType[] values = values();

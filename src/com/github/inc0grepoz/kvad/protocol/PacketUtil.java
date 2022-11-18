@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.kvad.protocol;
 
+import java.awt.Rectangle;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.IntStream.Builder;
 import java.util.stream.Stream;
@@ -21,22 +21,54 @@ public class PacketUtil {
         this.game = game;
     }
 
+    public void anim() {
+        if (game.getClient().isConnected()) {
+            String name = game.getLevel().getPlayer().getAnim().name();
+            PacketType.CLIENT_PLAYER_ANIM.create(name).queue(game.getClient());
+        }
+    }
+
+    public void speed(int x, int y) {
+        PacketType.CLIENT_PLAYER_SPEED.create(x + "," + y).queue(game.getClient());
+    }
+
+    public void rect(Being being) {
+        Rectangle rect = being.getRectangle();
+        StringBuilder sb = new StringBuilder();
+        sb.append(rect.x);
+        sb.append(",");
+        sb.append(rect.y);
+        sb.append(",");
+        sb.append(rect.width);
+        sb.append(",");
+        sb.append(rect.height);
+        PacketType.CLIENT_PLAYER_RECT.create(sb.toString()).queue(game.getClient());
+    }
+
+    public void rectThenSpeed(Being being, int x, int y) {
+        if (game.getClient().isConnected()) {
+            rect(being);
+            speed(x, y);
+        }
+    }
+
     public void createBeing(Packet packet) {
-        if (packet.type() != PacketType.SERVER_BEING_SPAWN) {
-            Logger.error("Unable to init a being from " + packet.type().name());
+        if (packet.getType() != PacketType.SERVER_BEING_SPAWN) {
+            Logger.error("Unable to init a being from " + packet.getType().name());
         }
 
         Map<String, String> map = packet.toMap();
 
         // Getting a server-side unique ID
-        String uidStr = map.getOrDefault("uid", null);
-        UUID uid = uidStr == null ? null : UUID.fromString(uidStr);
+        String idStr = map.getOrDefault("id", null);
+        int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
         // Looking for the same entity
         Level level = game.getLevel();
         boolean hasOne = level.getBeings().stream()
-                .anyMatch(b -> b.getUniqueId().equals(uid));
+                .anyMatch(b -> b.getId() == id);
         if (hasOne) {
+            Logger.error("Tried to spawn a being with an invalid ID");
             return;
         }
 
@@ -55,15 +87,17 @@ public class PacketUtil {
         // Looking for the client-side being type
         BeingType type = BeingType.valueOf(map.get("type"));
 
-        Being being = new Being(b.build().toArray(), level, type, uid);
+        Being being = new Being(b.build().toArray(), level, type, id);
+        String name = map.getOrDefault("name", null);
+        being.setName(name);
         level.getBeings().add(being);
     }
 
     public void buildLevel(Packet packet) {
-        if (packet.type() != PacketType.SERVER_LEVEL) {
-            Logger.error("Unable to build a level from " + packet.type().name());
+        if (packet.getType() != PacketType.SERVER_LEVEL) {
+            Logger.error("Unable to build a level from " + packet.getType().name());
         }
-        Level level = new Level(game, XML.fromString(packet.toString()));
+        Level level = new Level(game, XML.fromString(packet.toString()), false);
         game.setLevel(level);
     }
 

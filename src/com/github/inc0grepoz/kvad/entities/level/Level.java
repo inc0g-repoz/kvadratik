@@ -8,7 +8,7 @@ import com.github.inc0grepoz.kvad.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.being.Player;
+import com.github.inc0grepoz.kvad.entities.being.BeingType;
 import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.XML;
 import com.github.inc0grepoz.kvad.utils.XMLSection;
@@ -20,14 +20,14 @@ public class Level {
 
     private String name;
     private Camera camera;
-    private Player player;
+    private Being player;
     private ArrayList<LevelObject> levelObjects = new ArrayList<>();
     private ArrayList<Being> beings = new ArrayList<>();
 
-    public Level(KvadratikGame game, XML xml) {
+    public Level(KvadratikGame game, XML xml, boolean initPlayer) {
         this.game = game;
         this.xml = xml;
-        load();
+        load(initPlayer);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Level {
         return camera;
     }
 
-    public Player getPlayer() {
+    public Being getPlayer() {
         return player;
     }
 
@@ -63,17 +63,24 @@ public class Level {
         return Stream.concat(levelObjects.stream(), beings.stream());
     }
 
-    public void load() {
+    public void setPlayerBeing(Being player) {
+        this.player = player;
+    }
+
+    public void load(boolean initPlayer) {
         levelObjects.clear();
         beings.clear();
         name = xml.getString("root.name");
 
-        int[] pRect = xml.getIntArray("root.player.rectangle");
-        player = new Player(pRect, this);
-        beings.add(player);
+        if (initPlayer) {
+            int[] pRect = xml.getIntArray("root.player.rectangle");
+            player = new Being(pRect, this, BeingType.IOMOR);
+            beings.add(player);
+        }
 
         int[] cRect = xml.getIntArray("root.camera.rectangle");
         camera = new Camera(cRect, this);
+        camera.setMoveSpeed(5);
 
         XMLSection loSect = xml.getSection("root.levelObjects");
         loSect.getKeys().forEach(key -> {

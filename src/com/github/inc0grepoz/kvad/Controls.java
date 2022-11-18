@@ -2,60 +2,57 @@ package com.github.inc0grepoz.kvad;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Controls implements KeyListener {
 
     public static enum Key {
-        CAMERA_MODE,
-        MOVE_UP,
-        MOVE_DOWN,
-        MOVE_LEFT,
-        MOVE_RIGHT,
-        SELECT_UP,
-        SELECT_DOWN,
-        SELECT_LEFT,
-        SELECT_RIGHT,
-        SPRINT,
-        JUMP
+
+        CAMERA_MODE  (86),
+        MOVE_UP      (87), // V
+        MOVE_DOWN    (83), // S
+        MOVE_LEFT    (65), // A
+        MOVE_RIGHT   (68), // D
+        SELECT_UP    (38), // Up
+        SELECT_DOWN  (40), // Down
+        SELECT_LEFT  (37), // Left
+        SELECT_RIGHT (39), // Right
+        SPRINT       (16), // Shift
+        JUMP         (32), // Space
+        NAN          (-1);
+
+        private static Key byCode(int code) {
+            Key[] values = values();
+            for (int i = 0; i < values.length; i++) {
+                if (values[i].code == code) {
+                    return values[i];
+                }
+            }
+            return null;
+        }
+
+        boolean pressed;
+        int code;
+
+        Key(int code) {
+            this.code = code;
+        }
+
     }
 
     private final KvadratikGame game;
-    private final HashMap<Key, Integer> controls = new HashMap<>();
-    private final ArrayList<Integer> pressed = new ArrayList<>();
+    private final ControlsHandler handler;
 
     public Controls(KvadratikGame game) {
         this.game = game;
-        defaults();
+        handler = new ControlsHandler(this);
     }
 
     public KvadratikGame getGame() {
         return game;
     }
 
-    public void defaults() {
-        controls.put(Key.CAMERA_MODE, 86);       // V
-        controls.put(Key.MOVE_UP, 87);           // W
-        controls.put(Key.MOVE_LEFT, 65);         // A
-        controls.put(Key.MOVE_DOWN, 83);         // S
-        controls.put(Key.MOVE_RIGHT, 68);        // D
-        controls.put(Key.SELECT_UP, 38);         // Up
-        controls.put(Key.SELECT_DOWN, 40);       // Left
-        controls.put(Key.SELECT_LEFT, 37);       // Down
-        controls.put(Key.SELECT_RIGHT, 39);      // Right
-        controls.put(Key.SPRINT, 16);            // Shift
-        controls.put(Key.JUMP, 32);              // Jump
-    }
-
     public boolean isPressed(Key key) {
-        try {
-            int code = controls.get(key);
-            return pressed.contains(code);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return key.pressed;
     }
 
     @Override
@@ -65,8 +62,10 @@ public class Controls implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (!pressed.contains(e.getKeyCode())) {
-            pressed.add(e.getKeyCode());
+        Key key = Key.byCode(e.getKeyCode());
+        if (!key.pressed) {
+            key.pressed = true;
+            handler.onKeyPressed(key);
 
             if (game.getConsole().isLoggingKeys()) {
                 System.out.println("Pressed " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
@@ -76,16 +75,14 @@ public class Controls implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        try {
-            if (pressed.contains(e.getKeyCode())) {
-                pressed.removeIf(code -> code == e.getKeyCode());
-            }
-        } catch (Exception ex) {
-            System.err.println("Shit, won't release cuz " + ex.getCause());
-        }
+        Key key = Key.byCode(e.getKeyCode());
+        if (key.pressed) {
+            key.pressed = false;
+            handler.onKeyReleased(key);
 
-        if (game.getConsole().isLoggingKeys()) {
-            System.out.println("Released " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
+            if (game.getConsole().isLoggingKeys()) {
+                System.out.println("Released " + e.getKeyChar() + " (" + e.getKeyCode() + ")");
+            }
         }
     }
 

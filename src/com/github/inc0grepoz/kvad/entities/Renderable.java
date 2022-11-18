@@ -32,9 +32,13 @@ public abstract class Renderable extends Entity {
         if (isCollidable()) {
             KvadratikCanvas canvas = getLevel().getGame().getCanvas();
             if (canvas.isDrawCollidersEnabled()) {
-                drawCollider(gfx, x, y, ent);
+                drawCollider(gfx, x, y, getCollider());
             }
         }
+
+        /* Mostly used for displaying player names
+         * above their heads */
+        typeText(gfx, cam, ent);
 
         return true;
     }
@@ -43,13 +47,15 @@ public abstract class Renderable extends Entity {
         gfx.drawRect(x, y, width, height);
     }
 
-    public void drawCollider(Graphics gfx, int x, int y, Rectangle rect) {
+    public void drawCollider(Graphics gfx, int x, int y, Rectangle col) {
         Color color = gfx.getColor();
         gfx.setColor(Color.GREEN);
-        int halfWidth = rect.width / 2;
-        gfx.drawLine(x + halfWidth, y, x + halfWidth, y + rect.height);
-        gfx.drawRect(x, y, rect.width, rect.height);
+        int halfWidth = col.width / 2;
+        gfx.drawLine(x + halfWidth, y, x + halfWidth, y + col.height);
+        gfx.drawRect(x, y, col.width, col.height);
         gfx.setColor(color);
     }
+
+    public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {}
 
 }

@@ -94,7 +94,7 @@ public class KvadratikGame extends Frame {
             }
 
             // Singleplayer
-            level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"));
+            level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"), true);
         }
     }
 

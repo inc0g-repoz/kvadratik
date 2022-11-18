@@ -69,7 +69,16 @@ public enum Anim {
             "idle_d.png");
 
     public static enum Way {
-        W, A, S, D
+
+        W(0, -1), A(-1, 0), S(0, 1), D(1, 0);
+
+        public final int x, y;
+
+        Way(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
     }
 
     private final long delay;
