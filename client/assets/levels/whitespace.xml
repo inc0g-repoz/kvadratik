@@ -23,7 +23,7 @@
             <type>Animated</type>
             <anim>MEWO</anim>
             <rectangle>0 100 30 30</rectangle>
-            <collider>2 9 26 16</collider>
+            <collider>2 5 26 16</collider>
             <collide>true</collide>
         </mewo>
         <laptop>
