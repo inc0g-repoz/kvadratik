@@ -23,7 +23,6 @@ public enum LevelObjectAnim {
 
         for (int i = 0; i < images.length; i++) {
             String btPath = "assets/sprites/" + this + "/" + paths[i];
-            System.out.println("Loading " + btPath);
             images[i] = KvadratikGame.getAssets().image(btPath);
         }
     }
