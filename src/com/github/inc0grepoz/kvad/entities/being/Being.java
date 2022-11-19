@@ -24,13 +24,13 @@ public class Being extends Renderable {
 
     private String name;
 
-    public Being(int[] rect, Level level, BeingType type) {
-        this(rect, level, type, -1);
+    public Being(Level level, int[] rect, BeingType type) {
+        this(level, rect, type, -1);
         setMoveSpeed(4);
     }
 
-    public Being(int[] rect, Level level, BeingType type, int id) {
-        super(rect, level);
+    public Being(Level level, int[] rect, BeingType type, int id) {
+        super(level, rect);
         this.uid = id < 0 ? ++lastId : id;
         this.type = type;
         setCollidable(true);

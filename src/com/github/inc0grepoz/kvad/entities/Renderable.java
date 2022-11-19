@@ -9,12 +9,12 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public abstract class Renderable extends Entity {
 
-    public Renderable(Rectangle rect, Level level) {
-        super(rect, level);
+    public Renderable(Level level, Rectangle rect) {
+        super(level, rect);
     }
 
-    public Renderable(int[] rect, Level level) {
-        super(rect, level);
+    public Renderable(Level level, int[] rect) {
+        super(level, rect);
     }
 
     public boolean render(Graphics gfx, Camera camera) {

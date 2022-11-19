@@ -83,11 +83,12 @@ public class PacketUtil {
         Stream.of(map.get("rect").split(",")).forEach(s -> {
             b.add(Integer.valueOf(s).intValue());
         });
+        int[] rect = b.build().toArray();
 
         // Looking for the client-side being type
         BeingType type = BeingType.valueOf(map.get("type"));
 
-        Being being = new Being(b.build().toArray(), level, type, id);
+        Being being = new Being(level, rect, type, id);
         String name = map.getOrDefault("name", null);
         being.setName(name);
         level.getBeings().add(being);

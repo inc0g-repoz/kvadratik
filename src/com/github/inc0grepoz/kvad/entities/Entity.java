@@ -4,22 +4,26 @@ import java.awt.Rectangle;
 
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Entity {
 
     private final Rectangle rect, collider;
     private final Level level;
+    private final Vector collOffset;
+
     private boolean collide;
     private int moveSpeed;
 
-    public Entity(Rectangle rect, Level level) {
+    public Entity(Level level, Rectangle rect) {
+        this.level = level;
         this.rect = rect;
         this.collider = null;
-        this.level = level;
+        this.collOffset = null;
     }
 
-    public Entity(int[] rect, Level level) {
-        this(new Rectangle(rect[0], rect[1], rect[2], rect[3]), level);
+    public Entity(Level level, int[] rect) {
+        this(level, new Rectangle(rect[0], rect[1], rect[2], rect[3]));
     }
 
     public boolean isCollidable() {
@@ -85,9 +89,11 @@ public abstract class Entity {
     public void teleport(int x, int y) {
         rect.x = x;
         rect.y = y;
-        collider.x = x;
-        collider.y = y;
-        // TODO: Collider offset
+
+        if (collider != null && collOffset != null) {
+            collider.x = x + collOffset.x;
+            collider.y = y + collOffset.y;
+        }
     }
 
     public Rectangle getRectangle() {

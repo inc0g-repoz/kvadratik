@@ -9,8 +9,8 @@ public class LevelObjectAnimated extends LevelObject{
     private long stateExpiry; // 0 for infinite duration
     private int stateSpriteIndex;
 
-    public LevelObjectAnimated(int[] rect, Level level, LevelObjectAnim anim) {
-        super(rect, level);
+    public LevelObjectAnimated(Level level, int[] rect, LevelObjectAnim anim) {
+        super(level, rect);
         this.anim = anim;
     }
 
