@@ -103,7 +103,7 @@ public class Level {
                 case "Animated": {
                     String animStr = loSect.getString(key + ".anim");
                     LevelObjectAnim anim = LevelObjectAnim.valueOf(animStr);
-                    int[] coll = xml.getIntArray(key + ".collider");
+                    int[] coll = loSect.getIntArray(key + ".collider");
                     lo = new LevelObjectAnimated(this, rect, coll, anim);
                     break;
                 }
