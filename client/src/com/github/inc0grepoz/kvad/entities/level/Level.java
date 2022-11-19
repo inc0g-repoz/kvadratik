@@ -74,20 +74,19 @@ public class Level {
 
         if (initPlayer) {
             int[] pRect = xml.getIntArray("root.player.rectangle");
-            player = new Being(this, pRect, BeingType.IOMOR);
+            int[] pColl = xml.getIntArray("root.player.collider");
+            player = new Being(this, pRect, pColl, BeingType.IOMOR);
             beings.add(player);
         }
 
         int[] cRect = xml.getIntArray("root.camera.rectangle");
         camera = new Camera(this, cRect);
-        camera.setMoveSpeed(5);
 
         XMLSection loSect = xml.getSection("root.levelObjects");
         loSect.getKeys().forEach(key -> {
             LevelObject lo = null;
             String typeStr = loSect.getString(key + ".type");
             int[] rect = loSect.getIntArray(key + ".rectangle");
-            boolean collide = loSect.getBoolean(key + ".collide");
             switch (typeStr) {
                 case "Background": {
                     String animStr = loSect.getString(key + ".anim");
@@ -104,14 +103,15 @@ public class Level {
                 case "Animated": {
                     String animStr = loSect.getString(key + ".anim");
                     LevelObjectAnim anim = LevelObjectAnim.valueOf(animStr);
-                    lo = new LevelObjectAnimated(this, rect, anim);
+                    int[] coll = xml.getIntArray(key + ".collider");
+                    lo = new LevelObjectAnimated(this, rect, coll, anim);
                     break;
                 }
                 default: {
                     lo = new LevelObjectRectangle(this, rect);
                 }
             }
-            lo.setCollidable(collide);
+            lo.collide = loSect.getBoolean(key + ".collide");
             levelObjects.add(lo);
         });
     }
