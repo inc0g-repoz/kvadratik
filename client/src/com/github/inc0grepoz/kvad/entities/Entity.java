@@ -8,49 +8,45 @@ import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Entity {
 
-    private final Rectangle rect, collider;
+    private static Rectangle rect(int[] arr) {
+        return arr == null || arr.length != 4 ? null
+                : new Rectangle(arr[0], arr[1], arr[2], arr[3]);
+    }
+
+    public boolean collide;
+    public int moveSpeed;
+
+    private final Rectangle rect, coll;
     private final Level level;
     private final Vector collOffset;
 
-    private boolean collide;
-    private int moveSpeed;
-
-    public Entity(Level level, Rectangle rect) {
+    public Entity(Level level, int[] rect, int[] coll) {
         this.level = level;
-        this.rect = rect;
-        this.collider = null;
-        this.collOffset = null;
+        this.rect = rect(rect);
+        this.coll = rect(coll);
+
+        if (this.coll != null) {
+            this.coll.x += this.rect.x;
+            this.coll.y += this.rect.y;
+            collOffset = new Vector();
+            collOffset.x = this.coll.x - this.rect.x;
+            collOffset.y = this.coll.y - this.rect.y;
+        } else {
+            collOffset = null;
+        }
     }
 
     public Entity(Level level, int[] rect) {
-        this(level, new Rectangle(rect[0], rect[1], rect[2], rect[3]));
-    }
-
-    public boolean isCollidable() {
-        return collide;
-    }
-
-    public void setCollidable(boolean collide) {
-        this.collide = collide;
-    }
-
-    public int getMoveSpeed() {
-        return moveSpeed;
-    }
-
-    public void setMoveSpeed(int moveSpeed) {
-        this.moveSpeed = moveSpeed;
+        this(level, rect, null);
     }
 
     public boolean canMove(int x, int y) {
-        if (isCollidable()) {
-            int nextMinX = (int) getRectangle().getMinX() + x;
-            int nextMinY = (int) getRectangle().getMinY() + y;
-            int nextMaxX = (int) getRectangle().getMaxX() + x;
-            int nextMaxY = (int) getRectangle().getMaxY() + y;
-            return level.entitiesStream().filter(e -> e != this && e.isCollidable())
-                    .noneMatch(e -> e.getRectangle()
-                            .intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
+        if (collide) {
+            Rectangle coll = getCollider();
+            int nextMinX = coll.x + x, nextMinY = coll.y + y;
+            int nextMaxX = coll.width + x, nextMaxY = coll.height + y;
+            return level.entitiesStream().filter(e -> e != this && e.collide)
+                    .noneMatch(e -> e.getCollider().intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
         } else {
             return true;
         }
@@ -70,9 +66,9 @@ public abstract class Entity {
             rect.x += x;
             rect.y += y;
 
-            if (collider != null) {
-                collider.x += x;
-                collider.y += y;
+            if (coll != null) {
+                coll.x += x;
+                coll.y += y;
             }
         }
         return moved;
@@ -90,9 +86,9 @@ public abstract class Entity {
         rect.x = x;
         rect.y = y;
 
-        if (collider != null && collOffset != null) {
-            collider.x = x + collOffset.x;
-            collider.y = y + collOffset.y;
+        if (coll != null && collOffset != null) {
+            coll.x = x + collOffset.x;
+            coll.y = y + collOffset.y;
         }
     }
 
@@ -101,7 +97,7 @@ public abstract class Entity {
     }
 
     public Rectangle getCollider() {
-        return collider == null ? rect : collider;
+        return coll == null ? rect : coll;
     }
 
     public Level getLevel() {
