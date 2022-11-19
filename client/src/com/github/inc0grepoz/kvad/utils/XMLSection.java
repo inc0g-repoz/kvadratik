@@ -104,9 +104,9 @@ public class XMLSection {
 
     public int[] getIntArray(String path) {
         try {
-            Builder b = IntStream.builder();
             String string = getString(path);
             if (string != null) {
+                Builder b = IntStream.builder();
                 Stream.of(getString(path).split(" ")).forEach(s -> {
                     b.add(Integer.valueOf(s).intValue());
                 });
