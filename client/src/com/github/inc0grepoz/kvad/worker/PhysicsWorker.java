@@ -32,29 +32,29 @@ public class PhysicsWorker extends Worker {
         // Moving the player
         Being player = level.getPlayer();
         if (player != null) {
-            int speed = player.getMoveSpeed();
-            boolean moved, sprint = controls.isPressed(Key.SPRINT);
-            if (sprint) {
+            int speed = player.moveSpeed;
+            boolean moved;
+            if (player.sprint) {
                 speed *= 3;
             }
             Anim anim = null;
             if (controls.isPressed(Key.MOVE_UP)) {
                 moved = player.move(0, -speed);
-                anim = sprint ? Anim.RUN_W : Anim.WALK_W;
+                anim = player.sprint ? Anim.RUN_W : Anim.WALK_W;
             } else if (controls.isPressed(Key.MOVE_LEFT)) {
                 moved = player.move(-speed, 0);
-                anim = sprint ? Anim.RUN_A : Anim.WALK_A;
+                anim = player.sprint ? Anim.RUN_A : Anim.WALK_A;
             } else if (controls.isPressed(Key.MOVE_DOWN)) {
                 moved = player.move(0, speed);
-                anim = sprint ? Anim.RUN_S : Anim.WALK_S;
+                anim = player.sprint ? Anim.RUN_S : Anim.WALK_S;
             } else if (controls.isPressed(Key.MOVE_RIGHT)) {
                 moved = player.move(speed, 0);
-                anim = sprint ? Anim.RUN_D : Anim.WALK_D;
+                anim = player.sprint ? Anim.RUN_D : Anim.WALK_D;
             } else {
                 moved = false;
             }
             if (!moved) {
-                switch (player.getAnim().getWay()) {
+                switch (player.getAnim().way) {
                     case W:
                         anim = Anim.IDLE_W;
                         break;
