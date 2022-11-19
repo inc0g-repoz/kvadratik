@@ -46,8 +46,7 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Switched to freecam");
                 return;
             case "draw_colliders":
-                boolean draw = !canvas.isDrawCollidersEnabled();
-                canvas.setDrawColliders(draw);
+                boolean draw = (canvas.drawColliders = !canvas.drawColliders);
                 Logger.info("Colliders are " + (draw ? "shown" : "hidden"));
                 return;
             case "help":
@@ -58,8 +57,8 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Set keys logging to " + Boolean.toString(logKeys));
                 return;
             case "view_misc":
-                canvas.setViewMiscInfo(!canvas.isMiscInfoViewed());
-                Logger.info("Misc info is " + (canvas.isMiscInfoViewed() ? "shown" : "hidden"));
+                boolean view = (canvas.miscInfo = !canvas.miscInfo);
+                Logger.info("Misc info is " + (view ? "shown" : "hidden"));
                 return;
         }
 
@@ -85,7 +84,7 @@ public class ConsoleWorker extends Worker {
         } else if (command.startsWith("walk_speed ")) {
             try {
                 int speed = Integer.valueOf(command.substring(11));
-                game.getLevel().getPlayer().setMoveSpeed(speed);
+                game.getLevel().getPlayer().moveSpeed = speed;
                 Logger.info("Set FPS walking speed to " + speed);
             } catch (NumberFormatException nfe) {
                 Logger.error("Invalid value");
