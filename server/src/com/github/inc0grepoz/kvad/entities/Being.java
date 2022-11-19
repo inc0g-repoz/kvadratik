@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.kvad.entities;
 
-import java.awt.Rectangle;
 import java.util.Map;
 
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -17,10 +16,15 @@ public class Being extends Entity {
     private Anim anim = Anim.IDLE_S;
     private int walkSpeed = 4;
 
-    public Being(Level level, int[] rect, BeingType type) {
-        super(level, rect);
+    public Being(Level level, int[] rect, int[] coll, BeingType type) {
+        super(level, rect, coll);
+        super.collide = true;
+        super.moveSpeed = 4;
         this.type = type;
-        setCollidable(true);
+    }
+
+    public Being(Level level, int[] rect, BeingType type) {
+        this(level, rect, null, type);
     }
 
     public int getId() {
@@ -33,26 +37,6 @@ public class Being extends Entity {
 
     public void setWalkSpeed(int walkSpeed) {
         this.walkSpeed = walkSpeed;
-    }
-
-    @Override
-    public boolean move(int x, int y) {
-        Rectangle rect = getRectangle();
-        boolean moved;
-        if (isCollidable()) {
-            int nextX = x + (int) rect.getCenterX();
-            int nextY = y + (int) rect.getY() + rect.height;
-            moved = getLevel().entitiesStream()
-                    .filter(e -> e != this && e.isCollidable())
-                    .noneMatch(e -> e.getRectangle().contains(nextX, nextY));
-        } else {
-            moved = true;
-        }
-        if (moved) {
-            rect.x += x;
-            rect.y += y;
-        }
-        return moved;
     }
 
     public void applyAnim(Anim anim) {
