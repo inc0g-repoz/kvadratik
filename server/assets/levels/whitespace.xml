@@ -1,0 +1,34 @@
+<root>
+    <name>whitespace</name>
+    <camera>
+        <rectangle>0 0 0 0</rectangle>
+    </camera>
+    <player>
+        <beingType>IOMOR</beingType>
+        <rectangle>65 30 32 32</rectangle>
+    </player>
+    <levelObjects>
+        <background>
+            <type>Background</type>
+            <color>255 255 255</color>
+            <rectangle>0 0 0 0</rectangle>
+        </background>
+        <rug>
+            <type>Rectangle</type>
+            <color>BLACK</color>
+            <rectangle>0 0 128 97</rectangle>
+        </run>
+        <mewo>
+            <type>Animated</type>
+            <anim>MEWO</anim>
+            <rectangle>0 100 30 30</rectangle>
+            <collide>true</collide>
+        </mewo>
+        <laptop>
+            <type>Animated</type>
+            <anim>LAPTOP</anim>
+            <rectangle>40 5 22 22</rectangle>
+            <collide>true</collide>
+        </laptop>
+    </levelObjects>
+</root>
