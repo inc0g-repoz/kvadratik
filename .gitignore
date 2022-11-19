@@ -9,6 +9,7 @@
 out/
 
 # Eclipse IDE
+.checkstyle
 .classpath
 .project
 *.prefs
