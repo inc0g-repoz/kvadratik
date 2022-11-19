@@ -12,10 +12,10 @@ public class Being extends Renderable {
 
     private static int lastId;
 
-    public boolean move, sprint;
+    public boolean sprint;
 
     private final BeingType type;
-    private final int uid;
+    private final int id;
     private final Vector lastMove = new Vector();
 
     private Anim anim = Anim.IDLE_S;
@@ -24,16 +24,24 @@ public class Being extends Renderable {
 
     private String name;
 
-    public Being(Level level, int[] rect, BeingType type) {
-        this(level, rect, type, -1);
-        setMoveSpeed(4);
+    public Being(Level level, int[] rect, int[] coll, BeingType type, int id) {
+        super(level, rect, coll);
+        super.collide = true;
+        super.moveSpeed = 4;
+        this.id = id < 0 ? ++lastId : id;
+        this.type = type;
+    }
+
+    public Being(Level level, int[] rect, int[] coll, BeingType type) {
+        this(level, rect, coll, type, -1);
     }
 
     public Being(Level level, int[] rect, BeingType type, int id) {
-        super(level, rect);
-        this.uid = id < 0 ? ++lastId : id;
-        this.type = type;
-        setCollidable(true);
+        this(level, rect, null, type, id);
+    }
+
+    public Being(Level level, int[] rect, BeingType type) {
+        this(level, rect, type, -1);
     }
 
     public String getName() {
@@ -45,7 +53,7 @@ public class Being extends Renderable {
     }
 
     public int getId() {
-        return uid;
+        return id;
     }
 
     @Override
@@ -77,7 +85,7 @@ public class Being extends Renderable {
         if (this.anim != anim) {
             this.anim = anim;
             animSpriteIndex = 0;
-            animExpiry = System.currentTimeMillis() + anim.getDelay();
+            animExpiry = System.currentTimeMillis() + anim.delay;
 
             // Queue an anim packet
             getLevel().getGame().getClient().getPacketUtil().anim();
@@ -97,7 +105,7 @@ public class Being extends Renderable {
         if (System.currentTimeMillis() > animExpiry) {
             animSpriteIndex += images.length < animSpriteIndex + 2 ?
                     -animSpriteIndex : 1;
-            animExpiry = System.currentTimeMillis() + anim.getDelay();
+            animExpiry = System.currentTimeMillis() + anim.delay;
         }
         return images[animSpriteIndex];
     }
