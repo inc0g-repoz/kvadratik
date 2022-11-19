@@ -9,8 +9,8 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public abstract class Renderable extends Entity {
 
-    public Renderable(Level level, Rectangle rect) {
-        super(level, rect);
+    public Renderable(Level level, int[] rect, int coll[]) {
+        super(level, rect, coll);
     }
 
     public Renderable(Level level, int[] rect) {
@@ -29,10 +29,12 @@ public abstract class Renderable extends Entity {
         draw(gfx, x, y, ent.width, ent.height);
 
         // Drawing the collider
-        if (isCollidable()) {
+        if (collide) {
             KvadratikCanvas canvas = getLevel().getGame().getCanvas();
-            if (canvas.isDrawCollidersEnabled()) {
-                drawCollider(gfx, x, y, getCollider());
+            if (canvas.drawColliders) {
+                Rectangle coll = getCollider();
+                int collX = coll.x - cam.x, collY = coll.y - cam.y;
+                drawCollider(gfx, collX, collY, coll);
             }
         }
 
@@ -50,8 +52,6 @@ public abstract class Renderable extends Entity {
     public void drawCollider(Graphics gfx, int x, int y, Rectangle col) {
         Color color = gfx.getColor();
         gfx.setColor(Color.GREEN);
-        int halfWidth = col.width / 2;
-        gfx.drawLine(x + halfWidth, y, x + halfWidth, y + col.height);
         gfx.drawRect(x, y, col.width, col.height);
         gfx.setColor(color);
     }
