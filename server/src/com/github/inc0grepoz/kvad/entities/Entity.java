@@ -5,17 +5,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import com.github.inc0grepoz.kvad.entities.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public abstract class Entity {
 
-    private final Rectangle rect;
-    private final Level level;
-    private boolean collide;
+    private static Rectangle rect(int[] arr) {
+        return arr == null || arr.length != 4 ? null
+                : new Rectangle(arr[0], arr[1], arr[2], arr[3]);
+    }
 
-    public Entity(Level level, Rectangle rect) {
+    public boolean collide;
+    public int moveSpeed;
+
+    private final Rectangle rect, coll;
+    private final Level level;
+
+    public Entity(Level level, int[] rect, int[] coll) {
         this.level = level;
-        this.rect = rect;
+        this.rect = rect(rect);
+        this.coll = rect(coll);
+    }
+
+    public Entity(Level level, int[] rect) {
+        this(level, rect, null);
     }
 
     @Override
@@ -43,36 +56,17 @@ public abstract class Entity {
         return sjEntity.toString();
     }
 
-    public Entity(Level level, int[] rect) {
-        this(level, new Rectangle(rect[0], rect[1], rect[2], rect[3]));
+    public void move(int x, int y) {
+        rect.x += x;
+        rect.y += y;
     }
 
-    public boolean isCollidable() {
-        return collide;
+    public void move(Way way, int speed) {
+        move(way.x * speed, way.y * speed);
     }
 
-    public void setCollidable(boolean collide) {
-        this.collide = collide;
-    }
-
-    public boolean move(int x, int y) {
-        boolean moved;
-        if (isCollidable()) {
-            int nextMinX = (int) rect.getMinX() + x;
-            int nextMinY = (int) rect.getMinY() + y;
-            int nextMaxX = (int) rect.getMaxX() + x;
-            int nextMaxY = (int) rect.getMaxY() + y;
-            moved = level.entitiesStream().filter(e -> e != this && isCollidable())
-                    .noneMatch(e -> e.getRectangle()
-                            .intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
-        } else {
-            moved = true;
-        }
-        if (moved) {
-            rect.x += x;
-            rect.y += y;
-        }
-        return moved;
+    public void move(Way way) {
+        move(way, moveSpeed);
     }
 
     public void teleport(int x, int y) {
@@ -82,6 +76,14 @@ public abstract class Entity {
 
     public Rectangle getRectangle() {
         return rect;
+    }
+
+    public Rectangle getCollider() {
+        return coll;
+    }
+
+    public boolean hasCollider() {
+        return coll != null;
     }
 
     public Level getLevel() {
