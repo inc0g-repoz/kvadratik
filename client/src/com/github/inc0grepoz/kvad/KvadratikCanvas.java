@@ -14,11 +14,11 @@ import com.github.inc0grepoz.kvad.worker.RenderWorker;
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
 
+    public boolean drawColliders, miscInfo;
+
     private final KvadratikGame game;
     private final RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
-
-    private boolean drawColliders, miscInfo;
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
@@ -29,28 +29,8 @@ public class KvadratikCanvas extends Canvas {
         return worker;
     }
 
-    public FrapsCounter getFrapsCounter() {
-        return fps;
-    }
-
     public void setFrapsPerSecond(int fraps) {
         worker.setDelay(1000L / fraps);
-    }
-
-    public boolean isMiscInfoViewed() {
-        return miscInfo;
-    }
-
-    public void setViewMiscInfo(boolean miscInfo) {
-        this.miscInfo = miscInfo;
-    }
-
-    public boolean isDrawCollidersEnabled() {
-        return drawColliders;
-    }
-
-    public void setDrawColliders(boolean drawColliders) {
-        this.drawColliders = drawColliders;
     }
 
     @Override
