@@ -6,6 +6,7 @@
     <player>
         <beingType>IOMOR</beingType>
         <rectangle>65 30 32 32</rectangle>
+        <collider>7 21 18 10</collider>
     </player>
     <levelObjects>
         <background>
@@ -22,12 +23,14 @@
             <type>Animated</type>
             <anim>MEWO</anim>
             <rectangle>0 100 30 30</rectangle>
+            <collider>2 9 26 16</collider>
             <collide>true</collide>
         </mewo>
         <laptop>
             <type>Animated</type>
             <anim>LAPTOP</anim>
             <rectangle>40 5 22 22</rectangle>
+            <collider>2 0 18 22</collider>
             <collide>true</collide>
         </laptop>
     </levelObjects>
