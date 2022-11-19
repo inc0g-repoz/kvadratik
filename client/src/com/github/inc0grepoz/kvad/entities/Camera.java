@@ -15,6 +15,7 @@ public class Camera extends Entity {
 
     public Camera(Level level, int[] rect) {
         super(level, rect);
+        super.moveSpeed = 5;
     }
 
     public CameraMode getMode() {
