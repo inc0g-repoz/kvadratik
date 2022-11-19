@@ -68,7 +68,6 @@ public class Level {
             LevelObject lo = null;
             String typeStr = loSect.getString(key + ".type");
             int[] rect = loSect.getIntArray(key + ".rectangle");
-            boolean collide = loSect.getBoolean(key + ".collide");
             switch (typeStr) {
                 case "Background": {
                     String animStr = loSect.getString(key + ".anim");
@@ -92,7 +91,7 @@ public class Level {
                     lo = new LevelObjectRectangle(this, rect);
                 }
             }
-            lo.setCollidable(collide);
+            lo.collide = loSect.getBoolean(key + ".collide");
             levelObjects.add(lo);
         });
     }
