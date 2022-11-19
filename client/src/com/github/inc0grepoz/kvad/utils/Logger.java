@@ -9,12 +9,12 @@ public class Logger {
     private static final DateFormat DATE_FMT = new SimpleDateFormat("HH:mm:ss");
     private static final String LOG_FMT = "[%s] %s";
 
-    public static void info(String message) {
+    public static void info(Object message) {
         message = String.format(LOG_FMT, time(), message);
         System.out.println(message);
     }
 
-    public static void error(String message) {
+    public static void error(Object message) {
         message = String.format(LOG_FMT, time(), message);
         System.err.println(message);
     }
