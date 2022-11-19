@@ -105,14 +105,17 @@ public class XMLSection {
     public int[] getIntArray(String path) {
         try {
             Builder b = IntStream.builder();
-            Stream.of(getString(path).split(" ")).forEach(s -> {
-                b.add(Integer.valueOf(s).intValue());
-            });
-            return b.build().toArray();
+            String string = getString(path);
+            if (string != null) {
+                Stream.of(getString(path).split(" ")).forEach(s -> {
+                    b.add(Integer.valueOf(s).intValue());
+                });
+                return b.build().toArray();
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return new int[0];
         }
+        return null;
     }
 
     public XMLSection getSection(String path) {
