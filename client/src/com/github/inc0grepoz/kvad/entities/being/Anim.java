@@ -81,8 +81,9 @@ public enum Anim {
 
     }
 
-    private final long delay;
-    private final Way way;
+    public final Way way;
+    public final long delay;
+
     private final HashMap<BeingType, BufferedImage[]> images = new HashMap<>();
 
     Anim(long delay, Way way, String... paths) {
@@ -98,14 +99,6 @@ public enum Anim {
             }
             images.put(bt[i], btImages);
         }
-    }
-
-    public long getDelay() {
-        return delay;
-    }
-
-    public Way getWay() {
-        return way;
     }
 
     public BufferedImage[] getImages(BeingType beintType) {
