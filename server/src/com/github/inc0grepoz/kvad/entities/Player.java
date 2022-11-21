@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.entities;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
@@ -10,11 +11,13 @@ import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingType;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
+import com.github.inc0grepoz.kvad.utils.RGB;
 
 public class Player extends Being {
 
     private final Connection connection;
     private final String name;
+    private final Color chatColor = RGB.random();
     private final Queue<Packet> queuedPackets = new LinkedList<>();
 
     public Player(Connection connection, String name, int[] rect,
@@ -30,6 +33,10 @@ public class Player extends Being {
 
     public String getName() {
         return name;
+    }
+
+    public Color getChatColor() {
+        return chatColor;
     }
 
     public void disconnect() {

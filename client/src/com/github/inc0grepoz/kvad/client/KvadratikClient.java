@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.chat.Chat;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
@@ -19,6 +20,7 @@ public class KvadratikClient extends Worker {
     private final KvadratikGame game;
     private final PacketUtil packetUtil;
     private final Queue<Packet> queue = new LinkedList<>();
+    private final Chat chat;
 
     private int port;
     private String host, nickname;
@@ -28,75 +30,15 @@ public class KvadratikClient extends Worker {
         super(delay);
         this.game = game;
         packetUtil = new PacketUtil(game);
-    }
-
-    @Override
-    protected void work() {
-        if (!isConnected()) {
-            return;
-        }
-
-        // Reading the ingoing packets
-        for (Packet packet : Packet.in(socket)) {
-            switch (packet.getType()) {
-                case SERVER_BEING_ANIM: {
-                    
-                }
-                case SERVER_BEING_DESPAWN: {
-                    int id = Integer.valueOf(packet.toString());
-                    game.getLevel().getBeings().removeIf(being -> {
-                        return being.getId() == id;
-                    });
-                    break;
-                }
-                case SERVER_BEING_SPAWN: {
-                    packetUtil.createBeing(packet);
-                    break;
-                }
-                case SERVER_LEVEL: {
-                    packetUtil.buildLevel(packet);
-                    break;
-                }
-                case SERVER_TRANSFER_CONTROL: {
-                    int id = Integer.valueOf(packet.toString());
-                    Level level = game.getLevel();
-                    Being being = level.getBeings().stream()
-                            .filter(b -> id == b.getId())
-                            .findFirst().orElse(null);
-                    if (being != null) {
-                        level.setPlayerBeing(being);
-                    }
-                }
-                default:
-            }
-        }
-
-        // Flushing the outgoing packets
-        if (queue.size() != 0) {
-            synchronized (queue) {
-                for (Packet packet : queue) {
-                    try {
-                        packet.send(socket.getOutputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                queue.clear();
-            }
-        }
-
-        // Prevent the server from resetting the connection
-        else {
-            try {
-                PacketType.CLIENT_KEEP_ALIVE.create(" ").send(socket.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        chat = new Chat(this);
     }
 
     public PacketUtil getPacketUtil() {
         return packetUtil;
+    }
+
+    public Chat getChat() {
+        return chat;
     }
 
     public Socket getSocket() {
@@ -158,6 +100,75 @@ public class KvadratikClient extends Worker {
         Logger.info("Connecting to " + host + ":" + port);
         socket = new Socket(host, port);
         Packet.out(PacketType.CLIENT_LOGIN, nickname);
+    }
+
+    @Override
+    protected void work() {
+        if (!isConnected()) {
+            return;
+        }
+
+        // Reading the ingoing packets
+        for (Packet packet : Packet.in(socket)) {
+            switch (packet.getType()) {
+                case SERVER_BEING_ANIM: {
+                    
+                }
+                case SERVER_BEING_DESPAWN: {
+                    int id = Integer.valueOf(packet.toString());
+                    game.getLevel().getBeings().removeIf(being -> {
+                        return being.getId() == id;
+                    });
+                    break;
+                }
+                case SERVER_BEING_SPAWN: {
+                    packetUtil.createBeing(packet);
+                    break;
+                }
+                case SERVER_CHAT_MESSAGE: {
+                    packetUtil.readPlayerMessage(packet);
+                    break;
+                }
+                case SERVER_LEVEL: {
+                    packetUtil.buildLevel(packet);
+                    break;
+                }
+                case SERVER_TRANSFER_CONTROL: {
+                    int id = Integer.valueOf(packet.toString());
+                    Level level = game.getLevel();
+                    Being being = level.getBeings().stream()
+                            .filter(b -> id == b.getId())
+                            .findFirst().orElse(null);
+                    if (being != null) {
+                        level.setPlayerBeing(being);
+                    }
+                }
+                default:
+            }
+        }
+
+        // Flushing the outgoing packets
+        if (queue.size() != 0) {
+            synchronized (queue) {
+                for (Packet packet : queue) {
+                    try {
+                        packet.send(socket.getOutputStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                queue.clear();
+            }
+        }
+
+        // Prevent the server from resetting the connection
+        else {
+            try {
+                PacketType.CLIENT_KEEP_ALIVE.create(" ").send(socket.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

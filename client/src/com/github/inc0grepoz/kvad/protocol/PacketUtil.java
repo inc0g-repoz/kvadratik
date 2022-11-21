@@ -1,16 +1,20 @@
 package com.github.inc0grepoz.kvad.protocol;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.IntStream.Builder;
 import java.util.stream.Stream;
 
+import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingType;
+import com.github.inc0grepoz.kvad.entities.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.XML;
 
 public class PacketUtil {
@@ -55,6 +59,7 @@ public class PacketUtil {
     public void createBeing(Packet packet) {
         if (packet.getType() != PacketType.SERVER_BEING_SPAWN) {
             Logger.error("Unable to init a being from " + packet.getType().name());
+            return;
         }
 
         Map<String, String> map = packet.toMap();
@@ -97,9 +102,42 @@ public class PacketUtil {
     public void buildLevel(Packet packet) {
         if (packet.getType() != PacketType.SERVER_LEVEL) {
             Logger.error("Unable to build a level from " + packet.getType().name());
+            return;
         }
         Level level = new Level(game, XML.fromString(packet.toString()), false);
         game.setLevel(level);
+    }
+
+    public void readPlayerMessage(Packet packet) {
+        if (packet.getType() != PacketType.SERVER_CHAT_MESSAGE) {
+            Logger.error("Unable to read a chat message from " + packet.getType().name());
+            return;
+        }
+
+        KvadratikClient client = game.getClient();
+        if (!client.isConnected()) {
+            return;
+        }
+
+        Map<String, String> map = packet.toMap();
+
+        String colStr = map.get("color");
+        String[] split = colStr.split(",");
+        int[] rgb = {
+                Integer.valueOf(split[0]),
+                Integer.valueOf(split[1]),
+                Integer.valueOf(split[2])
+        };
+        Color color = RGB.get(rgb);
+
+        String name = map.get("name");
+        String text = map.get("text");
+
+        Message message = new Message();
+        if (name != null && text != null) {
+            message.addComponent(name + ": ", color).addComponent(text);
+            client.getChat().print(message);
+        }
     }
 
 }

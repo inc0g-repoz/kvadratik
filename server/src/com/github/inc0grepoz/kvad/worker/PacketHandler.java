@@ -6,7 +6,6 @@ import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.protocol.Packet;
-import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
@@ -76,9 +75,7 @@ public class PacketHandler extends Worker {
                 for (Packet packet : queue) {
                     switch (packet.getType()) {
                         case CLIENT_CHAT_MESSAGE: {
-                            String chatMsg = player.getName() + ": " + packet.toString();
-                            Packet cmp = Packet.out(PacketType.SERVER_CHAT_MESSAGE, chatMsg);
-                            kvad.getPlayers().forEach(cmp::queue);
+                            kvad.getPacketUtil().chat(player, packet.toString());
                             break;
                         }
                         case CLIENT_PLAYER_ANIM: {

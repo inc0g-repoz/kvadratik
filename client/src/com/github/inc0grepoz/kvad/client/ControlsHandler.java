@@ -6,6 +6,7 @@ import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.chat.Chat;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class ControlsHandler {
@@ -14,6 +15,19 @@ public class ControlsHandler {
 
     public ControlsHandler(Controls controls) {
         this.controls = controls;
+    }
+
+    public void onKeyTyped(char kc) {
+        Chat chat = controls.getGame().getClient().getChat();
+        if (chat.typing) {
+            if (kc != '\u0008') {
+                chat.draft += kc;
+                //chat.draft = chat.draft.replaceAll("[^\\p{Print}]", "");
+                chat.draft = chat.draft.replaceAll("\\p{C}", "");
+            } else if (chat.draft.length() != 0) {
+                chat.draft = chat.draft.substring(0, chat.draft.length() - 1);
+            }
+        }
     }
 
     public void onKeyPressed(Key key) {
@@ -25,10 +39,27 @@ public class ControlsHandler {
             Being player = level.getPlayer();
 
             if (player != null) {
+                Chat chat = controls.getGame().getClient().getChat();
+                if (chat.typing) {
+                    if (key == Key.ENTER) {
+                        chat.typing = false;
+                        chat.send(chat.draft);
+//                      chat.draft = null;
+                    } else if (key == Key.ESCAPE) {
+                        chat.typing = false;
+//                      chat.draft = null;
+                    }
+                    return;
+                } else if (key == Key.CHAT) {
+                    chat.draft = "";
+                    chat.typing = true;
+                    return;
+                }
+
                 switch (key) {
                     case SPRINT:
                         player.sprint = true;
-                        break;
+                        return;
                     default:
                 }
 

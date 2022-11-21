@@ -7,7 +7,11 @@ public class Controls implements KeyListener {
 
     public static enum Key {
 
+        BACKSPACE    (8),  // Backspace
         CAMERA_MODE  (86), // V
+        CHAT         (84), // T
+        ENTER        (10), // Enter
+        ESCAPE       (27), // Escape
         MOVE_UP      (87), // W
         MOVE_DOWN    (83), // S
         MOVE_LEFT    (65), // A
@@ -61,19 +65,15 @@ public class Controls implements KeyListener {
         return game;
     }
 
-    public boolean isPressed(Key key) {
-        return key.pressed;
-    }
-
     @Override
-    public void keyTyped(KeyEvent e) {
-        //System.out.println("Typed " + e.getKeyChar());
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
         Key key = Key.byCode(e.getKeyCode());
-        if (!key.pressed) {
+        handler.onKeyTyped(e.getKeyChar());
+
+        if (key != null && !key.pressed) {
             key.pressed = true;
             handler.onKeyPressed(key);
 
@@ -86,7 +86,7 @@ public class Controls implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         Key key = Key.byCode(e.getKeyCode());
-        if (key.pressed) {
+        if (key != null && key.pressed) {
             key.pressed = false;
             handler.onKeyReleased(key);
 

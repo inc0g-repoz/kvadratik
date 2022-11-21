@@ -74,8 +74,8 @@ public class Being extends Renderable {
 
             if (moved) {
                 if (lastMove.x != moveX || lastMove.y != moveY) {
-                    getLevel().getGame().getClient().getPacketUtil()
-                            .rectThenSpeed(this, moveX, moveY);
+//                    getLevel().getGame().getClient().getPacketUtil()
+//                            .rectThenSpeed(this, moveX, moveY);
                 }
 
                 lastMove.x = moveX;
@@ -87,8 +87,8 @@ public class Being extends Renderable {
             lastMove.x = 0;
             lastMove.y = 0;
 
-            getLevel().getGame().getClient().getPacketUtil()
-                    .rectThenSpeed(this, 0, 0);
+//            getLevel().getGame().getClient().getPacketUtil()
+//                    .rectThenSpeed(this, 0, 0);
         }
     }
 
