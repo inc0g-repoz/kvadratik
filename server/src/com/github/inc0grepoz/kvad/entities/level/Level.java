@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Entity;
+import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.XML;

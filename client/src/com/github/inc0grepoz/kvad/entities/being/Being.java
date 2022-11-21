@@ -56,33 +56,62 @@ public class Being extends Renderable {
         return id;
     }
 
-    @Override
-    public boolean move(int x, int y) {
-        boolean moved = super.move(x, y);
-
-        if (moved) {
-            if (lastMove.x != x || lastMove.y != y) {
-                getLevel().getGame().getClient().getPacketUtil()
-                        .rectThenSpeed(this, x, y);
-            }
-
-            lastMove.x = x;
-            lastMove.y = y;
-        }
-
-        return moved;
+    public boolean isMoving() {
+        return lastMove.x != 0 || lastMove.y != 0;
     }
 
-    public void idle() {
-        lastMove.x = 0;
-        lastMove.y = 0;
+    public void moveOn() {
+        if (move) {
+            int moveX = anim.way.x * moveSpeed;
+            int moveY = anim.way.y * moveSpeed;
 
-        getLevel().getGame().getClient().getPacketUtil()
-                .rectThenSpeed(this, 0, 0);
+            if (sprint) {
+                moveX *= 3;
+                moveY *= 3;
+            }
+
+            boolean moved = move(moveX, moveY);
+
+            if (moved) {
+                if (lastMove.x != moveX || lastMove.y != moveY) {
+                    getLevel().getGame().getClient().getPacketUtil()
+                            .rectThenSpeed(this, moveX, moveY);
+                }
+
+                lastMove.x = moveX;
+                lastMove.y = moveY;
+            } else {
+                playIdleAnim();
+            }
+        } else {
+            lastMove.x = 0;
+            lastMove.y = 0;
+
+            getLevel().getGame().getClient().getPacketUtil()
+                    .rectThenSpeed(this, 0, 0);
+        }
+    }
+
+    public void playIdleAnim() {
+        Anim nextAnim;
+        switch (anim.way) {
+            case W:
+                nextAnim = Anim.IDLE_W;
+                break;
+            case A:
+                nextAnim = Anim.IDLE_A;
+                break;
+            case D:
+                nextAnim = Anim.IDLE_D;
+                break;
+            default:
+                nextAnim = Anim.IDLE_S;
+        }
+        applyAnim(nextAnim);
     }
 
     public void applyAnim(Anim anim) {
-        if (this.anim != anim) {
+        if (anim != null && this.anim != anim) {
             this.anim = anim;
             animSpriteIndex = 0;
             animExpiry = System.currentTimeMillis() + anim.delay;
@@ -117,7 +146,7 @@ public class Being extends Renderable {
 
     @Override
     public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {
-        if (name != null) {
+        if (name != null && this != getLevel().getPlayer()) {
             int x = (int) (rect.getCenterX() - cam.x), y = rect.y - cam.y;
             int width = gfx.getFontMetrics().stringWidth(name);
             x -= width / 2;

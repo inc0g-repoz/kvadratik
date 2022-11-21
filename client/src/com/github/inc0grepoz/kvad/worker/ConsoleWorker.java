@@ -3,8 +3,8 @@ package com.github.inc0grepoz.kvad.worker;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.kvad.KvadratikCanvas;
-import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.utils.Logger;
 

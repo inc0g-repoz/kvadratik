@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Bootstrap {

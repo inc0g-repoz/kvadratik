@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import java.util.stream.IntStream.Builder;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingType;
 import com.github.inc0grepoz.kvad.entities.level.Level;

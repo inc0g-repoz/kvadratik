@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad;
+package com.github.inc0grepoz.kvad.client;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,8 +7,8 @@ public class Controls implements KeyListener {
 
     public static enum Key {
 
-        CAMERA_MODE  (86),
-        MOVE_UP      (87), // V
+        CAMERA_MODE  (86), // V
+        MOVE_UP      (87), // W
         MOVE_DOWN    (83), // S
         MOVE_LEFT    (65), // A
         MOVE_RIGHT   (68), // D
@@ -37,6 +37,16 @@ public class Controls implements KeyListener {
             this.code = code;
         }
 
+    }
+
+    public static boolean isPlayerMoving() {
+        return Key.MOVE_UP.pressed || Key.MOVE_DOWN.pressed
+                || Key.MOVE_LEFT.pressed || Key.MOVE_RIGHT.pressed;
+    }
+
+    public static boolean isCameraMoving() {
+        return Key.SELECT_UP.pressed || Key.SELECT_DOWN.pressed
+                || Key.SELECT_LEFT.pressed || Key.SELECT_RIGHT.pressed;
     }
 
     private final KvadratikGame game;

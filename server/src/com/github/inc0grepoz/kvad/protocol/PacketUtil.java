@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.kvad.protocol;
 
-import com.github.inc0grepoz.kvad.entities.Being;
 import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class PacketUtil {

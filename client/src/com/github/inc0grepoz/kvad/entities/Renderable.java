@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.KvadratikCanvas;
+import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public abstract class Renderable extends Entity {

@@ -2,7 +2,7 @@ package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 
 public enum LevelObjectAnim {
 

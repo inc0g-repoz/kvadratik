@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.Queue;
 
-import com.github.inc0grepoz.kvad.entities.Anim;
+import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;

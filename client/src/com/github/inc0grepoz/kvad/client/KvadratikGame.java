@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad;
+package com.github.inc0grepoz.kvad.client;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -8,7 +8,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
@@ -70,7 +69,7 @@ public class KvadratikGame extends Frame {
         console = new ConsoleWorker(this, 500L);
         console.start();
 
-        // Physics
+        // Physics (100 heartbeats per second)
         physics = new PhysicsWorker(this, 50L);
         physics.start();
     }

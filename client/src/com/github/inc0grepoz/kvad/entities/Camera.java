@@ -2,7 +2,8 @@ package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class Camera extends Entity {
@@ -11,11 +12,13 @@ public class Camera extends Entity {
         FOLLOW, FREE
     }
 
+    public Way moveDirection;
+
     private CameraMode mode = CameraMode.FOLLOW;
 
     public Camera(Level level, int[] rect) {
         super(level, rect);
-        super.moveSpeed = 5;
+        super.moveSpeed = 20;
     }
 
     public CameraMode getMode() {

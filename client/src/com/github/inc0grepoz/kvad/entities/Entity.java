@@ -13,7 +13,7 @@ public abstract class Entity {
                 : new Rectangle(arr[0], arr[1], arr[2], arr[3]);
     }
 
-    public boolean collide;
+    public boolean collide, move;
     public int moveSpeed;
 
     private final Rectangle rect, coll;
@@ -53,7 +53,7 @@ public abstract class Entity {
     }
 
     public boolean canMove(Way way, int speed) {
-        return canMove(way.x * speed, way.y * speed);
+        return way != null && canMove(way.x * speed, way.y * speed);
     }
 
     public boolean canMove(Way way) {
@@ -75,7 +75,7 @@ public abstract class Entity {
     }
 
     public boolean move(Way way, int speed) {
-        return move(way.x * speed, way.y * speed);
+        return way != null && move(way.x * speed, way.y * speed);
     }
 
     public boolean move(Way way) {

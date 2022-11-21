@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.being;
 
 public enum Anim {
 

@@ -3,7 +3,7 @@ package com.github.inc0grepoz.kvad.entities.level;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.github.inc0grepoz.kvad.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera;
 
 public class LevelObjectBackground extends LevelObjectAnimated {

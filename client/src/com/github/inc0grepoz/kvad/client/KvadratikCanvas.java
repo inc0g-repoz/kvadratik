@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad;
+package com.github.inc0grepoz.kvad.client;
 
 import java.awt.Canvas;
 import java.awt.Color;

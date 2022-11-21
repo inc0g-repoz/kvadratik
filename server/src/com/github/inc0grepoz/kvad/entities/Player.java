@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.being.BeingType;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 

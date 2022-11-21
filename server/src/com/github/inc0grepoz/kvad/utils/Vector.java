@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.kvad.utils;
 
+import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
+
 public class Vector {
 
     public int x, y;
@@ -30,6 +32,23 @@ public class Vector {
 
     public Vector clone() {
         return new Vector(x, y);
+    }
+
+    public Way toWay() {
+        Way[] ways = Way.values();
+        for (int i = 0; i < ways.length; i++) {
+            if (compareDigits(ways[i].x, x)
+                    && compareDigits(ways[i].y, y)) {
+                return ways[i];
+            }
+        }
+        return null;
+    }
+
+    private boolean compareDigits(int a, int b) {
+        return a > 0 && b > 0
+                || a == 0 && b == 0
+                || a < 0 && b < 0;
     }
 
 }

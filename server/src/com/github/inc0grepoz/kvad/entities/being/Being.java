@@ -1,7 +1,8 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.being;
 
 import java.util.Map;
 
+import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
