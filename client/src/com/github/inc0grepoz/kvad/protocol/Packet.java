@@ -15,7 +15,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {
 
-    public static boolean logging = true;
+    public static boolean logging = false;
 
     public static Queue<Packet> in(Socket sock) {
         Queue<Packet> packets = new LinkedList<>();

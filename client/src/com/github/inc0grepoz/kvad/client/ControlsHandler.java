@@ -31,7 +31,8 @@ public class ControlsHandler {
     }
 
     public void onKeyPressed(Key key) {
-        Level level = controls.getGame().getLevel();
+        KvadratikGame game = controls.getGame();
+        Level level = game.getLevel();
 
         if (level == null) {
             // TODO: Some menu code here
@@ -39,21 +40,26 @@ public class ControlsHandler {
             Being player = level.getPlayer();
 
             if (player != null) {
-                Chat chat = controls.getGame().getClient().getChat();
-                if (chat.typing) {
-                    if (key == Key.ENTER) {
-                        chat.typing = false;
-                        chat.send(chat.draft);
-//                      chat.draft = null;
-                    } else if (key == Key.ESCAPE) {
-                        chat.typing = false;
-//                      chat.draft = null;
+                KvadratikClient client = game.getClient();
+
+                // The chat code
+                if (client.isConnected()) {
+                    Chat chat = client.getChat();
+                    if (chat.typing) {
+                        if (key == Key.ENTER) {
+                            chat.typing = false;
+                            chat.send(chat.draft);
+//                          chat.draft = null;
+                        } else if (key == Key.ESCAPE) {
+                            chat.typing = false;
+//                          chat.draft = null;
+                        }
+                        return;
+                    } else if (key == Key.CHAT) {
+                        chat.draft = "";
+                        chat.typing = true;
+                        return;
                     }
-                    return;
-                } else if (key == Key.CHAT) {
-                    chat.draft = "";
-                    chat.typing = true;
-                    return;
                 }
 
                 switch (key) {

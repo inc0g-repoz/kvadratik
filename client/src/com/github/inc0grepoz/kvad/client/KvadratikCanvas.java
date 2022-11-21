@@ -62,9 +62,6 @@ public class KvadratikCanvas extends Canvas {
         }
 
         game.getClient().getChat().render(g2d);
-        g2d.setColor(Color.RED);
-        g2d.drawLine(0, 0, game.getWidth(), 0);
-        g2d.setColor(Color.BLACK);
 
         g2d.dispose();
         g.drawImage(image, 0, 0, gw, gh, this);

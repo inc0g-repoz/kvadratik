@@ -13,7 +13,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {
 
-    public static boolean logging = true;
+    public static boolean logging = false;
 
     public static Queue<Packet> in(Connection connection) throws IOException {
         Queue<Packet> packets = new LinkedList<>();
