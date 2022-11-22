@@ -109,18 +109,21 @@ public class Packet {
         out.write(data, 0, data.length);
     }
 
-    Map<String, String> toMap() {
+    Map<String, String> toMap(int eltsCount) {
         Map<String, String> map = new HashMap<>();
-        String[] content = string.contains(";") ? string.split(";") : new String[] { string };
-
+        String[] content = string.contains(";") ? string.split(";", eltsCount)
+                : new String[] { string };
         for (int i = 0; i < content.length; i++) {
             if (content[i].contains("=")) {
                 String[] kvp = content[i].split("=");
                 map.put(kvp[0], kvp[1]);
             }
         }
-
         return map;
+    }
+
+    Map<String, String> toMap() {
+        return toMap(0);
     }
 
 }

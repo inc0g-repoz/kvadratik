@@ -119,7 +119,7 @@ public class PacketUtil {
             return;
         }
 
-        Map<String, String> map = packet.toMap();
+        Map<String, String> map = packet.toMap(3);
 
         String colStr = map.get("color");
         String[] split = colStr.split(",");

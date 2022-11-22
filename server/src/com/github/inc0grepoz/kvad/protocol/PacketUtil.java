@@ -17,14 +17,14 @@ public class PacketUtil {
     public void chat(Player player, String message) {
         Color color = player.getChatColor();
         StringBuilder sb = new StringBuilder();
-        sb.append("name=");
-        sb.append(player.getName());
-        sb.append(";color=");
+        sb.append("color=");
         sb.append(color.getRed());
         sb.append(",");
         sb.append(color.getGreen());
         sb.append(",");
         sb.append(color.getBlue());
+        sb.append(";name=");
+        sb.append(player.getName());
         sb.append(";text=");
         sb.append(message);
         Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(sb.toString());

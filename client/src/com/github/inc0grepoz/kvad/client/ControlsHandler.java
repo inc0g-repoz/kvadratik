@@ -21,9 +21,11 @@ public class ControlsHandler {
         Chat chat = controls.getGame().getClient().getChat();
         if (chat.typing) {
             if (kc != '\u0008') {
-                chat.draft += kc;
-                //chat.draft = chat.draft.replaceAll("[^\\p{Print}]", "");
-                chat.draft = chat.draft.replaceAll("\\p{C}", "");
+                if (chat.locked) {
+                    chat.locked = false;
+                } else {
+                    chat.draft += kc;
+                }
             } else if (chat.draft.length() != 0) {
                 chat.draft = chat.draft.substring(0, chat.draft.length() - 1);
             }
@@ -57,6 +59,7 @@ public class ControlsHandler {
                         return;
                     } else if (key == Key.CHAT) {
                         chat.draft = "";
+                        chat.locked = true;
                         chat.typing = true;
                         return;
                     }

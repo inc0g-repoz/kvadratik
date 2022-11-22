@@ -66,12 +66,14 @@ public class Controls implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+        handler.onKeyTyped(e.getKeyChar());
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
         Key key = Key.byCode(e.getKeyCode());
-        handler.onKeyTyped(e.getKeyChar());
+//      handler.onKeyTyped(e.getKeyChar());
 
         if (key != null && !key.pressed) {
             key.pressed = true;

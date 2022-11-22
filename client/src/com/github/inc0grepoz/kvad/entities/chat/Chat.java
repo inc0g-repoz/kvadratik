@@ -10,7 +10,7 @@ import com.github.inc0grepoz.kvad.protocol.PacketType;
 
 public class Chat {
 
-    public boolean typing;
+    public boolean locked, typing;
     public String draft;
 
     private final KvadratikClient kvad;
