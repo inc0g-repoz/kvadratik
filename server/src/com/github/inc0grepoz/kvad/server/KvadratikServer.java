@@ -13,6 +13,7 @@ import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import com.github.inc0grepoz.kvad.worker.PacketHandler;
+import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import com.github.inc0grepoz.kvad.worker.SocketAcceptor;
 import com.github.inc0grepoz.kvad.worker.Worker;
 
@@ -33,9 +34,10 @@ public class KvadratikServer {
     private Level level;
 
     public KvadratikServer() {
+        workers.add(new ConsoleWorker(this, 500));
         workers.add(new PacketHandler(this));
+        workers.add(new PhysicsWorker(this, 50));
         workers.add(new SocketAcceptor(this, 30405));
-        workers.add(new ConsoleWorker(this, 50));
         level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"));
     }
 
@@ -49,13 +51,13 @@ public class KvadratikServer {
             players.add(player);
 
             // Sending the level data and all beings
-            packetUtil.sendLevel(player);
+            packetUtil.outLevel(player);
             level.getBeings().forEach(being -> {
-                packetUtil.spawnBeing(player, being);
+                packetUtil.outSpawnBeing(player, being);
             });
-            packetUtil.spawnBeingForAll(player);
+            packetUtil.outSpawnBeingForAll(player);
 
-            packetUtil.transferControl(player, player);
+            packetUtil.outTransferControl(player, player);
 
             String ip = connection.getInetAddress().getHostAddress();
             Logger.info(name + " joined the server from " + ip);
@@ -94,7 +96,7 @@ public class KvadratikServer {
                     Player p = eachP.next();
                     if (p.getConnection().equals(cxn)) {
                         Logger.info(p.getName() + " left the server");
-                        packetUtil.despawnBeing(p);
+                        packetUtil.outDespawnBeing(p);
                         level.getBeings().remove(p);
                         eachP.remove();
                     }

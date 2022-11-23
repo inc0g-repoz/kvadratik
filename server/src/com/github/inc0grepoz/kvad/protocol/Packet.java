@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.entities.Connection;
@@ -100,6 +102,23 @@ public class Packet {
 
     public void queue(Player player) {
         player.queue(this);
+    }
+
+    Map<String, String> toMap(int eltsCount) {
+        Map<String, String> map = new HashMap<>();
+        String[] content = string.contains(";") ? string.split(";", eltsCount)
+                : new String[] { string };
+        for (int i = 0; i < content.length; i++) {
+            if (content[i].contains("=")) {
+                String[] kvp = content[i].split("=");
+                map.put(kvp[0], kvp[1]);
+            }
+        }
+        return map;
+    }
+
+    Map<String, String> toMap() {
+        return toMap(0);
     }
 
 }

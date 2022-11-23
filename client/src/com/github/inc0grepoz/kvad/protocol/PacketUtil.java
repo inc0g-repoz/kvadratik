@@ -9,12 +9,14 @@ import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingType;
 import com.github.inc0grepoz.kvad.entities.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.RGB;
+import com.github.inc0grepoz.kvad.utils.Vector;
 import com.github.inc0grepoz.kvad.utils.XML;
 
 public class PacketUtil {
@@ -25,38 +27,59 @@ public class PacketUtil {
         this.game = game;
     }
 
-    public void anim() {
+    public void outAnim() {
         if (game.getClient().isConnected()) {
             String name = game.getLevel().getPlayer().getAnim().name();
             PacketType.CLIENT_PLAYER_ANIM.create(name).queue(game.getClient());
         }
     }
 
-    public void speed(int x, int y) {
-        PacketType.CLIENT_PLAYER_SPEED.create(x + "," + y).queue(game.getClient());
-    }
+    public void outRect(Being being, Vector prevMove, int x, int y) {
+        if (!game.getClient().isConnected()) {
+            return;
+        }
 
-    public void rect(Being being) {
+        if (prevMove.x == x && prevMove.y == y) {
+            return;
+        }
+
         Rectangle rect = being.getRectangle();
         StringBuilder sb = new StringBuilder();
+        sb.append("x=");
         sb.append(rect.x);
-        sb.append(",");
+        sb.append(";y=");
         sb.append(rect.y);
-        sb.append(",");
+        sb.append(";w=");
         sb.append(rect.width);
-        sb.append(",");
+        sb.append(";h=");
         sb.append(rect.height);
         PacketType.CLIENT_PLAYER_RECT.create(sb.toString()).queue(game.getClient());
     }
 
-    public void rectThenSpeed(Being being, int x, int y) {
-        if (game.getClient().isConnected()) {
-            rect(being);
-            speed(x, y);
+    public void inAnim(Packet packet) {
+        if (packet.getType() != PacketType.SERVER_BEING_ANIM) {
+            Logger.error("Unable to read an anim from " + packet.getType().name());
+            return;
+        }
+
+        Map<String, String> map = packet.toMap();
+
+        // Getting a server-side unique ID
+        String idStr = map.getOrDefault("id", null);
+        int id = idStr == null ? -1 : Integer.valueOf(idStr);
+
+        // Looking for the client-side anim
+        Anim anim = Anim.valueOf(map.get("anim"));
+
+        // Looking for the desired entity
+        Being being = game.getLevel().getBeings().stream()
+                .filter(b -> b.getId() == id).findFirst().orElse(null);
+        if (being != null) {
+            being.applyAnim(anim);
         }
     }
 
-    public void createBeing(Packet packet) {
+    public void inCreateBeing(Packet packet) {
         if (packet.getType() != PacketType.SERVER_BEING_SPAWN) {
             Logger.error("Unable to init a being from " + packet.getType().name());
             return;
@@ -99,7 +122,7 @@ public class PacketUtil {
         level.getBeings().add(being);
     }
 
-    public void buildLevel(Packet packet) {
+    public void inLevel(Packet packet) {
         if (packet.getType() != PacketType.SERVER_LEVEL) {
             Logger.error("Unable to build a level from " + packet.getType().name());
             return;
@@ -108,7 +131,7 @@ public class PacketUtil {
         game.setLevel(level);
     }
 
-    public void readPlayerMessage(Packet packet) {
+    public void inPlayerMessage(Packet packet) {
         if (packet.getType() != PacketType.SERVER_CHAT_MESSAGE) {
             Logger.error("Unable to read a chat message from " + packet.getType().name());
             return;
@@ -137,6 +160,26 @@ public class PacketUtil {
         if (name != null && text != null) {
             message.addComponent(name + ": ", color).addComponent(text);
             client.getChat().print(message);
+        }
+    }
+
+    public void inRect(Packet packet) {
+        Map<String, String> map = packet.toMap();
+        int id = Integer.valueOf(map.get("id"));
+        int x = Integer.valueOf(map.get("x"));
+        int y = Integer.valueOf(map.get("y"));
+        int w = Integer.valueOf(map.get("w"));
+        int h = Integer.valueOf(map.get("h"));
+
+        // Looking for the desired entity
+        Being being = game.getLevel().getBeings().stream()
+                .filter(b -> b.getId() == id).findFirst().orElse(null);
+        if (being != null) {
+            Rectangle rect = being.getRectangle();
+            rect.x = x;
+            rect.y = y;
+            rect.width = w;
+            rect.height = h;
         }
     }
 

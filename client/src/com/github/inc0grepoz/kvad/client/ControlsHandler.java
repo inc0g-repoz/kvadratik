@@ -65,29 +65,35 @@ public class ControlsHandler {
                     }
                 }
 
-                switch (key) {
-                    case SPRINT:
-                        player.sprint = true;
-                        return;
-                    default:
-                }
-
                 // Choosing a proper player animation
                 player.move = Controls.isPlayerMoving();
                 if (player.move) {
                     Anim anim = null;
+                    boolean sprint = Key.SPRINT.pressed;
                     switch (key) {
                         case MOVE_UP:
-                            anim = player.sprint ? Anim.RUN_W : Anim.WALK_W;
+                            anim = sprint ? Anim.RUN_W : Anim.WALK_W;
                             break;
                         case MOVE_DOWN:
-                            anim = player.sprint ? Anim.RUN_S : Anim.WALK_S;
+                            anim = sprint ? Anim.RUN_S : Anim.WALK_S;
                             break;
                         case MOVE_LEFT:
-                            anim = player.sprint ? Anim.RUN_A : Anim.WALK_A;
+                            anim = sprint ? Anim.RUN_A : Anim.WALK_A;
                             break;
                         case MOVE_RIGHT:
-                            anim = player.sprint ? Anim.RUN_D : Anim.WALK_D;
+                            anim = sprint ? Anim.RUN_D : Anim.WALK_D;
+                            break;
+                        case SPRINT:
+                            Anim ca = player.getAnim();
+                            if (ca == Anim.WALK_W) {
+                                anim = Anim.RUN_W;
+                            } else if (ca == Anim.WALK_S) {
+                                anim = Anim.RUN_S;
+                            } else if (ca == Anim.WALK_A) {
+                                anim = Anim.RUN_A;
+                            } else if (ca == Anim.WALK_D) {
+                                anim = Anim.RUN_D;
+                            }
                             break;
                         default:
                     }
@@ -128,25 +134,18 @@ public class ControlsHandler {
             Being player = level.getPlayer();
 
             if (player != null) {
-                switch (key) {
-                    case SPRINT:
-                        player.sprint = false;
-                        break;
-                    default:
-                }
-
-                // Choosing a proper player animation
                 player.move = Controls.isPlayerMoving();
                 if (player.move) {
                     Anim anim = null;
+                    boolean sprint = Key.SPRINT.pressed;
                     if (Key.MOVE_UP.pressed) {
-                        anim = player.sprint ? Anim.RUN_W : Anim.WALK_W;
+                        anim = sprint ? Anim.RUN_W : Anim.WALK_W;
                     } else if (Key.MOVE_DOWN.pressed) {
-                        anim = player.sprint ? Anim.RUN_S : Anim.WALK_S;
+                        anim = sprint ? Anim.RUN_S : Anim.WALK_S;
                     } else if (Key.MOVE_LEFT.pressed) {
-                        anim = player.sprint ? Anim.RUN_A : Anim.WALK_A;
+                        anim = sprint ? Anim.RUN_A : Anim.WALK_A;
                     } else if (Key.MOVE_RIGHT.pressed) {
-                        anim = player.sprint ? Anim.RUN_D : Anim.WALK_D;
+                        anim = sprint ? Anim.RUN_D : Anim.WALK_D;
                     }
                     player.applyAnim(anim);
                 } else {

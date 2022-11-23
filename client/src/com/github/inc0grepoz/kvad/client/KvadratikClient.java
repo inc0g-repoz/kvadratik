@@ -112,7 +112,8 @@ public class KvadratikClient extends Worker {
         for (Packet packet : Packet.in(socket)) {
             switch (packet.getType()) {
                 case SERVER_BEING_ANIM: {
-                    
+                    packetUtil.inAnim(packet);
+                    break;
                 }
                 case SERVER_BEING_DESPAWN: {
                     int id = Integer.valueOf(packet.toString());
@@ -121,16 +122,20 @@ public class KvadratikClient extends Worker {
                     });
                     break;
                 }
+                case SERVER_BEING_RECT: {
+                    packetUtil.inRect(packet);
+                    break;
+                }
                 case SERVER_BEING_SPAWN: {
-                    packetUtil.createBeing(packet);
+                    packetUtil.inCreateBeing(packet);
                     break;
                 }
                 case SERVER_CHAT_MESSAGE: {
-                    packetUtil.readPlayerMessage(packet);
+                    packetUtil.inPlayerMessage(packet);
                     break;
                 }
                 case SERVER_LEVEL: {
-                    packetUtil.buildLevel(packet);
+                    packetUtil.inLevel(packet);
                     break;
                 }
                 case SERVER_TRANSFER_CONTROL: {

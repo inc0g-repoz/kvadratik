@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.kvad.worker;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.Queue;
 
@@ -75,26 +74,17 @@ public class PacketHandler extends Worker {
                 for (Packet packet : queue) {
                     switch (packet.getType()) {
                         case CLIENT_CHAT_MESSAGE: {
-                            kvad.getPacketUtil().chat(player, packet.toString());
+                            kvad.getPacketUtil().outChat(player, packet.toString());
                             break;
                         }
                         case CLIENT_PLAYER_ANIM: {
                             Anim anim = Anim.valueOf(packet.toString());
                             player.applyAnim(anim);
-                            kvad.getPacketUtil().anim(player);
-                            break;
-                        }
-                        case CLIENT_PLAYER_SPEED: {
-                            //kvad.getPacketUtil().speed(player);
+                            kvad.getPacketUtil().outAnim(player);
                             break;
                         }
                         case CLIENT_PLAYER_RECT: {
-                            String[] rectStr = packet.toString().split(",");
-                            Rectangle rect = player.getRectangle();
-                            rect.x = Integer.valueOf(rectStr[0]);
-                            rect.y = Integer.valueOf(rectStr[1]);
-                            rect.width = Integer.valueOf(rectStr[2]);
-                            rect.height = Integer.valueOf(rectStr[3]);
+                            kvad.getPacketUtil().inPlayerRect(packet, player);
                             break;
                         }
                         default:

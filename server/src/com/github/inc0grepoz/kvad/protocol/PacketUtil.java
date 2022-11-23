@@ -1,6 +1,8 @@
 package com.github.inc0grepoz.kvad.protocol;
 
 import java.awt.Color;
+import java.awt.Rectangle;
+import java.util.Map;
 
 import com.github.inc0grepoz.kvad.entities.Player;
 import com.github.inc0grepoz.kvad.entities.being.Being;
@@ -14,7 +16,38 @@ public class PacketUtil {
         this.kvad = kvad;
     }
 
-    public void chat(Player player, String message) {
+    public void inPlayerRect(Packet packet, Player player) {
+        Map<String, String> map = packet.toMap();
+        int x = Integer.valueOf(map.get("x"));
+        int y = Integer.valueOf(map.get("y"));
+        int w = Integer.valueOf(map.get("w"));
+        int h = Integer.valueOf(map.get("h"));
+        Rectangle rect = player.getRectangle();
+        rect.x = x;
+        rect.y = y;
+        rect.width = w;
+        rect.height = h;
+        outBeingRect(player);
+    }
+
+    public void outBeingRect(Being being) {
+        Rectangle rect = being.getRectangle();
+        StringBuilder sb = new StringBuilder();
+        sb.append("id=");
+        sb.append(being.getId());
+        sb.append(";x=");
+        sb.append(rect.x);
+        sb.append(";y=");
+        sb.append(rect.y);
+        sb.append(";w=");
+        sb.append(rect.width);
+        sb.append(";h=");
+        sb.append(rect.height);
+        Packet packet = PacketType.SERVER_BEING_RECT.create(sb.toString());
+        kvad.getPlayers().forEach(packet::queue);
+    }
+
+    public void outChat(Player player, String message) {
         Color color = player.getChatColor();
         StringBuilder sb = new StringBuilder();
         sb.append("color=");
@@ -31,38 +64,32 @@ public class PacketUtil {
         kvad.getPlayers().forEach(packet::queue);
     }
 
-    public void anim(Being being) {
-        String content = being.getId() + "," + being.getAnim().name();
+    public void outAnim(Being being) {
+        String content = "id=" + being.getId() + ";anim=" + being.getAnim().name();
         Packet packet = PacketType.SERVER_BEING_ANIM.create(content);
         allExcludePlayer(packet, being);
     }
 
-    public void speed(Being being) {
-        String content = being.getId() + "," + being.getAnim().name();
-        Packet packet = PacketType.SERVER_BEING_SPEED.create(content);
-        allExcludePlayer(packet, being);
-    }
-
-    public void sendLevel(Player player) {
+    public void outLevel(Player player) {
         PacketType.SERVER_LEVEL.create(kvad.getLevel().toString()).queue(player);
     }
 
-    public void spawnBeing(Player player, Being being) {
+    public void outSpawnBeing(Player player, Being being) {
         PacketType.SERVER_BEING_SPAWN.create(being.toString()).queue(player);
     }
 
-    public void spawnBeingForAll(Being being) {
+    public void outSpawnBeingForAll(Being being) {
         Packet packet = PacketType.SERVER_BEING_SPAWN.create(being.toString());
         allExcludePlayer(packet, being);
     }
 
-    public void despawnBeing(Being being) {
+    public void outDespawnBeing(Being being) {
         String id = String.valueOf(being);
         Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
         kvad.getPlayers().forEach(packet::queue);
     }
 
-    public void transferControl(Player player, Being being) {
+    public void outTransferControl(Player player, Being being) {
         PacketType.SERVER_TRANSFER_CONTROL.create(String.valueOf(being.getId())).queue(player);
     }
 

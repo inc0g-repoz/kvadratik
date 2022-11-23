@@ -10,12 +10,13 @@ public class Being extends Entity {
 
     private static int lastId;
 
+    public boolean sprint;
+
     private final BeingType type;
     private final int id = ++lastId;
     private final Vector velocity = new Vector();
 
     private Anim anim = Anim.IDLE_S;
-    private int walkSpeed = 4;
 
     public Being(Level level, int[] rect, int[] coll, BeingType type) {
         super(level, rect, coll);
@@ -32,12 +33,12 @@ public class Being extends Entity {
         return id;
     }
 
-    public int getWalkSpeed() {
-        return walkSpeed;
-    }
-
-    public void setWalkSpeed(int walkSpeed) {
-        this.walkSpeed = walkSpeed;
+    public void moveOn() {
+        if (moveSpeed != 0) {
+            int moveX = anim.way.x * moveSpeed;
+            int moveY = anim.way.y * moveSpeed;
+            move(moveX, moveY);
+        }
     }
 
     public void applyAnim(Anim anim) {

@@ -12,11 +12,9 @@ public class Being extends Renderable {
 
     private static int lastId;
 
-    public boolean sprint;
-
     private final BeingType type;
     private final int id;
-    private final Vector lastMove = new Vector();
+    private final Vector prevMove = new Vector();
 
     private Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
@@ -27,7 +25,6 @@ public class Being extends Renderable {
     public Being(Level level, int[] rect, int[] coll, BeingType type, int id) {
         super(level, rect, coll);
         super.collide = true;
-        super.moveSpeed = 4;
         this.id = id < 0 ? ++lastId : id;
         this.type = type;
     }
@@ -57,38 +54,29 @@ public class Being extends Renderable {
     }
 
     public boolean isMoving() {
-        return lastMove.x != 0 || lastMove.y != 0;
+        return prevMove.x != 0 || prevMove.y != 0;
     }
 
     public void moveOn() {
-        if (move) {
-            int moveX = anim.way.x * moveSpeed;
-            int moveY = anim.way.y * moveSpeed;
+        int moveX = anim.way.x * speed;
+        int moveY = anim.way.y * speed;
 
-            if (sprint) {
-                moveX *= 3;
-                moveY *= 3;
-            }
+        boolean moved = move(anim.way, anim.moveSpeed);
 
-            boolean moved = move(moveX, moveY);
+        if (moved) {
+            getLevel().getGame().getClient().getPacketUtil()
+                    .outRect(this, prevMove, moveX, moveY);
 
-            if (moved) {
-                if (lastMove.x != moveX || lastMove.y != moveY) {
-//                    getLevel().getGame().getClient().getPacketUtil()
-//                            .rectThenSpeed(this, moveX, moveY);
-                }
-
-                lastMove.x = moveX;
-                lastMove.y = moveY;
-            } else {
-                playIdleAnim();
-            }
+            prevMove.x = moveX;
+            prevMove.y = moveY;
         } else {
-            lastMove.x = 0;
-            lastMove.y = 0;
+            getLevel().getGame().getClient().getPacketUtil()
+                    .outRect(this, prevMove, 0, 0);
 
-//            getLevel().getGame().getClient().getPacketUtil()
-//                    .rectThenSpeed(this, 0, 0);
+            prevMove.x = 0;
+            prevMove.y = 0;
+
+            playIdleAnim();
         }
     }
 
@@ -117,7 +105,7 @@ public class Being extends Renderable {
             animExpiry = System.currentTimeMillis() + anim.delay;
 
             // Queue an anim packet
-            getLevel().getGame().getClient().getPacketUtil().anim();
+            getLevel().getGame().getClient().getPacketUtil().outAnim();
         }
     }
 

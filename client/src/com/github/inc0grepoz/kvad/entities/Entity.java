@@ -14,7 +14,7 @@ public abstract class Entity {
     }
 
     public boolean collide, move;
-    public int moveSpeed;
+    public int speed;
 
     private final Rectangle rect, coll;
     private final Level level;
@@ -57,7 +57,7 @@ public abstract class Entity {
     }
 
     public boolean canMove(Way way) {
-        return canMove(way, moveSpeed);
+        return canMove(way, speed);
     }
 
     public boolean move(int x, int y) {
@@ -79,7 +79,7 @@ public abstract class Entity {
     }
 
     public boolean move(Way way) {
-        return move(way, moveSpeed);
+        return move(way, speed);
     }
 
     public void teleport(int x, int y) {
