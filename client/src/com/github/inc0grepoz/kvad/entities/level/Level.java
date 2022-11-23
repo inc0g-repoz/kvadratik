@@ -75,7 +75,8 @@ public class Level {
         if (initPlayer) {
             int[] pRect = xml.getIntArray("root.player.rectangle");
             int[] pColl = xml.getIntArray("root.player.collider");
-            player = new Being(this, pRect, pColl, BeingType.IOMOR);
+            BeingType pType = BeingType.valueOf(xml.getString("root.player.beingType"));
+            player = new Being(this, pRect, pColl, pType);
             beings.add(player);
         }
 
