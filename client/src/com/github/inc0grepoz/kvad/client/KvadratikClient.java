@@ -116,10 +116,7 @@ public class KvadratikClient extends Worker {
                     break;
                 }
                 case SERVER_BEING_DESPAWN: {
-                    int id = Integer.valueOf(packet.toString());
-                    game.getLevel().getBeings().removeIf(being -> {
-                        return being.getId() == id;
-                    });
+                    packetUtil.inBeingDespawn(packet);
                     break;
                 }
                 case SERVER_BEING_RECT: {

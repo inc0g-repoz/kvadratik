@@ -84,7 +84,7 @@ public class PacketUtil {
     }
 
     public void outDespawnBeing(Being being) {
-        String id = String.valueOf(being);
+        String id = String.valueOf(being.getId());
         Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
         kvad.getPlayers().forEach(packet::queue);
     }

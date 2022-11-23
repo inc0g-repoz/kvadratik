@@ -79,6 +79,13 @@ public class PacketUtil {
         }
     }
 
+    public void inBeingDespawn(Packet packet) {
+        int id = Integer.valueOf(packet.toString());
+        game.getLevel().getBeings().removeIf(being -> {
+            return being.getId() == id;
+        });
+    }
+
     public void inCreateBeing(Packet packet) {
         if (packet.getType() != PacketType.SERVER_BEING_SPAWN) {
             Logger.error("Unable to init a being from " + packet.getType().name());

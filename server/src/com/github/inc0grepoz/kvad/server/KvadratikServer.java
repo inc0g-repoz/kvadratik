@@ -43,6 +43,7 @@ public class KvadratikServer {
 
     public void logPlayerIn(String name, Connection connection) {
         boolean already = players.stream().anyMatch(player -> {
+            
             return connection.equals(player.getConnection());
         });
         if (!already) {
@@ -52,10 +53,8 @@ public class KvadratikServer {
 
             // Sending the level data and all beings
             packetUtil.outLevel(player);
-            level.getBeings().forEach(being -> {
-                packetUtil.outSpawnBeing(player, being);
-            });
             packetUtil.outSpawnBeingForAll(player);
+            level.getBeings().forEach(being -> packetUtil.outSpawnBeing(player, being));
 
             packetUtil.outTransferControl(player, player);
 
