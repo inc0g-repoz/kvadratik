@@ -13,6 +13,7 @@ out/
 .classpath
 .project
 *.prefs
+ant.xml
 bin/
 
 # Compiled class file
