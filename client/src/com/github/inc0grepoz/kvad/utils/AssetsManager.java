@@ -53,8 +53,4 @@ public class AssetsManager {
         return null;
     }
 
-    public XML readXml(String path) {
-        return XML.fromString(textFile(path));
-    }
-
 }

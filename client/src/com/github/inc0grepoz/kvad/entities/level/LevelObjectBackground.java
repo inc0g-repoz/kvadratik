@@ -1,22 +1,27 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
     private final Color color;
 
-    public LevelObjectBackground(Level level, int[] rect, LevelObjectAnim anim) {
-        super(level, rect, anim);
+    public LevelObjectBackground(Level level, Rectangle rect,
+            Dimension collSize, Vector collOffset, LevelObjectAnim anim) {
+        super(level, rect, collSize, collOffset, anim);
         this.color = null;
     }
 
-    public LevelObjectBackground(Level level, int[] rect, Color color) {
-        super(level, rect, LevelObjectAnim.COLOR);
+    public LevelObjectBackground(Level level, Rectangle rect,
+            Dimension collSize, Vector collOffset, Color color) {
+        super(level, rect, collSize, collOffset, LevelObjectAnim.COLOR);
         this.color = color;
     }
 

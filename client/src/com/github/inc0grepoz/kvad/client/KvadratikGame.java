@@ -8,9 +8,12 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import com.github.inc0grepoz.kvad.entities.BeingFactory;
+import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
+import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
@@ -18,11 +21,9 @@ import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 @SuppressWarnings("serial")
 public class KvadratikGame extends Frame {
 
-    private final static AssetsManager ASSETS = new AssetsManager();
-
-    public static AssetsManager getAssets() {
-        return ASSETS;
-    }
+    public static final AssetsManager ASSETS = new AssetsManager();
+    public static final BeingFactory BEING_FACTORY = new BeingFactory();
+    public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
     private final KvadratikCanvas canvas;
     private final KvadratikClient client;
@@ -93,7 +94,8 @@ public class KvadratikGame extends Frame {
             }
 
             // Singleplayer
-            level = new Level(this, ASSETS.readXml("assets/levels/whitespace.xml"), true);
+            String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
+            level = JSON.fromJsonLevel(this, levelJson, false);
         }
     }
 

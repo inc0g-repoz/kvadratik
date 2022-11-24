@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.entities;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
@@ -8,11 +9,6 @@ import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Entity {
 
-    private static Rectangle rect(int[] arr) {
-        return arr == null || arr.length != 4 ? null
-                : new Rectangle(arr[0], arr[1], arr[2], arr[3]);
-    }
-
     public boolean collide, move;
     public int speed;
 
@@ -20,24 +16,19 @@ public abstract class Entity {
     private final Level level;
     private final Vector collOffset;
 
-    public Entity(Level level, int[] rect, int[] coll) {
+    public Entity(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
         this.level = level;
-        this.rect = rect(rect);
-        this.coll = rect(coll);
+        this.rect = rect;
 
-        if (this.coll != null) {
-            this.coll.x += this.rect.x;
-            this.coll.y += this.rect.y;
-            collOffset = new Vector();
-            collOffset.x = this.coll.x - this.rect.x;
-            collOffset.y = this.coll.y - this.rect.y;
+        if (collSize != null && collOffset != null) {
+            this.collOffset = collOffset;
+            coll = new Rectangle(collSize);
+            coll.x += rect.x + collOffset.x;
+            coll.y = rect.y + collOffset.y;
         } else {
-            collOffset = null;
+            this.collOffset = null;
+            coll = null;
         }
-    }
-
-    public Entity(Level level, int[] rect) {
-        this(level, rect, null);
     }
 
     public boolean canMove(int x, int y) {

@@ -1,20 +1,18 @@
 package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Renderable extends Entity {
 
-    public Renderable(Level level, int[] rect, int coll[]) {
-        super(level, rect, coll);
-    }
-
-    public Renderable(Level level, int[] rect) {
-        super(level, rect);
+    public Renderable(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
+        super(level, rect, collSize, collOffset);
     }
 
     public boolean render(Graphics gfx, Camera camera) {

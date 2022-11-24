@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.entities.being;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -12,8 +13,8 @@ public class Being extends Renderable {
 
     private static int lastId;
 
-    private final BeingType type;
     private final int id;
+    private final String type;
     private final Vector prevMove = new Vector();
 
     private Anim anim = Anim.IDLE_S;
@@ -22,22 +23,22 @@ public class Being extends Renderable {
 
     private String name;
 
-    public Being(Level level, int[] rect, int[] coll, BeingType type, int id) {
-        super(level, rect, coll);
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset, String type, int id) {
+        super(level, rect, collSize, collOffset);
         super.collide = true;
         this.id = id < 0 ? ++lastId : id;
         this.type = type;
     }
 
-    public Being(Level level, int[] rect, int[] coll, BeingType type) {
-        this(level, rect, coll, type, -1);
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset, String type) {
+        this(level, rect, collSize, collOffset, type, -1);
     }
 
-    public Being(Level level, int[] rect, BeingType type, int id) {
-        this(level, rect, null, type, id);
+    public Being(Level level, Rectangle rect, String type, int id) {
+        this(level, rect, null, null, type, id);
     }
 
-    public Being(Level level, int[] rect, BeingType type) {
+    public Being(Level level, Rectangle rect, String type) {
         this(level, rect, type, -1);
     }
 
@@ -113,7 +114,7 @@ public class Being extends Renderable {
         return anim;
     }
 
-    public BeingType getType() {
+    public String getType() {
         return type;
     }
 

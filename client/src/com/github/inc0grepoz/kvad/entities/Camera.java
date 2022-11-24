@@ -16,8 +16,8 @@ public class Camera extends Entity {
 
     private CameraMode mode = CameraMode.FOLLOW;
 
-    public Camera(Level level, int[] rect) {
-        super(level, rect);
+    public Camera(Level level) {
+        super(level, new Rectangle(0, 0, 0, 0), null, null);
         super.speed = 20;
     }
 

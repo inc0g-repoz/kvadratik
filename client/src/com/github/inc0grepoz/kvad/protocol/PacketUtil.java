@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.protocol;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -11,13 +12,11 @@ import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.being.BeingType;
 import com.github.inc0grepoz.kvad.entities.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.Vector;
-import com.github.inc0grepoz.kvad.utils.XML;
 
 public class PacketUtil {
 
@@ -121,12 +120,11 @@ public class PacketUtil {
         int[] rect = b.build().toArray();
 
         // Looking for the client-side being type
-        BeingType type = BeingType.valueOf(map.get("type"));
+        String type = map.get("type");
 
-        Being being = new Being(level, rect, type, id);
+        Being being = KvadratikGame.BEING_FACTORY.create(type, level, new Point(rect[0], rect[1]));
         String name = map.getOrDefault("name", null);
         being.setName(name);
-        level.getBeings().add(being);
     }
 
     public void inLevel(Packet packet) {
@@ -134,8 +132,8 @@ public class PacketUtil {
             Logger.error("Unable to build a level from " + packet.getType().name());
             return;
         }
-        Level level = new Level(game, XML.fromString(packet.toString()), false);
-        game.setLevel(level);
+        //Level level = new Level(game, XML.fromString(packet.toString()), false);
+        //game.setLevel(level);
     }
 
     public void inPlayerMessage(Packet packet) {

@@ -93,25 +93,25 @@ public enum Anim {
     public final long delay;
     public final int moveSpeed;
 
-    private final HashMap<BeingType, BufferedImage[]> images = new HashMap<>();
+    private final HashMap<String, BufferedImage[]> images = new HashMap<>();
 
     Anim(long delay, int speed, Way way, String... paths) {
         this.delay = delay;
         this.moveSpeed = speed;
         this.way = way;
 
-        BeingType[] bt = BeingType.values();
+        String[] bt = KvadratikGame.BEING_FACTORY.getTypes();
         for (int i = 0; i < bt.length; i++) {
             BufferedImage[] btImages = new BufferedImage[paths.length];
             for (int j = 0; j < btImages.length; j++) {
-                String btPath = "assets/sprites/" + bt[i] + "/" + paths[j];
-                btImages[j] = KvadratikGame.getAssets().image(btPath);
+                String btPath = "assets/beings/sprites/" + bt[i] + "/" + paths[j];
+                btImages[j] = KvadratikGame.ASSETS.image(btPath);
             }
             images.put(bt[i], btImages);
         }
     }
 
-    public BufferedImage[] getImages(BeingType beintType) {
+    public BufferedImage[] getImages(String beintType) {
         return images.getOrDefault(beintType, null);
     }
 

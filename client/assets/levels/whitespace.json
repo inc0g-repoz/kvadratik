@@ -1,0 +1,13 @@
+{
+    "name": "Whitespace",
+    "player": {
+        "beingType": "auby",
+        "point": [65, 30]
+    },
+    "levelObjects": {
+        "background": [0, 0],
+        "rug": [0, 0],
+        "mewo": [0, 100],
+        "laptop": [40, 5]
+    }
+}
