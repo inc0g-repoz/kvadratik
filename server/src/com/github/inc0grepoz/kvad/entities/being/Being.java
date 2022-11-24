@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.kvad.entities.being;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.Map;
 
 import com.github.inc0grepoz.kvad.entities.Entity;
@@ -12,21 +14,18 @@ public class Being extends Entity {
 
     public boolean sprint;
 
-    private final BeingType type;
+    private final String type;
     private final int id = ++lastId;
     private final Vector velocity = new Vector();
 
     private Anim anim = Anim.IDLE_S;
 
-    public Being(Level level, int[] rect, int[] coll, BeingType type) {
-        super(level, rect, coll);
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
+            String type) {
+        super(level, rect, collSize, collOffset);
         super.collide = true;
-        super.moveSpeed = 4;
+        super.speed = 4;
         this.type = type;
-    }
-
-    public Being(Level level, int[] rect, BeingType type) {
-        this(level, rect, null, type);
     }
 
     public int getId() {
@@ -34,9 +33,9 @@ public class Being extends Entity {
     }
 
     public void moveOn() {
-        if (moveSpeed != 0) {
-            int moveX = anim.way.x * moveSpeed;
-            int moveY = anim.way.y * moveSpeed;
+        if (speed != 0) {
+            int moveX = anim.way.x * speed;
+            int moveY = anim.way.y * speed;
             move(moveX, moveY);
         }
     }
@@ -55,13 +54,13 @@ public class Being extends Entity {
         return anim;
     }
 
-    public BeingType getType() {
+    public String getType() {
         return type;
     }
 
     @Override
     protected void packetEntries(Map<String, String> map) {
-        map.put("type", type.name());
+        map.put("type", type);
         map.put("id", String.valueOf(id));
     }
 

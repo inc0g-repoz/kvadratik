@@ -14,6 +14,7 @@ import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.Vector;
@@ -85,7 +86,7 @@ public class PacketUtil {
         });
     }
 
-    public void inCreateBeing(Packet packet) {
+    public void inBeingSpawn(Packet packet) {
         if (packet.getType() != PacketType.SERVER_BEING_SPAWN) {
             Logger.error("Unable to init a being from " + packet.getType().name());
             return;
@@ -132,8 +133,8 @@ public class PacketUtil {
             Logger.error("Unable to build a level from " + packet.getType().name());
             return;
         }
-        //Level level = new Level(game, XML.fromString(packet.toString()), false);
-        //game.setLevel(level);
+        Level level = JSON.fromJsonLevel(game, packet.toString(), true);
+        game.setLevel(level);
     }
 
     public void inPlayerMessage(Packet packet) {

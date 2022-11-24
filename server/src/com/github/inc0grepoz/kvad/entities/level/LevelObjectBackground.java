@@ -1,19 +1,25 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.Map;
+
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
     private final Color color;
 
-    public LevelObjectBackground(Level level, int[] rect, LevelObjectAnim anim) {
-        super(level, rect, anim);
+    public LevelObjectBackground(Level level, Rectangle rect,
+            Dimension collSize, Vector collOffset, LevelObjectAnim anim) {
+        super(level, rect, collSize, collOffset, anim);
         this.color = null;
     }
 
-    public LevelObjectBackground(Level level, int[] rect, Color color) {
-        super(level, rect, LevelObjectAnim.COLOR);
+    public LevelObjectBackground(Level level, Rectangle rect,
+            Dimension collSize, Vector collOffset, Color color) {
+        super(level, rect, collSize, collOffset, LevelObjectAnim.COLOR);
         this.color = color;
     }
 
@@ -25,7 +31,7 @@ public class LevelObjectBackground extends LevelObjectAnimated {
     protected void packetEntries(Map<String, String> map) {
         map.put("type", "Animated");
         if (color == null) {
-            map.put("anim", getAnim().name());
+            map.put("anim", getAnim().toString());
         } else {
             String strCol = new StringBuilder()
                     .append(color.getRed())

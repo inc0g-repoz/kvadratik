@@ -124,7 +124,7 @@ public class KvadratikClient extends Worker {
                     break;
                 }
                 case SERVER_BEING_SPAWN: {
-                    packetUtil.inCreateBeing(packet);
+                    packetUtil.inBeingSpawn(packet);
                     break;
                 }
                 case SERVER_CHAT_MESSAGE: {

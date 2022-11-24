@@ -1,17 +1,19 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.being;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.being.BeingType;
+import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.utils.RGB;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class Player extends Being {
 
@@ -20,9 +22,9 @@ public class Player extends Being {
     private final Color chatColor = RGB.random();
     private final Queue<Packet> queuedPackets = new LinkedList<>();
 
-    public Player(Connection connection, String name, int[] rect,
-            Level level) {
-        super(level, rect, BeingType.IOMOR);
+    public Player(Connection connection, String name, Level level, Rectangle rect,
+            Dimension collSize, Vector collOffset, String type) {
+        super(level, rect, collSize, collOffset, type);
         this.connection = connection;
         this.name = name;
     }

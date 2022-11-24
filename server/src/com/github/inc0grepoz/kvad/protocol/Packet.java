@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.entities.Connection;
-import com.github.inc0grepoz.kvad.entities.Player;
+import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {

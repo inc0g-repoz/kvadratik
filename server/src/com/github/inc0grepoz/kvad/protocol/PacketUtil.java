@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Map;
 
-import com.github.inc0grepoz.kvad.entities.Player;
 import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class PacketUtil {

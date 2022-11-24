@@ -23,23 +23,17 @@ public class Being extends Renderable {
 
     private String name;
 
-    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset, String type, int id) {
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
+            String type, int id) {
         super(level, rect, collSize, collOffset);
         super.collide = true;
         this.id = id < 0 ? ++lastId : id;
         this.type = type;
     }
 
-    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset, String type) {
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
+            String type) {
         this(level, rect, collSize, collOffset, type, -1);
-    }
-
-    public Being(Level level, Rectangle rect, String type, int id) {
-        this(level, rect, null, null, type, id);
-    }
-
-    public Being(Level level, Rectangle rect, String type) {
-        this(level, rect, type, -1);
     }
 
     public String getName() {
