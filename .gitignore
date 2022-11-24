@@ -15,6 +15,7 @@ out/
 *.prefs
 ant.xml
 bin/
+lib/
 
 # Compiled class file
 *.class
