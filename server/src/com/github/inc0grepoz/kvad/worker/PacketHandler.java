@@ -74,7 +74,7 @@ public class PacketHandler extends Worker {
                 for (Packet packet : queue) {
                     switch (packet.getType()) {
                         case CLIENT_CHAT_MESSAGE: {
-                            kvad.getPacketUtil().outChat(player, packet.toString());
+                            kvad.getPacketUtil().inChat(player, packet.toString());
                             break;
                         }
                         case CLIENT_PLAYER_ANIM: {

@@ -31,6 +31,7 @@ public class KvadratikServer {
     }   
 
     private final PacketUtil packetUtil = new PacketUtil(this);
+    private final PlayerCommandHandler commandHandler = new PlayerCommandHandler(this);
     private final List<Worker> workers = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
     private final List<Connection> connections = new ArrayList<>();
@@ -86,6 +87,10 @@ public class KvadratikServer {
 
     public int getConnectionTimeout() {
         return connectionTimeout;
+    }
+
+    public void handlePlayerCommand(Player player, String command) {
+        commandHandler.execute(player, command);
     }
 
     public void closeExpiredConnections() {

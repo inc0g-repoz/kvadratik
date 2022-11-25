@@ -14,14 +14,13 @@ public class Being extends Renderable {
     private static int lastId;
 
     private final int id;
-    private final String type;
     private final Vector prevMove = new Vector();
 
     private Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
     private int animSpriteIndex;
 
-    private String name;
+    private String name, type;
 
     public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
             String type, int id) {
@@ -91,6 +90,10 @@ public class Being extends Renderable {
                 nextAnim = Anim.IDLE_S;
         }
         applyAnim(nextAnim);
+    }
+
+    public void morph(String type) {
+        this.type = type;
     }
 
     public void applyAnim(Anim anim) {

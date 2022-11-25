@@ -21,14 +21,17 @@ public class BeingFactory {
         types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
     }
 
-    public String[] getTypes() {
-        return types;
+    public boolean hasType(String type) {
+        for (int i = 0; i < types.length; i++) {
+            if (types[i].equals(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Being create(String type, Level level, Point point) {
-        Being being = getTemplate(type).create(level, point);
-        level.getBeings().add(being);
-        return being;
+    public String[] getTypes() {
+        return types;
     }
 
     public Player createPlayer(Connection connection, String name,
@@ -46,6 +49,12 @@ public class BeingFactory {
             }
         }
         return null;
+    }
+
+    public Being create(String type, Level level, Point point) {
+        Being being = getTemplate(type).create(level, point);
+        level.getBeings().add(being);
+        return being;
     }
 
 }

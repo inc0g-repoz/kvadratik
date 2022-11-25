@@ -30,6 +30,12 @@ public class PacketUtil {
         outBeingRect(player);
     }
 
+    public void outAnim(Being being) {
+        String content = "id=" + being.getId() + ";anim=" + being.getAnim().name();
+        Packet packet = PacketType.SERVER_BEING_ANIM.create(content);
+        allExcludePlayer(packet, being);
+    }
+
     public void outBeingRect(Being being) {
         Rectangle rect = being.getRectangle();
         StringBuilder sb = new StringBuilder();
@@ -47,7 +53,17 @@ public class PacketUtil {
         kvad.getPlayers().forEach(packet::queue);
     }
 
-    public void outChat(Player player, String message) {
+    public void outBeingType(Being being) {
+        String content = "id=" + being.getId() + ";type=" + being.getType();
+        Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
+        kvad.getPlayers().forEach(packet::queue);
+    }
+
+    public void inChat(Player player, String message) {
+        if (message.startsWith("!")) {
+            kvad.handlePlayerCommand(player, message);
+            return;
+        }
         Color color = player.getChatColor();
         StringBuilder sb = new StringBuilder();
         sb.append("color=");
@@ -64,10 +80,10 @@ public class PacketUtil {
         kvad.getPlayers().forEach(packet::queue);
     }
 
-    public void outAnim(Being being) {
-        String content = "id=" + being.getId() + ";anim=" + being.getAnim().name();
-        Packet packet = PacketType.SERVER_BEING_ANIM.create(content);
-        allExcludePlayer(packet, being);
+    public void outDespawnBeing(Being being) {
+        String id = String.valueOf(being.getId());
+        Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
+        kvad.getPlayers().forEach(packet::queue);
     }
 
     public void outLevel(Player player) {
@@ -80,12 +96,6 @@ public class PacketUtil {
 
     public void outSpawnBeingForAll(Being being) {
         Packet packet = PacketType.SERVER_BEING_SPAWN.create(being.toString());
-        allExcludePlayer(packet, being);
-    }
-
-    public void outDespawnBeing(Being being) {
-        String id = String.valueOf(being.getId());
-        Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
         kvad.getPlayers().forEach(packet::queue);
     }
 

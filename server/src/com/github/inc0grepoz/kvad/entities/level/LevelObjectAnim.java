@@ -1,12 +1,8 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.image.BufferedImage;
-
-import com.github.inc0grepoz.kvad.server.KvadratikServer;
-
 public class LevelObjectAnim {
 
-    public static final LevelObjectAnim COLOR = new LevelObjectAnim(0, "color");
+    public static final LevelObjectAnim COLOR = new LevelObjectAnim("color");
 
     private static LevelObjectAnim[] anims;
 
@@ -30,31 +26,14 @@ public class LevelObjectAnim {
         return anims;
     }
 
-    private final long delay;
     private final String name;
-    private final BufferedImage[] images;
 
-    public LevelObjectAnim(long delay, String name, String... paths) {
-        this.delay = delay;
+    public LevelObjectAnim(String name) {
         this.name = name;
-        images = new BufferedImage[paths.length];
-
-        for (int i = 0; i < images.length; i++) {
-            String btPath = "assets/objects/sprites/" + this + "/" + paths[i];
-            images[i] = KvadratikServer.ASSETS.image(btPath);
-        }
     }
 
     public String toString() {
         return name;
-    }
-
-    public long getDelay() {
-        return delay;
-    }
-
-    public BufferedImage[] getImages() {
-        return images;
     }
 
 }

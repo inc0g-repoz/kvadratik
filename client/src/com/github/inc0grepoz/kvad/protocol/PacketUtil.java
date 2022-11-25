@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.IntStream.Builder;
-import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
@@ -113,19 +110,37 @@ public class PacketUtil {
             return;
         }
 
-        // Building a rectangle array
-        Builder b = IntStream.builder();
-        Stream.of(map.get("rect").split(",")).forEach(s -> {
-            b.add(Integer.valueOf(s).intValue());
-        });
-        int[] rect = b.build().toArray();
+        // Reading the point
+        String[] pArr = map.get("point").split(",");
+        Point point = new Point(Integer.valueOf(pArr[0]), Integer.valueOf(pArr[1]));
 
         // Looking for the client-side being type
         String type = map.get("type");
 
-        Being being = KvadratikGame.BEING_FACTORY.create(type, level, new Point(rect[0], rect[1]));
+        Being being = KvadratikGame.BEING_FACTORY.create(type, level, point, id);
         String name = map.getOrDefault("name", null);
         being.setName(name);
+    }
+
+    public void inBeingType(Packet packet) {
+        if (packet.getType() != PacketType.SERVER_BEING_TYPE) {
+            Logger.error("Unable to read a being type from " + packet.getType().name());
+            return;
+        }        
+
+        Map<String, String> map = packet.toMap();
+
+        // Getting a server-side unique ID
+        String idStr = map.getOrDefault("id", null);
+        int id = idStr == null ? -1 : Integer.valueOf(idStr);
+
+        // Looking for the same entity
+        Being being = game.getLevel().getBeings().stream()
+                .filter(b -> b.getId() == id).findFirst().orElse(null);
+        if (being != null) {
+            String type = map.get("type");
+            being.morph(type);
+        }
     }
 
     public void inLevel(Packet packet) {

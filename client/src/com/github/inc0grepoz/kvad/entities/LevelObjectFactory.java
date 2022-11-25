@@ -20,12 +20,6 @@ public class LevelObjectFactory {
         templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
     }
 
-    public LevelObject create(String name, Level level, Point point) {
-        LevelObject levelObject = getTemplate(name).create(level, point);
-        level.getLevelObjects().add(levelObject);
-        return levelObject;
-    }
-
     public LevelObjectTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
             if (templates[i].getName().equals(type)) {
@@ -33,6 +27,12 @@ public class LevelObjectFactory {
             }
         }
         return null;
+    }
+
+    public LevelObject create(String name, Level level, Point point) {
+        LevelObject levelObject = getTemplate(name).create(level, point);
+        level.getLevelObjects().add(levelObject);
+        return levelObject;
     }
 
 }

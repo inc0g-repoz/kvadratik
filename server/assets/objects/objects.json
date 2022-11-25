@@ -1,0 +1,23 @@
+{
+    "background": {
+        "size": [0, 0],
+        "type": "Background",
+        "color": [255, 255, 255]
+    },
+    "rug": {
+        "size": [128, 97],
+        "type": "Rectangle"
+    },
+	"mewo": {
+        "size": [30, 30],
+        "collider": [26, 16, 2, 5],
+        "type": "Animated",
+        "collide": true
+    },
+	"laptop": {
+        "size": [22, 22],
+        "collider": [18, 22, 2, 0],
+        "type": "Animated",
+        "collide": true
+    }
+}

@@ -37,16 +37,12 @@ public abstract class Entity {
     @Override
     public String toString() {
         Map<String, String> map = new HashMap<>();
-        String rString = new StringBuilder()
+        String pString = new StringBuilder()
                 .append(rect.x)
                 .append(",")
                 .append(rect.y)
-                .append(",")
-                .append(rect.width)
-                .append(",")
-                .append(rect.height)
                 .toString();
-        map.put("rect", rString);
+        map.put("point", pString);
         map.put("level", level.getName());
         map.put("collide", Boolean.toString(collide));
 

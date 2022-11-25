@@ -3,9 +3,9 @@ package com.github.inc0grepoz.kvad.utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
 import com.github.inc0grepoz.kvad.entities.being.PlayerPreset;
@@ -124,24 +124,9 @@ public class JSON {
     }
 
     public static LevelObjectAnim[] fromJsonLevelObjectAnim(String json) {
-        List<LevelObjectAnim> list = new ArrayList<>();
         JsonObject jAnims = JsonParser.parseString(json).getAsJsonObject();
-
-        for (String key : jAnims.keySet()) {
-            JsonObject jTemplate = jAnims.getAsJsonObject(key);
-
-            JsonArray jPaths = jTemplate.getAsJsonArray("paths");
-            List<String> paths = new LinkedList<>();
-            jPaths.forEach(jPath -> paths.add(jPath.getAsString()));
-
-            int delay = jTemplate.get("delay").getAsInt();
-
-            LevelObjectAnim anim = new LevelObjectAnim(delay, key,
-                    paths.stream().toArray(String[]::new));
-            list.add(anim);
-        }
-
-        return list.stream().toArray(LevelObjectAnim[]::new);
+        return jAnims.keySet().stream().map(LevelObjectAnim::new).collect(Collectors.toList())
+                .stream().toArray(LevelObjectAnim[]::new);
     }
 
     public static Level fromJsonLevel(KvadratikServer kvad, String json) {

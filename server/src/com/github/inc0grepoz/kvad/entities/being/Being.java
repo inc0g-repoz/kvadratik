@@ -12,12 +12,10 @@ public class Being extends Entity {
 
     private static int lastId;
 
-    public boolean sprint;
-
-    private final String type;
     private final int id = ++lastId;
     private final Vector velocity = new Vector();
 
+    private String type;
     private Anim anim = Anim.IDLE_S;
 
     public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
@@ -38,6 +36,10 @@ public class Being extends Entity {
             int moveY = anim.way.y * speed;
             move(moveX, moveY);
         }
+    }
+
+    public void morph(String type) {
+        this.type = type;
     }
 
     public void applyAnim(Anim anim) {
