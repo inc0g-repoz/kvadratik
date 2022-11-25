@@ -172,7 +172,8 @@ public class KvadratikClient extends Worker {
             try {
                 PacketType.CLIENT_KEEP_ALIVE.create(" ").send(socket.getOutputStream());
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.error("Connection reset");
+                disconnect();
             }
         }
     }
