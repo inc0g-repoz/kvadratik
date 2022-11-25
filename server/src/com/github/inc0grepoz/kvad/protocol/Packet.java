@@ -15,7 +15,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {
 
-    public static boolean logging = false;
+    public static boolean logging = true;
 
     public static Queue<Packet> in(Connection connection) throws IOException {
         Queue<Packet> packets = new LinkedList<>();
@@ -47,10 +47,8 @@ public class Packet {
             if (logging && packet.type != PacketType.CLIENT_KEEP_ALIVE) {
                 StringBuilder sbPack = new StringBuilder();
                 sbPack.append("Packet In (");
-                sbPack.append(packet.id);
-                sbPack.append("):\nBase64: ");
-                sbPack.append(packet.b64);
-                sbPack.append("\nString: ");
+                sbPack.append(packet.type.name());
+                sbPack.append("):\nString: ");
                 sbPack.append(packet.string);
                 Logger.info(sbPack.toString());
             }
@@ -89,10 +87,8 @@ public class Packet {
         if (logging) {
             StringBuilder sbPack = new StringBuilder();
             sbPack.append("Packet Out (");
-            sbPack.append(id);
-            sbPack.append("):\nBase64: ");
-            sbPack.append(b64);
-            sbPack.append("\nString: ");
+            sbPack.append(type.name());
+            sbPack.append("):\nString: ");
             sbPack.append(string);
             Logger.info(sbPack.toString());
         }
