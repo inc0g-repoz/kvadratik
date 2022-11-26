@@ -53,10 +53,6 @@ public class KvadratikClient extends Worker {
         return nickname != null && host != null && port != 0;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
     public String getServerIp() {
         return host;
     }
@@ -99,7 +95,7 @@ public class KvadratikClient extends Worker {
     public void connect() throws UnknownHostException, IOException {
         Logger.info("Connecting to " + host + ":" + port);
         socket = new Socket(host, port);
-        Packet.out(PacketType.CLIENT_LOGIN, nickname);
+        PacketType.CLIENT_LOGIN.create(nickname).queue(this);
     }
 
     @Override
