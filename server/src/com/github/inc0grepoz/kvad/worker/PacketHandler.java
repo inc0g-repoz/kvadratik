@@ -83,8 +83,8 @@ public class PacketHandler extends Worker {
                             kvad.getPacketUtil().outAnim(player);
                             break;
                         }
-                        case CLIENT_PLAYER_RECT: {
-                            kvad.getPacketUtil().inPlayerRect(packet, player);
+                        case CLIENT_PLAYER_POINT: {
+                            kvad.getPacketUtil().inPlayerPoint(packet, player);
                             break;
                         }
                         default:

@@ -37,18 +37,12 @@ public class PacketUtil {
         kvad.getPlayers().forEach(packet::queue);
     }
 
-    public void inPlayerRect(Packet packet, Player player) {
+    public void inPlayerPoint(Packet packet, Player player) {
         Map<String, String> map = packet.toMap();
         int x = Integer.valueOf(map.get("x"));
         int y = Integer.valueOf(map.get("y"));
-        int w = Integer.valueOf(map.get("w"));
-        int h = Integer.valueOf(map.get("h"));
-        Rectangle rect = player.getRectangle();
-        rect.x = x;
-        rect.y = y;
-        rect.width = w;
-        rect.height = h;
-        outBeingRect(player);
+        player.teleport(x, y);
+        outBeingPoint(player);
     }
 
     public void outAnim(Being being) {
@@ -57,7 +51,7 @@ public class PacketUtil {
         allExcludePlayer(packet, being);
     }
 
-    public void outBeingRect(Being being) {
+    public void outBeingPoint(Being being) {
         Rectangle rect = being.getRectangle();
         StringBuilder sb = new StringBuilder();
         sb.append("id=");
@@ -66,11 +60,7 @@ public class PacketUtil {
         sb.append(rect.x);
         sb.append(";y=");
         sb.append(rect.y);
-        sb.append(";w=");
-        sb.append(rect.width);
-        sb.append(";h=");
-        sb.append(rect.height);
-        Packet packet = PacketType.SERVER_BEING_RECT.create(sb.toString());
+        Packet packet = PacketType.SERVER_BEING_POINT.create(sb.toString());
         allExcludePlayer(packet, being);
     }
 

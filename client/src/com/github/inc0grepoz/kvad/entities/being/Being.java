@@ -59,13 +59,13 @@ public class Being extends Renderable {
             int moveY = anim.way.y * anim.moveSpeed;
 
             getLevel().getGame().getClient().getPacketUtil()
-                    .outRect(this, prevMove, moveX, moveY);
+                    .outPoint(this, prevMove, moveX, moveY);
 
             prevMove.x = moveX;
             prevMove.y = moveY;
         } else {
             getLevel().getGame().getClient().getPacketUtil()
-                    .outRect(this, prevMove, 0, 0);
+                    .outPoint(this, prevMove, 0, 0);
 
             prevMove.x = 0;
             prevMove.y = 0;

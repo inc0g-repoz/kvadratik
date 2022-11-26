@@ -31,7 +31,7 @@ public class PacketUtil {
         }
     }
 
-    public void outRect(Being being, Vector prevMove, int x, int y) {
+    public void outPoint(Being being, Vector prevMove, int x, int y) {
         if (!game.getClient().isConnected()
                 || being.getId() != game.getLevel().getPlayer().getId()
                 || prevMove.x == x && prevMove.y == y) {
@@ -44,11 +44,7 @@ public class PacketUtil {
         sb.append(rect.x);
         sb.append(";y=");
         sb.append(rect.y);
-        sb.append(";w=");
-        sb.append(rect.width);
-        sb.append(";h=");
-        sb.append(rect.height);
-        PacketType.CLIENT_PLAYER_RECT.create(sb.toString()).queue(game.getClient());
+        PacketType.CLIENT_PLAYER_POINT.create(sb.toString()).queue(game.getClient());
     }
 
     public void inAnim(Packet packet) {
@@ -182,23 +178,17 @@ public class PacketUtil {
         }
     }
 
-    public void inRect(Packet packet) {
+    public void inPoint(Packet packet) {
         Map<String, String> map = packet.toMap();
         int id = Integer.valueOf(map.get("id"));
         int x = Integer.valueOf(map.get("x"));
         int y = Integer.valueOf(map.get("y"));
-        int w = Integer.valueOf(map.get("w"));
-        int h = Integer.valueOf(map.get("h"));
 
         // Looking for the desired entity
         Being being = game.getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
-            Rectangle rect = being.getRectangle();
-            rect.x = x;
-            rect.y = y;
-            rect.width = w;
-            rect.height = h;
+            being.teleport(x, y);
         }
     }
 

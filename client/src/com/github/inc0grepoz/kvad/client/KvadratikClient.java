@@ -119,8 +119,8 @@ public class KvadratikClient extends Worker {
                     packetUtil.inBeingDespawn(packet);
                     break;
                 }
-                case SERVER_BEING_RECT: {
-                    packetUtil.inRect(packet);
+                case SERVER_BEING_POINT: {
+                    packetUtil.inPoint(packet);
                     break;
                 }
                 case SERVER_BEING_SPAWN: {
