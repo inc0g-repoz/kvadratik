@@ -1,12 +1,12 @@
 {
-	"laptop": {
+    "laptop": {
         "delay": 250,
         "paths": [
             "state_1.png",
             "state_2.png"
         ]
     },
-	"mewo": {
+    "mewo": {
         "delay": 1000,
         "paths": [
             "state_1.png",
