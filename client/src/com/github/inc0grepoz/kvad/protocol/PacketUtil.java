@@ -3,7 +3,11 @@ package com.github.inc0grepoz.kvad.protocol;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
+import java.util.UUID;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
@@ -11,6 +15,7 @@ import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Downloader;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.RGB;
@@ -67,6 +72,24 @@ public class PacketUtil {
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
             being.applyAnim(anim);
+        }
+    }
+
+    public void inAssets(Packet packet) {
+        String strUrl = packet.toString();
+        try {
+            URL url = new URL(strUrl);
+            int size = Downloader.getFileSize(null);
+            String fileName = UUID.nameUUIDFromBytes((url + ":" + size).getBytes()).toString();
+            File assets = new File("server-assets/" + fileName);
+            if (assets.exists()) {
+                Logger.info("Found an up-to-date version of the assets-pack");
+            } else {
+                Logger.info("Downloading the assets from " + strUrl);
+                Downloader.download(url, assets);
+            }
+        } catch (MalformedURLException e) {
+            Logger.error("Invalid assets URL");
         }
     }
 
