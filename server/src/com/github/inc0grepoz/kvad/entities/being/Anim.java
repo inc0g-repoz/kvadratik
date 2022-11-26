@@ -2,22 +2,22 @@ package com.github.inc0grepoz.kvad.entities.being;
 
 public enum Anim {
 
-    HIT_W  (Way.W),
-    HIT_A  (Way.A),
-    HIT_S  (Way.S),
-    HIT_D  (Way.D),
-    IDLE_W (Way.W),
-    IDLE_A (Way.A),
-    IDLE_S (Way.S),
-    IDLE_D (Way.D),
-    RUN_W  (Way.W),
-    RUN_A  (Way.A),
-    RUN_S  (Way.S),
-    RUN_D  (Way.D),
-    WALK_W (Way.W),
-    WALK_A (Way.A),
-    WALK_S (Way.S),
-    WALK_D (Way.D);
+    HIT_W  (0, Way.W),
+    HIT_A  (0, Way.A),
+    HIT_S  (0, Way.S),
+    HIT_D  (0, Way.D),
+    IDLE_W (0, Way.W),
+    IDLE_A (0, Way.A),
+    IDLE_S (0, Way.S),
+    IDLE_D (0, Way.D),
+    RUN_W  (12, Way.W),
+    RUN_A  (12, Way.A),
+    RUN_S  (12, Way.S),
+    RUN_D  (12, Way.D),
+    WALK_W (4, Way.W),
+    WALK_A (4, Way.A),
+    WALK_S (4, Way.S),
+    WALK_D (4, Way.D);
 
     public static enum Way {
 
@@ -32,9 +32,11 @@ public enum Anim {
 
     }
 
+    public final int speed;
     public final Way way;
 
-    Anim(Way way) {
+    Anim(int speed, Way way) {
+        this.speed = speed;
         this.way = way;
     }
 

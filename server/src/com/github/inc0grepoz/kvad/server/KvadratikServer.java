@@ -54,7 +54,7 @@ public class KvadratikServer {
         boolean already = players.stream().anyMatch(player -> {
             return connection.equals(player.getConnection());
         });
-        if (!already) {
+        if (!already || true) {
             Player player = level.getPlayerPreset().spawn(connection, name, level);
 
             // Sending the level data and all beings

@@ -22,7 +22,6 @@ public class Being extends Entity {
             String type) {
         super(level, rect, collSize, collOffset);
         super.collide = true;
-        super.speed = 4;
         this.type = type;
     }
 
@@ -31,9 +30,9 @@ public class Being extends Entity {
     }
 
     public void moveOn() {
-        if (speed != 0) {
-            int moveX = anim.way.x * speed;
-            int moveY = anim.way.y * speed;
+        if (anim.way.x != 0 || anim.way.y != 0) {
+            int moveX = anim.way.x * anim.speed;
+            int moveY = anim.way.y * anim.speed;
             move(moveX, moveY);
         }
     }

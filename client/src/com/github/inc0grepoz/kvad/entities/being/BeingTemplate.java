@@ -31,7 +31,9 @@ public class BeingTemplate {
 
     public Being create(Level level, Point point, int id) {
         Rectangle rect = new Rectangle(point, size);
-        return new Being(level, rect, collSize, collOffset, type, id);
+        Being being = new Being(level, rect, collSize, collOffset, type, id);
+        level.getBeings().add(being);
+        return being;
     }
 
     public Being create(Level level, Point point) {

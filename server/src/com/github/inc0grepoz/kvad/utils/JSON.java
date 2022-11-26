@@ -136,13 +136,12 @@ public class JSON {
         // Creating a player preset
         JsonObject jPlayer = jLevel.getAsJsonObject("player");
         String jPlayerType = jPlayer.get("beingType").getAsString();
-        BeingTemplate pTemp = KvadratikServer.BEING_FACTORY.getTemplate(jPlayerType);
 
         JsonArray jPlayerPoint = jPlayer.getAsJsonArray("point");
         Point pPoint = new Point(
                 jPlayerPoint.get(0).getAsInt(),
                 jPlayerPoint.get(1).getAsInt());
-        PlayerPreset preset = new PlayerPreset(pTemp, pPoint);
+        PlayerPreset preset = new PlayerPreset(jPlayerType, pPoint);
 
         Level level = new Level(kvad, name, json, preset);
 

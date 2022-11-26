@@ -34,15 +34,11 @@ public class BeingFactory {
     }
 
     public Being create(String type, Level level, Point point) {
-        Being being = getTemplate(type).create(level, point);
-        level.getBeings().add(being);
-        return being;
+        return getTemplate(type).create(level, point);
     }
 
     public Being create(String type, Level level, Point point, int id) {
-        Being being = getTemplate(type).create(level, point, id);
-        level.getBeings().add(being);
-        return being;
+        return getTemplate(type).create(level, point, id);
     }
 
 }

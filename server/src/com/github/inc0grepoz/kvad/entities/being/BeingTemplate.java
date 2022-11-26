@@ -33,12 +33,17 @@ public class BeingTemplate {
     public Player createPlayer(Connection connection, String name,
             Level level, Point point) {
         Rectangle rect = new Rectangle(point, size);
-        return new Player(connection, name, level, rect, collSize, collOffset, type);
+        Player player = new Player(connection, name, level, rect, collSize, collOffset, type);
+        level.getGame().getPlayers().add(player);
+        level.getBeings().add(player);
+        return player;
     }
 
     public Being create(Level level, Point point) {
         Rectangle rect = new Rectangle(point, size);
-        return new Being(level, rect, collSize, collOffset, type);
+        Being being = new Being(level, rect, collSize, collOffset, type);
+        level.getBeings().add(being);
+        return being;
     }
 
 }

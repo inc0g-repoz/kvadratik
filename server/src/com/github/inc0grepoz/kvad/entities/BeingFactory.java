@@ -34,14 +34,6 @@ public class BeingFactory {
         return types;
     }
 
-    public Player createPlayer(Connection connection, String name,
-            Level level, Point point, String type) {
-        BeingTemplate temp = getTemplate(type);
-        Player player = temp.createPlayer(connection, name, level, point);
-        level.getBeings().add(player);
-        return player;
-    }
-
     public BeingTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
             if (templates[i].getType().equals(type)) {
@@ -52,9 +44,12 @@ public class BeingFactory {
     }
 
     public Being create(String type, Level level, Point point) {
-        Being being = getTemplate(type).create(level, point);
-        level.getBeings().add(being);
-        return being;
+        return getTemplate(type).create(level, point);
+    }
+
+    public Player createPlayer(Connection connection, String name,
+            Level level, Point point, String type) {
+        return getTemplate(type).createPlayer(connection, name, level, point);
     }
 
 }

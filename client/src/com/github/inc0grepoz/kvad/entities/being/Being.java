@@ -52,12 +52,12 @@ public class Being extends Renderable {
     }
 
     public void moveOn() {
-        int moveX = anim.way.x * speed;
-        int moveY = anim.way.y * speed;
-
         boolean moved = move(anim.way, anim.moveSpeed);
 
         if (moved) {
+            int moveX = anim.way.x * anim.moveSpeed;
+            int moveY = anim.way.y * anim.moveSpeed;
+
             getLevel().getGame().getClient().getPacketUtil()
                     .outRect(this, prevMove, moveX, moveY);
 

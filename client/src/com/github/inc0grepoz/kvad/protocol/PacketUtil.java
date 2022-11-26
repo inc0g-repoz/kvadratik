@@ -32,11 +32,9 @@ public class PacketUtil {
     }
 
     public void outRect(Being being, Vector prevMove, int x, int y) {
-        if (!game.getClient().isConnected()) {
-            return;
-        }
-
-        if (prevMove.x == x && prevMove.y == y) {
+        if (!game.getClient().isConnected()
+                || being.getId() != game.getLevel().getPlayer().getId()
+                || prevMove.x == x && prevMove.y == y) {
             return;
         }
 

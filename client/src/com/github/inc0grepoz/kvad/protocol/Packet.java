@@ -15,7 +15,14 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Packet {
 
-    public static boolean logging = true;
+    public static boolean logging = false;
+    public static PacketType[] filter = {
+
+            PacketType.CLIENT_KEEP_ALIVE,
+            PacketType.CLIENT_PLAYER_ANIM,
+            PacketType.SERVER_BEING_ANIM
+
+    };
 
     public static Queue<Packet> in(Socket sock) {
         Queue<Packet> packets = new LinkedList<>();
@@ -46,7 +53,7 @@ public class Packet {
                 packet.data = (packet.id + " " + packet.b64 + " ").getBytes();
                 packets.add(packet);
 
-                if (logging) {
+                if (logging && !isExcluded(packet.type)) {
                     StringBuilder sbPack = new StringBuilder();
                     sbPack.append("Packet In (");
                     sbPack.append(packet.type.name());
@@ -93,7 +100,7 @@ public class Packet {
     }
 
     public void send(OutputStream out) throws IOException {
-        if (logging && type != PacketType.CLIENT_KEEP_ALIVE) {
+        if (logging && !isExcluded(type)) {
             StringBuilder sbPack = new StringBuilder();
             sbPack.append("Packet Out (");
             sbPack.append(type.name());
@@ -120,6 +127,15 @@ public class Packet {
 
     Map<String, String> toMap() {
         return toMap(0);
+    }
+
+    private static boolean isExcluded(PacketType pt) {
+        for (int i = 0; i < filter.length; i++) {
+            if (filter[i] == pt) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

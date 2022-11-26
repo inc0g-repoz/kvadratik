@@ -16,6 +16,27 @@ public class PacketUtil {
         this.kvad = kvad;
     }
 
+    public void inChat(Player player, String message) {
+        if (message.startsWith("!")) {
+            kvad.handlePlayerCommand(player, message);
+            return;
+        }
+        Color color = player.getChatColor();
+        StringBuilder sb = new StringBuilder();
+        sb.append("color=");
+        sb.append(color.getRed());
+        sb.append(",");
+        sb.append(color.getGreen());
+        sb.append(",");
+        sb.append(color.getBlue());
+        sb.append(";name=");
+        sb.append(player.getName());
+        sb.append(";text=");
+        sb.append(message);
+        Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(sb.toString());
+        kvad.getPlayers().forEach(packet::queue);
+    }
+
     public void inPlayerRect(Packet packet, Player player) {
         Map<String, String> map = packet.toMap();
         int x = Integer.valueOf(map.get("x"));
@@ -59,27 +80,6 @@ public class PacketUtil {
         kvad.getPlayers().forEach(packet::queue);
     }
 
-    public void inChat(Player player, String message) {
-        if (message.startsWith("!")) {
-            kvad.handlePlayerCommand(player, message);
-            return;
-        }
-        Color color = player.getChatColor();
-        StringBuilder sb = new StringBuilder();
-        sb.append("color=");
-        sb.append(color.getRed());
-        sb.append(",");
-        sb.append(color.getGreen());
-        sb.append(",");
-        sb.append(color.getBlue());
-        sb.append(";name=");
-        sb.append(player.getName());
-        sb.append(";text=");
-        sb.append(message);
-        Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(sb.toString());
-        kvad.getPlayers().forEach(packet::queue);
-    }
-
     public void outDespawnBeing(Being being) {
         String id = String.valueOf(being.getId());
         Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
@@ -96,7 +96,7 @@ public class PacketUtil {
 
     public void outSpawnBeingForAll(Being being) {
         Packet packet = PacketType.SERVER_BEING_SPAWN.create(being.toString());
-        kvad.getPlayers().forEach(packet::queue);
+        allExcludePlayer(packet, being);
     }
 
     public void outTransferControl(Player player, Being being) {

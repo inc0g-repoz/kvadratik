@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
+import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class ConsoleWorker extends Worker {
@@ -18,6 +19,7 @@ public class ConsoleWorker extends Worker {
             "fps",
             "help",
             "log_keys",
+            "log_packets",
             "teleport",
             "view_misc",
             "walk_speed"
@@ -55,6 +57,10 @@ public class ConsoleWorker extends Worker {
             case "log_keys":
                 logKeys = !logKeys;
                 Logger.info("Set keys logging to " + Boolean.toString(logKeys));
+                return;
+            case "log_packets":
+                Packet.logging = !Packet.logging;
+                Logger.info("Set packets logging to " + Boolean.toString(Packet.logging));
                 return;
             case "view_misc":
                 boolean view = (canvas.miscInfo = !canvas.miscInfo);
