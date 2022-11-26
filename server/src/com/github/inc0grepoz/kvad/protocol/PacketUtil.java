@@ -71,7 +71,7 @@ public class PacketUtil {
         sb.append(";h=");
         sb.append(rect.height);
         Packet packet = PacketType.SERVER_BEING_RECT.create(sb.toString());
-        kvad.getPlayers().forEach(packet::queue);
+        allExcludePlayer(packet, being);
     }
 
     public void outBeingType(Being being) {
