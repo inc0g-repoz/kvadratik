@@ -51,22 +51,27 @@ public class KvadratikServer {
     }
 
     public void logPlayerIn(String name, Connection connection) {
-        boolean already = players.stream().anyMatch(player -> {
-            return connection.equals(player.getConnection());
-        });
-        if (!already || true) {
-            Player player = level.getPlayerPreset().spawn(connection, name, level);
+        /* The snippet bellow needs to be placed here later
+         * when the packet related stuff fixing is done */
 
-            // Sending the level data and all beings
-            packetUtil.outLevel(player);
-            packetUtil.outSpawnBeingForAll(player);
-            level.getBeings().forEach(being -> packetUtil.outSpawnBeing(player, being));
+//      boolean already = players.stream().anyMatch(player -> {
+//          return connection.equals(player.getConnection());
+//      });
+//      if (!already) {
+//          // Add a new player to the list
+//      }
 
-            packetUtil.outTransferControl(player, player);
+        Player player = level.getPlayerPreset().spawn(connection, name, level);
 
-            String ip = connection.getInetAddress().getHostAddress();
-            Logger.info(name + " joined the server from " + ip);
-        }
+        // Sending the level data and all beings
+        packetUtil.outLevel(player);
+        packetUtil.outSpawnBeingForAll(player);
+        level.getBeings().forEach(being -> packetUtil.outSpawnBeing(player, being));
+
+        packetUtil.outTransferControl(player, player);
+
+        String ip = connection.getInetAddress().getHostAddress();
+        Logger.info(name + " joined the server from " + ip);
     }
 
     public PacketUtil getPacketUtil() {
