@@ -2,16 +2,20 @@ package com.github.inc0grepoz.kvad.editor;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.stream.Stream;
 
-import javax.swing.JLabel;
+import javax.swing.DropMode;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
@@ -40,7 +44,9 @@ public class KvadratikGame extends Frame {
 
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
+        canvas.setBounds(0, 0, 640, 480);
         canvas.setBackground(Color.BLACK);
+//      add(canvas);
         canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();
 
@@ -54,15 +60,25 @@ public class KvadratikGame extends Frame {
 
         // Editor panels
         JPanel jpGeneral = new JPanel();
-        JLabel jlTest = new JLabel("Editor");
-        jpGeneral.add(jlTest);
-        canvas.setBounds(0, 0, 640, 480);
+//      jpGeneral.setBorder(BorderFactory.createEtchedBorder());
+        jpGeneral.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 10));
+
         JPanel jpCanvas = new JPanel();
         jpCanvas.add(canvas);
-        add(canvas);
+        jpGeneral.add(jpCanvas);
+
+//      JLabel jlTest = new JLabel("Editor");
+//      jpGeneral.add(jlTest);
+
+        String[] jlObjectsArr = Stream.of(OBJECT_FACTORY.getTemplates())
+                .map(LevelObjectTemplate::getName).toArray(String[]::new);
+        JList<String> jlObjects = new JList<String>(jlObjectsArr);
+        jlObjects.setDragEnabled(true);
+        jlObjects.setDropMode(DropMode.INSERT);
+        jpGeneral.add(jlObjects);
+
         add(jpGeneral);
-        //jpGeneral.add(jlTest);
-        //add(jpGeneral);
+        pack();
     }
 
     public void run() {

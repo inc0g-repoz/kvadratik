@@ -14,12 +14,10 @@ public class BeingFactory {
     private BeingTemplate[] templates;
     private String[] types;
 
-    public void validatePreload() {
-        if (templates == null && types == null) {
-            String beingsJson = KvadratikGame.ASSETS.textFile("assets/beings/beings.json");
-            templates = JSON.fromJsonBeingTemplates(beingsJson);
-            types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
-        }
+    {
+        String beingsJson = KvadratikGame.ASSETS.textFile("assets/beings/beings.json");
+        templates = JSON.fromJsonBeingTemplates(beingsJson);
+        types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
     }
 
     public String[] getTypes() {

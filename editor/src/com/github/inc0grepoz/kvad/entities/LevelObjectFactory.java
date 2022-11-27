@@ -13,13 +13,11 @@ public class LevelObjectFactory {
 
     private LevelObjectTemplate[] templates;
 
-    public void validatePreload() {
-        if (templates == null) {
-            String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
-            String levelObjectsAnimsJson = KvadratikGame.ASSETS.textFile("assets/objects/anims.json");
-            LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
-            templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
-        }
+    {
+        String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
+        String levelObjectsAnimsJson = KvadratikGame.ASSETS.textFile("assets/objects/anims.json");
+        LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
+        templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
     }
 
     public LevelObjectTemplate getTemplate(String type) {
@@ -29,6 +27,10 @@ public class LevelObjectFactory {
             }
         }
         return null;
+    }
+
+    public LevelObjectTemplate[] getTemplates() {
+        return templates;
     }
 
     public LevelObject create(String name, Level level, Point point) {
