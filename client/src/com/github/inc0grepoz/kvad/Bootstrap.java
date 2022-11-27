@@ -37,7 +37,6 @@ public class Bootstrap {
                         break;
                     }
                     default:
-                        break;
                 }
             }
         }
