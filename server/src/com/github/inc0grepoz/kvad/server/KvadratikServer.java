@@ -41,11 +41,6 @@ public class KvadratikServer {
     private Level level;
 
     public KvadratikServer() {
-        workers.add(new ConsoleWorker(this, 500));
-        workers.add(new PacketHandler(this));
-        workers.add(new PhysicsWorker(this, 50));
-        workers.add(new SocketAcceptor(this, 30405));
-
         // Creating the server level
         String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
         level = JSON.fromJsonLevel(this, levelJson);
@@ -53,6 +48,11 @@ public class KvadratikServer {
         // Loading the server settings
         String settingsJson = ASSETS.textFile("settings.json");
         settings = JSON.fromJsonSettings(settingsJson);
+
+        workers.add(new ConsoleWorker(this, 500));
+        workers.add(new PacketHandler(this));
+        workers.add(new PhysicsWorker(this, 50));
+        workers.add(new SocketAcceptor(this, settings.port));
     }
 
     public void logPlayerIn(String name, Connection connection) {

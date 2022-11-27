@@ -29,6 +29,7 @@ public class JSON {
         Map<String, Object> map = new HashMap<>();
         JsonObject jSettings = JsonParser.parseString(json).getAsJsonObject();
         map.put("assetsLink", jSettings.get("assetsLink").getAsString());
+        map.put("port", jSettings.get("port").getAsInt());
         map.put("timeout", jSettings.get("timeout").getAsInt());
         return new Settings(map);
     }
