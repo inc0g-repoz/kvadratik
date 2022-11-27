@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.client;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -8,6 +9,7 @@ import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.chat.Chat;
+import com.github.inc0grepoz.kvad.entities.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
@@ -93,7 +95,13 @@ public class KvadratikClient extends Worker {
     }
 
     public void connect() throws UnknownHostException, IOException {
-        Logger.info("Connecting to " + host + ":" + port);
+        String text = "Connecting to " + host + ":" + port;
+        Logger.info(text);
+
+        Message message = new Message();
+        message.addComponent(text, Color.ORANGE);
+        chat.print(message);
+
         socket = new Socket(host, port);
         PacketType.CLIENT_LOGIN.create(nickname).queue(this);
     }
@@ -172,8 +180,12 @@ public class KvadratikClient extends Worker {
             try {
                 PacketType.CLIENT_KEEP_ALIVE.create(" ").send(socket.getOutputStream());
             } catch (IOException e) {
-                Logger.error("Connection reset");
                 disconnect();
+                Logger.error("Connection reset");
+
+                Message message = new Message();
+                message.addComponent("Connection reset!", Color.RED);
+                chat.print(message);
             }
         }
     }
