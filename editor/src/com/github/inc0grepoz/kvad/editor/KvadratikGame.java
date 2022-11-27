@@ -6,6 +6,9 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -38,7 +41,6 @@ public class KvadratikGame extends Frame {
         // Rendering
         canvas = new KvadratikCanvas(this, 640, 480);
         canvas.setBackground(Color.BLACK);
-        add(canvas);
         canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();
 
@@ -49,6 +51,18 @@ public class KvadratikGame extends Frame {
         // Physics (100 heartbeats per second)
         physics = new PhysicsWorker(this, 50L);
         physics.start();
+
+        // Editor panels
+        JPanel jpGeneral = new JPanel();
+        JLabel jlTest = new JLabel("Editor");
+        jpGeneral.add(jlTest);
+        canvas.setBounds(0, 0, 640, 480);
+        JPanel jpCanvas = new JPanel();
+        jpCanvas.add(canvas);
+        add(canvas);
+        add(jpGeneral);
+        //jpGeneral.add(jlTest);
+        //add(jpGeneral);
     }
 
     public void run() {

@@ -26,9 +26,22 @@ public class ControlsHandler {
             if (player != null) {
                 // Defining the camera moving direction
                 Camera camera = level.getCamera();
-                camera.move = Controls.isCameraMoving();
+                camera.move = Controls.isCameraMoving()
+                        || Controls.isCameraMovingAlt();
                 if (camera.move) {
                     switch (key) {
+                        case MOVE_UP:
+                            camera.moveDirection = Way.W;
+                            break;
+                        case MOVE_DOWN:
+                            camera.moveDirection = Way.S;
+                            break;
+                        case MOVE_LEFT:
+                            camera.moveDirection = Way.A;
+                            break;
+                        case MOVE_RIGHT:
+                            camera.moveDirection = Way.D;
+                            break;
                         case SELECT_UP:
                             camera.moveDirection = Way.W;
                             break;

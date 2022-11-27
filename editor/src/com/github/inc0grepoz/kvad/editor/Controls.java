@@ -43,7 +43,7 @@ public class Controls implements KeyListener {
 
     }
 
-    public static boolean isPlayerMoving() {
+    public static boolean isCameraMovingAlt() {
         return Key.MOVE_UP.pressed || Key.MOVE_DOWN.pressed
                 || Key.MOVE_LEFT.pressed || Key.MOVE_RIGHT.pressed;
     }

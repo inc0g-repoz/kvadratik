@@ -7,8 +7,8 @@ public class Bootstrap {
     private static final KvadratikGame GAME = new KvadratikGame();
 
     static {
-        GAME.setSize(640, 480);
-        GAME.setResizable(false);
+        GAME.setSize(1280, 480);
+        GAME.setResizable(true);
         GAME.setLocationRelativeTo(null);
         GAME.setVisible(true);
     }
