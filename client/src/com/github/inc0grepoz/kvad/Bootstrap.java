@@ -2,6 +2,7 @@ package com.github.inc0grepoz.kvad;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 import club.minnced.discord.rpc.DiscordEventHandlers;
@@ -41,8 +42,8 @@ public class Bootstrap {
             }
         }
 
-        initDiscordRPS();
         GAME.run();
+        initDiscordRPS();
     }
 
     public static void initDiscordRPS() {
@@ -65,11 +66,14 @@ public class Bootstrap {
         Thread t = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (GAME.getClient().isConnected()) {
-                    int size = GAME.getLevel().getBeings().size();
-                    if (size != presence.partySize) {
-                        presence.partySize = GAME.getLevel().getBeings().size();
-                        presence.state     = "Multiplayer";
-                        lib.Discord_UpdatePresence(presence);
+                    Level level = GAME.getLevel();
+                    if (level != null) {
+                        int size = GAME.getLevel().getBeings().size();
+                        if (size != presence.partySize) {
+                            presence.partySize = GAME.getLevel().getBeings().size();
+                            presence.state     = "Multiplayer";
+                            lib.Discord_UpdatePresence(presence);
+                        }
                     }
                 }
 

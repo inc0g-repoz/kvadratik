@@ -3,8 +3,10 @@ package com.github.inc0grepoz.kvad.utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
@@ -16,11 +18,20 @@ import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateAnimated;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateBackground;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateRectangle;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
+import com.github.inc0grepoz.kvad.server.Settings;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class JSON {
+
+    public static Settings fromJsonSettings(String json) {
+        Map<String, Object> map = new HashMap<>();
+        JsonObject jSettings = JsonParser.parseString(json).getAsJsonObject();
+        map.put("assetsLink", jSettings.get("assetsLink").getAsString());
+        map.put("timeout", jSettings.get("timeout").getAsInt());
+        return new Settings(map);
+    }
 
     public static BeingTemplate[] fromJsonBeingTemplates(String json) {
         List<BeingTemplate> list = new LinkedList<>();

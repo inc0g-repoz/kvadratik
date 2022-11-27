@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
@@ -79,16 +79,26 @@ public class PacketUtil {
         String strUrl = packet.toString();
         try {
             URL url = new URL(strUrl);
-            int size = Downloader.getFileSize(null);
-            String fileName = UUID.nameUUIDFromBytes((url + ":" + size).getBytes()).toString();
-            File assets = new File("server-assets/" + fileName);
-            if (assets.exists()) {
+
+            Logger.info("Measuring the assets zip-file size");
+            int size = Downloader.getFileSize(url);
+
+            String fileName = UUID.nameUUIDFromBytes((url + ":" + size).getBytes())
+                    .toString().replace("-", "");
+
+            File assetsDir = new File("server-assets/" + fileName);
+            if (assetsDir.exists() && assetsDir.isDirectory()) {
                 Logger.info("Found an up-to-date version of the assets-pack");
             } else {
+                File assetsZip = new File(assetsDir, fileName.concat(".zip"));
                 Logger.info("Downloading the assets from " + strUrl);
-                Downloader.download(url, assets);
+                Downloader.download(url, assetsZip);
+                Logger.info("Extracting the assets");
+                Downloader.extractZip(assetsZip, assetsDir);
+                assetsZip.delete();
             }
-        } catch (MalformedURLException e) {
+            KvadratikGame.ASSETS.assetsParent = assetsDir.toString();
+        } catch (IOException e) {
             Logger.error("Invalid assets URL");
         }
     }

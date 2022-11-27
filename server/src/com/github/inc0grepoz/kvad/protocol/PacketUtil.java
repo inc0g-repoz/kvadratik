@@ -34,7 +34,7 @@ public class PacketUtil {
         sb.append(";text=");
         sb.append(message);
         Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(sb.toString());
-        kvad.getPlayers().forEach(packet::queue);
+        kvad.players.forEach(packet::queue);
     }
 
     public void inPlayerPoint(Packet packet, Player player) {
@@ -49,6 +49,10 @@ public class PacketUtil {
         String content = "id=" + being.getId() + ";anim=" + being.getAnim().name();
         Packet packet = PacketType.SERVER_BEING_ANIM.create(content);
         allExcludePlayer(packet, being);
+    }
+
+    public void outAssets(Player player, String url) {
+        PacketType.SERVER_ASSETS_URL.create(url).queue(player);
     }
 
     public void outBeingPoint(Being being) {
@@ -67,13 +71,13 @@ public class PacketUtil {
     public void outBeingType(Being being) {
         String content = "id=" + being.getId() + ";type=" + being.getType();
         Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
-        kvad.getPlayers().forEach(packet::queue);
+        kvad.players.forEach(packet::queue);
     }
 
     public void outDespawnBeing(Being being) {
         String id = String.valueOf(being.getId());
         Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
-        kvad.getPlayers().forEach(packet::queue);
+        kvad.players.forEach(packet::queue);
     }
 
     public void outLevel(Player player) {
@@ -95,13 +99,13 @@ public class PacketUtil {
 
     private void allExcludePlayer(Packet packet, Being being) {
         if (being instanceof Player) {
-            kvad.getPlayers().forEach(player -> {
+            kvad.players.forEach(player -> {
                 if (player.getId() != being.getId()) {
                     packet.queue(player);
                 }
             });
         } else {
-            kvad.getPlayers().forEach(packet::queue);
+            kvad.players.forEach(packet::queue);
         }
     }
 

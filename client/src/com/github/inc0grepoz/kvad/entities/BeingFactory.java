@@ -11,13 +11,15 @@ import com.github.inc0grepoz.kvad.utils.JSON;
 
 public class BeingFactory {
 
-    private final BeingTemplate[] templates;
-    private final String[] types;
+    private BeingTemplate[] templates;
+    private String[] types;
 
-    {
-        String beingsJson = KvadratikGame.ASSETS.textFile("assets/beings/beings.json");
-        templates = JSON.fromJsonBeingTemplates(beingsJson);
-        types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
+    public void validatePreload() {
+        if (templates == null && types == null) {
+            String beingsJson = KvadratikGame.ASSETS.textFile("assets/beings/beings.json");
+            templates = JSON.fromJsonBeingTemplates(beingsJson);
+            types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
+        }
     }
 
     public String[] getTypes() {

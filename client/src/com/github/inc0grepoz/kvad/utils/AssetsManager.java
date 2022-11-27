@@ -11,30 +11,33 @@ import javax.imageio.ImageIO;
 
 public class AssetsManager {
 
+    public String assetsParent;
+
     public BufferedImage image(String path) {
-        Logger.info("Loading " + path);
+        String ppp = getAssetsParent() + path;
+        Logger.info("Loading " + ppp);
 
         try {
             return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
 
         try {
-            return ImageIO.read(new File(path));
+            return ImageIO.read(new File(ppp));
         } catch (Exception e) {}
 
-        Logger.error("Invalid image: " + path);
+        Logger.error("Invalid image: " + ppp);
         System.exit(0);
         return null;
     }
 
     public String textFile(String path) {
-        Logger.info("Loading " + path);
-        InputStream stream;
+        String ppp = getAssetsParent() + path;
+        Logger.info("Loading " + ppp);
 
         try {
-            stream = getClass().getClassLoader().getResourceAsStream(path);
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(ppp);
             if (stream == null) {
-                File file = new File(path);
+                File file = new File(ppp);
                 stream = new FileInputStream(file);
             }
             InputStreamReader isr = new InputStreamReader(stream);
@@ -48,9 +51,13 @@ public class AssetsManager {
             return string;
         } catch (Exception e) {}
 
-        Logger.error("Invalid text file: " + path);
+        Logger.error("Invalid text file: " + ppp);
         System.exit(0);
         return null;
+    }
+
+    private String getAssetsParent() {
+        return assetsParent == null ? "" : assetsParent + "/";
     }
 
 }

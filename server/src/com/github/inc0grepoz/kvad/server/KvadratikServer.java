@@ -30,12 +30,13 @@ public class KvadratikServer {
         return ASSETS;
     }   
 
-    private final PacketUtil packetUtil = new PacketUtil(this);
-    private final PlayerCommandHandler commandHandler = new PlayerCommandHandler(this);
+    public final List<Player> players = new ArrayList<>();
+    public final List<Connection> connections = new ArrayList<>();
+    public final PacketUtil packetUtil = new PacketUtil(this);
+    public final Settings settings;
+
     private final List<Worker> workers = new ArrayList<>();
-    private final List<Player> players = new ArrayList<>();
-    private final List<Connection> connections = new ArrayList<>();
-    private final int connectionTimeout = 10000;
+    private final PlayerCommandHandler commandHandler = new PlayerCommandHandler(this);
 
     private Level level;
 
@@ -48,6 +49,10 @@ public class KvadratikServer {
         // Creating the server level
         String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
         level = JSON.fromJsonLevel(this, levelJson);
+
+        // Loading the server settings
+        String settingsJson = ASSETS.textFile("settings.json");
+        settings = JSON.fromJsonSettings(settingsJson);
     }
 
     public void logPlayerIn(String name, Connection connection) {
@@ -64,6 +69,7 @@ public class KvadratikServer {
         Player player = level.getPlayerPreset().spawn(connection, name, level);
 
         // Sending the level data and all beings
+        packetUtil.outAssets(player, settings.assetsLink);
         packetUtil.outLevel(player);
         packetUtil.outSpawnBeingForAll(player);
         level.getBeings().forEach(being -> packetUtil.outSpawnBeing(player, being));
@@ -74,24 +80,8 @@ public class KvadratikServer {
         Logger.info(name + " joined the server from " + ip);
     }
 
-    public PacketUtil getPacketUtil() {
-        return packetUtil;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public List<Connection> getConnections() {
-        return connections;
-    }
-
     public Level getLevel() {
         return level;
-    }
-
-    public int getConnectionTimeout() {
-        return connectionTimeout;
     }
 
     public void handlePlayerCommand(Player player, String command) {

@@ -29,7 +29,7 @@ public class SocketAcceptor extends Worker {
 
             // Any new sockets?
             if (newSocket != null) {
-                kvad.getConnections().add(new Connection(kvad, newSocket));
+                kvad.connections.add(new Connection(kvad, newSocket));
             }
         } catch (IOException e) {
         }

@@ -10,6 +10,8 @@ import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class Connection {
 
+    public boolean timeoutImmune;
+
     private final KvadratikServer kvad;
     private final Socket socket;
 
@@ -38,7 +40,7 @@ public class Connection {
     }
 
     public boolean hasExpired() {
-        return System.currentTimeMillis() - lastResponse > kvad.getConnectionTimeout();
+        return !timeoutImmune && System.currentTimeMillis() - lastResponse > kvad.settings.timeout;
     }
 
     public void tick() {

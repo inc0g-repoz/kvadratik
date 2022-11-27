@@ -9,9 +9,9 @@ public enum PacketType {
     CLIENT_LOGIN(4),
     CLIENT_PLAYER_ANIM(5),
     CLIENT_PLAYER_POINT(6),
-    CLIENT_REQUEST_FILE(7),
 
     // Server -> Client
+    SERVER_ASSETS_URL(7),
     SERVER_BEING_ANIM(8),
     SERVER_BEING_DESPAWN(9),
     SERVER_BEING_POINT(10),

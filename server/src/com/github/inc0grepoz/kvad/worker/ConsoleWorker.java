@@ -46,8 +46,8 @@ public class ConsoleWorker extends Worker {
                 sjStats.add("Stats:");
                 sjStats.add("Beings: " + level.getBeings().size());
                 sjStats.add("Objects: " + level.getLevelObjects().size());
-                sjStats.add("Players: " + kvad.getPlayers().size());
-                sjStats.add("Connections: " + kvad.getConnections().size());
+                sjStats.add("Players: " + kvad.players.size());
+                sjStats.add("Connections: " + kvad.connections.size());
                 Logger.info(sjStats.toString());
                 return;
             }

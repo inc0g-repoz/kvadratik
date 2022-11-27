@@ -107,6 +107,10 @@ public class KvadratikClient extends Worker {
         // Reading the ingoing packets
         for (Packet packet : Packet.in(socket)) {
             switch (packet.getType()) {
+                case SERVER_ASSETS_URL: {
+                    packetUtil.inAssets(packet);
+                    break;
+                }
                 case SERVER_BEING_ANIM: {
                     packetUtil.inAnim(packet);
                     break;

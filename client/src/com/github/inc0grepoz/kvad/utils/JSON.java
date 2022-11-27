@@ -145,6 +145,9 @@ public class JSON {
     }
 
     public static Level fromJsonLevel(KvadratikGame game, String json, boolean mpMode) {
+        KvadratikGame.BEING_FACTORY.validatePreload();
+        KvadratikGame.OBJECT_FACTORY.validatePreload();
+
         JsonObject jLevel = JsonParser.parseString(json).getAsJsonObject();
         String name = jLevel.get("name").getAsString();
         Level level = new Level(game, name);

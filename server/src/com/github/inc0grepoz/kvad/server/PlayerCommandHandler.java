@@ -19,7 +19,7 @@ public class PlayerCommandHandler {
             case "morph": {
                 if (split.length == 2 && KvadratikServer.BEING_FACTORY.hasType(split[1])) {
                     player.morph(split[1]);
-                    kvad.getPacketUtil().outBeingType(player);
+                    kvad.packetUtil.outBeingType(player);
                 }
                 break;
             }

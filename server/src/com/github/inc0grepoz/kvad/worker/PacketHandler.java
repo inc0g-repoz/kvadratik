@@ -33,7 +33,7 @@ public class PacketHandler extends Worker {
     }
 
     private void acceptMisc() {
-        kvad.getConnections().forEach(connection -> {
+        kvad.connections.forEach(connection -> {
             Queue<Packet> queue;
 
             // Handling an i/o exception for the case if a connection gets reset
@@ -56,7 +56,7 @@ public class PacketHandler extends Worker {
     }
 
     private void acceptPlayers() {
-        kvad.getPlayers().forEach(player -> {
+        kvad.players.forEach(player -> {
             Queue<Packet> queue;
 
             // Handling an i/o exception for the case if a connection gets reset
@@ -74,17 +74,17 @@ public class PacketHandler extends Worker {
                 for (Packet packet : queue) {
                     switch (packet.getType()) {
                         case CLIENT_CHAT_MESSAGE: {
-                            kvad.getPacketUtil().inChat(player, packet.toString());
+                            kvad.packetUtil.inChat(player, packet.toString());
                             break;
                         }
                         case CLIENT_PLAYER_ANIM: {
                             Anim anim = Anim.valueOf(packet.toString());
                             player.applyAnim(anim);
-                            kvad.getPacketUtil().outAnim(player);
+                            kvad.packetUtil.outAnim(player);
                             break;
                         }
                         case CLIENT_PLAYER_POINT: {
-                            kvad.getPacketUtil().inPlayerPoint(packet, player);
+                            kvad.packetUtil.inPlayerPoint(packet, player);
                             break;
                         }
                         default:
@@ -95,12 +95,11 @@ public class PacketHandler extends Worker {
     }
 
     private void flushPlayerPackets() {
-        kvad.getPlayers().forEach(player -> {
+        kvad.players.forEach(player -> {
             try {
                 player.flushQueuedPackets();
             } catch (IOException e) {
                 e.initCause(new IOException("Unable to send the queued packets"));
-                e.printStackTrace();
             }
         });
     }

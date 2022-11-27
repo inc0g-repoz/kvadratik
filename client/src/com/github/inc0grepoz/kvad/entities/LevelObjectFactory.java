@@ -11,13 +11,15 @@ import com.github.inc0grepoz.kvad.utils.JSON;
 
 public class LevelObjectFactory {
 
-    private final LevelObjectTemplate[] templates;
+    private LevelObjectTemplate[] templates;
 
-    {
-        String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
-        String levelObjectsAnimsJson = KvadratikGame.ASSETS.textFile("assets/objects/anims.json");
-        LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
-        templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
+    public void validatePreload() {
+        if (templates == null) {
+            String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
+            String levelObjectsAnimsJson = KvadratikGame.ASSETS.textFile("assets/objects/anims.json");
+            LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
+            templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
+        }
     }
 
     public LevelObjectTemplate getTemplate(String type) {
