@@ -41,27 +41,31 @@ public class KvadratikCanvas extends Canvas {
 
         Level level = game.getLevel();
         if (level == null) {
+
             // TODO: Some menu code probably
-            return;
+
+        } else {
+            Camera cam = level.getCamera();
+
+            // Drawing all entities
+            cam.scale(game);
+            g2d.setColor(Color.BLACK);
+
+            int renEnts = level.entitiesStream()
+                    .map(o -> o.render(g2d, cam) ? 1 : 0)
+                    .reduce(0, Integer::sum);
+
+            // Showing misc info
+            if (miscInfo) {
+                g2d.drawString("FPS: " + fps.getFPS(), 10, 10);
+                g2d.drawString("Ren-ents: " + renEnts, 10, 25);
+            }
         }
 
-        Camera cam = level.getCamera();
-
-        // Drawing all entities
-        cam.scale(game);
-        g2d.setColor(Color.BLACK);
-
-        int renEnts = level.entitiesStream()
-                .map(o -> o.render(g2d, cam) ? 1 : 0)
-                .reduce(0, Integer::sum);
-
-        // Showing misc info
-        if (miscInfo) {
-            g2d.drawString("FPS: " + fps.getFPS(), 10, 10);
-            g2d.drawString("Ren-ents: " + renEnts, 10, 25);
+        KvadratikClient client = game.getClient();
+        if (client.isInfoProvided()) {
+            client.getChat().render(g2d);
         }
-
-        game.getClient().getChat().render(g2d);
 
         g2d.dispose();
         g.drawImage(image, 0, 0, gw, gh, this);
