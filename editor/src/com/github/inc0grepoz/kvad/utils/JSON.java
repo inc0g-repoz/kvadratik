@@ -163,6 +163,7 @@ public class JSON {
                     jPlayerPoint.get(1).getAsInt());
 
             Being player = KvadratikGame.BEING_FACTORY.create(jPlayerType, level, point);
+            level.getCamera().focus(player);
             level.setPlayerBeing(player);
         }
 
