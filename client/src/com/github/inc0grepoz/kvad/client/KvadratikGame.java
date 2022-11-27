@@ -33,20 +33,10 @@ public class KvadratikGame extends Frame {
     private Level level;
 
     {
-        WindowAdapter adapter = new WindowAdapter() {
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose();
-                System.exit(0);
-            }
-
-        };
-        addWindowListener(adapter);
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            adapter.windowClosed(null);
-        }));
+        addWindowListener(() -> {
+            dispose();
+            System.exit(0);
+        });
 
         setTitle("kvadratik");
         applyIcon("assets/icon.png");
@@ -127,6 +117,22 @@ public class KvadratikGame extends Frame {
 
     public void addKeysListener(Canvas c) {
         c.addKeyListener(controls);
+    }
+
+    public void addWindowListener(Runnable handler) {
+        WindowAdapter adapter = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                handler.run();
+            }
+
+        };
+        addWindowListener(adapter);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            adapter.windowClosed(null);
+        }));
     }
 
 }

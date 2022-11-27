@@ -23,7 +23,7 @@ public class PacketHandler extends Worker {
         acceptPlayers();
 
         // Resetting all timed out connections
-        //kvad.closeExpiredConnections();
+        kvad.closeExpiredConnections();
 
         // Reading the ingoing non-player packets
         acceptMisc();
