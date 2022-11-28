@@ -3,7 +3,7 @@ package com.github.inc0grepoz.kvad.entities;
 import java.awt.Point;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -15,7 +15,7 @@ public class BeingFactory {
     private String[] types;
 
     {
-        String beingsJson = KvadratikGame.ASSETS.textFile("assets/beings/beings.json");
+        String beingsJson = KvadratikEditor.ASSETS.textFile("assets/beings/beings.json");
         templates = JSON.fromJsonBeingTemplates(beingsJson);
         types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
     }

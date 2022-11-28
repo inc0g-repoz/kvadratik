@@ -2,7 +2,7 @@ package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Point;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnim;
@@ -14,8 +14,8 @@ public class LevelObjectFactory {
     private LevelObjectTemplate[] templates;
 
     {
-        String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
-        String levelObjectsAnimsJson = KvadratikGame.ASSETS.textFile("assets/objects/anims.json");
+        String levelObjectsJson = KvadratikEditor.ASSETS.textFile("assets/objects/objects.json");
+        String levelObjectsAnimsJson = KvadratikEditor.ASSETS.textFile("assets/objects/anims.json");
         LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
         templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
     }

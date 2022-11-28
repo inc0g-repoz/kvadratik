@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -144,7 +144,7 @@ public class JSON {
         return list.stream().toArray(LevelObjectAnim[]::new);
     }
 
-    public static Level fromJsonLevel(KvadratikGame game, String json, boolean mpMode) {
+    public static Level fromJsonLevel(KvadratikEditor game, String json, boolean mpMode) {
         JsonObject jLevel = JsonParser.parseString(json).getAsJsonObject();
         String name = jLevel.get("name").getAsString();
         Level level = new Level(game, name);
@@ -159,7 +159,7 @@ public class JSON {
                     jPlayerPoint.get(0).getAsInt(),
                     jPlayerPoint.get(1).getAsInt());
 
-            Being player = KvadratikGame.BEING_FACTORY.create(jPlayerType, level, point);
+            Being player = KvadratikEditor.BEING_FACTORY.create(jPlayerType, level, point);
             level.getCamera().focus(player);
             level.setPlayerBeing(player);
         }
@@ -171,7 +171,7 @@ public class JSON {
             Point point = new Point(
                     jLevelObject.get(0).getAsInt(),
                     jLevelObject.get(1).getAsInt());
-            KvadratikGame.OBJECT_FACTORY.create(key, level, point);
+            KvadratikEditor.OBJECT_FACTORY.create(key, level, point);
         }
 
         return level;

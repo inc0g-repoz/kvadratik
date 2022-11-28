@@ -14,30 +14,28 @@ public class AssetsManager {
     public String assetsParent;
 
     public BufferedImage image(String path) {
-        String ppp = getAssetsParent() + path;
-        Logger.info("Loading " + ppp);
+        Logger.info("Loading " + path);
 
         try {
             return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
 
         try {
-            return ImageIO.read(new File(ppp));
+            return ImageIO.read(new File(path));
         } catch (Exception e) {}
 
-        Logger.error("Invalid image: " + ppp);
+        Logger.error("Invalid image: " + path);
         System.exit(0);
         return null;
     }
 
     public String textFile(String path) {
-        String ppp = getAssetsParent() + path;
-        Logger.info("Loading " + ppp);
+        Logger.info("Loading " + path);
 
         try {
-            InputStream stream = getClass().getClassLoader().getResourceAsStream(ppp);
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(path);
             if (stream == null) {
-                File file = new File(ppp);
+                File file = new File(path);
                 stream = new FileInputStream(file);
             }
             InputStreamReader isr = new InputStreamReader(stream);
@@ -51,13 +49,9 @@ public class AssetsManager {
             return string;
         } catch (Exception e) {}
 
-        Logger.error("Invalid text file: " + ppp);
+        Logger.error("Invalid text file: " + path);
         System.exit(0);
         return null;
-    }
-
-    private String getAssetsParent() {
-        return assetsParent == null ? "" : assetsParent + "/";
     }
 
 }

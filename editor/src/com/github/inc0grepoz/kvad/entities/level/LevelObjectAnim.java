@@ -2,7 +2,7 @@ package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 
 public class LevelObjectAnim {
 
@@ -41,7 +41,7 @@ public class LevelObjectAnim {
 
         for (int i = 0; i < images.length; i++) {
             String btPath = "assets/objects/sprites/" + this + "/" + paths[i];
-            images[i] = KvadratikGame.ASSETS.image(btPath);
+            images[i] = KvadratikEditor.ASSETS.image(btPath);
         }
     }
 

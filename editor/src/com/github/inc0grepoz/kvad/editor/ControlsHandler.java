@@ -15,7 +15,7 @@ public class ControlsHandler {
     }
 
     public void onKeyPressed(Key key) {
-        KvadratikGame game = controls.getGame();
+        KvadratikEditor game = controls.getEditor();
         Level level = game.getLevel();
 
         if (level == null) {
@@ -62,7 +62,7 @@ public class ControlsHandler {
     }
 
     public void onKeyReleased(Key key) {
-        Level level = controls.getGame().getLevel();
+        Level level = controls.getEditor().getLevel();
 
         if (level == null) {
             // TODO: Some menu code here

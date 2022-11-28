@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
@@ -27,7 +27,7 @@ public class LevelObjectBackground extends LevelObjectAnimated {
 
     @Override
     public boolean render(Graphics graphics, Camera camera) {
-        KvadratikGame gf = getLevel().getGame();
+        KvadratikEditor gf = getLevel().getEditor();
         int gfw = gf.getWidth(), gfh = gf.getHeight();
         if (getAnim() == LevelObjectAnim.COLOR) {
             Color color = graphics.getColor();

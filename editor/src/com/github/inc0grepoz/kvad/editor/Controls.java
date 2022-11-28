@@ -53,15 +53,15 @@ public class Controls implements KeyListener {
                 || Key.SELECT_LEFT.pressed || Key.SELECT_RIGHT.pressed;
     }
 
-    private final KvadratikGame game;
+    private final KvadratikEditor game;
     private final ControlsHandler handler;
 
-    public Controls(KvadratikGame game) {
+    public Controls(KvadratikEditor game) {
         this.game = game;
         handler = new ControlsHandler(this);
     }
 
-    public KvadratikGame getGame() {
+    public KvadratikEditor getEditor() {
         return game;
     }
 

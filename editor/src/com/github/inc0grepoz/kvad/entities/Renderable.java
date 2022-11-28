@@ -5,11 +5,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Renderable extends Entity {
+
+    public boolean drawCollider;
 
     public Renderable(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
         super(level, rect, collSize, collOffset);
@@ -28,8 +29,7 @@ public abstract class Renderable extends Entity {
 
         // Drawing the collider
         if (collide) {
-            KvadratikCanvas canvas = getLevel().getGame().getCanvas();
-            if (canvas.drawColliders) {
+            if (drawCollider) {
                 Rectangle coll = getCollider();
                 int collX = coll.x - cam.x, collY = coll.y - cam.y;
                 drawCollider(gfx, collX, collY, coll);

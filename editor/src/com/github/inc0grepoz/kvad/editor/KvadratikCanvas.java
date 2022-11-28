@@ -14,14 +14,14 @@ import com.github.inc0grepoz.kvad.worker.RenderWorker;
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
 
-    public boolean drawColliders, miscInfo;
+    public boolean miscInfo = true;
 
-    private final KvadratikGame game;
+    private final KvadratikEditor editor;
     private final RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
-    public KvadratikCanvas(KvadratikGame game, int x, int y) {
-        this.game = game;
+    public KvadratikCanvas(KvadratikEditor game, int x, int y) {
+        this.editor = game;
         worker = new RenderWorker(this);
     }
 
@@ -39,7 +39,7 @@ public class KvadratikCanvas extends Canvas {
         BufferedImage image = new BufferedImage(gw, gh, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = image.createGraphics();
 
-        Level level = game.getLevel();
+        Level level = editor.getLevel();
         if (level == null) {
 
             // TODO: Some menu code probably
@@ -48,7 +48,7 @@ public class KvadratikCanvas extends Canvas {
             Camera cam = level.getCamera();
 
             // Drawing all entities
-            cam.scale(game);
+            cam.scale(editor);
             g2d.setColor(Color.BLACK);
 
             int renEnts = level.entitiesStream()

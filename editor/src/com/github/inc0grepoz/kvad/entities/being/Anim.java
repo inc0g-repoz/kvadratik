@@ -3,7 +3,7 @@ package com.github.inc0grepoz.kvad.entities.being;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 
 public enum Anim {
 
@@ -100,12 +100,12 @@ public enum Anim {
         this.moveSpeed = speed;
         this.way = way;
 
-        String[] bt = KvadratikGame.BEING_FACTORY.getTypes();
+        String[] bt = KvadratikEditor.BEING_FACTORY.getTypes();
         for (int i = 0; i < bt.length; i++) {
             BufferedImage[] btImages = new BufferedImage[paths.length];
             for (int j = 0; j < btImages.length; j++) {
                 String btPath = "assets/beings/sprites/" + bt[i] + "/" + paths[j];
-                btImages[j] = KvadratikGame.ASSETS.image(btPath);
+                btImages[j] = KvadratikEditor.ASSETS.image(btPath);
             }
             images.put(bt[i], btImages);
         }

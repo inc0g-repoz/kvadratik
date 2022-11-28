@@ -1,10 +1,10 @@
 package com.github.inc0grepoz.kvad;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikGame;
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 
 public class Bootstrap {
 
-    private static final KvadratikGame GAME = new KvadratikGame();
+    private static final KvadratikEditor GAME = new KvadratikEditor();
 
     static {
         GAME.setSize(1280, 600);

@@ -6,22 +6,21 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.stream.Stream;
 
-import javax.swing.DropMode;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
+import com.github.inc0grepoz.kvad.editor.components.CanvasDropTarget;
+import com.github.inc0grepoz.kvad.editor.components.ObjectList;
+import com.github.inc0grepoz.kvad.editor.listeners.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 @SuppressWarnings("serial")
-public class KvadratikGame extends Frame {
+public class KvadratikEditor extends Frame {
 
     public static final AssetsManager ASSETS = new AssetsManager();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
@@ -50,6 +49,13 @@ public class KvadratikGame extends Frame {
         canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();
 
+        // Adding Drag & Drop feature support
+        CanvasDropTarget dropTarget = new CanvasDropTarget(this);
+        canvas.setDropTarget(dropTarget);
+
+        CanvasMouseListener cml = new CanvasMouseListener(canvas);
+        canvas.addMouseListener(cml);
+
         // Controls
         controls = new Controls(this);
         addKeysListener(canvas);
@@ -70,11 +76,7 @@ public class KvadratikGame extends Frame {
 //      JLabel jlTest = new JLabel("Editor");
 //      jpGeneral.add(jlTest);
 
-        String[] jlObjectsArr = Stream.of(OBJECT_FACTORY.getTemplates())
-                .map(LevelObjectTemplate::getName).toArray(String[]::new);
-        JList<String> jlObjects = new JList<String>(jlObjectsArr);
-        jlObjects.setDragEnabled(true);
-        jlObjects.setDropMode(DropMode.INSERT);
+        ObjectList jlObjects = new ObjectList();
         jpGeneral.add(jlObjects);
 
         add(jpGeneral);
