@@ -7,21 +7,22 @@ public class Controls implements KeyListener {
 
     public static enum Key {
 
-        BACKSPACE    (8),  // Backspace
-        CAMERA_MODE  (86), // V
-        CHAT         (84), // T
-        ENTER        (10), // Enter
-        ESCAPE       (27), // Escape
-        MOVE_UP      (87), // W
-        MOVE_DOWN    (83), // S
-        MOVE_LEFT    (65), // A
-        MOVE_RIGHT   (68), // D
-        SELECT_UP    (38), // Up
-        SELECT_DOWN  (40), // Down
-        SELECT_LEFT  (37), // Left
-        SELECT_RIGHT (39), // Right
-        SPRINT       (16), // Shift
-        JUMP         (32), // Space
+        BACKSPACE    (8),   // Backspace
+        CAMERA_MODE  (86),  // V
+        CHAT         (84),  // T
+        ENTER        (10),  // Enter
+        ESCAPE       (27),  // Escape
+        MOVE_UP      (87),  // W
+        MOVE_DOWN    (83),  // S
+        MOVE_LEFT    (65),  // A
+        MOVE_RIGHT   (68),  // D
+        SELECT_UP    (38),  // Up
+        SELECT_DOWN  (40),  // Down
+        SELECT_LEFT  (37),  // Left
+        SELECT_RIGHT (39),  // Right
+        SPRINT       (16),  // Shift
+        JUMP         (32),  // Space
+        DELETE       (127), // Delete
         NAN          (-1);
 
         private static Key byCode(int code) {

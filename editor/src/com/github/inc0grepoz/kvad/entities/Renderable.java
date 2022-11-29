@@ -10,7 +10,7 @@ import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Renderable extends Entity {
 
-    public boolean selected = true;
+    public boolean selected;
 
     public Renderable(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
         super(level, rect, collSize, collOffset);
@@ -55,5 +55,7 @@ public abstract class Renderable extends Entity {
     }
 
     public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {}
+
+    public abstract void delete();
 
 }

@@ -31,4 +31,9 @@ public abstract class LevelObject extends Renderable {
         gfx.drawString(type, x, y);
     }
 
+    @Override
+    public void delete() {
+        getLevel().getLevelObjects().remove(this);
+    }
+
 }

@@ -14,6 +14,7 @@ public class ObjectList extends JList<String> {
     {
         setDragEnabled(true);
         setDropMode(DropMode.INSERT);
+        setCellRenderer(new ObjectListCellRenderer());
         updateData();
     }
 
@@ -21,6 +22,7 @@ public class ObjectList extends JList<String> {
         String[] listData = Stream.of(KvadratikEditor.OBJECT_FACTORY.getTemplates())
                 .map(LevelObjectTemplate::getName).toArray(String[]::new);
         setListData(listData);
+        
     }
 
 }

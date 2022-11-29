@@ -57,6 +57,10 @@ public class Level {
         return renEntsStream().sorted((r1, r2) -> r1.getRenderPriority() - r2.getRenderPriority());
     }
 
+    public Stream<? extends Renderable> renEntsStreamReversed() {
+        return renEntsStream().sorted((r1, r2) -> r2.getRenderPriority() - r1.getRenderPriority());
+    }
+
     public void setPlayerBeing(Being player) {
         this.player = player;
     }

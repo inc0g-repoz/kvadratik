@@ -105,4 +105,9 @@ public class Being extends Renderable {
         gfx.drawString(type, x, y);
     }
 
+    @Override
+    public void delete() {
+        getLevel().getBeings().removeIf(b -> b.getId() == id);
+    }
+
 }

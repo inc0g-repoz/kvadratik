@@ -1,9 +1,11 @@
 package com.github.inc0grepoz.kvad.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -11,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
+import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.editor.awt.ObjectList;
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
@@ -27,6 +30,7 @@ public class KvadratikEditor extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
+    private final Selection selection = new Selection();
     private final CanvasRenderer canvas;
     private final PhysicsWorker physics;
     private final Controls controls;
@@ -54,8 +58,10 @@ public class KvadratikEditor extends Frame {
         CanvasDropTarget dropTarget = new CanvasDropTarget(this);
         canvas.setDropTarget(dropTarget);
 
-        CanvasMouseListener cml = new CanvasMouseListener(canvas);
+        MouseListener cml = new CanvasMouseListener(canvas);
+        MouseMotionListener cmml = new CanvasMouseMotionListener(canvas);
         canvas.addMouseListener(cml);
+        canvas.addMouseMotionListener(cmml);
 
         // Controls
         controls = new Controls(this);
@@ -68,10 +74,10 @@ public class KvadratikEditor extends Frame {
         // Editor panels
         JPanel jpGeneral = new JPanel();
 //      jpGeneral.setBorder(BorderFactory.createEtchedBorder());
-        jpGeneral.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 10));
+//      jpGeneral.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 10));
 
         JPanel jpCanvas = new JPanel();
-        jpCanvas.add(canvas);
+        jpCanvas.add(canvas, BorderLayout.WEST);
         jpGeneral.add(jpCanvas);
 
 //      JLabel jlTest = new JLabel("Editor");
@@ -80,8 +86,7 @@ public class KvadratikEditor extends Frame {
         ObjectList jlObjects = new ObjectList();
         jpGeneral.add(jlObjects);
 
-        add(jpGeneral);
-        pack();
+        add(jpGeneral, BorderLayout.WEST);
     }
 
     public void run() {
@@ -99,6 +104,10 @@ public class KvadratikEditor extends Frame {
 
     public Controls getControls() {
         return controls;
+    }
+
+    public Selection getSelection() {
+        return selection;
     }
 
     public Level getLevel() {

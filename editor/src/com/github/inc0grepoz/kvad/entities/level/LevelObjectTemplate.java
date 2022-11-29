@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.Icon;
+
 import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class LevelObjectTemplate {
@@ -36,6 +38,10 @@ public abstract class LevelObjectTemplate {
         LevelObject lo = supply(level, rect);
         lo.collide = collide;
         return lo;
+    }
+
+    public Icon getListIcon() {
+        return null;
     }
 
     abstract LevelObject supply(Level level, Rectangle rect);

@@ -4,9 +4,10 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
+import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class CanvasMouseListener implements MouseListener {
 
@@ -18,21 +19,26 @@ public class CanvasMouseListener implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-        Level level = canvas.getEditor().getLevel();
+        KvadratikEditor editor = canvas.getEditor();
+        Level level = editor.getLevel();
         Point cam = level.getCamera().getRectangle().getLocation();
         Point loc = event.getPoint();
         loc.x += cam.x;
         loc.y += cam.y;
 
-        Renderable renEnt = level.renEntsStream()
+        Renderable renEnt = level.renEntsStreamReversed()
                 .filter(e -> e.getRectangle().contains(loc))
                 .findFirst().orElse(null);
         if (renEnt == null) {
             return;
         }
 
-        Logger.info(renEnt.getClass().getSimpleName());
-        Logger.info(loc.x + ", " + loc.y);
+        Selection sel = editor.getSelection();
+        if (renEnt.selected) {
+            sel.clearSelection();
+        } else {
+            sel.setTarget(renEnt);
+        }
     }
 
     @Override
