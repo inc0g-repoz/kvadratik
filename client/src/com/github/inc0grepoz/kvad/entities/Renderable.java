@@ -15,6 +15,10 @@ public abstract class Renderable extends Entity {
         super(level, rect, collSize, collOffset);
     }
 
+    public int getRenderPriority() {
+        return (int) getCollider().getMinY();
+    }
+
     public boolean render(Graphics gfx, Camera camera) {
         Rectangle ent = getRectangle();
         Rectangle cam = camera.getRectangle();

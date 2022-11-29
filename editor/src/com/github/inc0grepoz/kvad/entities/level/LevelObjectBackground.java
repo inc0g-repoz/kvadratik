@@ -14,15 +14,23 @@ public class LevelObjectBackground extends LevelObjectAnimated {
     private final Color color;
 
     public LevelObjectBackground(Level level, Rectangle rect,
-            Dimension collSize, Vector collOffset, LevelObjectAnim anim) {
-        super(level, rect, collSize, collOffset, anim);
+            Dimension collSize, Vector collOffset, LevelObjectAnim anim,
+            String type) {
+        super(level, rect, collSize, collOffset, anim, type);
         this.color = null;
     }
 
     public LevelObjectBackground(Level level, Rectangle rect,
-            Dimension collSize, Vector collOffset, Color color) {
-        super(level, rect, collSize, collOffset, LevelObjectAnim.COLOR);
+            Dimension collSize, Vector collOffset, Color color,
+            String type) {
+        super(level, rect, collSize, collOffset, LevelObjectAnim.COLOR, type);
         this.color = color;
+    }
+
+    @Override
+    public int getRenderPriority() {
+        int winHeight = getLevel().getEditor().getCanvas().getHeight();
+        return super.getRenderPriority() - winHeight;
     }
 
     @Override

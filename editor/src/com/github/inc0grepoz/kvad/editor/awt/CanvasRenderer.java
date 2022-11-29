@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.editor;
+package com.github.inc0grepoz.kvad.editor.awt;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -6,13 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
 @SuppressWarnings("serial")
-public class KvadratikCanvas extends Canvas {
+public class CanvasRenderer extends Canvas {
 
     public boolean miscInfo = true;
 
@@ -20,8 +21,8 @@ public class KvadratikCanvas extends Canvas {
     private final RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
-    public KvadratikCanvas(KvadratikEditor game, int x, int y) {
-        this.editor = game;
+    public CanvasRenderer(KvadratikEditor editor, int x, int y) {
+        this.editor = editor;
         worker = new RenderWorker(this);
     }
 
@@ -51,7 +52,7 @@ public class KvadratikCanvas extends Canvas {
             cam.scale(editor);
             g2d.setColor(Color.BLACK);
 
-            int renEnts = level.entitiesStream()
+            int renEnts = level.renEntsStreamSorted()
                     .map(o -> o.render(g2d, cam) ? 1 : 0)
                     .reduce(0, Integer::sum);
 
@@ -64,6 +65,10 @@ public class KvadratikCanvas extends Canvas {
 
         g2d.dispose();
         g.drawImage(image, 0, 0, gw, gh, this);
+    }
+
+    public KvadratikEditor getEditor() {
+        return editor;
     }
 
 }

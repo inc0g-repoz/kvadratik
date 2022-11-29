@@ -10,10 +10,14 @@ import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Renderable extends Entity {
 
-    public boolean drawCollider;
+    public boolean selected = true;
 
     public Renderable(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
         super(level, rect, collSize, collOffset);
+    }
+
+    public int getRenderPriority() {
+        return (int) getCollider().getMinY();
     }
 
     public boolean render(Graphics gfx, Camera camera) {
@@ -28,17 +32,13 @@ public abstract class Renderable extends Entity {
         draw(gfx, x, y, ent.width, ent.height);
 
         // Drawing the collider
-        if (collide) {
-            if (drawCollider) {
-                Rectangle coll = getCollider();
-                int collX = coll.x - cam.x, collY = coll.y - cam.y;
-                drawCollider(gfx, collX, collY, coll);
+        if (selected) {
+            if (collide) {
+                int entX = ent.x - cam.x, entY = ent.y - cam.y;
+                drawOutline(gfx, entX, entY, ent);
             }
+            typeText(gfx, cam, ent);
         }
-
-        /* Mostly used for displaying player names
-         * above their heads */
-        typeText(gfx, cam, ent);
 
         return true;
     }
@@ -47,7 +47,7 @@ public abstract class Renderable extends Entity {
         gfx.drawRect(x, y, width, height);
     }
 
-    public void drawCollider(Graphics gfx, int x, int y, Rectangle col) {
+    public void drawOutline(Graphics gfx, int x, int y, Rectangle col) {
         Color color = gfx.getColor();
         gfx.setColor(Color.GREEN);
         gfx.drawRect(x, y, col.width, col.height);

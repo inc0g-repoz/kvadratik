@@ -36,7 +36,7 @@ public abstract class Entity {
             Rectangle coll = getCollider();
             int nextMinX = coll.x + x, nextMinY = coll.y + y;
             int nextMaxX = coll.width + x, nextMaxY = coll.height + y;
-            return level.entitiesStream().filter(e -> e != this && e.collide)
+            return level.renEntsStream().filter(e -> e != this && e.collide)
                     .noneMatch(e -> e.getCollider().intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
         } else {
             return true;

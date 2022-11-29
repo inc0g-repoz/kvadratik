@@ -26,6 +26,12 @@ public class LevelObjectBackground extends LevelObjectAnimated {
     }
 
     @Override
+    public int getRenderPriority() {
+        int winHeight = getLevel().getGame().getCanvas().getHeight();
+        return super.getRenderPriority() - winHeight;
+    }
+
+    @Override
     public boolean render(Graphics graphics, Camera camera) {
         KvadratikGame gf = getLevel().getGame();
         int gfw = gf.getWidth(), gfh = gf.getHeight();

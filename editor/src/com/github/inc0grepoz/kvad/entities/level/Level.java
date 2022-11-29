@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
@@ -15,8 +16,8 @@ public class Level {
     private final Camera camera;
 
     private Being player;
-    private ArrayList<LevelObject> levelObjects = new ArrayList<>();
-    private ArrayList<Being> beings = new ArrayList<>();
+    private List<LevelObject> levelObjects = new ArrayList<>();
+    private List<Being> beings = new ArrayList<>();
 
     public Level(KvadratikEditor game, String name) {
         this.game = game;
@@ -40,16 +41,20 @@ public class Level {
         return player;
     }
 
-    public ArrayList<LevelObject> getLevelObjects() {
+    public List<LevelObject> getLevelObjects() {
         return levelObjects;
     }
 
-    public ArrayList<Being> getBeings() {
+    public List<Being> getBeings() {
         return beings;
     }
 
-    public Stream<? extends Renderable> entitiesStream() {
+    public Stream<? extends Renderable> renEntsStream() {
         return Stream.concat(levelObjects.stream(), beings.stream());
+    }
+
+    public Stream<? extends Renderable> renEntsStreamSorted() {
+        return renEntsStream().sorted((r1, r2) -> r1.getRenderPriority() - r2.getRenderPriority());
     }
 
     public void setPlayerBeing(Being player) {
