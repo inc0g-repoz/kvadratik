@@ -20,7 +20,7 @@ public class Being extends Renderable {
     private long animExpiry; // 0 for infinite duration
     private int animSpriteIndex;
 
-    private String name, type;
+    private String type;
 
     public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
             String type, int id) {
@@ -33,14 +33,6 @@ public class Being extends Renderable {
     public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
             String type) {
         this(level, rect, collSize, collOffset, type, -1);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getId() {
@@ -106,13 +98,11 @@ public class Being extends Renderable {
 
     @Override
     public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {
-        if (name != null && this != getLevel().getPlayer()) {
-            int x = (int) (rect.getCenterX() - cam.x), y = rect.y - cam.y;
-            int width = gfx.getFontMetrics().stringWidth(name);
-            x -= width / 2;
-            y -= 5;
-            gfx.drawString(name, x, y);
-        }
+        int x = (int) (rect.getCenterX() - cam.x), y = rect.y + rect.height - cam.y;
+        int width = gfx.getFontMetrics().stringWidth(type);
+        x -= width / 2;
+        y += 15;
+        gfx.drawString(type, x, y);
     }
 
 }

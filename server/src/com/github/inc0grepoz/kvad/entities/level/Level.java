@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.entities.Entity;
@@ -13,8 +14,8 @@ public class Level {
     private final KvadratikServer kvad;
     private final String name, json;
 
-    private ArrayList<LevelObject> levelObjects = new ArrayList<>();
-    private ArrayList<Being> beings = new ArrayList<>();
+    private List<LevelObject> levelObjects = new ArrayList<>();
+    private List<Being> beings = new ArrayList<>();
     private PlayerPreset playerPreset;
 
     public Level(KvadratikServer kvad, String name, String json, PlayerPreset playerPreset) {
@@ -41,11 +42,11 @@ public class Level {
         return playerPreset;
     }
 
-    public ArrayList<LevelObject> getLevelObjects() {
+    public List<LevelObject> getLevelObjects() {
         return levelObjects;
     }
 
-    public ArrayList<Being> getBeings() {
+    public List<Being> getBeings() {
         return beings;
     }
 

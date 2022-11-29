@@ -4,8 +4,8 @@ import java.awt.Rectangle;
 
 public class LevelObjectRectangle extends LevelObject {
 
-    public LevelObjectRectangle(Level level, Rectangle rect) {
-        super(level, rect, null, null);
+    public LevelObjectRectangle(Level level, Rectangle rect, String type) {
+        super(level, rect, null, null, type);
     }
 
 }

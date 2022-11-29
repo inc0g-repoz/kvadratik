@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.editor.components;
+package com.github.inc0grepoz.kvad.editor.awt;
 
 import java.util.stream.Stream;
 

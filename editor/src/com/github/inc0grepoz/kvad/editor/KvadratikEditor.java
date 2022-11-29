@@ -9,9 +9,10 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
 
-import com.github.inc0grepoz.kvad.editor.components.CanvasDropTarget;
-import com.github.inc0grepoz.kvad.editor.components.ObjectList;
-import com.github.inc0grepoz.kvad.editor.listeners.CanvasMouseListener;
+import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
+import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
+import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
+import com.github.inc0grepoz.kvad.editor.awt.ObjectList;
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -26,7 +27,7 @@ public class KvadratikEditor extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
-    private final KvadratikCanvas canvas;
+    private final CanvasRenderer canvas;
     private final PhysicsWorker physics;
     private final Controls controls;
 
@@ -42,7 +43,7 @@ public class KvadratikEditor extends Frame {
         applyIcon("assets/icon.png");
 
         // Rendering
-        canvas = new KvadratikCanvas(this, 640, 480);
+        canvas = new CanvasRenderer(this, 640, 480);
         canvas.setBounds(0, 0, 640, 480);
         canvas.setBackground(Color.BLACK);
 //      add(canvas);
@@ -92,7 +93,7 @@ public class KvadratikEditor extends Frame {
         setIconImage(ASSETS.image(fileName));
     }
 
-    public KvadratikCanvas getCanvas() {
+    public CanvasRenderer getCanvas() {
         return canvas;
     }
 

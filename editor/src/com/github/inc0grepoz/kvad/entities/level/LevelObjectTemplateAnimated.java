@@ -18,7 +18,7 @@ public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 
     @Override
     LevelObject supply(Level level, Rectangle rect) {
-        return new LevelObjectAnimated(level, rect, collSize, collOffset, anim);
+        return new LevelObjectAnimated(level, rect, collSize, collOffset, anim, getName());
     }
 
 }

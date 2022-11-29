@@ -2,14 +2,14 @@ package com.github.inc0grepoz.kvad.worker;
 
 import java.awt.Graphics;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikCanvas;
+import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class RenderWorker extends Worker {
 
-    private final KvadratikCanvas canvas;
+    private final CanvasRenderer canvas;
 
-    public RenderWorker(KvadratikCanvas canvas) {
+    public RenderWorker(CanvasRenderer canvas) {
         super(33L);
         this.canvas = canvas;
     }

@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.utils.Vector;
 
-public class LevelObjectAnimated extends LevelObject{
+public class LevelObjectAnimated extends LevelObject {
 
     private final LevelObjectAnim anim;
 
@@ -16,8 +16,8 @@ public class LevelObjectAnimated extends LevelObject{
 
     public LevelObjectAnimated(Level level, Rectangle rect,
             Dimension collSize, Vector collOffset,
-            LevelObjectAnim anim) {
-        super(level, rect, collSize, collOffset);
+            LevelObjectAnim anim, String type) {
+        super(level, rect, collSize, collOffset, type);
         this.anim = anim;
     }
 
