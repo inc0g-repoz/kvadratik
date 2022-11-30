@@ -24,10 +24,20 @@ public class CanvasMouseMotionListener implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         KvadratikEditor editor = canvas.getEditor();
-        Renderable target = editor.getSelection().getTarget();
-        if (target != null) {
-            Point cam = editor.getLevel().getCamera().getRectangle().getLocation();
-            target.teleport(cam.x + e.getX(), cam.y + e.getY());
+        Point cam = editor.getLevel().getCamera().getRectangle().getLocation();
+        switch (editor.selection.getMode()) {
+            case POINT: {
+                Renderable target = editor.selection.selTar.getTarget();
+                if (target != null) {
+                    target.teleport(cam.x + e.getX(), cam.y + e.getY());
+                }
+                break;
+            }
+            case GRID: {
+                editor.selection.selGrid.locate(cam.x + e.getX(), cam.y + e.getY());
+                break;
+            }
+            default:
         }
     }
 

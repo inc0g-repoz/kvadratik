@@ -1,11 +1,11 @@
 package com.github.inc0grepoz.kvad.editor.awt;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
@@ -26,18 +26,38 @@ public class CanvasMouseListener implements MouseListener {
         loc.x += cam.x;
         loc.y += cam.y;
 
-        Renderable renEnt = level.renEntsStreamReversed()
-                .filter(e -> e.getRectangle().contains(loc))
-                .findFirst().orElse(null);
-        if (renEnt == null) {
-            return;
-        }
+        switch (editor.selection.getMode()) {
+            case POINT: {
+                Renderable renEnt = level.renEntsStreamReversed()
+                        .filter(e -> e.getRectangle().contains(loc))
+                        .findFirst().orElse(null);
 
-        Selection sel = editor.getSelection();
-        if (renEnt.selected) {
-            sel.clearSelection();
-        } else {
-            sel.setTarget(renEnt);
+                if (renEnt == null) {
+                    return;
+                }
+
+                if (renEnt.selected) {
+                    editor.selection.selTar.clearSelection();
+                } else {
+                    editor.selection.selTar.setTarget(renEnt);
+                }
+                break;
+            }
+            case GRID: {
+                String strValue = editor.jlObjects.getSelectedValue();
+                if (strValue == null) {
+                    break;
+                }
+
+                Rectangle sel = editor.selection.selGrid.rect;
+                level.renEntsStreamReversed()
+                        .filter(e -> e.getRectangle().intersects(sel))
+                        .forEach(Renderable::delete);
+
+                KvadratikEditor.OBJECT_FACTORY.create(strValue, level, sel.getLocation());
+                break;
+            }
+            default:
         }
     }
 

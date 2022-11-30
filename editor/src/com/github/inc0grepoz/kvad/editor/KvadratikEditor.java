@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.editor;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseListener;
@@ -9,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
@@ -16,6 +16,7 @@ import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.editor.awt.ObjectList;
+import com.github.inc0grepoz.kvad.editor.awt.SelectionModesComboBox;
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -30,7 +31,9 @@ public class KvadratikEditor extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
-    private final Selection selection = new Selection();
+    public final ObjectList jlObjects = new ObjectList();
+    public final Selection selection = new Selection(this);
+
     private final CanvasRenderer canvas;
     private final PhysicsWorker physics;
     private final Controls controls;
@@ -54,7 +57,7 @@ public class KvadratikEditor extends Frame {
         canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();
 
-        // Adding Drag & Drop feature support
+        // Canvas Drag & Drop
         CanvasDropTarget dropTarget = new CanvasDropTarget(this);
         canvas.setDropTarget(dropTarget);
 
@@ -65,26 +68,46 @@ public class KvadratikEditor extends Frame {
 
         // Controls
         controls = new Controls(this);
-        addKeysListener(canvas);
+        canvas.addKeyListener(controls);
 
         // Physics (100 heartbeats per second)
         physics = new PhysicsWorker(this, 50L);
         physics.start();
 
+        // Usable in the object initializers
+        KvadratikEditor editor = this;
+
+        // Tools panel
+        JPanel jpTools = new JPanel() {
+
+            {
+                // Components are place vertically
+                setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+                // Selector modes
+                SelectionModesComboBox selModes = new SelectionModesComboBox(editor);
+                add(selModes);
+
+                // Level objects list
+                add(jlObjects);
+            }
+
+        };
+
         // Editor panels
-        JPanel jpGeneral = new JPanel();
-//      jpGeneral.setBorder(BorderFactory.createEtchedBorder());
-//      jpGeneral.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 10));
+        JPanel jpGeneral = new JPanel() {
 
-        JPanel jpCanvas = new JPanel();
-        jpCanvas.add(canvas, BorderLayout.WEST);
-        jpGeneral.add(jpCanvas);
+            {
+//              setBorder(BorderFactory.createEtchedBorder());
 
-//      JLabel jlTest = new JLabel("Editor");
-//      jpGeneral.add(jlTest);
+                JPanel jpCanvas = new JPanel();
+                jpCanvas.add(canvas, BorderLayout.WEST);
 
-        ObjectList jlObjects = new ObjectList();
-        jpGeneral.add(jlObjects);
+                add(jpCanvas);
+                add(jpTools);
+            }
+
+        };
 
         add(jpGeneral, BorderLayout.WEST);
     }
@@ -106,20 +129,12 @@ public class KvadratikEditor extends Frame {
         return controls;
     }
 
-    public Selection getSelection() {
-        return selection;
-    }
-
     public Level getLevel() {
         return level;
     }
 
     public void setLevel(Level level) {
         this.level = level;
-    }
-
-    public void addKeysListener(Canvas c) {
-        c.addKeyListener(controls);
     }
 
     public void addWindowListener(Runnable handler) {

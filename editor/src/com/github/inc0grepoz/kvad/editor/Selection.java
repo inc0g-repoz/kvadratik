@@ -1,26 +1,29 @@
 package com.github.inc0grepoz.kvad.editor;
 
-import com.github.inc0grepoz.kvad.entities.Renderable;
-
 public class Selection {
 
-    private Renderable renEnt;
-
-    public Renderable getTarget() {
-        return renEnt;
+    public static enum SelectionMode {
+        GRID, POINT
     }
 
-    public void setTarget(Renderable renEnt) {
-        clearSelection();
-        this.renEnt = renEnt;
-        renEnt.selected = true;
+    public final SelectionPoint selTar = new SelectionPoint();
+    public final SelectionGrid selGrid;
+
+    public Selection(KvadratikEditor editor) {
+        selGrid = new SelectionGrid(editor);
     }
 
-    public void clearSelection() {
-        if (renEnt != null) {
-            renEnt.selected = false;
-            renEnt = null;
+    private SelectionMode selMode = SelectionMode.GRID;
+
+    public SelectionMode getMode() {
+        return selMode;
+    }
+
+    public void setMode(SelectionMode selMode) {
+        if (selMode == null) {
+            return;
         }
+        this.selMode = selMode;
     }
 
 }
