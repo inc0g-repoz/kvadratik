@@ -35,7 +35,7 @@ public class KvadratikCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        int gw = game.getWidth(), gh = game.getHeight();
+        int gw = getWidth(), gh = getHeight();
         BufferedImage image = new BufferedImage(gw, gh, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = image.createGraphics();
 
