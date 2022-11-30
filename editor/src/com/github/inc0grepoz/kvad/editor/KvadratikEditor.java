@@ -100,10 +100,10 @@ public class KvadratikEditor extends Frame {
             {
 //              setBorder(BorderFactory.createEtchedBorder());
 
-                JPanel jpCanvas = new JPanel();
-                jpCanvas.add(canvas, BorderLayout.WEST);
+//              JPanel jpCanvas = new JPanel();
+                add(canvas, BorderLayout.WEST);
 
-                add(jpCanvas);
+//              add(jpCanvas);
                 add(jpTools);
             }
 
