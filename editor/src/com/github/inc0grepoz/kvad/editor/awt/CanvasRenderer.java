@@ -37,7 +37,7 @@ public class CanvasRenderer extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        int gw = getBounds().width, gh = getBounds().width;
+        int gw = getWidth(), gh = getHeight();
         BufferedImage image = new BufferedImage(gw, gh, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = image.createGraphics();
 
