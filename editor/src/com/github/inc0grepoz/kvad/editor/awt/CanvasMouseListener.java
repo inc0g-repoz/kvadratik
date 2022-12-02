@@ -44,7 +44,7 @@ public class CanvasMouseListener implements MouseListener {
                 break;
             }
             case GRID: {
-                String strValue = editor.jlObjects.getSelectedValue();
+                String strValue = editor.panel.jlObjects.getSelectedValue();
                 if (strValue == null) {
                     break;
                 }

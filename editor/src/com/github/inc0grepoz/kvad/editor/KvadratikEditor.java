@@ -15,8 +15,7 @@ import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
-import com.github.inc0grepoz.kvad.editor.awt.ObjectList;
-import com.github.inc0grepoz.kvad.editor.awt.SelectionModesComboBox;
+import com.github.inc0grepoz.kvad.editor.awt.EditorPanel;
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -31,7 +30,7 @@ public class KvadratikEditor extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
-    public final ObjectList jlObjects = new ObjectList();
+    public final EditorPanel panel = new EditorPanel(this);
     public final Selection selection = new Selection(this);
 
     private final CanvasRenderer canvas;
@@ -53,7 +52,6 @@ public class KvadratikEditor extends Frame {
         canvas = new CanvasRenderer(this, 640, 480);
         canvas.setBounds(0, 0, 640, 480);
         canvas.setBackground(Color.BLACK);
-//      add(canvas);
         canvas.setFrapsPerSecond(20);
         canvas.getWorker().start();
 
@@ -74,42 +72,19 @@ public class KvadratikEditor extends Frame {
         physics = new PhysicsWorker(this, 50L);
         physics.start();
 
-        // Usable in the object initializers
-        KvadratikEditor editor = this;
-
-        // Tools panel
-        JPanel jpTools = new JPanel() {
-
-            {
-                // Components are place vertically
-                setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-                // Selector modes
-                SelectionModesComboBox selModes = new SelectionModesComboBox(editor);
-                add(selModes);
-
-                // Level objects list
-                add(jlObjects);
-            }
-
-        };
-
         // Editor panels
-        JPanel jpGeneral = new JPanel() {
+        JPanel jpGeneral = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
+        EditorPanel tools = new EditorPanel(this);
+        add(canvas);
+        add(tools);
 
-            {
-//              setBorder(BorderFactory.createEtchedBorder());
-
-//              JPanel jpCanvas = new JPanel();
-                add(canvas, BorderLayout.WEST);
-
-//              add(jpCanvas);
-                add(jpTools);
-            }
-
-        };
+//      JToolBar jToolBar = new JToolBar("test");
+//      add(jToolBar);
 
         add(jpGeneral, BorderLayout.WEST);
+        add(jpGeneral);
+
+//      pack();
     }
 
     public void run() {
