@@ -7,11 +7,9 @@ import java.awt.Rectangle;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
-import lombok.Getter;
-
 public class BeingTemplate {
 
-    private final @Getter String type;
+    private final String type;
     private final Dimension size, collSize;
     private final Vector collOffset;
 
@@ -25,6 +23,10 @@ public class BeingTemplate {
 
     public BeingTemplate(String type, Dimension size) {
         this(type, size, null, null);
+    }
+
+    public String getType() {
+        return type;
     }
 
     public Being create(Level level, Point point, int id) {

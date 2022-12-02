@@ -161,7 +161,7 @@ public class JSON {
 
             Being player = KvadratikEditor.BEING_FACTORY.create(jPlayerType, level, point);
             level.getCamera().focus(player);
-            level.setPlayer(player);
+            level.setPlayerBeing(player);
         }
 
         // Adding some level objects

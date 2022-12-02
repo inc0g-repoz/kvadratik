@@ -8,17 +8,16 @@ import javax.swing.JTextField;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 
-import lombok.Getter;
-
 @SuppressWarnings("serial")
-public class EditorToolsPanel extends JPanel {
+public class EditorPanel extends JPanel {
 
-    private final @Getter ObjectList objectsList = new ObjectList();
+    public final ObjectList jlObjects = new ObjectList();
 
-    public EditorToolsPanel(KvadratikEditor editor) {
+    public EditorPanel(KvadratikEditor editor) {
         // Components are placed vertically
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//      setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //      setBorder(BorderFactory.createEtchedBorder());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Selector modes
         JPanel cboxSelModes = new JPanel();
@@ -40,7 +39,7 @@ public class EditorToolsPanel extends JPanel {
         add(cbAuto);
 
         // Adding all tools panel subcomponents
-        add(objectsList); // Level objects list
+        add(jlObjects); // Level objects list
     }
 
 }

@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
@@ -21,41 +20,41 @@ public class CanvasMouseListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent event) {
         KvadratikEditor editor = canvas.getEditor();
-        Selection sel = editor.getSelection();
         Level level = editor.getLevel();
         Point cam = level.getCamera().getRectangle().getLocation();
         Point loc = event.getPoint();
         loc.x += cam.x;
         loc.y += cam.y;
 
-        switch (sel.getMode()) {
+        switch (editor.selection.getMode()) {
             case POINT: {
                 Renderable renEnt = level.renEntsStreamReversed()
                         .filter(e -> e.getRectangle().contains(loc))
                         .findFirst().orElse(null);
+
                 if (renEnt == null) {
                     return;
                 }
 
                 if (renEnt.selected) {
-                    sel.selTar.clearSelection();
+                    editor.selection.selTar.clearSelection();
                 } else {
-                    sel.selTar.setTarget(renEnt);
+                    editor.selection.selTar.setTarget(renEnt);
                 }
                 break;
             }
             case GRID: {
-                String strValue = editor.getPanel().getObjectsList().getSelectedValue();
+                String strValue = editor.panel.jlObjects.getSelectedValue();
                 if (strValue == null) {
                     break;
                 }
 
-                Rectangle selRect = sel.selGrid.rect;
+                Rectangle sel = editor.selection.selGrid.rect;
                 level.renEntsStreamReversed()
-                        .filter(e -> e.getRectangle().intersects(selRect))
+                        .filter(e -> e.getRectangle().intersects(sel))
                         .forEach(Renderable::delete);
 
-                KvadratikEditor.OBJECT_FACTORY.create(strValue, level, selRect.getLocation());
+                KvadratikEditor.OBJECT_FACTORY.create(strValue, level, sel.getLocation());
                 break;
             }
             default:

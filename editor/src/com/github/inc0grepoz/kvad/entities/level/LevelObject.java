@@ -7,17 +7,19 @@ import java.awt.Rectangle;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
-import lombok.Getter;
-
 public abstract class LevelObject extends Renderable {
 
-    private final @Getter String type;
+    private final String type;
 
     public LevelObject(Level level, Rectangle rect,
             Dimension collSize, Vector collOffset,
             String type) {
         super(level, rect, collSize, collOffset);
         this.type = type;
+    }
+
+    public String getName() {
+        return type;
     }
 
     @Override

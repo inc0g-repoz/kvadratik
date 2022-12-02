@@ -9,17 +9,19 @@ import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.JSON;
 
-import lombok.Getter;
-
 public class BeingFactory {
 
     private BeingTemplate[] templates;
-    private @Getter String[] types;
+    private String[] types;
 
     {
         String beingsJson = KvadratikEditor.ASSETS.textFile("assets/beings/beings.json");
         templates = JSON.fromJsonBeingTemplates(beingsJson);
         types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
+    }
+
+    public String[] getTypes() {
+        return types;
     }
 
     public BeingTemplate getTemplate(String type) {

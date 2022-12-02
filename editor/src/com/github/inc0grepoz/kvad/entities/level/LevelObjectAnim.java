@@ -4,37 +4,35 @@ import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 
-import lombok.Getter;
-
 public class LevelObjectAnim {
 
     public static final LevelObjectAnim COLOR = new LevelObjectAnim(0, "color");
 
-    private static LevelObjectAnim[] values;
+    private static LevelObjectAnim[] anims;
 
-    public static void init(LevelObjectAnim[] values) {
-        if (LevelObjectAnim.values != null) {
+    public static void init(LevelObjectAnim[] anims) {
+        if (LevelObjectAnim.anims != null) {
             throw new IllegalStateException("Being types already have been initialized");
         }
-        LevelObjectAnim.values = values;
+        LevelObjectAnim.anims = anims;
     }
 
     public static LevelObjectAnim valueOf(String name) {
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].name.equals(name)) {
-                return values[i];
+        for (int i = 0; i < anims.length; i++) {
+            if (anims[i].name.equals(name)) {
+                return anims[i];
             }
         }
         return null;
     }
 
     public static LevelObjectAnim[] values() {
-        return values;
+        return anims;
     }
 
+    private final long delay;
     private final String name;
-    private final @Getter BufferedImage[] images;
-    private final @Getter long delay;
+    private final BufferedImage[] images;
 
     public LevelObjectAnim(long delay, String name, String... paths) {
         this.delay = delay;
@@ -49,6 +47,14 @@ public class LevelObjectAnim {
 
     public String toString() {
         return name.toLowerCase();
+    }
+
+    public long getDelay() {
+        return delay;
+    }
+
+    public BufferedImage[] getImages() {
+        return images;
     }
 
 }

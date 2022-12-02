@@ -11,7 +11,7 @@ import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 @SuppressWarnings("serial")
 public class ObjectList extends JList<String> {
 
-    ObjectList() {
+    {
         setDragEnabled(true);
         setDropMode(DropMode.INSERT);
         setCellRenderer(new ObjectListCellRenderer());
@@ -20,7 +20,7 @@ public class ObjectList extends JList<String> {
 
     public void updateData() {
         String[] listData = Stream.of(KvadratikEditor.OBJECT_FACTORY.getTemplates())
-                .map(LevelObjectTemplate::getType).toArray(String[]::new);
+                .map(LevelObjectTemplate::getName).toArray(String[]::new);
         setListData(listData);
         
     }

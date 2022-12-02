@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.editor.Selection.SelectionMode;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -58,10 +57,9 @@ public class CanvasRenderer extends Canvas {
                     .map(o -> o.render(g2d, cam) ? 1 : 0)
                     .reduce(0, Integer::sum);
 
-            Selection sel = editor.getSelection();
-            SelectionMode selMode = sel.getMode();
+            SelectionMode selMode = editor.selection.getMode();
             if (selMode == SelectionMode.GRID) {
-                sel.selGrid.render(g2d, cam);
+                editor.selection.selGrid.render(g2d, cam);
             }
 
             // Showing misc info

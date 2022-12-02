@@ -19,7 +19,7 @@ public class SelectionModesComboBox extends JComboBox<String> {
         ItemListener il = e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 String item = (String) e.getItem();
-                editor.getSelection().setMode(SelectionMode.valueOf(item));
+                editor.selection.setMode(SelectionMode.valueOf(item));
             }
         };
         addItemListener(il);
