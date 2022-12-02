@@ -8,20 +8,22 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
-import com.github.inc0grepoz.kvad.editor.awt.EditorPanel;
+import com.github.inc0grepoz.kvad.editor.awt.EditorToolsPanel;
 import com.github.inc0grepoz.kvad.entities.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @SuppressWarnings("serial")
 public class KvadratikEditor extends Frame {
@@ -30,14 +32,13 @@ public class KvadratikEditor extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
-    public final EditorPanel panel = new EditorPanel(this);
-    public final Selection selection = new Selection(this);
-
-    private final CanvasRenderer canvas;
+    private final @Getter EditorToolsPanel panel = new EditorToolsPanel(this);
+    private final @Getter Selection selection = new Selection(this);
+    private final @Getter Controls controls;
+    private final @Getter CanvasRenderer canvas;
     private final PhysicsWorker physics;
-    private final Controls controls;
 
-    private Level level;
+    private @Getter @Setter Level level;
 
     {
         addWindowListener(() -> {
@@ -73,10 +74,9 @@ public class KvadratikEditor extends Frame {
         physics.start();
 
         // Editor panels
-        JPanel jpGeneral = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
-        EditorPanel tools = new EditorPanel(this);
-        add(canvas);
-        add(tools);
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.add(canvas);
+        jpGeneral.add(panel);
 
 //      JToolBar jToolBar = new JToolBar("test");
 //      add(jToolBar);
@@ -94,22 +94,6 @@ public class KvadratikEditor extends Frame {
 
     public void applyIcon(String fileName) {
         setIconImage(ASSETS.image(fileName));
-    }
-
-    public CanvasRenderer getCanvas() {
-        return canvas;
-    }
-
-    public Controls getControls() {
-        return controls;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
     }
 
     public void addWindowListener(Runnable handler) {

@@ -9,44 +9,23 @@ import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Level {
 
-    private final KvadratikEditor game;
-    private final String name;
-    private final Camera camera;
+    private final @Getter KvadratikEditor editor;
+    private final @Getter String name;
+    private final @Getter Camera camera;
 
-    private Being player;
-    private List<LevelObject> levelObjects = new ArrayList<>();
-    private List<Being> beings = new ArrayList<>();
+    private @Getter @Setter Being player;
+    private @Getter List<LevelObject> levelObjects = new ArrayList<>();
+    private @Getter List<Being> beings = new ArrayList<>();
 
     public Level(KvadratikEditor game, String name) {
-        this.game = game;
+        this.editor = game;
         this.name = name;
         camera = new Camera(this);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public KvadratikEditor getEditor() {
-        return game;
-    }
-
-    public Camera getCamera() {
-        return camera;
-    }
-
-    public Being getPlayer() {
-        return player;
-    }
-
-    public List<LevelObject> getLevelObjects() {
-        return levelObjects;
-    }
-
-    public List<Being> getBeings() {
-        return beings;
     }
 
     public Stream<? extends Renderable> renEntsStream() {
@@ -59,10 +38,6 @@ public class Level {
 
     public Stream<? extends Renderable> renEntsStreamReversed() {
         return renEntsStream().sorted((r1, r2) -> r2.getRenderPriority() - r1.getRenderPriority());
-    }
-
-    public void setPlayerBeing(Being player) {
-        this.player = player;
     }
 
 }

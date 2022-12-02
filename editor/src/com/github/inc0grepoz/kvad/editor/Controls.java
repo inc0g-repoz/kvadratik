@@ -3,6 +3,8 @@ package com.github.inc0grepoz.kvad.editor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import lombok.Getter;
+
 public class Controls implements KeyListener {
 
     public static enum Key {
@@ -54,16 +56,12 @@ public class Controls implements KeyListener {
                 || Key.SELECT_LEFT.pressed || Key.SELECT_RIGHT.pressed;
     }
 
-    private final KvadratikEditor game;
+    private final @Getter KvadratikEditor editor;
     private final ControlsHandler handler;
 
-    public Controls(KvadratikEditor game) {
-        this.game = game;
+    public Controls(KvadratikEditor editor) {
+        this.editor = editor;
         handler = new ControlsHandler(this);
-    }
-
-    public KvadratikEditor getEditor() {
-        return game;
     }
 
     @Override

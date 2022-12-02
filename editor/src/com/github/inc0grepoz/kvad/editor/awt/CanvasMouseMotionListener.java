@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
+import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 
 public class CanvasMouseMotionListener implements MouseMotionListener {
@@ -24,17 +25,18 @@ public class CanvasMouseMotionListener implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         KvadratikEditor editor = canvas.getEditor();
+        Selection sel = editor.getSelection();
         Point cam = editor.getLevel().getCamera().getRectangle().getLocation();
-        switch (editor.selection.getMode()) {
+        switch (sel.getMode()) {
             case POINT: {
-                Renderable target = editor.selection.selTar.getTarget();
+                Renderable target = sel.selTar.getTarget();
                 if (target != null) {
                     target.teleport(cam.x + e.getX(), cam.y + e.getY());
                 }
                 break;
             }
             case GRID: {
-                editor.selection.selGrid.locate(cam.x + e.getX(), cam.y + e.getY());
+                sel.selGrid.locate(cam.x + e.getX(), cam.y + e.getY());
                 break;
             }
             default:

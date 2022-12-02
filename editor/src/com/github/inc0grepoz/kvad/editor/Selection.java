@@ -1,29 +1,21 @@
 package com.github.inc0grepoz.kvad.editor;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Selection {
 
     public static enum SelectionMode {
         GRID, POINT
     }
 
-    public final SelectionPoint selTar = new SelectionPoint();
+    public final SelectionTarget selTar = new SelectionTarget();
     public final SelectionGrid selGrid;
 
     public Selection(KvadratikEditor editor) {
         selGrid = new SelectionGrid(editor);
     }
 
-    private SelectionMode selMode = SelectionMode.GRID;
-
-    public SelectionMode getMode() {
-        return selMode;
-    }
-
-    public void setMode(SelectionMode selMode) {
-        if (selMode == null) {
-            return;
-        }
-        this.selMode = selMode;
-    }
+    private @Getter @Setter SelectionMode mode = SelectionMode.GRID;
 
 }

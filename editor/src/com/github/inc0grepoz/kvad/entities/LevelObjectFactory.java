@@ -9,9 +9,11 @@ import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnim;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.utils.JSON;
 
+import lombok.Getter;
+
 public class LevelObjectFactory {
 
-    private LevelObjectTemplate[] templates;
+    private @Getter LevelObjectTemplate[] templates;
 
     {
         String levelObjectsJson = KvadratikEditor.ASSETS.textFile("assets/objects/objects.json");
@@ -22,15 +24,11 @@ public class LevelObjectFactory {
 
     public LevelObjectTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
-            if (templates[i].getName().equals(type)) {
+            if (templates[i].getType().equals(type)) {
                 return templates[i];
             }
         }
         return null;
-    }
-
-    public LevelObjectTemplate[] getTemplates() {
-        return templates;
     }
 
     public LevelObject create(String name, Level level, Point point) {

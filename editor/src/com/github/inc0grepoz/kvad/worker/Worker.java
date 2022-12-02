@@ -5,8 +5,8 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 public abstract class Worker {
 
     protected Thread thread;
-    protected long delay;
     protected boolean alive;
+    protected long delay;
 
     protected Worker(long delay) {
         this.delay = delay;
