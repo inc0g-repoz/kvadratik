@@ -31,7 +31,7 @@ public class ObjectListCellRenderer extends DefaultListCellRenderer {
         String tempStr = (String) value;
         LevelObjectTemplate temp = KvadratikEditor.OBJECT_FACTORY.getTemplate(tempStr);
         label.setIcon(temp.getListIcon());
-        label.setText(temp.getName());
+        label.setText(temp.getType());
         label.setToolTipText("Drag me!");
 
         if (selected) {

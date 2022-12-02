@@ -11,7 +11,7 @@ public class LevelObjectTemplateRectangle extends LevelObjectTemplate {
 
     @Override
     LevelObject supply(Level level, Rectangle rect) {
-        return new LevelObjectRectangle(level, rect, getName());
+        return new LevelObjectRectangle(level, rect, getType());
     }
 
 }

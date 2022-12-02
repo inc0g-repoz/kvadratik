@@ -26,8 +26,8 @@ public class LevelObjectTemplateBackground extends LevelObjectTemplateAnimated {
 
     @Override
     LevelObject supply(Level level, Rectangle rect) {
-        return color == null ? new LevelObjectBackground(level, rect, collSize, collOffset, anim, getName())
-                : new LevelObjectBackground(level, rect, collSize, collOffset, color, getName());
+        return color == null ? new LevelObjectBackground(level, rect, collSize, collOffset, anim, getType())
+                : new LevelObjectBackground(level, rect, collSize, collOffset, color, getType());
     }
 
 }

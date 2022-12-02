@@ -58,19 +58,21 @@ public class ControlsHandler {
                 }
             }
 
+            Selection sel = editor.getSelection();
+
             if (key == Key.DELETE) {
-                switch (editor.selection.getMode()) {
+                switch (sel.getMode()) {
                     case GRID: {
-                        Rectangle sel = editor.selection.selGrid.rect;
+                        Rectangle selRect = sel.selGrid.rect;
                         level.renEntsStreamReversed()
-                                .filter(e -> e.getRectangle().intersects(sel))
+                                .filter(e -> e.getRectangle().intersects(selRect))
                                 .forEach(Renderable::delete);
                         break;
                     }
                     case POINT: {
-                        Renderable target = editor.selection.selTar.getTarget();
+                        Renderable target = sel.selTar.getTarget();
                         if (target != null) {
-                            editor.selection.selTar.clearSelection();
+                            sel.selTar.clearSelection();
                             target.delete();
                         }
                         break;
