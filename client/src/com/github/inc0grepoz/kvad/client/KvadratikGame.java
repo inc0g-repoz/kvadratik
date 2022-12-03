@@ -18,6 +18,9 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 public class KvadratikGame extends Frame {
 
@@ -25,16 +28,16 @@ public class KvadratikGame extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
-    private final KvadratikCanvas canvas;
-    private final KvadratikClient client;
+    private final @Getter Controls controls;
+    private final @Getter KvadratikCanvas canvas;
+    private final @Getter KvadratikClient client;
+    private final @Getter ConsoleWorker console;
     private final PhysicsWorker physics;
-    private final ConsoleWorker console;
-    private final Controls controls;
 
-    private Level level;
+    private @Getter @Setter Level level;
 
     {
-        addWindowListener(() -> {
+        addShutdownListener(() -> {
             dispose();
             System.exit(0);
         });
@@ -100,35 +103,11 @@ public class KvadratikGame extends Frame {
         setIconImage(ASSETS.image(fileName));
     }
 
-    public KvadratikCanvas getCanvas() {
-        return canvas;
-    }
-
-    public KvadratikClient getClient() {
-        return client;
-    }
-
-    public Controls getControls() {
-        return controls;
-    }
-
-    public ConsoleWorker getConsole() {
-        return console;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
     public void addKeysListener(Canvas c) {
         c.addKeyListener(controls);
     }
 
-    public void addWindowListener(Runnable handler) {
+    public void addShutdownListener(Runnable handler) {
         WindowAdapter adapter = new WindowAdapter() {
 
             @Override

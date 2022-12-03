@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.factory;
 
 import java.awt.Point;
 import java.util.stream.Stream;
@@ -11,7 +11,7 @@ import com.github.inc0grepoz.kvad.utils.JSON;
 
 import lombok.Getter;
 
-public class BeingFactory {
+public class BeingFactory implements RenderableFactory {
 
     private BeingTemplate[] templates;
     private @Getter String[] types;

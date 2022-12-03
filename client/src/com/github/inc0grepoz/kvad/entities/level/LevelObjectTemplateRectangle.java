@@ -5,8 +5,8 @@ import java.awt.Rectangle;
 
 public class LevelObjectTemplateRectangle extends LevelObjectTemplate {
 
-    public LevelObjectTemplateRectangle(String name, Dimension size) {
-        super(name, size);
+    public LevelObjectTemplateRectangle(String type, Dimension size) {
+        super(type, size);
     }
 
     @Override

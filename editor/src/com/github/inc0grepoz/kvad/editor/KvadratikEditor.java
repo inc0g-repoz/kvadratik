@@ -15,8 +15,8 @@ import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.editor.awt.EditorToolsPanel;
-import com.github.inc0grepoz.kvad.entities.BeingFactory;
-import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
+import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.JSON;
@@ -41,7 +41,7 @@ public class KvadratikEditor extends Frame {
     private @Getter @Setter Level level;
 
     {
-        addWindowListener(() -> {
+        addShutdownListener(() -> {
             dispose();
             System.exit(0);
         });
@@ -96,7 +96,7 @@ public class KvadratikEditor extends Frame {
         setIconImage(ASSETS.image(fileName));
     }
 
-    public void addWindowListener(Runnable handler) {
+    public void addShutdownListener(Runnable handler) {
         WindowAdapter adapter = new WindowAdapter() {
 
             @Override

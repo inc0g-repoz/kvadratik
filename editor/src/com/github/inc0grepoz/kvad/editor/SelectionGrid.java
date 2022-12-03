@@ -5,13 +5,18 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.github.inc0grepoz.kvad.entities.Camera;
+import com.github.inc0grepoz.kvad.entities.factory.RenderableFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class SelectionGrid {
 
     public final Rectangle rect = new Rectangle();
 
     private final KvadratikEditor editor;
+    private @Getter @Setter RenderableFactory factory;
 
     public SelectionGrid(KvadratikEditor editor) {
         this.editor = editor;

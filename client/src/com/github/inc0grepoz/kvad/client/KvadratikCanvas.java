@@ -11,22 +11,20 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
+import lombok.Getter;
+
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
 
     public boolean drawColliders, miscInfo;
 
     private final KvadratikGame game;
-    private final RenderWorker worker;
+    private final @Getter RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;
         worker = new RenderWorker(this);
-    }
-
-    public RenderWorker getWorker() {
-        return worker;
     }
 
     public void setFrapsPerSecond(int fraps) {

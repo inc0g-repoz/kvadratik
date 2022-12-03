@@ -17,34 +17,24 @@ import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.Worker;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class KvadratikClient extends Worker {
 
     private final KvadratikGame game;
-    private final PacketUtil packetUtil;
     private final Queue<Packet> queue = new LinkedList<>();
-    private final Chat chat;
+    private final @Getter PacketUtil packetUtil;
+    private final @Getter Chat chat = new Chat(this);
 
-    private int port;
-    private String host, nickname;
+    private @Getter @Setter int port;
+    private @Setter String host, nickname;
     private Socket socket;
 
     public KvadratikClient(KvadratikGame game, long delay) {
         super(delay);
         this.game = game;
         packetUtil = new PacketUtil(game);
-        chat = new Chat(this);
-    }
-
-    public PacketUtil getPacketUtil() {
-        return packetUtil;
-    }
-
-    public Chat getChat() {
-        return chat;
-    }
-
-    public Socket getSocket() {
-        return socket;
     }
 
     public boolean isConnected() {
@@ -53,26 +43,6 @@ public class KvadratikClient extends Worker {
 
     public boolean isInfoProvided() {
         return nickname != null && host != null && port != 0;
-    }
-
-    public String getServerIp() {
-        return host;
-    }
-
-    public int getServerPort() {
-        return port;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setServerIp(String host) {
-        this.host = host;
-    }
-
-    public void setServerPort(int port) {
-        this.port = port;
     }
 
     public void queue(Packet packet) {
@@ -154,7 +124,7 @@ public class KvadratikClient extends Worker {
                             .filter(b -> id == b.getId())
                             .findFirst().orElse(null);
                     if (being != null) {
-                        level.setPlayerBeing(being);
+                        level.setPlayer(being);
                     }
                 }
                 default:

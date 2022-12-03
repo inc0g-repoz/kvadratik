@@ -33,8 +33,8 @@ public class Bootstrap {
                     }
                     case "server": {
                         String[] server = split[1].split(":");
-                        client.setServerIp(server[0]);
-                        client.setServerPort(Integer.valueOf(server[1]));
+                        client.setHost(server[0]);
+                        client.setPort(Integer.valueOf(server[1]));
                         break;
                     }
                     default:

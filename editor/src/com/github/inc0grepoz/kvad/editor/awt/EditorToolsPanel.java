@@ -13,34 +13,53 @@ import lombok.Getter;
 @SuppressWarnings("serial")
 public class EditorToolsPanel extends JPanel {
 
-    private final @Getter ObjectList objectsList = new ObjectList();
+    private final SelectionModesComboBox selModes;
+    private final JLabel lGridSize = new JLabel("Grid size");
+    private final JTextField tfGridSize = new JTextField("64", 5);
+    private final JCheckBox cbAuto = new JCheckBox("Auto");
+    private final @Getter ObjectList objectsList;
+
+    private int gridSize;
 
     public EditorToolsPanel(KvadratikEditor editor) {
         // Components are placed vertically
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//      setBorder(BorderFactory.createEtchedBorder());
 
-        // Selector modes
+        // Selector modes combo-box
         JPanel cboxSelModes = new JPanel();
-        SelectionModesComboBox selModes = new SelectionModesComboBox(editor);
+        selModes = new SelectionModesComboBox(editor);
         cboxSelModes.add(selModes);
 
         // Grid size option
         JPanel gsPanel = new JPanel();
-        JLabel lGridSize = new JLabel("Grid size");
-        JTextField tfGridSize = new JTextField("64", 5);
-        gsPanel.add(lGridSize);
-        gsPanel.add(tfGridSize);
+        gsPanel.add(lGridSize);  // Grid size label
+        gsPanel.add(tfGridSize); // Grid size text field
+        gsPanel.add(cbAuto);     // Grid auto-size option
 
-        // Grid size option
-        JCheckBox cbAuto = new JCheckBox("Auto");
+        // Level objects list
+        objectsList = new ObjectList(editor);
 
-        add(cboxSelModes);
-        add(gsPanel);
-        add(cbAuto);
+        // On apply value
+        tfGridSize.addActionListener(a -> {
+            try {
+                gridSize = Integer.valueOf(tfGridSize.getText());
+            } catch (NumberFormatException e) {
+                gridSize = 0;
+            }
+        });
 
         // Adding all tools panel subcomponents
-        add(objectsList); // Level objects list
+        add(cboxSelModes); // Selection modes combo-box
+        add(gsPanel);      // Tools panel
+        add(objectsList);  // Level objects list
+    }
+
+    public int getGridSize() {
+        return gridSize;
+    }
+
+    public boolean isAutoGridSizeEnabled() {
+        return cbAuto.isSelected();
     }
 
 }

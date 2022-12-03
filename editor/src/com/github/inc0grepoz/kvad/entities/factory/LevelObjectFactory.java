@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.factory;
 
 import java.awt.Point;
 
@@ -11,7 +11,7 @@ import com.github.inc0grepoz.kvad.utils.JSON;
 
 import lombok.Getter;
 
-public class LevelObjectFactory {
+public class LevelObjectFactory implements RenderableFactory {
 
     private @Getter LevelObjectTemplate[] templates;
 

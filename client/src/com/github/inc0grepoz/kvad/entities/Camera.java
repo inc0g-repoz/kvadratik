@@ -7,6 +7,9 @@ import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Camera extends Entity {
 
     public static enum CameraMode {
@@ -15,19 +18,11 @@ public class Camera extends Entity {
 
     public Way moveDirection;
 
-    private CameraMode mode = CameraMode.FOLLOW;
+    private @Getter @Setter CameraMode mode = CameraMode.FOLLOW;
 
     public Camera(Level level) {
         super(level, new Rectangle(0, 0, 0, 0), null, null);
         super.speed = 20;
-    }
-
-    public CameraMode getMode() {
-        return mode;
-    }
-
-    public void setMode(CameraMode mode) {
-        this.mode = mode;
     }
 
     public void scale(KvadratikGame game) {

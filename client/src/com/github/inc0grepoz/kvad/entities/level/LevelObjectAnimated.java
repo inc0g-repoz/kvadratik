@@ -7,9 +7,11 @@ import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.utils.Vector;
 
+import lombok.Getter;
+
 public class LevelObjectAnimated extends LevelObject{
 
-    private final LevelObjectAnim anim;
+    private final @Getter LevelObjectAnim anim;
 
     private long stateExpiry; // 0 for infinite duration
     private int stateSpriteIndex;
@@ -19,10 +21,6 @@ public class LevelObjectAnimated extends LevelObject{
             LevelObjectAnim anim) {
         super(level, rect, collSize, collOffset);
         this.anim = anim;
-    }
-
-    public LevelObjectAnim getAnim() {
-        return anim;
     }
 
     public BufferedImage getSprite() {

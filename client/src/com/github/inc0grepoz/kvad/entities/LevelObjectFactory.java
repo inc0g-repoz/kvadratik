@@ -24,7 +24,7 @@ public class LevelObjectFactory {
 
     public LevelObjectTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
-            if (templates[i].getName().equals(type)) {
+            if (templates[i].getType().equals(type)) {
                 return templates[i];
             }
         }

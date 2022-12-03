@@ -10,17 +10,17 @@ public class LevelObjectTemplateBackground extends LevelObjectTemplateAnimated {
 
     private final Color color;
 
-    public LevelObjectTemplateBackground(String name, Dimension size,
+    public LevelObjectTemplateBackground(String type, Dimension size,
             Dimension collSize, Vector collOffset, boolean collide,
             LevelObjectAnim anim) {
-        super(name, size, collSize, collOffset, collide, anim);
+        super(type, size, collSize, collOffset, collide, anim);
         this.color = null;
     }
 
-    public LevelObjectTemplateBackground(String name, Dimension size,
+    public LevelObjectTemplateBackground(String type, Dimension size,
             Dimension collSize, Vector collOffset, boolean collide,
             Color color) {
-        super(name, size, collSize, collOffset, collide, LevelObjectAnim.COLOR);
+        super(type, size, collSize, collOffset, collide, LevelObjectAnim.COLOR);
         this.color = color;
     }
 

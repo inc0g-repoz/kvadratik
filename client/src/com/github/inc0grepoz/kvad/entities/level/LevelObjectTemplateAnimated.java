@@ -9,10 +9,10 @@ public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 
     final LevelObjectAnim anim;
 
-    public LevelObjectTemplateAnimated(String name, Dimension size,
+    public LevelObjectTemplateAnimated(String type, Dimension size,
             Dimension collSize, Vector collOffset, boolean collide,
             LevelObjectAnim anim) {
-        super(name, size, collSize, collOffset, collide);
+        super(type, size, collSize, collOffset, collide);
         this.anim = anim;
     }
 

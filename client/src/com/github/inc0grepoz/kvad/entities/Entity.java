@@ -7,13 +7,15 @@ import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
+import lombok.Getter;
+
 public abstract class Entity {
 
     public boolean collide, move;
     public int speed;
 
+    private final @Getter Level level;
     private final Rectangle rect, coll;
-    private final Level level;
     private final Vector collOffset;
 
     public Entity(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
@@ -89,10 +91,6 @@ public abstract class Entity {
 
     public Rectangle getCollider() {
         return coll == null ? rect : coll;
-    }
-
-    public Level getLevel() {
-        return level;
     }
 
 }
