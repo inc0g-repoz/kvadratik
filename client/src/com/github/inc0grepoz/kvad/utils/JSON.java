@@ -59,7 +59,7 @@ public class JSON {
         for (String key : jLevelObjectType.keySet()) {
             JsonObject jTemplate = jLevelObjectType.getAsJsonObject(key);
 
-            // Size & collider
+            // Size
             JsonArray jSize = jTemplate.getAsJsonArray("size");
             Dimension size = new Dimension(
                     jSize.get(0).getAsInt(),
