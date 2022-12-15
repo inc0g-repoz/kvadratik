@@ -1,4 +1,4 @@
-[icon]: https://raw.githubusercontent.com/inc0g-repoz/kvadratik/main/client/assets/icon.png
+[icon]: https://raw.githubusercontent.com/inc0g-repoz/kvadratik/main/client/src/main/resources/assets/icon.png
 [java.awt]: https://docs.oracle.com/javase/7/docs/api/java/awt/package-summary.html
 [sprites-resource]: https://www.spriters-resource.com/pc_computer/omori/?source=genre
 <!-- The stuff above is invisible -->
