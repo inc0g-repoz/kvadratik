@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.factory;
 
 import java.awt.Point;
 import java.util.stream.Stream;
@@ -8,11 +8,12 @@ import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.JSON;
+import lombok.Getter;
 
 public class BeingFactory {
 
     private BeingTemplate[] templates;
-    private String[] types;
+    private @Getter String[] types;
 
     public void validatePreload() {
         if (templates == null && types == null) {
@@ -20,10 +21,6 @@ public class BeingFactory {
             templates = JSON.fromJsonBeingTemplates(beingsJson);
             types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
         }
-    }
-
-    public String[] getTypes() {
-        return types;
     }
 
     public BeingTemplate getTemplate(String type) {

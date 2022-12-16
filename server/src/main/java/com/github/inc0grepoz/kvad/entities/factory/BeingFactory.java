@@ -1,8 +1,9 @@
-package com.github.inc0grepoz.kvad.entities;
+package com.github.inc0grepoz.kvad.entities.factory;
 
 import java.awt.Point;
 import java.util.stream.Stream;
 
+import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
 import com.github.inc0grepoz.kvad.entities.being.Player;
@@ -48,7 +49,7 @@ public class BeingFactory {
     }
 
     public Player createPlayer(Connection connection, String name,
-            Level level, Point point, String type) {
+                               Level level, Point point, String type) {
         return getTemplate(type).createPlayer(connection, name, level, point);
     }
 
