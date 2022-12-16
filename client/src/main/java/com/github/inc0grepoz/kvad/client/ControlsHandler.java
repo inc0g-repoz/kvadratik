@@ -6,7 +6,7 @@ import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.chat.Chat;
+import com.github.inc0grepoz.kvad.chat.Chat;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class ControlsHandler {

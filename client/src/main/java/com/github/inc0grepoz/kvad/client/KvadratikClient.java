@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.chat.Chat;
-import com.github.inc0grepoz.kvad.entities.chat.Message;
+import com.github.inc0grepoz.kvad.chat.Chat;
+import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;

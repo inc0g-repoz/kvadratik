@@ -8,9 +8,9 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import com.github.inc0grepoz.kvad.entities.BeingFactory;
-import com.github.inc0grepoz.kvad.entities.LevelObjectFactory;
-import com.github.inc0grepoz.kvad.entities.chat.Message;
+import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
+import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
 import com.github.inc0grepoz.kvad.utils.JSON;
