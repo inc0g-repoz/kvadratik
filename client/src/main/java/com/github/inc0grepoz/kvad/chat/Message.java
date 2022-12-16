@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.entities.chat;
+package com.github.inc0grepoz.kvad.chat;
 
 import java.awt.Color;
 import java.awt.Graphics;
