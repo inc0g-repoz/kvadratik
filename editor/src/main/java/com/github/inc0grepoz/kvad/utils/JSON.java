@@ -16,9 +16,7 @@ import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateAnimated;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateBackground;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateRectangle;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.stream.JsonWriter;
 
 public class JSON {
@@ -232,7 +230,8 @@ public class JSON {
         });
         jLevel.add("beings", jBeings);
 
-        return jLevel.toString();
+        Gson gb = new GsonBuilder().setPrettyPrinting().create();
+        return gb.toJson(jLevel);
     }
 
 }
