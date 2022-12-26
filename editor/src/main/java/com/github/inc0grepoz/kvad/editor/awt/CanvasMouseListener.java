@@ -62,9 +62,6 @@ public class CanvasMouseListener implements MouseListener {
             }
             default:
         }
-
-        String jLevel = JSON.toJsonLevel(level);
-        Logger.info(jLevel);
     }
 
     @Override
