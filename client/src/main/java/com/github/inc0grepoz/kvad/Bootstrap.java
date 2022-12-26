@@ -8,6 +8,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import com.github.inc0grepoz.kvad.worker.RichPresenceWorker;
 
 public class Bootstrap {
 
@@ -34,7 +35,7 @@ public class Bootstrap {
                     case "server": {
                         String[] server = split[1].split(":");
                         client.setHost(server[0]);
-                        client.setPort(Integer.valueOf(server[1]));
+                        client.setPort(Integer.parseInt(server[1]));
                         break;
                     }
                     default:
@@ -43,50 +44,8 @@ public class Bootstrap {
         }
 
         GAME.run();
-        initDiscordRPS();
-    }
-
-    public static void initDiscordRPS() {
-        DiscordRPC lib = DiscordRPC.INSTANCE;
-        DiscordRichPresence presence = new DiscordRichPresence();
-        String appId = "1046333931106078721";
-
-        DiscordEventHandlers handlers = new DiscordEventHandlers();
-        handlers.ready = user -> Logger.info("Discord RPS: ready");
-        lib.Discord_Initialize(appId, handlers, true, "");
-
-        presence.startTimestamp = System.currentTimeMillis() / 1000; // epoch second
-        presence.endTimestamp   = 0;
-        presence.largeImageKey  = "logo";
-        presence.details   = "";
-        presence.state     = "Singleplayer";
-        presence.partyMax  = 10;
-        lib.Discord_UpdatePresence(presence);
-
-        Thread t = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                if (GAME.getClient().isConnected()) {
-                    Level level = GAME.getLevel();
-                    if (level != null) {
-                        int size = GAME.getLevel().getBeings().size();
-                        if (size != presence.partySize) {
-                            presence.partySize = GAME.getLevel().getBeings().size();
-                            presence.state     = "Multiplayer";
-                            lib.Discord_UpdatePresence(presence);
-                        }
-                    }
-                }
-
-                lib.Discord_RunCallbacks();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    lib.Discord_Shutdown();
-                    break;
-                }
-            }
-        }, "RPC-Callback-Handler");
-        t.start();
+        RichPresenceWorker rpw = new RichPresenceWorker(GAME);
+        rpw.start();
     }
 
 }
