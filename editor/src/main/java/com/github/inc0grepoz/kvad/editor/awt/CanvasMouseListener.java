@@ -9,6 +9,8 @@ import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.JSON;
+import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class CanvasMouseListener implements MouseListener {
 
@@ -60,6 +62,9 @@ public class CanvasMouseListener implements MouseListener {
             }
             default:
         }
+
+        String jLevel = JSON.toJsonLevel(level);
+        Logger.info(jLevel);
     }
 
     @Override

@@ -155,7 +155,7 @@ public class JSON {
         // Adding a player being
         if (!mpMode) {
             JsonObject jPlayer = jLevel.getAsJsonObject("player");
-            String jPlayerType = jPlayer.get("beingType").getAsString();
+            String jPlayerType = jPlayer.get("type").getAsString();
 
             JsonArray jPlayerPoint = jPlayer.getAsJsonArray("point");
             Point point = new Point(
@@ -168,14 +168,17 @@ public class JSON {
         }
 
         // Adding some level objects
-        JsonObject jLevelObjects = jLevel.getAsJsonObject("levelObjects");
-        for (String key : jLevelObjects.keySet()) {
-            JsonArray jLevelObject = jLevelObjects.getAsJsonArray(key);
+        JsonArray jLevelObjects = jLevel.getAsJsonArray("levelObjects");
+        jLevelObjects.forEach(elt -> {
+            JsonObject jLevelObject = elt.getAsJsonObject();
+            JsonArray jPoint = jLevelObject.get("point").getAsJsonArray();
+            String type = jLevelObject.get("type").getAsString();
+
             Point point = new Point(
-                    jLevelObject.get(0).getAsInt(),
-                    jLevelObject.get(1).getAsInt());
-            KvadratikGame.OBJECT_FACTORY.create(key, level, point);
-        }
+                    jPoint.get(0).getAsInt(),
+                    jPoint.get(1).getAsInt());
+            KvadratikGame.OBJECT_FACTORY.create(type, level, point);
+        });
 
         return level;
     }

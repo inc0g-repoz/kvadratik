@@ -19,6 +19,7 @@ import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateRectangle;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 
 public class JSON {
 
@@ -152,7 +153,7 @@ public class JSON {
         // Adding a player being
         if (!mpMode) {
             JsonObject jPlayer = jLevel.getAsJsonObject("player");
-            String jPlayerType = jPlayer.get("beingType").getAsString();
+            String jPlayerType = jPlayer.get("type").getAsString();
 
             JsonArray jPlayerPoint = jPlayer.getAsJsonArray("point");
             Point point = new Point(
@@ -165,16 +166,73 @@ public class JSON {
         }
 
         // Adding some level objects
-        JsonObject jLevelObjects = jLevel.getAsJsonObject("levelObjects");
-        for (String key : jLevelObjects.keySet()) {
-            JsonArray jLevelObject = jLevelObjects.getAsJsonArray(key);
+        JsonArray jLevelObjects = jLevel.getAsJsonArray("levelObjects");
+        jLevelObjects.forEach(elt -> {
+            JsonObject jLevelObject = elt.getAsJsonObject();
+            JsonArray jPoint = jLevelObject.get("point").getAsJsonArray();
+            String type = jLevelObject.get("type").getAsString();
+
             Point point = new Point(
-                    jLevelObject.get(0).getAsInt(),
-                    jLevelObject.get(1).getAsInt());
-            KvadratikEditor.OBJECT_FACTORY.create(key, level, point);
-        }
+                    jPoint.get(0).getAsInt(),
+                    jPoint.get(1).getAsInt());
+            KvadratikEditor.OBJECT_FACTORY.create(type, level, point);
+        });
 
         return level;
+    }
+
+    public static String toJsonLevel(Level level) {
+        JsonObject jLevel = new JsonObject();
+        jLevel.addProperty("name", level.getName());
+
+        // Serializing the player
+        Being player = level.getPlayer();
+        Point playerPoint = player.getRectangle().getLocation();
+        JsonObject jPlayer = new JsonObject();
+        JsonArray jPlayerPoint = new JsonArray();
+        jPlayerPoint.add(playerPoint.x);
+        jPlayerPoint.add(playerPoint.y);
+        jPlayer.addProperty("type", player.getType());
+        jPlayer.add("point", jPlayerPoint);
+        jLevel.add("player", jPlayer);
+
+        // Serializing the level objects
+        JsonArray jLevelObjects = new JsonArray();
+        level.getLevelObjects().forEach(lo -> {
+            JsonObject jLevelObject = new JsonObject();
+            JsonArray jPoint = new JsonArray();
+
+            Point point = lo.getRectangle().getLocation();
+            jPoint.add(point.x);
+            jPoint.add(point.y);
+
+            jLevelObject.addProperty("type", lo.getType());
+            jLevelObject.add("point", jPoint);
+            jLevelObjects.add(jLevelObject);
+        });
+        jLevel.add("levelObjects", jLevelObjects);
+
+        // Serializing the beings
+        JsonArray jBeings = new JsonArray();
+        level.getBeings().forEach(b -> {
+            if (b == level.getPlayer()) {
+                return;
+            }
+
+            JsonObject jBeing = new JsonObject();
+            JsonArray jPoint = new JsonArray();
+
+            Point point = b.getRectangle().getLocation();
+            jPoint.add(point.x);
+            jPoint.add(point.y);
+
+            jBeing.addProperty("type", b.getType());
+            jBeing.add("point", jPoint);
+            jBeings.add(jBeing);
+        });
+        jLevel.add("beings", jBeings);
+
+        return jLevel.toString();
     }
 
 }

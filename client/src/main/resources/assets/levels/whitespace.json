@@ -1,13 +1,26 @@
 {
-    "name": "Whitespace",
-    "player": {
-        "beingType": "iomor",
-        "point": [65, 30]
-    },
-    "levelObjects": {
-        "background": [0, 0],
-        "rug": [0, 0],
-        "mewo": [0, 100],
-        "laptop": [40, 5]
-    }
+	"name": "Whitespace",
+	"player": {
+		"type": "iomor",
+		"point": [65,30]
+	},
+	"levelObjects": [
+		{
+			"type": "background",
+			"point": [0,0]
+		},
+		{
+			"type": "rug",
+			"point": [0,0]
+		},
+		{
+			"type": "mewo",
+			"point": [8,113]
+		},
+		{
+			"type": "laptop",
+			"point": [40,5]
+		}
+	],
+	"beings": []
 }
