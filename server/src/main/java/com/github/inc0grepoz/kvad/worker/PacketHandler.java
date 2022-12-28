@@ -97,7 +97,7 @@ public class PacketHandler extends Worker {
     private void flushPlayerPackets() {
         kvad.players.forEach(player -> {
             try {
-                player.flushQueuedPackets();
+                player.getConnection().flushQueuedPackets();
             } catch (IOException e) {
                 e.initCause(new IOException("Unable to send the queued packets"));
             }
