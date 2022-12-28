@@ -8,25 +8,21 @@ import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
+import lombok.Getter;
+
 public class Being extends Entity {
 
     private static int lastId;
 
-    private final int id = ++lastId;
-    private final Vector velocity = new Vector();
-
-    private String type;
-    private Anim anim = Anim.IDLE_S;
+    private final @Getter int id = ++lastId;
+    private @Getter String type;
+    private @Getter Anim anim = Anim.IDLE_S;
 
     public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
             String type) {
         super(level, rect, collSize, collOffset);
         super.collide = true;
         this.type = type;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public void moveOn() {
@@ -45,18 +41,6 @@ public class Being extends Entity {
         if (this.anim != anim) {
             this.anim = anim;
         }
-    }
-
-    public Vector getVelocity() {
-        return velocity;
-    }
-
-    public Anim getAnim() {
-        return anim;
-    }
-
-    public String getType() {
-        return type;
     }
 
     @Override

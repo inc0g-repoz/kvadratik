@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.worker;
 
 import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class PhysicsWorker extends Worker {
@@ -15,16 +14,13 @@ public class PhysicsWorker extends Worker {
 
     @Override
     protected void work() {
-        Level level = kvad.getLevel();
+        kvad.getLevels().forEach(level -> {
 
-        if (level == null) {
-            return;
-        }
+            // Moving the beings
+            level.getBeings().forEach(Being::moveOn);
 
-        // Moving the beings
-        level.getBeings().forEach(Being::moveOn);
-
-        // TODO: AI
+            // TODO: AI
+        });
     }
 
 }

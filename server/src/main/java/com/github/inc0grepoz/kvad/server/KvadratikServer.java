@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.Connection;
-import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.being.Player;
+import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
@@ -20,6 +20,8 @@ import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import com.github.inc0grepoz.kvad.worker.SocketAcceptor;
 import com.github.inc0grepoz.kvad.worker.Worker;
 
+import lombok.Getter;
+
 public class KvadratikServer {
 
     public static final AssetsManager ASSETS = new AssetsManager();
@@ -30,6 +32,7 @@ public class KvadratikServer {
         return ASSETS;
     }   
 
+    private final @Getter List<Level> levels = new ArrayList<>();
     public final List<Player> players = new ArrayList<>();
     public final List<Connection> connections = new ArrayList<>();
     public final PacketUtil packetUtil = new PacketUtil(this);
@@ -38,12 +41,14 @@ public class KvadratikServer {
     private final List<Worker> workers = new ArrayList<>();
     private final PlayerCommandHandler commandHandler = new PlayerCommandHandler(this);
 
-    private Level level;
-
     public KvadratikServer() {
-        // Creating the server level
-        String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
-        level = JSON.fromJsonLevel(this, levelJson);
+        // Creating the server levels
+        ASSETS.listFiles("assets/levels")
+                .filter(fn -> fn.endsWith(".json"))
+                .forEach(path -> {
+                    String levelJson = ASSETS.textFile(path);
+                    levels.add(JSON.fromJsonLevel(this, levelJson));
+        });
 
         // Loading the server settings
         String settingsJson = ASSETS.textFile("settings.json");
@@ -53,6 +58,11 @@ public class KvadratikServer {
         workers.add(new PacketHandler(this));
         workers.add(new PhysicsWorker(this, 50));
         workers.add(new SocketAcceptor(this, settings.port));
+    }
+
+    public Level getLevelByName(String name) {
+        return levels.stream().filter(level -> level.getName().equals(name))
+                .findFirst().orElse(null);
     }
 
     public void logPlayerIn(String name, Connection connection) {
@@ -66,22 +76,19 @@ public class KvadratikServer {
 //          // Add a new player to the list
 //      }
 
+        Level level = levels.get(0);
         Player player = level.getPlayerPreset().spawn(connection, name, level);
 
         // Sending the level data and all beings
         packetUtil.outAssets(player, settings.assetsLink);
-        packetUtil.outLevel(player);
-        packetUtil.outSpawnBeingForAll(player);
-        level.getBeings().forEach(being -> packetUtil.outSpawnBeing(player, being));
+        packetUtil.outLevel(player, level);
+        packetUtil.outBeingSpawnForAll(player);
+        level.getBeings().forEach(being -> packetUtil.outBeingSpawn(player, being));
 
         packetUtil.outTransferControl(player, player);
 
         String ip = connection.getInetAddress().getHostAddress();
         Logger.info(name + " joined the server from " + ip);
-    }
-
-    public Level getLevel() {
-        return level;
     }
 
     public void handlePlayerCommand(Player player, String command) {
@@ -100,8 +107,8 @@ public class KvadratikServer {
                     Player p = eachP.next();
                     if (p.getConnection().equals(cxn)) {
                         Logger.info(p.getName() + " left the server");
-                        packetUtil.outDespawnBeing(p);
-                        level.getBeings().remove(p);
+                        packetUtil.outBeingDespawn(p);
+                        p.getLevel().getBeings().remove(p);
                         eachP.remove();
                     }
                 }
@@ -124,6 +131,7 @@ public class KvadratikServer {
     }
 
     public void stop() {
+        Logger.info("Stopping the server");
         workers.forEach(Worker::kill);
         System.exit(0);
     }

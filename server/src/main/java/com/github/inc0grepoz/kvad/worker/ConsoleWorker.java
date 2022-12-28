@@ -3,7 +3,6 @@ package com.github.inc0grepoz.kvad.worker;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
-import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -41,18 +40,18 @@ public class ConsoleWorker extends Worker {
                 return;
             }
             case "stats": {
-                Level level = kvad.getLevel();
                 StringJoiner sjStats = new StringJoiner("\n");
-                sjStats.add("Stats:");
-                sjStats.add("Beings: " + level.getBeings().size());
-                sjStats.add("Objects: " + level.getLevelObjects().size());
                 sjStats.add("Players: " + kvad.players.size());
-                sjStats.add("Connections: " + kvad.connections.size());
+                sjStats.add("Sockets: " + kvad.connections.size());
+                kvad.getLevels().forEach(level -> {
+                    sjStats.add(level.getName() + " stats:");
+                    sjStats.add("- beings: " + level.getBeings().size());
+                    sjStats.add("- objects: " + level.getLevelObjects().size());
+                });
                 Logger.info(sjStats.toString());
                 return;
             }
             case "stop": {
-                Logger.info("Stopping the server");
                 kvad.stop();
                 return;
             }

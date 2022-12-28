@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
@@ -57,6 +60,31 @@ public class AssetsManager {
         } catch (Exception e) {}
 
         Logger.error("Invalid text file: " + path);
+        System.exit(0);
+        return null;
+    }
+
+    public Stream<String> listFiles(String path) {
+        try {
+            File dir = new File(path);
+            return Stream.of(dir.list()).map(fn -> path + "/" + fn);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        try {
+            List<String> files = new ArrayList<>();
+            ZipUtil.listFiles(path).stream()
+                    .filter(name -> !name.endsWith("/") && !name.endsWith("\\"))
+                    .forEach(filePath -> {
+                files.add(filePath);
+            });
+            return files.stream();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        Logger.error("Invalid directory: " + path);
         System.exit(0);
         return null;
     }

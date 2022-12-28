@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.Player;
+import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class PacketUtil {
@@ -74,23 +75,23 @@ public class PacketUtil {
         kvad.players.forEach(packet::queue);
     }
 
-    public void outDespawnBeing(Being being) {
+    public void outBeingSpawn(Player player, Being being) {
+        PacketType.SERVER_BEING_SPAWN.create(being.toString()).queue(player);
+    }
+
+    public void outBeingSpawnForAll(Being being) {
+        Packet packet = PacketType.SERVER_BEING_SPAWN.create(being.toString());
+        allExcludePlayer(packet, being);
+    }
+
+    public void outBeingDespawn(Being being) {
         String id = String.valueOf(being.getId());
         Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
         kvad.players.forEach(packet::queue);
     }
 
-    public void outLevel(Player player) {
-        PacketType.SERVER_LEVEL.create(kvad.getLevel().toString()).queue(player);
-    }
-
-    public void outSpawnBeing(Player player, Being being) {
-        PacketType.SERVER_BEING_SPAWN.create(being.toString()).queue(player);
-    }
-
-    public void outSpawnBeingForAll(Being being) {
-        Packet packet = PacketType.SERVER_BEING_SPAWN.create(being.toString());
-        allExcludePlayer(packet, being);
+    public void outLevel(Player player, Level level) {
+        PacketType.SERVER_LEVEL.create(level.toString()).queue(player);
     }
 
     public void outTransferControl(Player player, Being being) {
