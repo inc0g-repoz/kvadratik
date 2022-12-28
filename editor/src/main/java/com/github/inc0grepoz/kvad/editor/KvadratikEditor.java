@@ -8,18 +8,16 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JPanel;
-
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
+import com.github.inc0grepoz.kvad.editor.awt.EditorToolBar;
 import com.github.inc0grepoz.kvad.editor.awt.EditorToolsPanel;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsManager;
-import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;
@@ -32,6 +30,7 @@ public class KvadratikEditor extends Frame {
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 
+    private final @Getter EditorToolBar toolBar = new EditorToolBar(this);
     private final @Getter EditorToolsPanel panel = new EditorToolsPanel(this);
     private final @Getter Selection selection = new Selection(this);
     private final @Getter Controls controls;
@@ -69,27 +68,20 @@ public class KvadratikEditor extends Frame {
         controls = new Controls(this);
         canvas.addKeyListener(controls);
 
-        // Physics (100 heartbeats per second)
+        // Physics (20 heartbeats per second)
         physics = new PhysicsWorker(this, 50L);
         physics.start();
 
-        // Editor panels
-        JPanel jpGeneral = new JPanel();
-        jpGeneral.add(canvas);
-        jpGeneral.add(panel);
-
-//      JToolBar jToolBar = new JToolBar("test");
-//      add(jToolBar);
-
-        add(jpGeneral, BorderLayout.WEST);
-        add(jpGeneral);
+        // Editor UI elements
+        add(toolBar, BorderLayout.PAGE_START);
+        add(canvas, BorderLayout.WEST);
+        add(panel, BorderLayout.EAST);
 
 //      pack();
     }
 
     public void run() {
-        String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
-        level = JSON.fromJsonLevel(this, levelJson, false);
+        level = ASSETS.level(this, "assets/levels/whitespace.json");
     }
 
     public void applyIcon(String fileName) {

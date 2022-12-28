@@ -9,8 +9,6 @@ import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.JSON;
-import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class CanvasMouseListener implements MouseListener {
 
@@ -32,17 +30,15 @@ public class CanvasMouseListener implements MouseListener {
 
         switch (sel.getMode()) {
             case POINT: {
-                Renderable renEnt = level.renEntsStreamReversed()
-                        .filter(e -> e.getRectangle().contains(loc))
-                        .findFirst().orElse(null);
-                if (renEnt == null) {
-                    return;
-                }
-
-                if (renEnt.selected) {
+                if (sel.selTar.getTarget() != null) {
                     sel.selTar.clearSelection();
                 } else {
-                    sel.selTar.setTarget(renEnt);
+                    Renderable renEnt = level.renEntsStreamReversed()
+                            .filter(e -> e.getRectangle().contains(loc))
+                            .findFirst().orElse(null);
+                    if (renEnt != null) {
+                        sel.selTar.setTarget(renEnt);
+                    }
                 }
                 break;
             }
@@ -65,27 +61,15 @@ public class CanvasMouseListener implements MouseListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent event) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mousePressed(MouseEvent event) {}
 
     @Override
-    public void mouseReleased(MouseEvent event) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mouseReleased(MouseEvent event) {}
 
     @Override
-    public void mouseEntered(MouseEvent event) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mouseEntered(MouseEvent event) {}
 
     @Override
-    public void mouseExited(MouseEvent event) {
-        // TODO Auto-generated method stub
-        
-    }
+    public void mouseExited(MouseEvent event) {}
 
 }

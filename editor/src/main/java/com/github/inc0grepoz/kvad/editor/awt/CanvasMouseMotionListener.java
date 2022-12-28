@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.editor.awt;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
@@ -31,7 +32,8 @@ public class CanvasMouseMotionListener implements MouseMotionListener {
             case POINT: {
                 Renderable target = sel.selTar.getTarget();
                 if (target != null) {
-                    target.teleport(cam.x + e.getX(), cam.y + e.getY());
+                    Rectangle ent = target.getRectangle();
+                    target.teleport(cam.x + e.getX() - ent.width, cam.y + e.getY() - ent.height);
                 }
                 break;
             }

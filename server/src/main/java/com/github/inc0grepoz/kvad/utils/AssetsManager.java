@@ -29,22 +29,30 @@ public class AssetsManager {
 
     public String textFile(String path) {
         Logger.info("Loading " + path);
+
         InputStream stream;
+        File file = new File(path);
 
         try {
-            stream = getClass().getClassLoader().getResourceAsStream(path);
-            if (stream == null) {
-                File file = new File(path);
+            if (file.exists()) {
                 stream = new FileInputStream(file);
+            } else {
+                stream = getClass().getClassLoader().getResourceAsStream(path);
             }
+
             InputStreamReader isr = new InputStreamReader(stream);
             BufferedReader br = new BufferedReader(isr);
+
+            // Reading the lines
             String string = br.lines().collect(StringBuilder::new,
                     (b, s) -> b.append(s), (b1, b2) -> b1.append(b2))
                     .toString();
+
+            // Closing the streams
             stream.close();
             isr.close();
             br.close();
+
             return string;
         } catch (Exception e) {}
 

@@ -16,8 +16,11 @@ import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateAnimated;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateBackground;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplateRectangle;
-import com.google.gson.*;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class JSON {
 

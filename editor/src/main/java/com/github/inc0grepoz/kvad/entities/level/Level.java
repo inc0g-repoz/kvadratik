@@ -18,12 +18,13 @@ public class Level {
     private final @Getter String name;
     private final @Getter Camera camera;
 
+    private @Getter @Setter String path;
     private @Getter @Setter Being player;
     private @Getter List<LevelObject> levelObjects = new ArrayList<>();
     private @Getter List<Being> beings = new ArrayList<>();
 
-    public Level(KvadratikEditor game, String name) {
-        this.editor = game;
+    public Level(KvadratikEditor editor, String name) {
+        this.editor = editor;
         this.name = name;
         camera = new Camera(this);
     }
