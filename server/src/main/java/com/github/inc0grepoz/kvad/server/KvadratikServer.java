@@ -20,8 +20,6 @@ import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import com.github.inc0grepoz.kvad.worker.SocketAcceptor;
 import com.github.inc0grepoz.kvad.worker.Worker;
 
-import lombok.Getter;
-
 public class KvadratikServer {
 
     public static final AssetsManager ASSETS = new AssetsManager();
@@ -32,7 +30,7 @@ public class KvadratikServer {
         return ASSETS;
     }   
 
-    private final @Getter List<Level> levels = new ArrayList<>();
+    public final List<Level> levels = new ArrayList<>();
     public final List<Player> players = new ArrayList<>();
     public final List<Connection> connections = new ArrayList<>();
     public final PacketUtil packetUtil = new PacketUtil(this);
