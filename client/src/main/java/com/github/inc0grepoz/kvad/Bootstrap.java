@@ -2,12 +2,8 @@ package com.github.inc0grepoz.kvad;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-import club.minnced.discord.rpc.DiscordEventHandlers;
-import club.minnced.discord.rpc.DiscordRPC;
-import club.minnced.discord.rpc.DiscordRichPresence;
 import com.github.inc0grepoz.kvad.worker.RichPresenceWorker;
 
 public class Bootstrap {

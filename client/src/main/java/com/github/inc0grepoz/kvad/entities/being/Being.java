@@ -43,6 +43,10 @@ public class Being extends Renderable {
         this.name = name;
     }
 
+    public boolean hasName() {
+        return name != null;
+    }
+
     public int getId() {
         return id;
     }

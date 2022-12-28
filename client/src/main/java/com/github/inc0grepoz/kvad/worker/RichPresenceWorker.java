@@ -1,11 +1,13 @@
 package com.github.inc0grepoz.kvad.worker;
 
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Logger;
+
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import com.github.inc0grepoz.kvad.client.KvadratikGame;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class RichPresenceWorker extends Worker {
 
@@ -40,7 +42,8 @@ public class RichPresenceWorker extends Worker {
             if (game.getClient().isConnected()) {
                 Level level = game.getLevel();
                 if (level != null) {
-                    int size = game.getLevel().getBeings().size();
+                    int size = (int) game.getLevel().getBeings().stream()
+                            .filter(Being::hasName).count();
                     if (size != presence.partySize) {
                         presence.partySize = game.getLevel().getBeings().size();
                         presence.state     = "Multiplayer";
