@@ -17,7 +17,7 @@ public class Connection {
 
     private final KvadratikServer kvad;
     private final Socket socket;
-    private final Queue<Packet> queuedPackets = new LinkedList<>();
+    private final Queue<Packet> queue = new LinkedList<>();
 
     private long lastResponse = System.currentTimeMillis();
 
@@ -40,12 +40,12 @@ public class Connection {
     }
 
     public void queue(Packet packet) {
-        queuedPackets.add(packet);
+        queue.add(packet);
     }
 
     public void flushQueuedPackets() throws IOException {
         OutputStream out = socket.getOutputStream();
-        for (Packet packet; (packet = queuedPackets.poll()) != null;) {
+        for (Packet packet; (packet = queue.poll()) != null;) {
             packet.send(out);
         }
     }
