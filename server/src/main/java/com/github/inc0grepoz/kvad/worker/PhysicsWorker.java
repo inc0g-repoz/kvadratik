@@ -14,7 +14,7 @@ public class PhysicsWorker extends Worker {
 
     @Override
     protected void work() {
-        kvad.getLevels().forEach(level -> {
+        kvad.levels.forEach(level -> {
 
             // Moving the beings
             level.getBeings().forEach(Being::moveOn);
