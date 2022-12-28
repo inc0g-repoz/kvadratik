@@ -104,7 +104,7 @@ public class Packet {
     }
 
     public void queue(Player player) {
-        player.queue(this);
+        player.getConnection().queue(this);
     }
 
     Map<String, String> toMap(int eltsCount) {
