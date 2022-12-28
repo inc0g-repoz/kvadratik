@@ -45,11 +45,8 @@ public class Connection {
 
     public void flushQueuedPackets() throws IOException {
         OutputStream out = socket.getOutputStream();
-
-        synchronized (queuedPackets) {
-            for (Packet packet; (packet = queuedPackets.poll()) != null;) {
-                packet.send(out);
-            }
+        for (Packet packet; (packet = queuedPackets.poll()) != null;) {
+            packet.send(out);
         }
     }
 
