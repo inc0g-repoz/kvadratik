@@ -5,7 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Queue;
 
+import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class Connection {
@@ -14,6 +17,7 @@ public class Connection {
 
     private final KvadratikServer kvad;
     private final Socket socket;
+    private final Queue<Packet> queuedPackets = new LinkedList<>();
 
     private long lastResponse = System.currentTimeMillis();
 
@@ -35,8 +39,18 @@ public class Connection {
         return socket.getInputStream();
     }
 
-    public OutputStream getOutputStream() throws IOException {
-        return socket.getOutputStream();
+    public void queue(Packet packet) {
+        queuedPackets.add(packet);
+    }
+
+    public void flushQueuedPackets() throws IOException {
+        OutputStream out = socket.getOutputStream();
+
+        synchronized (queuedPackets) {
+            for (Packet packet; (packet = queuedPackets.poll()) != null;) {
+                packet.send(out);
+            }
+        }
     }
 
     public boolean hasExpired() {
