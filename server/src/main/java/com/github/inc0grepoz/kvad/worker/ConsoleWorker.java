@@ -43,7 +43,7 @@ public class ConsoleWorker extends Worker {
                 StringJoiner sjStats = new StringJoiner("\n");
                 sjStats.add("Players: " + kvad.players.size());
                 sjStats.add("Sockets: " + kvad.connections.size());
-                kvad.getLevels().forEach(level -> {
+                kvad.levels.forEach(level -> {
                     sjStats.add(level.getName() + " stats:");
                     sjStats.add("- beings: " + level.getBeings().size());
                     sjStats.add("- objects: " + level.getLevelObjects().size());
