@@ -19,6 +19,8 @@ public class Bootstrap {
 
     public static void main(String[] args) {
         KvadratikClient client = GAME.getClient();
+
+        // Reading the launch arguments
         for (int i = 0; i < args.length; i++) {
             Logger.info("Reading launch args: " + args[i]);
             if (args[i].contains("=")) {
