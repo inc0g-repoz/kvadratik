@@ -133,15 +133,12 @@ public class KvadratikClient extends Worker {
 
         // Flushing the outgoing packets
         if (queue.size() != 0) {
-            synchronized (queue) {
-                for (Packet packet; (packet = queue.poll()) != null;) {
-                    try {
-                        packet.send(socket.getOutputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            for (Packet packet; (packet = queue.poll()) != null;) {
+                try {
+                    packet.send(socket.getOutputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                queue.clear();
             }
         }
 
