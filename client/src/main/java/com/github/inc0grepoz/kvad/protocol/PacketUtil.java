@@ -9,16 +9,17 @@ import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
 
+import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Downloader;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.RGB;
+import com.github.inc0grepoz.kvad.utils.Unzipper;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class PacketUtil {
@@ -94,7 +95,7 @@ public class PacketUtil {
                 Logger.info("Downloading the assets from " + strUrl);
                 Downloader.download(url, assetsZip);
                 Logger.info("Extracting the assets");
-                Downloader.extractZip(assetsZip, assetsDir);
+                Unzipper.unzip(assetsZip, assetsDir);
                 assetsZip.delete();
             }
             KvadratikGame.ASSETS.assetsParent = assetsDir.toString();
