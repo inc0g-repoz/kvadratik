@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.kvad.protocol;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.File;
@@ -18,7 +17,6 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Downloader;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
-import com.github.inc0grepoz.kvad.utils.RGB;
 import com.github.inc0grepoz.kvad.utils.Unzipper;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
@@ -191,25 +189,8 @@ public class PacketUtil {
             return;
         }
 
-        Map<String, String> map = packet.toMap(3);
-
-        String colStr = map.get("color");
-        String[] split = colStr.split(",");
-        int[] rgb = {
-                Integer.valueOf(split[0]),
-                Integer.valueOf(split[1]),
-                Integer.valueOf(split[2])
-        };
-        Color color = RGB.get(rgb);
-
-        String name = map.get("name");
-        String text = map.get("text");
-
-        Message message = new Message();
-        if (name != null && text != null) {
-            message.addComponent(name + ": ", color).addComponent(text);
-            client.getChat().print(message);
-        }
+        Message message = Message.deserialize(packet.toString());
+        client.getChat().print(message);
     }
 
     public void inPoint(Packet packet) {

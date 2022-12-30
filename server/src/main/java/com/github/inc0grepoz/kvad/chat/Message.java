@@ -3,6 +3,11 @@ package com.github.inc0grepoz.kvad.chat;
 import java.awt.*;
 import java.util.ArrayList;
 
+import com.github.inc0grepoz.kvad.utils.RGB;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class Message {
 
     public static class Component {
@@ -17,7 +22,41 @@ public class Message {
 
     }
 
+    public static Message deserialize(String json) {
+        JsonArray jMsg = JsonParser.parseString(json).getAsJsonArray();
+        Message msg = new Message();
+        jMsg.forEach(comp -> {
+            JsonObject jComp = comp.getAsJsonObject();
+            JsonArray jCol = jComp.getAsJsonArray("color");
+            Color color = jCol == null ? null : RGB.get(
+                            jCol.get(0).getAsInt(),
+                            jCol.get(1).getAsInt(),
+                            jCol.get(2).getAsInt());
+            String text = jComp.get("text").getAsString();
+            msg.addComponent(text, color);
+        });
+        return msg;
+    }
+
     private final ArrayList<Component> components = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        JsonArray jArr = new JsonArray();
+        components.forEach(comp -> {
+            JsonObject jComp = new JsonObject();
+            jComp.addProperty("text", comp.text);
+
+            JsonArray jCol = new JsonArray();
+            jCol.add(comp.color.getRed());
+            jCol.add(comp.color.getGreen());
+            jCol.add(comp.color.getBlue());
+            jComp.add("color", jCol);
+
+            jArr.add(jComp);
+        });
+        return jArr.toString();
+    }
 
     public Message addComponent(String text, Color color) {
         Component comp = new Component(text, color == null ? Color.BLACK : color);

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Map;
 
+import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -22,19 +23,13 @@ public class PacketUtil {
             kvad.handlePlayerCommand(player, message);
             return;
         }
+
         Color color = player.getChatColor();
-        StringBuilder sb = new StringBuilder();
-        sb.append("color=");
-        sb.append(color.getRed());
-        sb.append(",");
-        sb.append(color.getGreen());
-        sb.append(",");
-        sb.append(color.getBlue());
-        sb.append(";name=");
-        sb.append(player.getName());
-        sb.append(";text=");
-        sb.append(message);
-        Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(sb.toString());
+        Message msg = new Message()
+                .addComponent(player.getName() + ": ", color)
+                .addComponent(message);
+
+        Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(msg.toString());
         kvad.players.forEach(packet::queue);
     }
 

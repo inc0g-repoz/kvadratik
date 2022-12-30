@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.kvad.chat;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,13 +28,6 @@ public class Chat {
             messages.remove(0);
         }
         messages.add(message);
-    }
-
-    public void print(Color color, String nickname, String text) {
-        Message message = new Message()
-                .addComponent(nickname, color)
-                .addComponent(text);
-        print(message);
     }
 
     public void render(Graphics gfx) {
