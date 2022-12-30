@@ -5,10 +5,13 @@ import java.awt.Rectangle;
 import java.util.Map;
 
 import com.github.inc0grepoz.kvad.chat.Message;
+import com.github.inc0grepoz.kvad.entities.Connection;
+import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
+import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class PacketUtil {
 
@@ -18,7 +21,8 @@ public class PacketUtil {
         this.kvad = kvad;
     }
 
-    public void inChat(Player player, String message) {
+    public void inChat(Player player, Packet in) {
+        String message = in.string;
         if (message.startsWith("!")) {
             kvad.handlePlayerCommand(player, message);
             return;
@@ -29,12 +33,44 @@ public class PacketUtil {
                 .addComponent(player.getName() + ": ", color)
                 .addComponent(message);
 
-        Packet packet = PacketType.SERVER_CHAT_MESSAGE.create(msg.toString());
-        kvad.players.forEach(packet::queue);
+        Packet out = PacketType.SERVER_CHAT_MESSAGE.create(msg.toString());
+        kvad.players.forEach(out::queue);
     }
 
-    public void inPlayerPoint(Packet packet, Player player) {
-        Map<String, String> map = packet.toMap();
+    public void inLogin(Packet in, Connection connection) {
+        /* The snippet bellow needs to be placed here later
+         * when the packet related stuff fixing is done */
+
+//      boolean already = players.stream().anyMatch(player -> {
+//          return connection.equals(player.getConnection());
+//      });
+//      if (!already) {
+//          // Add a new player to the list
+//      }
+
+        Level level = kvad.levels.get(0);
+        Player player = level.getPlayerPreset().spawn(connection, in.string, level);
+
+        // Sending the level data and all beings
+        outAssets(player, kvad.settings.assetsLink);
+        outLevel(player, level);
+        outBeingSpawnForAll(player);
+        level.getBeings().forEach(being -> outBeingSpawn(player, being));
+
+        outTransferControl(player, player);
+
+        String ip = connection.getInetAddress().getHostAddress();
+        Logger.info(in.string + " joined the server from " + ip);
+    }
+
+    public void inPlayerAnim(Player player, Packet in) {
+        Anim anim = Anim.valueOf(in.string);
+        player.applyAnim(anim);
+        outAnim(player);
+    }
+
+    public void inPlayerPoint(Player player, Packet in) {
+        Map<String, String> map = in.toMap();
         int x = Integer.valueOf(map.get("x"));
         int y = Integer.valueOf(map.get("y"));
         player.teleport(x, y);

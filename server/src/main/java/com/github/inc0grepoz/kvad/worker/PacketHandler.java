@@ -3,7 +3,6 @@ package com.github.inc0grepoz.kvad.worker;
 import java.io.IOException;
 import java.util.Queue;
 
-import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -47,7 +46,7 @@ public class PacketHandler extends Worker {
             for (Packet packet : queue) {
                 switch (packet.getType()) {
                     case CLIENT_LOGIN:
-                        kvad.logPlayerIn(packet.toString(), connection);
+                        kvad.packetUtil.inLogin(packet, connection);
                         break;
                     default:
                 }
@@ -74,17 +73,15 @@ public class PacketHandler extends Worker {
                 for (Packet packet : queue) {
                     switch (packet.getType()) {
                         case CLIENT_CHAT_MESSAGE: {
-                            kvad.packetUtil.inChat(player, packet.toString());
+                            kvad.packetUtil.inChat(player, packet);
                             break;
                         }
                         case CLIENT_PLAYER_ANIM: {
-                            Anim anim = Anim.valueOf(packet.toString());
-                            player.applyAnim(anim);
-                            kvad.packetUtil.outAnim(player);
+                            kvad.packetUtil.inPlayerAnim(player, packet);
                             break;
                         }
                         case CLIENT_PLAYER_POINT: {
-                            kvad.packetUtil.inPlayerPoint(packet, player);
+                            kvad.packetUtil.inPlayerPoint(player, packet);
                             break;
                         }
                         default:

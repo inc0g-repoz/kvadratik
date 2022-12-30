@@ -52,11 +52,6 @@ public class PacketUtil {
     }
 
     public void inAnim(Packet packet) {
-        if (packet.getType() != PacketType.SERVER_BEING_ANIM) {
-            Logger.error("Unable to read an anim from " + packet.getType().name());
-            return;
-        }
-
         Map<String, String> map = packet.toMap();
 
         // Getting a server-side unique ID
@@ -75,9 +70,8 @@ public class PacketUtil {
     }
 
     public void inAssets(Packet packet) {
-        String strUrl = packet.toString();
         try {
-            URL url = new URL(strUrl);
+            URL url = new URL(packet.string);
 
             Logger.info("Measuring the assets zip-file size");
             int size = Downloader.getFileSize(url);
@@ -90,7 +84,7 @@ public class PacketUtil {
                 Logger.info("Found an up-to-date version of the assets-pack");
             } else {
                 File assetsZip = new File(assetsDir, fileName.concat(".zip"));
-                Logger.info("Downloading the assets from " + strUrl);
+                Logger.info("Downloading the assets from " + packet.string);
                 Downloader.download(url, assetsZip);
                 Logger.info("Extracting the assets");
                 Unzipper.unzip(assetsZip, assetsDir);
@@ -103,18 +97,13 @@ public class PacketUtil {
     }
 
     public void inBeingDespawn(Packet packet) {
-        int id = Integer.valueOf(packet.toString());
+        int id = Integer.valueOf(packet.string);
         game.getLevel().getBeings().removeIf(being -> {
             return being.getId() == id;
         });
     }
 
     public void inBeingSpawn(Packet packet) {
-        if (packet.getType() != PacketType.SERVER_BEING_SPAWN) {
-            Logger.error("Unable to init a being from " + packet.getType().name());
-            return;
-        }
-
         Map<String, String> map = packet.toMap();
 
         // Getting a server-side unique ID
@@ -149,11 +138,6 @@ public class PacketUtil {
     }
 
     public void inBeingType(Packet packet) {
-        if (packet.getType() != PacketType.SERVER_BEING_TYPE) {
-            Logger.error("Unable to read a being type from " + packet.getType().name());
-            return;
-        }        
-
         Map<String, String> map = packet.toMap();
 
         // Getting a server-side unique ID
@@ -170,26 +154,17 @@ public class PacketUtil {
     }
 
     public void inLevel(Packet packet) {
-        if (packet.getType() != PacketType.SERVER_LEVEL) {
-            Logger.error("Unable to build a level from " + packet.getType().name());
-            return;
-        }
-        Level level = JSON.fromJsonLevel(game, packet.toString(), true);
+        Level level = JSON.fromJsonLevel(game, packet.string, true);
         game.setLevel(level);
     }
 
     public void inPlayerMessage(Packet packet) {
-        if (packet.getType() != PacketType.SERVER_CHAT_MESSAGE) {
-            Logger.error("Unable to read a chat message from " + packet.getType().name());
-            return;
-        }
-
         KvadratikClient client = game.getClient();
         if (!client.isConnected()) {
             return;
         }
 
-        Message message = Message.deserialize(packet.toString());
+        Message message = Message.deserialize(packet.string);
         client.getChat().print(message);
     }
 
@@ -204,6 +179,17 @@ public class PacketUtil {
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
             being.teleport(x, y);
+        }
+    }
+
+    public void inTransferControl(Packet packet) {
+        int id = Integer.valueOf(packet.string);
+        Level level = game.getLevel();
+        Being being = level.getBeings().stream()
+                .filter(b -> id == b.getId())
+                .findFirst().orElse(null);
+        if (being != null) {
+            level.setPlayer(being);
         }
     }
 

@@ -69,7 +69,7 @@ public class Packet {
         return packets;
     }
 
-    public static Packet out(PacketType type, String string) {
+    static Packet out(PacketType type, String string) {
         Packet packet = new Packet();
         packet.type = type;
         packet.string = string;
@@ -81,15 +81,11 @@ public class Packet {
         return packet;
     }
 
+    String string, b64;
+
     private int id;
     private byte[] data;
     private PacketType type;
-    private String string, b64;
-
-    @Override
-    public String toString() {
-        return string;
-    }
 
     public PacketType getType() {
         return type;

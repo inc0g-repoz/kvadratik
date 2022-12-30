@@ -7,10 +7,8 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.chat.Chat;
 import com.github.inc0grepoz.kvad.chat.Message;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.protocol.PacketUtil;
@@ -22,7 +20,6 @@ import lombok.Setter;
 
 public class KvadratikClient extends Worker {
 
-    private final KvadratikGame game;
     private final Queue<Packet> queue = new LinkedList<>();
     private final @Getter PacketUtil packetUtil;
     private final @Getter Chat chat = new Chat(this);
@@ -33,7 +30,6 @@ public class KvadratikClient extends Worker {
 
     public KvadratikClient(KvadratikGame game, long delay) {
         super(delay);
-        this.game = game;
         packetUtil = new PacketUtil(game);
     }
 
@@ -118,14 +114,8 @@ public class KvadratikClient extends Worker {
                     break;
                 }
                 case SERVER_TRANSFER_CONTROL: {
-                    int id = Integer.valueOf(packet.toString());
-                    Level level = game.getLevel();
-                    Being being = level.getBeings().stream()
-                            .filter(b -> id == b.getId())
-                            .findFirst().orElse(null);
-                    if (being != null) {
-                        level.setPlayer(being);
-                    }
+                    packetUtil.inTransferControl(packet);
+                    break;
                 }
                 default:
             }
