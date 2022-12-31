@@ -35,10 +35,10 @@ public class PacketUtil {
         }
     }
 
-    public void outPoint(Being being, Vector prevMove, int x, int y) {
+    public void outPoint(Being being, Vector prevMove, int movedX, int movedY) {
         if (!game.getClient().isConnected()
                 || being.getId() != game.getLevel().getPlayer().getId()
-                || prevMove.x == x && prevMove.y == y) {
+                || prevMove.x == movedX && prevMove.y == movedY) {
             return;
         }
 
