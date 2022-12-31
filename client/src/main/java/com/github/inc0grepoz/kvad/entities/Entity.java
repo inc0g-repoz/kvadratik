@@ -34,15 +34,15 @@ public abstract class Entity {
     }
 
     public boolean canMove(int x, int y) {
-        if (collide) {
-            Rectangle coll = getCollider();
-            int nextMinX = coll.x + x, nextMinY = coll.y + y;
-            int nextMaxX = coll.width + x, nextMaxY = coll.height + y;
-            return level.renEntsStream().filter(e -> e != this && e.collide)
-                    .noneMatch(e -> e.getCollider().intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
-        } else {
+        if (!collide) {
             return true;
         }
+
+        Rectangle coll = getCollider();
+        int nextMinX = coll.x + x, nextMinY = coll.y + y;
+        int nextMaxX = coll.width + x, nextMaxY = coll.height + y;
+        return level.renEntsStream().filter(e -> e != this && e.collide)
+                .noneMatch(e -> e.getCollider().intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
     }
 
     public boolean canMove(Way way, int speed) {
