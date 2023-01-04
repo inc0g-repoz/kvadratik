@@ -76,6 +76,15 @@ public class Packet {
         return packet;
     }
 
+    private static boolean isExcluded(PacketType pt) {
+        for (int i = 0; i < filter.length; i++) {
+            if (filter[i] == pt) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     String string, b64;
 
     private int id;
@@ -122,15 +131,6 @@ public class Packet {
 
     Map<String, String> toMap() {
         return toMap(0);
-    }
-
-    private static boolean isExcluded(PacketType pt) {
-        for (int i = 0; i < filter.length; i++) {
-            if (filter[i] == pt) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
