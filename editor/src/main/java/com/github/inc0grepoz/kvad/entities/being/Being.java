@@ -101,7 +101,10 @@ public class Being extends Renderable {
 
     @Override
     public void delete() {
-        getLevel().getBeings().removeIf(b -> b.getId() == id);
+        Level lvl = getLevel();
+        if (id != lvl.getPlayer().getId()) {
+            lvl.getBeings().removeIf(b -> b.getId() == id);
+        }
     }
 
 }
