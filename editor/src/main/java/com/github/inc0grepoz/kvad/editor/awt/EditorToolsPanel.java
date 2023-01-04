@@ -19,7 +19,7 @@ public class EditorToolsPanel extends JPanel {
     private final JCheckBox cbAuto = new JCheckBox("Auto");
     private final @Getter ObjectList objectsList;
 
-    private int gridSize;
+    private @Getter int gridSize = 64;
 
     public EditorToolsPanel(KvadratikEditor editor) {
         // Components are placed vertically
@@ -52,10 +52,6 @@ public class EditorToolsPanel extends JPanel {
         add(cboxSelModes); // Selection modes combo-box
         add(gsPanel);      // Tools panel
         add(objectsList);  // Level objects list
-    }
-
-    public int getGridSize() {
-        return gridSize;
     }
 
     public boolean isAutoGridSizeEnabled() {

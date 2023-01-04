@@ -47,9 +47,13 @@ public class SelectionGrid {
         gfx.setColor(color);
     }
 
+    public void setGridSize(int x, int y) {
+        rect.width = x;
+        rect.height = y;
+    }
+
     public void setGridSize(int value) {
-        rect.width = value;
-        rect.height = value;
+        setGridSize(value, value);
     }
 
     public int getGridSize() {

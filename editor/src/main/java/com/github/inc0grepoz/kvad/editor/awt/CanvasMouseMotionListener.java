@@ -38,6 +38,12 @@ public class CanvasMouseMotionListener implements MouseMotionListener {
                 break;
             }
             case GRID: {
+                EditorToolsPanel etp = editor.getPanel();
+                if (etp.isAutoGridSizeEnabled()) {
+                    // TODO: huh?
+                } else {
+                    sel.selGrid.setGridSize(etp.getGridSize());
+                }
                 sel.selGrid.locate(cam.x + e.getX(), cam.y + e.getY());
                 break;
             }
