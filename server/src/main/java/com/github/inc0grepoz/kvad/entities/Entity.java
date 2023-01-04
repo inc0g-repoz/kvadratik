@@ -11,14 +11,13 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public abstract class Entity {
 
     public boolean collide, move;
     public int speed;
 
-    private @Getter @Setter Level level;
+    private final @Getter Level level;
     private final Rectangle rect, coll;
     private final Vector collOffset;
 

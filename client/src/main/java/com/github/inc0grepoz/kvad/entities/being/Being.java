@@ -9,18 +9,20 @@ import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
+import lombok.Getter;
+
 public class Being extends Renderable {
 
     private static int lastId;
 
-    private final int id;
+    private final @Getter int id;
     private final Vector prevMove = new Vector();
 
-    private Anim anim = Anim.IDLE_S;
+    private @Getter Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
     private int animSpriteIndex;
 
-    private String name, type;
+    private @Getter String name, type;
 
     public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
             String type, int id) {
@@ -35,20 +37,12 @@ public class Being extends Renderable {
         this(level, rect, collSize, collOffset, type, -1);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
     public boolean hasName() {
         return name != null;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public boolean isMoving() {
@@ -109,14 +103,6 @@ public class Being extends Renderable {
             // Queue an anim packet
             getLevel().getGame().getClient().getPacketUtil().outAnim();
         }
-    }
-
-    public Anim getAnim() {
-        return anim;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public BufferedImage getSprite() {

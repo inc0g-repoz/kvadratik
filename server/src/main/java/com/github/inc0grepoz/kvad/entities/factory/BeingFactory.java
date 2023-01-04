@@ -11,10 +11,12 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 import com.github.inc0grepoz.kvad.utils.JSON;
 
+import lombok.Getter;
+
 public class BeingFactory {
 
+    private final @Getter String[] types;
     private final BeingTemplate[] templates;
-    private final String[] types;
 
     {
         String beingsJson = KvadratikServer.ASSETS.textFile("assets/beings/beings.json");
@@ -29,10 +31,6 @@ public class BeingFactory {
             }
         }
         return false;
-    }
-
-    public String[] getTypes() {
-        return types;
     }
 
     public BeingTemplate getTemplate(String type) {
