@@ -81,7 +81,7 @@ public class KvadratikEditor extends Frame {
     }
 
     public void run() {
-        level = ASSETS.level(this, "assets/levels/whitespace.json");
+        level = ASSETS.level(this, "assets/levels/level.json");
     }
 
     public void applyIcon(String fileName) {
