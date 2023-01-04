@@ -99,8 +99,12 @@ public class Packet {
         out.write(data, 0, data.length);
     }
 
+    public void queue(Connection cxn) {
+        cxn.queue(this);
+    }
+
     public void queue(Player player) {
-        player.getConnection().queue(this);
+        queue(player.getConnection());
     }
 
     Map<String, String> toMap(int eltsCount) {

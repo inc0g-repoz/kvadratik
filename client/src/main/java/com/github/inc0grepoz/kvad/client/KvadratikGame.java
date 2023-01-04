@@ -63,7 +63,7 @@ public class KvadratikGame extends Frame {
         console = new ConsoleWorker(this, 500L);
         console.start();
 
-        // Physics (100 heartbeats per second)
+        // Physics
         physics = new PhysicsWorker(this, 50L);
         physics.start();
     }

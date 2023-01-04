@@ -101,6 +101,9 @@ public class KvadratikClient extends Worker {
                     packetUtil.inBeingSpawn(packet);
                     break;
                 }
+                case SERVER_BEING_TELEPORT: {
+                    packetUtil.inBeingTeleport(packet);
+                }
                 case SERVER_BEING_TYPE: {
                     packetUtil.inBeingType(packet);
                     break;

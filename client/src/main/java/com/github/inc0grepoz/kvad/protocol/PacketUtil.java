@@ -54,14 +54,14 @@ public class PacketUtil {
     public void inAnim(Packet packet) {
         Map<String, String> map = packet.toMap();
 
-        // Getting a server-side unique ID
+        // Getting a server-side ID
         String idStr = map.getOrDefault("id", null);
         int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
         // Looking for the client-side anim
         Anim anim = Anim.valueOf(map.get("anim"));
 
-        // Looking for the desired entity
+        // Looking for the desired being
         Being being = game.getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
@@ -106,11 +106,11 @@ public class PacketUtil {
     public void inBeingSpawn(Packet packet) {
         Map<String, String> map = packet.toMap();
 
-        // Getting a server-side unique ID
+        // Getting a server-side ID
         String idStr = map.getOrDefault("id", null);
         int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
-        // Looking for the same entity
+        // Looking for the same being
         Level level = game.getLevel();
         boolean hasOne = level.getBeings().stream()
                 .anyMatch(b -> b.getId() == id);
@@ -137,14 +137,35 @@ public class PacketUtil {
         being.setName(name);
     }
 
-    public void inBeingType(Packet packet) {
+    public void inBeingTeleport(Packet packet) {
         Map<String, String> map = packet.toMap();
 
-        // Getting a server-side unique ID
+        // Getting a server-side ID
         String idStr = map.getOrDefault("id", null);
         int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
-        // Looking for the same entity
+        // Looking for the same being
+        Level level = game.getLevel();
+        Being being = level.getBeings().stream()
+                .filter(b -> b.getId() == id).findFirst().orElse(null);
+        if (being == null) {
+            Logger.error("Tried to teleport a being with an invalid ID");
+            return;
+        }
+
+        // Teleporting that being
+        String[] pArr = map.get("point").split(",");
+        being.teleport(Integer.valueOf(pArr[0]), Integer.valueOf(pArr[1]));
+    }
+
+    public void inBeingType(Packet packet) {
+        Map<String, String> map = packet.toMap();
+
+        // Getting a server-side ID
+        String idStr = map.getOrDefault("id", null);
+        int id = idStr == null ? -1 : Integer.valueOf(idStr);
+
+        // Looking for the same being
         Being being = game.getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
@@ -174,7 +195,7 @@ public class PacketUtil {
         int x = Integer.valueOf(map.get("x"));
         int y = Integer.valueOf(map.get("y"));
 
-        // Looking for the desired entity
+        // Looking for the desired being
         Being being = game.getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {

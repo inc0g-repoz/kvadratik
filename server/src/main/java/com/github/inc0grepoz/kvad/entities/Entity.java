@@ -96,6 +96,8 @@ public abstract class Entity {
         return coll == null ? rect : coll;
     }
 
+    public abstract void delete();
+
     protected abstract void packetEntries(Map<String, String> map);
 
 }

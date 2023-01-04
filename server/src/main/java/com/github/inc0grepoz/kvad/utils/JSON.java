@@ -153,9 +153,10 @@ public class JSON {
         Point pPoint = new Point(
                 jPlayerPoint.get(0).getAsInt(),
                 jPlayerPoint.get(1).getAsInt());
-        PlayerPreset preset = new PlayerPreset(jPlayerType, pPoint);
 
-        Level level = new Level(kvad, name, json, preset);
+        Level level = new Level(kvad, name, json);
+        PlayerPreset preset = new PlayerPreset(level, pPoint, jPlayerType);
+        level.setPlayerPreset(preset);
 
         // Adding some level objects
         JsonArray jLevelObjects = jLevel.getAsJsonArray("levelObjects");

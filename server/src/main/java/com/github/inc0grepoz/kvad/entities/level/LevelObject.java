@@ -13,4 +13,9 @@ public abstract class LevelObject extends Entity {
         super(level, rect, collSize, collOffset);
     }
 
+    @Override
+    public void delete() {
+        getLevel().getLevelObjects().remove(this);
+    }
+
 }

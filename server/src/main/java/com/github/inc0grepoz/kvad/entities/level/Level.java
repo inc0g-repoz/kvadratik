@@ -4,50 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.Entity;
 import com.github.inc0grepoz.kvad.entities.being.Being;
+import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.being.PlayerPreset;
+import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class Level {
 
-    private final KvadratikServer kvad;
-    private final String name, json;
+    private final @Getter KvadratikServer server;
+    private final @Getter String name;
+    private final String json;
 
-    private List<LevelObject> levelObjects = new ArrayList<>();
-    private List<Being> beings = new ArrayList<>();
-    private PlayerPreset playerPreset;
+    private final @Getter List<LevelObject> levelObjects = new ArrayList<>();
+    private final @Getter List<Being> beings = new ArrayList<>();
 
-    public Level(KvadratikServer kvad, String name, String json, PlayerPreset playerPreset) {
-        this.kvad = kvad;
+    private @Getter @Setter PlayerPreset playerPreset;
+
+    public Level(KvadratikServer kvad, String name, String json) {
+        this.server = kvad;
         this.name = name;
         this.json = json;
-        this.playerPreset = playerPreset;
     }
 
     @Override
     public String toString() {
-        return json.toString();
+        return json;
     }
 
-    public String getName() {
-        return name;
-    }
+    public void join(Connection cxn, Level level, String playerName) {
+        Player player = playerPreset.spawn(cxn, playerName);
 
-    public KvadratikServer getGame() {
-        return kvad;
-    }
+        // Sending the level data and all beings
+        PacketUtil util = server.packetUtil;
+        util.outLevel(player, level);
+        util.outBeingSpawnForAll(player);
+        level.getBeings().forEach(being -> util.outBeingSpawn(player, being));
 
-    public PlayerPreset getPlayerPreset() {
-        return playerPreset;
-    }
-
-    public List<LevelObject> getLevelObjects() {
-        return levelObjects;
-    }
-
-    public List<Being> getBeings() {
-        return beings;
+        util.outTransferControl(player, player);
     }
 
     public Stream<? extends Entity> entitiesStream() {

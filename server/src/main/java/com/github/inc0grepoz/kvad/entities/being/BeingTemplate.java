@@ -34,7 +34,7 @@ public class BeingTemplate {
             Level level, Point point) {
         Rectangle rect = new Rectangle(point, size);
         Player player = new Player(connection, name, level, rect, collSize, collOffset, type);
-        level.getGame().players.add(player);
+        level.getServer().players.add(player);
         level.getBeings().add(player);
         return player;
     }

@@ -3,6 +3,7 @@ package com.github.inc0grepoz.kvad.protocol;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.Connection;
@@ -37,29 +38,20 @@ public class PacketUtil {
         kvad.players.forEach(out::queue);
     }
 
-    public void inLogin(Packet in, Connection connection) {
-        /* The snippet bellow needs to be placed here later
-         * when the packet related stuff fixing is done */
-
-//      boolean already = players.stream().anyMatch(player -> {
-//          return connection.equals(player.getConnection());
-//      });
-//      if (!already) {
-//          // Add a new player to the list
-//      }
-
+    public void inLogin(Packet in, Connection cxn) {
+        String playerName = in.string;
         Level level = kvad.levels.get(0);
-        Player player = level.getPlayerPreset().spawn(connection, in.string, level);
 
-        // Sending the level data and all beings
-        outAssets(player, kvad.settings.assetsLink);
-        outLevel(player, level);
-        outBeingSpawnForAll(player);
-        level.getBeings().forEach(being -> outBeingSpawn(player, being));
+        boolean connected = level.getServer().players.stream()
+                .anyMatch(p -> p.getName().equals(playerName));
+        if (connected) {
+            return;
+        }
 
-        outTransferControl(player, player);
+        PacketType.SERVER_ASSETS_URL.create(kvad.settings.assetsLink).queue(cxn);
+        level.join(cxn, level, playerName);
 
-        String ip = connection.getInetAddress().getHostAddress();
+        String ip = cxn.getInetAddress().getHostAddress();
         Logger.info(in.string + " joined the server from " + ip);
     }
 
@@ -80,11 +72,7 @@ public class PacketUtil {
     public void outAnim(Being being) {
         String content = "id=" + being.getId() + ";anim=" + being.getAnim().name();
         Packet packet = PacketType.SERVER_BEING_ANIM.create(content);
-        allExcludePlayer(packet, being);
-    }
-
-    public void outAssets(Player player, String url) {
-        PacketType.SERVER_ASSETS_URL.create(url).queue(player);
+        allSameLevelExcludePlayer(packet, being);
     }
 
     public void outBeingPoint(Being being) {
@@ -97,13 +85,7 @@ public class PacketUtil {
         sb.append(";y=");
         sb.append(rect.y);
         Packet packet = PacketType.SERVER_BEING_POINT.create(sb.toString());
-        allExcludePlayer(packet, being);
-    }
-
-    public void outBeingType(Being being) {
-        String content = "id=" + being.getId() + ";type=" + being.getType();
-        Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
-        kvad.players.forEach(packet::queue);
+        allSameLevelExcludePlayer(packet, being);
     }
 
     public void outBeingSpawn(Player player, Being being) {
@@ -112,13 +94,26 @@ public class PacketUtil {
 
     public void outBeingSpawnForAll(Being being) {
         Packet packet = PacketType.SERVER_BEING_SPAWN.create(being.toString());
-        allExcludePlayer(packet, being);
+        allSameLevelExcludePlayer(packet, being);
     }
 
     public void outBeingDespawn(Being being) {
         String id = String.valueOf(being.getId());
         Packet packet = PacketType.SERVER_BEING_DESPAWN.create(id);
-        kvad.players.forEach(packet::queue);
+        allSameLevel(packet, being.getLevel());
+    }
+
+    public void outBeingTeleport(Being being) {
+        Rectangle rect = being.getRectangle();
+        String content = "id=" + being.getId() + ";point=" + rect.x + "," + rect.y;
+        Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
+        allSameLevel(packet, being.getLevel());
+    }
+
+    public void outBeingType(Being being) {
+        String content = "id=" + being.getId() + ";type=" + being.getType();
+        Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
+        allSameLevel(packet, being.getLevel());
     }
 
     public void outLevel(Player player, Level level) {
@@ -129,16 +124,28 @@ public class PacketUtil {
         PacketType.SERVER_TRANSFER_CONTROL.create(String.valueOf(being.getId())).queue(player);
     }
 
-    private void allExcludePlayer(Packet packet, Being being) {
+    private void allSameLevelExcludePlayer(Packet packet, Being being) {
+        String bngLvlName = being.getLevel().getName();
+        Stream<Player> players = kvad.players.stream()
+                .filter(p -> p.getLevel().getName().equals(bngLvlName));
         if (being instanceof Player) {
-            kvad.players.forEach(player -> {
+            players.forEach(player -> {
                 if (player.getId() != being.getId()) {
                     packet.queue(player);
                 }
             });
         } else {
-            kvad.players.forEach(packet::queue);
+            players.forEach(packet::queue);
         }
+    }
+
+    private void allSameLevel(Packet packet, Level level) {
+        String bngLvlName = level.getName();
+        kvad.players.forEach(player -> {
+            if (player.getLevel().getName().equals(bngLvlName)) {
+                packet.queue(player);
+            }
+        });
     }
 
 }

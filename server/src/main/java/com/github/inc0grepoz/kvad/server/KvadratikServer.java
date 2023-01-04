@@ -72,16 +72,16 @@ public class KvadratikServer {
         while (eachCxn.hasNext()) {
             Connection cxn = eachCxn.next();
             if (cxn.hasExpired()) {
-                Iterator<Player> eachP = players.iterator();
+                Iterator<Player> eachFromPList = players.iterator();
 
                 // Despawning the disconnected player for others
-                while (eachP.hasNext()) {
-                    Player p = eachP.next();
+                while (eachFromPList.hasNext()) {
+                    Player p = eachFromPList.next();
                     if (p.getConnection().equals(cxn)) {
                         Logger.info(p.getName() + " left the server");
                         packetUtil.outBeingDespawn(p);
-                        p.getLevel().getBeings().remove(p);
-                        eachP.remove();
+                        p.delete();
+                        eachFromPList.remove();
                     }
                 }
 

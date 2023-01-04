@@ -8,15 +8,17 @@ import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 public class PlayerPreset {
 
-    private final String type;
+    private final Level level;
     private final Point point;
+    private final String type;
 
-    public PlayerPreset(String type, Point point) {
+    public PlayerPreset(Level level, Point point, String type) {
+        this.level = level;
         this.type = type;
         this.point = point;
     }
 
-    public Player spawn(Connection connection, String name, Level level) {
+    public Player spawn(Connection connection, String name) {
         return KvadratikServer.BEING_FACTORY.createPlayer(connection, name, level, point, type);
     }
 
