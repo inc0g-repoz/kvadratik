@@ -44,12 +44,6 @@ public class Being extends Entity {
     }
 
     @Override
-    public void teleport(int x, int y) {
-        super.teleport(x, y);
-        getLevel().getServer().packetUtil.outBeingTeleport(this);
-    }
-
-    @Override
     public void delete() {
         getLevel().getBeings().removeIf(b -> b.getId() == id);
     }

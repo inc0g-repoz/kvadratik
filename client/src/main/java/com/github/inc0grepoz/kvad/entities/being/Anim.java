@@ -111,8 +111,8 @@ public enum Anim {
         }
     }
 
-    public BufferedImage[] getImages(String beintType) {
-        return images.getOrDefault(beintType, null);
+    public BufferedImage[] getImages(String beingType) {
+        return images.getOrDefault(beingType, null);
     }
 
 }

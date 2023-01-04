@@ -103,13 +103,6 @@ public class PacketUtil {
         allSameLevel(packet, being.getLevel());
     }
 
-    public void outBeingTeleport(Being being) {
-        Rectangle rect = being.getRectangle();
-        String content = "id=" + being.getId() + ";point=" + rect.x + "," + rect.y;
-        Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
-        allSameLevel(packet, being.getLevel());
-    }
-
     public void outBeingType(Being being) {
         String content = "id=" + being.getId() + ";type=" + being.getType();
         Packet packet = PacketType.SERVER_BEING_TYPE.create(content);
