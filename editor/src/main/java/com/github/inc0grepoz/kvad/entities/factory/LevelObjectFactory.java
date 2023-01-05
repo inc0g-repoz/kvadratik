@@ -22,6 +22,7 @@ public class LevelObjectFactory implements RenderableFactory {
         templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
     }
 
+    @Override
     public LevelObjectTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
             if (templates[i].getType().equals(type)) {
@@ -31,6 +32,7 @@ public class LevelObjectFactory implements RenderableFactory {
         return null;
     }
 
+    @Override
     public LevelObject create(String name, Level level, Point point) {
         LevelObject levelObject = getTemplate(name).create(level, point);
         level.getLevelObjects().add(levelObject);

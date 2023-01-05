@@ -4,15 +4,16 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 
-public class BeingTemplate {
+public class BeingTemplate implements RenderableTemplate {
 
     private final @Getter String type;
-    private final Dimension size, collSize;
+    private final @Getter Dimension size, collSize;
     private final Vector collOffset;
 
     public BeingTemplate(String type, Dimension size,

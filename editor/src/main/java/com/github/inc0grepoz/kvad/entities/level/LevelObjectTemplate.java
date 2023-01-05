@@ -6,15 +6,16 @@ import java.awt.Rectangle;
 
 import javax.swing.Icon;
 
+import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
 import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 
-public abstract class LevelObjectTemplate {
+public abstract class LevelObjectTemplate implements RenderableTemplate {
 
     private final @Getter String type;
 
-    final Dimension size, collSize;
+    final @Getter Dimension size, collSize;
     final Vector collOffset;
     final boolean collide;
 

@@ -22,6 +22,7 @@ public class BeingFactory implements RenderableFactory {
         types = Stream.of(templates).map(BeingTemplate::getType).toArray(String[]::new);
     }
 
+    @Override
     public BeingTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
             if (templates[i].getType().equals(type)) {
@@ -31,6 +32,7 @@ public class BeingFactory implements RenderableFactory {
         return null;
     }
 
+    @Override
     public Being create(String type, Level level, Point point) {
         return getTemplate(type).create(level, point);
     }
