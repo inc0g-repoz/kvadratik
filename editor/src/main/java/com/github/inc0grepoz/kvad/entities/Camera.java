@@ -2,7 +2,6 @@ package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -16,10 +15,10 @@ public class Camera extends Entity {
         super.speed = 20;
     }
 
-    public void scale(KvadratikEditor game) {
+    public void scale(CanvasRenderer canvas) {
         Rectangle cam = getRectangle();
-        cam.width = game.getWidth();
-        cam.height = game.getHeight();
+        cam.width = canvas.getWidth();
+        cam.height = canvas.getHeight();
     }
 
     public void focus(Entity entity) {
