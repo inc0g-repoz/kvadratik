@@ -25,7 +25,8 @@ public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
         if (anim != null) {
             Image[] images = anim.getImages();
             if (images != null && images.length != 0) {
-                return new ImageIcon(images[0]);
+                Image image = images[0].getScaledInstance(32, 32, Image.SCALE_FAST);
+                return new ImageIcon(image);
             }
         }
         return null;
