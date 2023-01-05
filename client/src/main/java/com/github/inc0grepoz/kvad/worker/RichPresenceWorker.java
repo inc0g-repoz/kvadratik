@@ -45,7 +45,7 @@ public class RichPresenceWorker extends Worker {
                     int size = (int) game.getLevel().getBeings().stream()
                             .filter(Being::hasName).count();
                     if (size != presence.partySize) {
-                        presence.partySize = game.getLevel().getBeings().size();
+                        presence.partySize = size;
                         presence.state     = "Multiplayer";
                         rpc.Discord_UpdatePresence(presence);
                     }
