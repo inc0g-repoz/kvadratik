@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.editor.awt;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -8,6 +9,8 @@ import java.awt.event.MouseListener;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
+import com.github.inc0grepoz.kvad.entities.factory.RenderableFactory;
+import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class CanvasMouseListener implements MouseListener {
@@ -53,7 +56,16 @@ public class CanvasMouseListener implements MouseListener {
                         .filter(e -> e.getRectangle().intersects(selRect))
                         .forEach(Renderable::delete);
 
-                KvadratikEditor.OBJECT_FACTORY.create(strValue, level, selRect.getLocation());
+                RenderableFactory factory = sel.selGrid.getFactory();
+                RenderableTemplate temp = factory.getTemplate(strValue);
+
+                if (editor.getPanel().isAutoGridSizeEnabled()) {
+                    Dimension rSize = temp.getSize();
+                    selRect.width = rSize.width;
+                    selRect.height = rSize.height;
+                }
+
+                factory.create(strValue, level, selRect.getLocation());
                 break;
             }
             default:
