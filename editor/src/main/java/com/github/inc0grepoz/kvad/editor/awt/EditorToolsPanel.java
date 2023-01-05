@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 
@@ -17,9 +18,9 @@ public class EditorToolsPanel extends JPanel {
     private final JLabel lGridSize = new JLabel("Grid size");
     private final JTextField tfGridSize = new JTextField("64", 5);
     private final JCheckBox cbAuto = new JCheckBox("Auto");
-    private final @Getter ObjectList objectsList;
 
-    private @Getter int gridSize = 64;
+    private final @Getter ObjectList objectsList;
+    private @Getter Vector gridSize = new Vector(64, 64);
 
     public EditorToolsPanel(KvadratikEditor editor) {
         // Components are placed vertically
@@ -41,10 +42,13 @@ public class EditorToolsPanel extends JPanel {
 
         // On apply value
         tfGridSize.addActionListener(a -> {
+            String[] gsStr = tfGridSize.getText().split("[^0-9]");
             try {
-                gridSize = Integer.valueOf(tfGridSize.getText());
+                int x = Integer.valueOf(gsStr[0]);
+                int y = Integer.valueOf(gsStr[gsStr.length > 1 ? 1 : 0]);
+                gridSize.set(x, y);
             } catch (NumberFormatException e) {
-                gridSize = 0;
+                gridSize.set(64, 64);
             }
         });
 

@@ -24,11 +24,12 @@ public class SelectionGrid {
     }
 
     public void locate(int x, int y) {
-        int gridSize = getGridSize();
-        rect.x = x - x % gridSize;
-        rect.y = y - y % gridSize;
-        rect.x -= x < 0 ? gridSize : 0;
-        rect.y -= y < 0 ? gridSize : 0;
+        int gridX = rect.width;
+        int gridY = rect.height;
+        rect.x = x - x % gridX;
+        rect.y = y - y % gridY;
+        rect.x -= x < 0 ? gridX : 0;
+        rect.y -= y < 0 ? gridY : 0;
     }
 
     public void render(Graphics gfx, Camera camera) {
@@ -54,10 +55,6 @@ public class SelectionGrid {
 
     public void setGridSize(int value) {
         setGridSize(value, value);
-    }
-
-    public int getGridSize() {
-        return rect.width;
     }
 
 }
