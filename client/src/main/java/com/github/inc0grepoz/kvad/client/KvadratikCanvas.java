@@ -46,7 +46,7 @@ public class KvadratikCanvas extends Canvas {
             Camera cam = level.getCamera();
 
             // Drawing all entities
-            cam.scale(game);
+            cam.scale(this);
             g2d.setColor(Color.BLACK);
 
             int renEnts = level.renEntsStreamSorted()
