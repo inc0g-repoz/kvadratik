@@ -24,7 +24,7 @@ public class KvadratikClient extends Worker {
     private final @Getter PacketUtil packetUtil;
     private final @Getter Chat chat = new Chat(this);
 
-    private @Getter @Setter int port;
+    private @Setter int port;
     private @Setter String host, nickname;
     private Socket socket;
 
