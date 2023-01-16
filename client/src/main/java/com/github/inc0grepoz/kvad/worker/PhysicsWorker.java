@@ -31,9 +31,9 @@ public class PhysicsWorker extends Worker {
         Being player = level.getPlayer();
         if (player != null) {
             Camera camera = level.getCamera();
-            if (camera.getMode() == CameraMode.FOLLOW) {
+            if (camera.mode == CameraMode.FOLLOW) {
                 camera.focus(player);
-            } else if (camera.getMode() == CameraMode.FREE) {
+            } else if (camera.mode == CameraMode.FREE) {
                 camera.move(camera.moveDirection);
             }
         }

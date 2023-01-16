@@ -102,7 +102,7 @@ public class ControlsHandler {
 
                 // Defining the camera moving direction
                 Camera camera = level.getCamera();
-                camera.move = camera.getMode() == CameraMode.FREE
+                camera.move = camera.mode == CameraMode.FREE
                         && Controls.isCameraMoving();
                 if (camera.move) {
                     switch (key) {

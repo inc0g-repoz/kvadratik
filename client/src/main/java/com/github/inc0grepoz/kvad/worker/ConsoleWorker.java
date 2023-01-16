@@ -40,11 +40,11 @@ public class ConsoleWorker extends Worker {
 
         switch (command) {
             case "cam_follow":
-                game.getLevel().getCamera().setMode(CameraMode.FOLLOW);
+                game.getLevel().getCamera().mode = CameraMode.FOLLOW;
                 Logger.info("Switched to default camera");
                 return;
             case "cam_free":
-                game.getLevel().getCamera().setMode(CameraMode.FREE);
+                game.getLevel().getCamera().mode = CameraMode.FREE;
                 Logger.info("Switched to freecam");
                 return;
             case "draw_colliders":
