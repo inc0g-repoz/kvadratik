@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.Map;
 
+import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.RGB;
@@ -31,6 +32,10 @@ public class Player extends Being {
             connection.close();
         } catch (IOException e) {
         }
+    }
+
+    public void sendMessage(Message message) {
+        getLevel().getServer().packetUtil.outChat(this, message);
     }
 
     @Override

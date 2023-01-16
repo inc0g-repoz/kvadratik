@@ -109,6 +109,11 @@ public class PacketUtil {
         allSameLevel(packet, being.getLevel());
     }
 
+    public void outChat(Player player, Message message) {
+        Packet out = PacketType.SERVER_CHAT_MESSAGE.create(message.toString());
+        out.queue(player);
+    }
+
     public void outLevel(Player player, Level level) {
         PacketType.SERVER_LEVEL.create(level.toString()).queue(player);
     }
