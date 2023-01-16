@@ -6,41 +6,42 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
-public class AssetsManager {
+public class AssetsProvider {
+
+    public String assetsParent;
 
     public BufferedImage image(String path) {
-        Logger.info("Loading " + path);
+        String ppp = getAssetsParent() + path;
+        Logger.info("Loading " + ppp);
 
         try {
             return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
 
         try {
-            return ImageIO.read(new File(path));
+            return ImageIO.read(new File(ppp));
         } catch (Exception e) {}
 
-        Logger.error("Invalid image: " + path);
+        Logger.error("Invalid image: " + ppp);
         System.exit(0);
         return null;
     }
 
     public String textFile(String path) {
-        Logger.info("Loading " + path);
+        String ppp = getAssetsParent() + path;
+        Logger.info("Loading " + ppp);
 
         InputStream stream;
-        File file = new File(path);
+        File file = new File(ppp);
 
         try {
             if (file.exists()) {
                 stream = new FileInputStream(file);
             } else {
-                stream = getClass().getClassLoader().getResourceAsStream(path);
+                stream = getClass().getClassLoader().getResourceAsStream(ppp);
             }
 
             InputStreamReader isr = new InputStreamReader(stream);
@@ -59,34 +60,13 @@ public class AssetsManager {
             return string;
         } catch (Exception e) {}
 
-        Logger.error("Invalid text file: " + path);
+        Logger.error("Invalid text file: " + ppp);
         System.exit(0);
         return null;
     }
 
-    public Stream<String> listFiles(String path) {
-        try {
-            File dir = new File(path);
-            return Stream.of(dir.list()).map(fn -> path + "/" + fn);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        try {
-            List<String> files = new ArrayList<>();
-            ZipUtil.listFiles(path).stream()
-                    .filter(name -> !name.endsWith("/") && !name.endsWith("\\"))
-                    .forEach(filePath -> {
-                files.add(filePath);
-            });
-            return files.stream();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        Logger.error("Invalid directory: " + path);
-        System.exit(0);
-        return null;
+    private String getAssetsParent() {
+        return assetsParent == null ? "" : assetsParent + "/";
     }
 
 }

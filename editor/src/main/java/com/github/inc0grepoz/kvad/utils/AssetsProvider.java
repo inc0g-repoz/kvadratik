@@ -9,39 +9,40 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-public class AssetsManager {
+import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
+import com.github.inc0grepoz.kvad.entities.level.Level;
+
+public class AssetsProvider {
 
     public String assetsParent;
 
     public BufferedImage image(String path) {
-        String ppp = getAssetsParent() + path;
-        Logger.info("Loading " + ppp);
+        Logger.info("Loading " + path);
+
+        try {
+            return ImageIO.read(new File(path));
+        } catch (Exception e) {}
 
         try {
             return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
 
-        try {
-            return ImageIO.read(new File(ppp));
-        } catch (Exception e) {}
-
-        Logger.error("Invalid image: " + ppp);
+        Logger.error("Invalid image: " + path);
         System.exit(0);
         return null;
     }
 
     public String textFile(String path) {
-        String ppp = getAssetsParent() + path;
-        Logger.info("Loading " + ppp);
+        Logger.info("Loading " + path);
 
         InputStream stream;
-        File file = new File(ppp);
+        File file = new File(path);
 
         try {
             if (file.exists()) {
                 stream = new FileInputStream(file);
             } else {
-                stream = getClass().getClassLoader().getResourceAsStream(ppp);
+                stream = getClass().getClassLoader().getResourceAsStream(path);
             }
 
             InputStreamReader isr = new InputStreamReader(stream);
@@ -60,13 +61,16 @@ public class AssetsManager {
             return string;
         } catch (Exception e) {}
 
-        Logger.error("Invalid text file: " + ppp);
+        Logger.error("Invalid text file: " + path);
         System.exit(0);
         return null;
     }
 
-    private String getAssetsParent() {
-        return assetsParent == null ? "" : assetsParent + "/";
+    public Level level(KvadratikEditor editor, String path) {
+        String levelJson = textFile(path);
+        Level level =  JSON.fromJsonLevel(editor, levelJson, false);
+        level.setPath(path);
+        return level;
     }
 
 }

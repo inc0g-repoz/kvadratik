@@ -17,7 +17,7 @@ import com.github.inc0grepoz.kvad.editor.awt.EditorToolsPanel;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.AssetsManager;
+import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;
@@ -26,7 +26,7 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 public class KvadratikEditor extends Frame {
 
-    public static final AssetsManager ASSETS = new AssetsManager();
+    public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
 

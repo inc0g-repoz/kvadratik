@@ -6,25 +6,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
-import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-
-public class AssetsManager {
-
-    public String assetsParent;
+public class AssetsProvider {
 
     public BufferedImage image(String path) {
         Logger.info("Loading " + path);
 
         try {
-            return ImageIO.read(new File(path));
+            return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
 
         try {
-            return ImageIO.read(getClass().getClassLoader().getResource(path));
+            return ImageIO.read(new File(path));
         } catch (Exception e) {}
 
         Logger.error("Invalid image: " + path);
@@ -66,11 +64,29 @@ public class AssetsManager {
         return null;
     }
 
-    public Level level(KvadratikEditor editor, String path) {
-        String levelJson = textFile(path);
-        Level level =  JSON.fromJsonLevel(editor, levelJson, false);
-        level.setPath(path);
-        return level;
+    public Stream<String> listFiles(String path) {
+        try {
+            File dir = new File(path);
+            return Stream.of(dir.list()).map(fn -> path + "/" + fn);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        try {
+            List<String> files = new ArrayList<>();
+            ZipUtil.listFiles(path).stream()
+                    .filter(name -> !name.endsWith("/") && !name.endsWith("\\"))
+                    .forEach(filePath -> {
+                files.add(filePath);
+            });
+            return files.stream();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
+        Logger.error("Invalid directory: " + path);
+        System.exit(0);
+        return null;
     }
 
 }
