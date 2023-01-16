@@ -6,9 +6,6 @@ import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class Camera extends Entity {
 
     public static enum CameraMode {
@@ -16,8 +13,7 @@ public class Camera extends Entity {
     }
 
     public Way moveDirection;
-
-    private @Getter @Setter CameraMode mode = CameraMode.FOLLOW;
+    public CameraMode mode = CameraMode.FOLLOW;
 
     public Camera(Level level) {
         super(level, new Rectangle(0, 0, 0, 0), null, null);
@@ -30,7 +26,7 @@ public class Camera extends Entity {
         cam.height = canvas.getHeight();
     }
 
-    public synchronized void focus(Entity entity) {
+    public void focus(Entity entity) {
         KvadratikCanvas canvas = getLevel().getGame().getCanvas();
         Rectangle cam = getRectangle();
         Rectangle ent = entity.getRectangle();
