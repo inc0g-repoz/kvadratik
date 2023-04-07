@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.entities.factory;
 
-import java.awt.Point;
-
+import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnim;
@@ -22,7 +21,7 @@ public class LevelObjectFactory {
 
     public LevelObjectTemplate getTemplate(String type) {
         for (int i = 0; i < templates.length; i++) {
-            if (templates[i].getName().equals(type)) {
+            if (templates[i].getType().equals(type)) {
                 return templates[i];
             }
         }

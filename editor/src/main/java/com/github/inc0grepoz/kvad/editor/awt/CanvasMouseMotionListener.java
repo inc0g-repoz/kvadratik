@@ -5,10 +5,10 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class CanvasMouseMotionListener implements MouseMotionListener {
 

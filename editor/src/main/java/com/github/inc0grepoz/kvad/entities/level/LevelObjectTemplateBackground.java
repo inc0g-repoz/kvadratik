@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
 
 public class LevelObjectTemplateBackground extends LevelObjectTemplateAnimated {
 

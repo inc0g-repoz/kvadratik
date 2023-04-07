@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.entities.factory;
 
-import java.awt.Point;
-
+import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;

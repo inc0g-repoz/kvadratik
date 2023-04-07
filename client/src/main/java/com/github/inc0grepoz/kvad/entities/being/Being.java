@@ -1,13 +1,14 @@
 package com.github.inc0grepoz.kvad.entities.being;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 
@@ -56,13 +57,13 @@ public class Being extends Renderable {
             int moveX = anim.way.x * anim.moveSpeed;
             int moveY = anim.way.y * anim.moveSpeed;
 
-            getLevel().getGame().getClient().getPacketUtil()
+            KvadratikGame.INSTANCE.getClient().getPacketUtil()
                     .outPoint(this, prevMove, moveX, moveY);
 
             prevMove.x = moveX;
             prevMove.y = moveY;
         } else {
-            getLevel().getGame().getClient().getPacketUtil()
+            KvadratikGame.INSTANCE.getClient().getPacketUtil()
                     .outPoint(this, prevMove, 0, 0);
 
             prevMove.x = 0;
@@ -101,7 +102,7 @@ public class Being extends Renderable {
             animExpiry = System.currentTimeMillis() + anim.delay;
 
             // Queue an anim packet
-            getLevel().getGame().getClient().getPacketUtil().outAnim();
+            KvadratikGame.INSTANCE.getClient().getPacketUtil().outAnim();
         }
     }
 
@@ -117,13 +118,13 @@ public class Being extends Renderable {
 
     @Override
     public void draw(Graphics graphics, int x, int y, int width, int height) {
-        graphics.drawImage(getSprite(), x, y, width, height, getLevel().getGame().getCanvas());
+        graphics.drawImage(getSprite(), x, y, width, height, KvadratikGame.INSTANCE.getCanvas());
     }
 
     @Override
     public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {
         if (name != null && this != getLevel().getPlayer()) {
-            int x = (int) (rect.getCenterX() - cam.x), y = rect.y - cam.y;
+            int x = (int) (rect.getCenterX() - cam.x), y = (int) (rect.y - cam.y);
             int width = gfx.getFontMetrics().stringWidth(name);
             x -= width / 2;
             y -= 5;

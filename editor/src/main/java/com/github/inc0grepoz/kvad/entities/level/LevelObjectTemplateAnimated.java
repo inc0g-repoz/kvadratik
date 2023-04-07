@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
 
 public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 

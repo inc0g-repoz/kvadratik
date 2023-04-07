@@ -69,7 +69,7 @@ public class KvadratikClient extends Worker {
         chat.print(message);
 
         socket = new Socket(host, port);
-        PacketType.CLIENT_LOGIN.create(nickname).queue(this);
+        Packet.out(PacketType.CLIENT_LOGIN, nickname).queue(this);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class KvadratikClient extends Worker {
         // Prevent the server from resetting the connection
         else {
             try {
-                PacketType.CLIENT_KEEP_ALIVE.create(" ").send(socket.getOutputStream());
+                Packet.out(PacketType.CLIENT_KEEP_ALIVE, " ").send(socket.getOutputStream());
             } catch (IOException e) {
                 disconnect();
                 Logger.error("Connection reset");

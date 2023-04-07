@@ -9,11 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>editor</artifactId>
+    <artifactId>kvadratik-editor</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.inc0grepoz</groupId>
+            <artifactId>kvadratik-commons</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 </project>

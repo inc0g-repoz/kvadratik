@@ -8,17 +8,17 @@ import com.github.inc0grepoz.kvad.worker.RichPresenceWorker;
 
 public class Bootstrap {
 
-    private static final KvadratikGame GAME = new KvadratikGame();
-
     static {
-        GAME.setSize(640, 480);
-        GAME.setResizable(false);
-        GAME.setLocationRelativeTo(null);
-        GAME.setVisible(true);
+        KvadratikGame.INSTANCE.setTitle("kvadratik");
+        KvadratikGame.INSTANCE.applyIcon("assets/icon.png");
+        KvadratikGame.INSTANCE.setSize(640, 480);
+        KvadratikGame.INSTANCE.setResizable(false);
+        KvadratikGame.INSTANCE.setLocationRelativeTo(null);
+        KvadratikGame.INSTANCE.setVisible(true);
     }
 
     public static void main(String[] args) {
-        KvadratikClient client = GAME.getClient();
+        KvadratikClient client = KvadratikGame.INSTANCE.getClient();
 
         // Reading the launch arguments
         for (int i = 0; i < args.length; i++) {
@@ -41,8 +41,8 @@ public class Bootstrap {
             }
         }
 
-        GAME.run();
-        RichPresenceWorker rpw = new RichPresenceWorker(GAME);
+        KvadratikGame.INSTANCE.run();
+        RichPresenceWorker rpw = new RichPresenceWorker(KvadratikGame.INSTANCE);
         rpw.start();
     }
 

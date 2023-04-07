@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.utils;
+package com.github.inc0grepoz.kvad;
 
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 

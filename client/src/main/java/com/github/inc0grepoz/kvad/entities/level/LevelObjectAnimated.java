@@ -1,11 +1,12 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 
 import lombok.Getter;
 
@@ -40,7 +41,7 @@ public class LevelObjectAnimated extends LevelObject{
 
     @Override
     public void draw(Graphics graphics, int x, int y, int width, int height) {
-        graphics.drawImage(getSprite(), x, y, width, height, getLevel().getGame().getCanvas());
+        graphics.drawImage(getSprite(), x, y, width, height, KvadratikGame.INSTANCE.getCanvas());
     }
 
 }

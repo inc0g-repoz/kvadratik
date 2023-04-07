@@ -1,14 +1,14 @@
 package com.github.inc0grepoz.kvad.entities;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 
 import lombok.Getter;
 
@@ -57,7 +57,7 @@ public abstract class Entity {
         return sjEntity.toString();
     }
 
-    public boolean move(int x, int y) {
+    public boolean move(double x, double y) {
         rect.x += x;
         rect.y += y;
 
@@ -69,7 +69,7 @@ public abstract class Entity {
         return true;
     }
 
-    public boolean move(Way way, int speed) {
+    public boolean move(Way way, double speed) {
         return way != null && move(way.x * speed, way.y * speed);
     }
 
@@ -77,7 +77,7 @@ public abstract class Entity {
         return move(way, speed);
     }
 
-    public void teleport(int x, int y) {
+    public void teleport(double x, double y) {
         rect.x = x;
         rect.y = y;
 

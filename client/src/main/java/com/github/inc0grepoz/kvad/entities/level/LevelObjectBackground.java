@@ -1,13 +1,13 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
@@ -27,13 +27,13 @@ public class LevelObjectBackground extends LevelObjectAnimated {
 
     @Override
     public int getRenderPriority() {
-        int winHeight = getLevel().getGame().getCanvas().getHeight();
+        int winHeight = KvadratikGame.INSTANCE.getCanvas().getHeight();
         return super.getRenderPriority() - winHeight;
     }
 
     @Override
     public boolean render(Graphics graphics, Camera camera) {
-        KvadratikGame gf = getLevel().getGame();
+        KvadratikGame gf = KvadratikGame.INSTANCE;
         int gfw = gf.getWidth(), gfh = gf.getHeight();
         if (getAnim() == LevelObjectAnim.COLOR) {
             Color color = graphics.getColor();

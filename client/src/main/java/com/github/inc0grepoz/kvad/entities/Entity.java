@@ -1,11 +1,10 @@
 package com.github.inc0grepoz.kvad.entities;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 
@@ -33,14 +32,14 @@ public abstract class Entity {
         }
     }
 
-    public boolean canMove(int x, int y) {
+    public boolean canMove(double x, double y) {
         if (!collide) {
             return true;
         }
 
         Rectangle coll = getCollider();
-        int nextMinX = coll.x + x, nextMinY = coll.y + y;
-        int nextMaxX = coll.width + x, nextMaxY = coll.height + y;
+        double nextMinX = coll.x + x, nextMinY = coll.y + y;
+        double nextMaxX = coll.width + x, nextMaxY = coll.height + y;
         return level.renEntsStream().filter(e -> e != this && e.collide)
                 .noneMatch(e -> e.getCollider().intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
     }
@@ -53,7 +52,7 @@ public abstract class Entity {
         return canMove(way, speed);
     }
 
-    public boolean move(int x, int y) {
+    public boolean move(double x, double y) {
         boolean moved = canMove(x, y);
         if (moved) {
             rect.x += x;
@@ -67,7 +66,7 @@ public abstract class Entity {
         return moved;
     }
 
-    public boolean move(Way way, int speed) {
+    public boolean move(Way way, double speed) {
         return way != null && move(way.x * speed, way.y * speed);
     }
 
@@ -75,7 +74,7 @@ public abstract class Entity {
         return move(way, speed);
     }
 
-    public void teleport(int x, int y) {
+    public void teleport(double x, double y) {
         rect.x = x;
         rect.y = y;
 

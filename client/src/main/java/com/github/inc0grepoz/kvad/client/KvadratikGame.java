@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
+import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
@@ -22,11 +23,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
-public class KvadratikGame extends Frame {
+public class KvadratikGame extends Frame implements Kvadratik {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
+    public static final KvadratikGame INSTANCE = new KvadratikGame();
 
     private final @Getter Controls controls;
     private final @Getter KvadratikCanvas canvas;
@@ -37,13 +39,14 @@ public class KvadratikGame extends Frame {
     private @Getter @Setter Level level;
 
     {
+        if (INSTANCE != null) {
+            throw new IllegalStateException("Game instance already has been initialized");
+        }
+
         addShutdownListener(() -> {
             dispose();
             System.exit(0);
         });
-
-        setTitle("kvadratik");
-        applyIcon("assets/icon.png");
 
         // Multiplayer client
         client = new KvadratikClient(this, 50L);
@@ -95,7 +98,7 @@ public class KvadratikGame extends Frame {
 
             // Singleplayer
             String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
-            level = JSON.fromJsonLevel(this, levelJson, false);
+            level = JSON.fromJsonLevel(levelJson, false);
         }
     }
 
@@ -103,11 +106,11 @@ public class KvadratikGame extends Frame {
         setIconImage(ASSETS.image(fileName));
     }
 
-    public void addKeysListener(Canvas c) {
+    private void addKeysListener(Canvas c) {
         c.addKeyListener(controls);
     }
 
-    public void addShutdownListener(Runnable handler) {
+    private void addShutdownListener(Runnable handler) {
         WindowAdapter adapter = new WindowAdapter() {
 
             @Override

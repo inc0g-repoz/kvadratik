@@ -6,8 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 

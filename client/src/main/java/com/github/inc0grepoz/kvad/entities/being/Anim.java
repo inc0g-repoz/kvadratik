@@ -3,6 +3,7 @@ package com.github.inc0grepoz.kvad.entities.being;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 
 public enum Anim {
@@ -81,6 +82,23 @@ public enum Anim {
         W(0, -1), A(-1, 0), S(0, 1), D(1, 0);
 
         public final int x, y;
+
+        public static Way fromVector(Vector vector) {
+            Way[] ways = values();
+            for (int i = 0; i < ways.length; i++) {
+                if (compareDigits(ways[i].x, vector.x)
+                        && compareDigits(ways[i].y, vector.y)) {
+                    return ways[i];
+                }
+            }
+            return null;
+        }
+
+        private static boolean compareDigits(double a, double b) {
+            return a > 0 && b > 0
+                    || a == 0 && b == 0
+                    || a < 0 && b < 0;
+        }
 
         Way(int x, int y) {
             this.x = x;

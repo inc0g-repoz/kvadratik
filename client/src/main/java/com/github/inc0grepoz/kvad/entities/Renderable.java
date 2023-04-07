@@ -1,13 +1,14 @@
 package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Renderable extends Entity {
 
@@ -27,16 +28,16 @@ public abstract class Renderable extends Entity {
             return false;
         }
 
-        int x = ent.x - cam.x, y = ent.y - cam.y;
-        draw(gfx, x, y, ent.width, ent.height);
+        int x = (int) (ent.getX() - cam.getX()), y = (int) (ent.y - cam.y);
+        draw(gfx, x, y, (int) ent.width, (int) ent.height);
 
         // Drawing the collider
         if (collide) {
-            KvadratikCanvas canvas = getLevel().getGame().getCanvas();
+            KvadratikCanvas canvas = KvadratikGame.INSTANCE.getCanvas();
             if (canvas.drawColliders) {
                 Rectangle coll = getCollider();
-                int collX = coll.x - cam.x, collY = coll.y - cam.y;
-                drawCollider(gfx, collX, collY, coll);
+                int collX = (int) (coll.x - cam.x), collY = (int) (coll.y - cam.y);
+                drawCollider(gfx, collX, collY, (int) coll.width, (int) coll.height);
             }
         }
 
@@ -51,10 +52,10 @@ public abstract class Renderable extends Entity {
         gfx.drawRect(x, y, width, height);
     }
 
-    public void drawCollider(Graphics gfx, int x, int y, Rectangle col) {
+    public void drawCollider(Graphics gfx, int x, int y, int width, int height) {
         Color color = gfx.getColor();
         gfx.setColor(Color.GREEN);
-        gfx.drawRect(x, y, col.width, col.height);
+        gfx.drawRect(x, y, width, height);
         gfx.setColor(color);
     }
 

@@ -69,7 +69,7 @@ public class Packet {
         return packets;
     }
 
-    static Packet out(PacketType type, String string) {
+    public static Packet out(PacketType type, String string) {
         Packet packet = new Packet();
         packet.type = type;
         packet.string = string;

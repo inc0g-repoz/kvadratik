@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
@@ -18,17 +19,19 @@ import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
+import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
-public class KvadratikEditor extends Frame {
+public class KvadratikEditor extends Frame implements Kvadratik {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
+    public static final KvadratikEditor INSTANCE = new KvadratikEditor();
 
     private final @Getter EditorToolBar toolBar = new EditorToolBar(this);
     private final @Getter EditorToolsPanel panel = new EditorToolsPanel(this);
@@ -40,13 +43,14 @@ public class KvadratikEditor extends Frame {
     private @Getter @Setter Level level;
 
     {
+        if (INSTANCE != null) {
+            throw new IllegalStateException("Editor instance already has been initialized");
+        }
+
         addShutdownListener(() -> {
             dispose();
             System.exit(0);
         });
-
-        setTitle("kvadratik editor");
-        applyIcon("assets/icon.png");
 
         // Rendering
         canvas = new CanvasRenderer(this, 640, 480);
@@ -81,7 +85,9 @@ public class KvadratikEditor extends Frame {
     }
 
     public void run() {
-        level = ASSETS.level(this, "assets/levels/level.json");
+        String levelJson = ASSETS.textFile("assets/levels/level.json");
+        level = JSON.fromJsonLevel(this, levelJson, false);
+        level.setPath("assets/levels/level.json");
     }
 
     public void applyIcon(String fileName) {

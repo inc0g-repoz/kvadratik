@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>server</artifactId>
+    <artifactId>kvadratik-server</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -21,6 +21,11 @@
             <groupId>org.luaj</groupId>
             <artifactId>luaj-jse</artifactId>
             <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.inc0grepoz</groupId>
+            <artifactId>kvadratik-commons</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

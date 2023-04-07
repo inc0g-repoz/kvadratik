@@ -1,13 +1,14 @@
 package com.github.inc0grepoz.kvad.protocol;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
 
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Point;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
@@ -18,7 +19,6 @@ import com.github.inc0grepoz.kvad.utils.Downloader;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.Unzipper;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class PacketUtil {
 
@@ -31,7 +31,7 @@ public class PacketUtil {
     public void outAnim() {
         if (game.getClient().isConnected()) {
             String name = game.getLevel().getPlayer().getAnim().name();
-            PacketType.CLIENT_PLAYER_ANIM.create(name).queue(game.getClient());
+            Packet.out(PacketType.CLIENT_PLAYER_ANIM, name).queue(game.getClient());
         }
     }
 
@@ -48,7 +48,7 @@ public class PacketUtil {
         sb.append(rect.x);
         sb.append(";y=");
         sb.append(rect.y);
-        PacketType.CLIENT_PLAYER_POINT.create(sb.toString()).queue(game.getClient());
+        Packet.out(PacketType.CLIENT_PLAYER_POINT, sb.toString()).queue(game.getClient());
     }
 
     public void inAnim(Packet packet) {
@@ -127,7 +127,7 @@ public class PacketUtil {
 
         // Reading the point
         String[] pArr = map.get("point").split(",");
-        Point point = new Point(Integer.valueOf(pArr[0]), Integer.valueOf(pArr[1]));
+        Point point = new Point(Double.valueOf(pArr[0]), Double.valueOf(pArr[1]));
 
         // Looking for the client-side being type
         String type = map.get("type");
@@ -155,7 +155,7 @@ public class PacketUtil {
 
         // Teleporting that being
         String[] pArr = map.get("point").split(",");
-        being.teleport(Integer.valueOf(pArr[0]), Integer.valueOf(pArr[1]));
+        being.teleport(Double.valueOf(pArr[0]), Double.valueOf(pArr[1]));
     }
 
     public void inBeingType(Packet packet) {
@@ -175,7 +175,7 @@ public class PacketUtil {
     }
 
     public void inLevel(Packet packet) {
-        Level level = JSON.fromJsonLevel(game, packet.string, true);
+        Level level = JSON.fromJsonLevel(packet.string, true);
         game.setLevel(level);
     }
 
@@ -192,8 +192,8 @@ public class PacketUtil {
     public void inPoint(Packet packet) {
         Map<String, String> map = packet.toMap();
         int id = Integer.valueOf(map.get("id"));
-        int x = Integer.valueOf(map.get("x"));
-        int y = Integer.valueOf(map.get("y"));
+        double x = Double.valueOf(map.get("x"));
+        double y = Double.valueOf(map.get("y"));
 
         // Looking for the desired being
         Being being = game.getLevel().getBeings().stream()

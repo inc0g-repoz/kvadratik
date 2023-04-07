@@ -1,18 +1,17 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 
 public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 
     final LevelObjectAnim anim;
 
-    public LevelObjectTemplateAnimated(String name, Dimension size,
+    public LevelObjectTemplateAnimated(String type, Dimension size,
             Dimension collSize, Vector collOffset, boolean collide,
             LevelObjectAnim anim) {
-        super(name, size, collSize, collOffset, collide);
+        super(type, size, collSize, collOffset, collide);
         this.anim = anim;
     }
 

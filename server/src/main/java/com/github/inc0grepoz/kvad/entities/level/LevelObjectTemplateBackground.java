@@ -1,19 +1,19 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 
 public class LevelObjectTemplateBackground extends LevelObjectTemplateAnimated {
 
     private final Color color;
 
-    public LevelObjectTemplateBackground(String name, Dimension size,
+    public LevelObjectTemplateBackground(String type, Dimension size,
             Dimension collSize, Vector collOffset, boolean collide,
             LevelObjectAnim anim) {
-        super(name, size, collSize, collOffset, collide, anim);
+        super(type, size, collSize, collOffset, collide, anim);
         this.color = null;
     }
 

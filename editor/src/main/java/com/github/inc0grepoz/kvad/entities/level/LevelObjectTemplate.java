@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 
 import javax.swing.Icon;
 
+import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 

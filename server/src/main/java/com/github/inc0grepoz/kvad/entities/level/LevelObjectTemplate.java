@@ -1,24 +1,23 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Point;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 
 import lombok.Getter;
 
 public abstract class LevelObjectTemplate {
 
-    private final @Getter String name;
+    private final @Getter String type;
 
     final Dimension size, collSize;
     final Vector collOffset;
     final boolean collide;
 
-    public LevelObjectTemplate(String name, Dimension size,
+    public LevelObjectTemplate(String type, Dimension size,
             Dimension collSize, Vector collOffset, boolean collide) {
-        this.name = name;
+        this.type = type;
         this.size = size;
         this.collSize = collSize;
         this.collOffset = collOffset;

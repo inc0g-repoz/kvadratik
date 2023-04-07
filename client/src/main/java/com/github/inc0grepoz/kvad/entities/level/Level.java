@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.being.Being;
@@ -14,7 +13,6 @@ import lombok.Setter;
 
 public class Level {
 
-    private final @Getter KvadratikGame game;
     private final @Getter String name;
     private final @Getter Camera camera;
 
@@ -22,8 +20,7 @@ public class Level {
     private @Getter List<LevelObject> levelObjects = new ArrayList<>();
     private @Getter List<Being> beings = new ArrayList<>();
 
-    public Level(KvadratikGame game, String name) {
-        this.game = game;
+    public Level(String name) {
         this.name = name;
         camera = new Camera(this);
     }

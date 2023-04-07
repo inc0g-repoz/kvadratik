@@ -43,8 +43,4 @@ public enum PacketType {
         return id;
     }
 
-    public Packet create(String data) {
-        return Packet.out(this, data);
-    }
-
 }

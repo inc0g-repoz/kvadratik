@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
+import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 
 public class Chat {
@@ -20,7 +21,7 @@ public class Chat {
     }
 
     public void send(String message) {
-        PacketType.CLIENT_CHAT_MESSAGE.create(message).queue(kvad);
+        Packet.out(PacketType.CLIENT_CHAT_MESSAGE, message).queue(kvad);
     }
 
     public void print(Message message) {

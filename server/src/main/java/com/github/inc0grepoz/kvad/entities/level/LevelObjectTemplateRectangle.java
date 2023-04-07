@@ -1,12 +1,12 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 
 public class LevelObjectTemplateRectangle extends LevelObjectTemplate {
 
-    public LevelObjectTemplateRectangle(String name, Dimension size) {
-        super(name, size);
+    public LevelObjectTemplateRectangle(String type, Dimension size) {
+        super(type, size);
     }
 
     @Override
