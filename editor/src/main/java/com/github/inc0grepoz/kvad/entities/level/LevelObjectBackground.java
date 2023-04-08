@@ -1,13 +1,13 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.Camera;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 

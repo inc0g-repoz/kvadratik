@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;

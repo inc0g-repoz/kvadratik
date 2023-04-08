@@ -1,13 +1,13 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Rectangle;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 

@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.editor;
 
-import java.awt.Rectangle;
-
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.editor.Controls.Key;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Renderable;

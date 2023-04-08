@@ -6,7 +6,7 @@ import java.util.StringJoiner;
 
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 

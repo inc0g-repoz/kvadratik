@@ -1,8 +1,8 @@
 package com.github.inc0grepoz.kvad.entities.factory;
 
-import java.awt.Point;
 import java.util.stream.Stream;
 
+import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;

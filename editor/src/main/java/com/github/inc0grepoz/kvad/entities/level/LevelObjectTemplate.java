@@ -1,13 +1,12 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import javax.swing.Icon;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Point;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 

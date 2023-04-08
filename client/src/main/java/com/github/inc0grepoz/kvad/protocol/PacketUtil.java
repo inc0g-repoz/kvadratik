@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
 
-import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.chat.Message;
@@ -19,6 +18,7 @@ import com.github.inc0grepoz.kvad.utils.Downloader;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.Unzipper;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class PacketUtil {
 

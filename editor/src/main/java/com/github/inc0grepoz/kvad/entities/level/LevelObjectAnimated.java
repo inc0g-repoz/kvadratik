@@ -1,11 +1,11 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 

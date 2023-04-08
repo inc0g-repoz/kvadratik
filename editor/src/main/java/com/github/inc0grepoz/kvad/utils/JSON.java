@@ -1,13 +1,12 @@
 package com.github.inc0grepoz.kvad.utils;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;
@@ -34,8 +33,8 @@ public class JSON {
             // Size
             JsonArray jSize = jTemplate.getAsJsonArray("size");
             Dimension size = new Dimension(
-                    jSize.get(0).getAsInt(),
-                    jSize.get(1).getAsInt());
+                    jSize.get(0).getAsDouble(),
+                    jSize.get(1).getAsDouble());
 
             // Collider
             Dimension collSize = null;
@@ -43,11 +42,11 @@ public class JSON {
             if (jTemplate.has("collider")) {
                 JsonArray jColl = jTemplate.getAsJsonArray("collider");
                 collSize = new Dimension(
-                        jColl.get(0).getAsInt(),
-                        jColl.get(1).getAsInt());
+                        jColl.get(0).getAsDouble(),
+                        jColl.get(1).getAsDouble());
                 collOffset = new Vector(
-                        jColl.get(2).getAsInt(),
-                        jColl.get(3).getAsInt());
+                        jColl.get(2).getAsDouble(),
+                        jColl.get(3).getAsDouble());
             }
 
             BeingTemplate template = new BeingTemplate(key, size, collSize, collOffset);
@@ -65,8 +64,8 @@ public class JSON {
             // Size & collider
             JsonArray jSize = jTemplate.getAsJsonArray("size");
             Dimension size = new Dimension(
-                    jSize.get(0).getAsInt(),
-                    jSize.get(1).getAsInt());
+                    jSize.get(0).getAsDouble(),
+                    jSize.get(1).getAsDouble());
 
             // Collider
             Dimension collSize = null;
@@ -75,11 +74,11 @@ public class JSON {
             if (jTemplate.has("collider")) {
                 JsonArray jColl = jTemplate.getAsJsonArray("collider");
                 collSize = new Dimension(
-                        jColl.get(0).getAsInt(),
-                        jColl.get(1).getAsInt());
+                        jColl.get(0).getAsDouble(),
+                        jColl.get(1).getAsDouble());
                 collOffset = new Vector(
-                        jColl.get(2).getAsInt(),
-                        jColl.get(3).getAsInt());
+                        jColl.get(2).getAsDouble(),
+                        jColl.get(3).getAsDouble());
             }
             if (jTemplate.has("collide")) {
                 collide = jTemplate.get("collide").getAsBoolean();
@@ -159,8 +158,8 @@ public class JSON {
 
             JsonArray jPlayerPoint = jPlayer.getAsJsonArray("point");
             Point point = new Point(
-                    jPlayerPoint.get(0).getAsInt(),
-                    jPlayerPoint.get(1).getAsInt());
+                    jPlayerPoint.get(0).getAsDouble(),
+                    jPlayerPoint.get(1).getAsDouble());
 
             Being player = KvadratikEditor.BEING_FACTORY.create(jPlayerType, level, point);
             level.getCamera().focus(player);
@@ -175,8 +174,8 @@ public class JSON {
             String type = jLevelObject.get("type").getAsString();
 
             Point point = new Point(
-                    jPoint.get(0).getAsInt(),
-                    jPoint.get(1).getAsInt());
+                    jPoint.get(0).getAsDouble(),
+                    jPoint.get(1).getAsDouble());
             KvadratikEditor.OBJECT_FACTORY.create(type, level, point);
         });
 

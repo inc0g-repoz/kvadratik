@@ -2,8 +2,8 @@ package com.github.inc0grepoz.kvad.editor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.factory.RenderableFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -23,9 +23,9 @@ public class SelectionGrid {
         setGridSize(64);
     }
 
-    public void locate(int x, int y) {
-        int gridX = rect.width;
-        int gridY = rect.height;
+    public void locate(double x, double y) {
+        double gridX = rect.width;
+        double gridY = rect.height;
         rect.x = x - x % gridX;
         rect.y = y - y % gridY;
         rect.x -= x < 0 ? gridX : 0;
@@ -39,16 +39,16 @@ public class SelectionGrid {
         }
 
         Rectangle cam = camera.getRectangle();
-        int x = rect.x - cam.x;
-        int y = rect.y - cam.y;
+        double x = rect.x - cam.x;
+        double y = rect.y - cam.y;
 
         Color color = gfx.getColor();
         gfx.setColor(Color.RED);
-        gfx.drawRect(x, y, rect.width, rect.height);
+        gfx.drawRect((int) x, (int) y, (int) rect.width, (int) rect.height);
         gfx.setColor(color);
     }
 
-    public void setGridSize(int x, int y) {
+    public void setGridSize(double x, double y) {
         rect.width = x;
         rect.height = y;
     }

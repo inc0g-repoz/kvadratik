@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.entities.being.BeingTemplate;

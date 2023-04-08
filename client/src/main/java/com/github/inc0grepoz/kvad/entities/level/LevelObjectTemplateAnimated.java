@@ -1,8 +1,8 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 

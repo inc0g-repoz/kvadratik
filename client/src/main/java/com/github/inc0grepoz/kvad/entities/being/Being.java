@@ -3,12 +3,12 @@ package com.github.inc0grepoz.kvad.entities.being;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 

@@ -1,11 +1,11 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.Renderable;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 import lombok.Getter;
 
@@ -22,7 +22,7 @@ public abstract class LevelObject extends Renderable {
 
     @Override
     public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {
-        int x = (int) (rect.getCenterX() - cam.x), y = rect.y + rect.height - cam.y;
+        int x = (int) (rect.getCenterX() - cam.x), y = (int) (rect.y + rect.height - cam.y);
         int width = gfx.getFontMetrics().stringWidth(type);
         x -= width / 2;
         y += 15;

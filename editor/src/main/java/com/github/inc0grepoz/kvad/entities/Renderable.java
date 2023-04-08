@@ -1,12 +1,12 @@
 package com.github.inc0grepoz.kvad.entities;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
-import com.github.inc0grepoz.kvad.Vector;
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public abstract class Renderable extends Entity {
 
@@ -28,14 +28,14 @@ public abstract class Renderable extends Entity {
             return false;
         }
 
-        int x = ent.x - cam.x, y = ent.y - cam.y;
-        draw(gfx, x, y, ent.width, ent.height);
+        int x = (int) (ent.x - cam.x), y = (int) (ent.y - cam.y);
+        int width = (int) ent.width, height = (int) ent.height;
+        draw(gfx, x, y, width, height);
 
         // Drawing the collider
         if (selected) {
             if (collide) {
-                int entX = ent.x - cam.x, entY = ent.y - cam.y;
-                drawOutline(gfx, entX, entY, ent);
+                drawOutline(gfx, x, y, width, height);
             }
             typeText(gfx, cam, ent);
         }
@@ -47,10 +47,10 @@ public abstract class Renderable extends Entity {
         gfx.drawRect(x, y, width, height);
     }
 
-    public void drawOutline(Graphics gfx, int x, int y, Rectangle col) {
+    public void drawOutline(Graphics gfx, int x, int y, int width, int height) {
         Color color = gfx.getColor();
         gfx.setColor(Color.GREEN);
-        gfx.drawRect(x, y, col.width, col.height);
+        gfx.drawRect(x, y, width, height);
         gfx.setColor(color);
     }
 

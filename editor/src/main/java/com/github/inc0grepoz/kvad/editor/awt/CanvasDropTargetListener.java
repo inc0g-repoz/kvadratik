@@ -1,11 +1,11 @@
 package com.github.inc0grepoz.kvad.editor.awt;
 
-import java.awt.Point;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
+import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 
@@ -40,7 +40,7 @@ public class CanvasDropTargetListener implements DropTargetListener {
 
         Level level = editor.getLevel();
         Point cam = level.getCamera().getRectangle().getLocation();
-        Point obj = event.getLocation();
+        Point obj = Point.fromAwtPoint(event.getLocation());
         obj.x += cam.x;
         obj.y += cam.y;
 

@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.kvad.protocol;
 
+import lombok.Getter;
+
 public enum PacketType {
 
     // Client -> Server
@@ -33,14 +35,10 @@ public enum PacketType {
         return null;
     }
 
-    private final int id;
+    private final @Getter int id;
 
     PacketType(int id) {
         this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
 }

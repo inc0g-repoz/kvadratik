@@ -3,8 +3,8 @@ package com.github.inc0grepoz.kvad.entities.being;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import com.github.inc0grepoz.kvad.Vector;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.utils.Vector;
 
 public enum Anim {
 

@@ -18,4 +18,10 @@ public class Rectangle extends Rectangle2D.Double {
         setRect(0, 0, size.width, size.height);
     }
 
+    public Rectangle() {}
+
+    public Point getLocation() {
+        return new Point(x, y);
+    }
+
 }
