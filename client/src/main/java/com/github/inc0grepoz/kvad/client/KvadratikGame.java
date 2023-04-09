@@ -1,6 +1,5 @@
 package com.github.inc0grepoz.kvad.client;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -8,10 +7,10 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
-import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.chat.Message;
+import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
@@ -22,13 +21,14 @@ import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import lombok.Getter;
 import lombok.Setter;
 
-@SuppressWarnings("serial")
 public class KvadratikGame extends Frame implements Kvadratik {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
     public static final KvadratikGame INSTANCE = new KvadratikGame();
+
+    private static final long serialVersionUID = 3533037507759276338L;
 
     private final @Getter Controls controls;
     private final @Getter KvadratikCanvas canvas;
@@ -60,7 +60,7 @@ public class KvadratikGame extends Frame implements Kvadratik {
 
         // Controls
         controls = new Controls(this);
-        addKeysListener(canvas);
+        canvas.addKeyListener(controls);
 
         // Debug console
         console = new ConsoleWorker(this, 500L);
@@ -104,10 +104,6 @@ public class KvadratikGame extends Frame implements Kvadratik {
 
     public void applyIcon(String fileName) {
         setIconImage(ASSETS.image(fileName));
-    }
-
-    private void addKeysListener(Canvas c) {
-        c.addKeyListener(controls);
     }
 
     private void addShutdownListener(Runnable handler) {
