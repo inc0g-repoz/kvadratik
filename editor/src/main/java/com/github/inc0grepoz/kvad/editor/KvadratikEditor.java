@@ -25,13 +25,14 @@ import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import lombok.Getter;
 import lombok.Setter;
 
-@SuppressWarnings("serial")
 public class KvadratikEditor extends Frame implements Kvadratik {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
     public static final KvadratikEditor INSTANCE = new KvadratikEditor();
+
+    private static final long serialVersionUID = -1333875604612316915L;
 
     private final @Getter EditorToolBar toolBar = new EditorToolBar(this);
     private final @Getter EditorToolsPanel panel = new EditorToolsPanel(this);
