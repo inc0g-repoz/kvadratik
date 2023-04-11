@@ -10,7 +10,7 @@ public class RenderWorker extends Worker {
     private final KvadratikCanvas canvas;
 
     public RenderWorker(KvadratikCanvas canvas) {
-        super(33L);
+        super(16L);
         this.canvas = canvas;
     }
 

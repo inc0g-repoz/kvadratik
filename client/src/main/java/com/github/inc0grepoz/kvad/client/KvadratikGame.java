@@ -34,7 +34,7 @@ public class KvadratikGame extends Frame implements Kvadratik {
     private final @Getter KvadratikCanvas canvas;
     private final @Getter KvadratikClient client;
     private final @Getter ConsoleWorker console;
-    private final PhysicsWorker physics;
+    private final @Getter PhysicsWorker physics;
 
     private @Getter @Setter Level level;
 
@@ -55,7 +55,7 @@ public class KvadratikGame extends Frame implements Kvadratik {
         canvas = new KvadratikCanvas(this, 640, 480);
         canvas.setBackground(Color.BLACK);
         add(canvas);
-        canvas.setFrapsPerSecond(20);
+        canvas.setFrapsPerSecond(60);
         canvas.getWorker().start();
 
         // Controls
@@ -66,8 +66,8 @@ public class KvadratikGame extends Frame implements Kvadratik {
         console = new ConsoleWorker(this, 500L);
         console.start();
 
-        // Physics
-        physics = new PhysicsWorker(this, 50L);
+        // Physics (default delay was 50L)
+        physics = new PhysicsWorker(this, 16L);
         physics.start();
     }
 

@@ -10,14 +10,14 @@ public enum Anim {
     IDLE_A (0, Way.A),
     IDLE_S (0, Way.S),
     IDLE_D (0, Way.D),
-    RUN_W  (12, Way.W),
-    RUN_A  (12, Way.A),
-    RUN_S  (12, Way.S),
-    RUN_D  (12, Way.D),
-    WALK_W (4, Way.W),
-    WALK_A (4, Way.A),
-    WALK_S (4, Way.S),
-    WALK_D (4, Way.D);
+    RUN_W  (0.24, Way.W),
+    RUN_A  (0.24, Way.A),
+    RUN_S  (0.24, Way.S),
+    RUN_D  (0.24, Way.D),
+    WALK_W (0.08, Way.W),
+    WALK_A (0.08, Way.A),
+    WALK_S (0.08, Way.S),
+    WALK_D (0.08, Way.D);
 
     public static enum Way {
 
@@ -32,10 +32,10 @@ public enum Anim {
 
     }
 
-    public final int speed;
+    public final double speed;
     public final Way way;
 
-    Anim(int speed, Way way) {
+    Anim(double speed, Way way) {
         this.speed = speed;
         this.way = way;
     }

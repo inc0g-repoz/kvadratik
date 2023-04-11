@@ -5,6 +5,7 @@ import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.utils.TimeGap;
 
 public class PhysicsWorker extends Worker {
 
@@ -17,6 +18,10 @@ public class PhysicsWorker extends Worker {
 
     @Override
     protected void work() {
+        if (game.getCanvas().getWorker().isExecuting()) {
+            return;
+        }
+
         Level level = game.getLevel();
 
         if (level == null) {
@@ -25,7 +30,8 @@ public class PhysicsWorker extends Worker {
         }
 
         // Moving the beings
-        level.getBeings().forEach(Being::moveOn);
+        long gap = TimeGap.get();
+        level.getBeings().forEach(b -> b.moveOn(gap));
 
         // Moving the camera
         Being player = level.getPlayer();

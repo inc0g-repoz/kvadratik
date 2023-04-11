@@ -53,7 +53,7 @@ public abstract class Entity {
     }
 
     public boolean move(double x, double y) {
-        boolean moved = canMove(x, y);
+        boolean moved = (x != 0 || y != 0) && canMove(x, y);
         if (moved) {
             rect.x += x;
             rect.y += y;
@@ -67,7 +67,7 @@ public abstract class Entity {
     }
 
     public boolean move(Way way, double speed) {
-        return way != null && move(way.x * speed, way.y * speed);
+        return way != null && speed != 0 && move(way.x * speed, way.y * speed);
     }
 
     public boolean move(Way way) {

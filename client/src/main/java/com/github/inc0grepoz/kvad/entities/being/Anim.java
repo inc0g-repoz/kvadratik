@@ -20,7 +20,7 @@ public enum Anim {
             "idle_s.png"),
     IDLE_D(0, 0, Way.D,
             "idle_d.png"),
-    RUN_W(100, 12, Way.W,
+    RUN_W(100, 0.24, Way.W,
             "run_w_1.png",
             "run_w_2.png",
             "idle_w.png",
@@ -29,7 +29,7 @@ public enum Anim {
             "run_w_3.png",
             "idle_w.png",
             "run_w_2.png"),
-    RUN_A(100, 12, Way.A,
+    RUN_A(100, 0.24, Way.A,
             "run_a_1.png",
             "run_a_2.png",
             "idle_a.png",
@@ -38,7 +38,7 @@ public enum Anim {
             "run_a_3.png",
             "idle_a.png",
             "run_a_2.png"),
-    RUN_S(100, 12, Way.S,
+    RUN_S(100, 0.24, Way.S,
             "run_s_1.png",
             "run_s_2.png",
             "idle_s.png",
@@ -47,7 +47,7 @@ public enum Anim {
             "run_s_3.png",
             "idle_s.png",
             "run_s_2.png"),
-    RUN_D(100, 12, Way.D,
+    RUN_D(100, 0.24, Way.D,
             "run_d_1.png",
             "run_d_2.png",
             "idle_d.png",
@@ -56,22 +56,22 @@ public enum Anim {
             "run_d_3.png",
             "idle_d.png",
             "run_d_2.png"),
-    WALK_W(200, 4, Way.W,
+    WALK_W(200, 0.08, Way.W,
             "walk_w_1.png",
             "idle_w.png",
             "walk_w_2.png",
             "idle_w.png"),
-    WALK_A(200, 4, Way.A,
+    WALK_A(200, 0.08, Way.A,
             "walk_a_1.png",
             "idle_a.png",
             "walk_a_2.png",
             "idle_a.png"),
-    WALK_S(200, 4, Way.S,
+    WALK_S(200, 0.08, Way.S,
             "walk_s_1.png",
             "idle_s.png",
             "walk_s_2.png",
             "idle_s.png"),
-    WALK_D(200, 4, Way.D,
+    WALK_D(200, 0.08, Way.D,
             "walk_d_1.png",
             "idle_d.png",
             "walk_d_2.png",
@@ -109,11 +109,11 @@ public enum Anim {
 
     public final Way way;
     public final long delay;
-    public final int moveSpeed;
+    public final double moveSpeed;
 
     private final HashMap<String, BufferedImage[]> images = new HashMap<>();
 
-    Anim(long delay, int speed, Way way, String... paths) {
+    Anim(long delay, double speed, Way way, String... paths) {
         this.delay = delay;
         this.moveSpeed = speed;
         this.way = way;

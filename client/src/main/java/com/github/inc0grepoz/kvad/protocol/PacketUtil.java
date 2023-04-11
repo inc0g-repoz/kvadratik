@@ -18,7 +18,6 @@ import com.github.inc0grepoz.kvad.utils.Downloader;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.utils.Unzipper;
-import com.github.inc0grepoz.kvad.utils.Vector;
 
 public class PacketUtil {
 
@@ -35,10 +34,9 @@ public class PacketUtil {
         }
     }
 
-    public void outPoint(Being being, Vector prevMove, int movedX, int movedY) {
+    public void outPoint(Being being, double moveX, double moveY) {
         if (!game.getClient().isConnected()
-                || being.getId() != game.getLevel().getPlayer().getId()
-                || prevMove.x == movedX && prevMove.y == movedY) {
+                || being.getId() != game.getLevel().getPlayer().getId()) {
             return;
         }
 

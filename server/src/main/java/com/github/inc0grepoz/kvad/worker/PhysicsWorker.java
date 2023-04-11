@@ -1,7 +1,7 @@
 package com.github.inc0grepoz.kvad.worker;
 
-import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
+import com.github.inc0grepoz.kvad.utils.TimeGap;
 
 public class PhysicsWorker extends Worker {
 
@@ -17,7 +17,8 @@ public class PhysicsWorker extends Worker {
         kvad.levels.forEach(level -> {
 
             // Moving the beings
-            level.getBeings().forEach(Being::moveOn);
+            long gap = TimeGap.get();
+            level.getBeings().forEach(b -> b.moveOn(gap));
 
             // TODO: AI
         });

@@ -50,21 +50,26 @@ public class Being extends Renderable {
         return prevMove.x != 0 || prevMove.y != 0;
     }
 
-    public void moveOn() {
-        boolean moved = move(anim.way, anim.moveSpeed);
+    public void moveOn(long timeGap) {
+        double moveSpeed = anim.moveSpeed * timeGap;
+        boolean moved = move(anim.way, moveSpeed);
 
         if (moved) {
-            int moveX = anim.way.x * anim.moveSpeed;
-            int moveY = anim.way.y * anim.moveSpeed;
+            double moveX = anim.way.x * moveSpeed;
+            double moveY = anim.way.y * moveSpeed;
 
-            KvadratikGame.INSTANCE.getClient().getPacketUtil()
-                    .outPoint(this, prevMove, moveX, moveY);
+            if (prevMove.x == 0 && prevMove.y == 0) {
+                KvadratikGame.INSTANCE.getClient().getPacketUtil()
+                        .outPoint(this, moveX, moveY);
+            }
 
             prevMove.x = moveX;
             prevMove.y = moveY;
         } else {
-            KvadratikGame.INSTANCE.getClient().getPacketUtil()
-                    .outPoint(this, prevMove, 0, 0);
+            if (prevMove.x != 0 || prevMove.y != 0) {
+                KvadratikGame.INSTANCE.getClient().getPacketUtil()
+                        .outPoint(this, 0, 0);
+            }
 
             prevMove.x = 0;
             prevMove.y = 0;

@@ -21,6 +21,7 @@ public class ConsoleWorker extends Worker {
             "log_keys",
             "log_packets",
             "teleport",
+            "tick_delay",
             "view_misc",
             "walk_speed"
     };
@@ -73,6 +74,15 @@ public class ConsoleWorker extends Worker {
                 int cap = Integer.valueOf(command.substring(4));
                 game.getCanvas().setFrapsPerSecond(cap);
                 Logger.info("Set FPS capability to " + cap);
+            } catch (NumberFormatException nfe) {
+                Logger.error("Invalid value");
+            }
+            return;
+        } else if(command.startsWith("tick_delay ")) {
+            try {
+                int cap = Integer.valueOf(command.substring(11));
+                game.getPhysics().setDelay(cap);
+                Logger.info("Set tick delay capability to " + cap);
             } catch (NumberFormatException nfe) {
                 Logger.error("Invalid value");
             }

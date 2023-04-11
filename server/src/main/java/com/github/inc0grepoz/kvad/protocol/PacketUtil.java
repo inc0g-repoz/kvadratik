@@ -63,8 +63,8 @@ public class PacketUtil {
 
     public void inPlayerPoint(Player player, Packet in) {
         Map<String, String> map = in.toMap();
-        int x = Integer.valueOf(map.get("x"));
-        int y = Integer.valueOf(map.get("y"));
+        double x = Double.valueOf(map.get("x"));
+        double y = Double.valueOf(map.get("y"));
         player.teleport(x, y);
         outBeingPoint(player);
     }

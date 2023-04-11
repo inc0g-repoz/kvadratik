@@ -25,10 +25,11 @@ public class Being extends Entity {
         this.type = type;
     }
 
-    public void moveOn() {
+    public void moveOn(long timeGap) {
+        double moveSpeed = anim.speed * timeGap;
         if (anim.way.x != 0 || anim.way.y != 0) {
-            int moveX = anim.way.x * anim.speed;
-            int moveY = anim.way.y * anim.speed;
+            double moveX = anim.way.x * moveSpeed;
+            double moveY = anim.way.y * moveSpeed;
             move(moveX, moveY);
         }
     }

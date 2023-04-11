@@ -2,20 +2,24 @@ package com.github.inc0grepoz.kvad.worker;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
+import lombok.Getter;
+
 public abstract class Worker {
 
-    protected Thread thread;
-    protected long delay;
-    protected boolean alive;
+    private final Thread thread;
+    private @Getter long delay;
+    private @Getter boolean executing, running;
 
     protected Worker(long delay) {
         this.delay = delay;
 
         thread = new Thread(() -> {
-            while (alive) {
+            while (running) {
                 try {
                     Thread.sleep(this.delay);
+                    executing = true;
                     work();
+                    executing = false;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -29,8 +33,8 @@ public abstract class Worker {
     }
 
     public void start() {
-        if (!alive) {
-            alive = true;
+        if (!running) {
+            running = true;
 
             thread.start();
             Logger.info("Started " + thread.getName() + " thread");
@@ -38,12 +42,8 @@ public abstract class Worker {
     }
 
     public void kill() {
-        alive = false;
+        running = false;
         Logger.info("Killed " + thread.getName() + " thread");
-    }
-
-    public boolean isRunning() {
-        return alive;
     }
 
     protected abstract void work();
