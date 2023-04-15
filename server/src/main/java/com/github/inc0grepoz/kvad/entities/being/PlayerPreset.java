@@ -21,4 +21,8 @@ public class PlayerPreset {
         return KvadratikServer.BEING_FACTORY.createPlayer(connection, name, level, point, type);
     }
 
+    public Player spawnCopy(Player player) {
+        return KvadratikServer.BEING_FACTORY.createPlayerCopy(player, level, point);
+    }
+
 }

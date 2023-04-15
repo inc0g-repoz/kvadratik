@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.chat;
+package com.github.inc0grepoz.kvad.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,7 +14,7 @@ public class Message {
     public static class Component {
 
         private final Color color;
-        private final String text;
+        protected final String text;
 
         private Component(String text, Color color) {
             this.color = color;

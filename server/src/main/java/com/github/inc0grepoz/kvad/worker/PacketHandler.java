@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.worker;
 
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.protocol.Packet;
@@ -19,7 +20,11 @@ public class PacketHandler extends Worker {
     @Override
     protected void work() {
         // Reading the ingoing player packets
-        acceptPlayers();
+        try {
+            acceptPlayers();
+        } catch (ConcurrentModificationException e) {
+            // I hate you ^^^
+        }
 
         // Resetting all timed out connections
         kvad.closeExpiredConnections();
@@ -72,18 +77,18 @@ public class PacketHandler extends Worker {
                 // Iterating through the packets from the queue
                 for (Packet packet : queue) {
                     switch (packet.getType()) {
-                        case CLIENT_CHAT_MESSAGE: {
+                        case CLIENT_CHAT_MESSAGE:
                             kvad.packetUtil.inChat(player, packet);
                             break;
-                        }
-                        case CLIENT_PLAYER_ANIM: {
+                        case CLIENT_DISCONNECT:
+                            player.disconnect();
+                            break;
+                        case CLIENT_PLAYER_ANIM:
                             kvad.packetUtil.inPlayerAnim(player, packet);
                             break;
-                        }
-                        case CLIENT_PLAYER_POINT: {
+                        case CLIENT_PLAYER_POINT:
                             kvad.packetUtil.inPlayerPoint(player, packet);
                             break;
-                        }
                         default:
                     }
                 }

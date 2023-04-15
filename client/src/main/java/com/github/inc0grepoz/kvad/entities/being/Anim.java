@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public enum Anim {
 
@@ -83,7 +83,7 @@ public enum Anim {
 
         public final int x, y;
 
-        public static Way fromVector(Vector vector) {
+        public static Way fromVector(Vector2D vector) {
             Way[] ways = values();
             for (int i = 0; i < ways.length; i++) {
                 if (compareDigits(ways[i].x, vector.x)

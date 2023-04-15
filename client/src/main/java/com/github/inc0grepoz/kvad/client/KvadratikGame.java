@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
-import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.gui.Message;
+import com.github.inc0grepoz.kvad.protocol.Packet;
+import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -43,16 +45,21 @@ public class KvadratikGame extends Frame implements Kvadratik {
             throw new IllegalStateException("Game instance already has been initialized");
         }
 
+        // Multiplayer client
+        client = new KvadratikClient(this, 50L);
+
         addShutdownListener(() -> {
+            if (client.isConnected()) {
+                Packet.out(PacketType.CLIENT_DISCONNECT, " ").queue(client);
+                client.flushOut();
+            }
+
             dispose();
             System.exit(0);
         });
 
-        // Multiplayer client
-        client = new KvadratikClient(this, 50L);
-
         // Rendering
-        canvas = new KvadratikCanvas(this, 640, 480);
+        canvas = new KvadratikCanvas(this, getWidth(), getHeight());
         canvas.setBackground(Color.BLACK);
         add(canvas);
         canvas.setFrapsPerSecond(60);

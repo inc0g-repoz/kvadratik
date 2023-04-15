@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
-import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.gui.Message;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
@@ -29,7 +29,7 @@ public class PacketUtil {
             return;
         }
 
-        Color color = player.getChatColor();
+        Color color = player.getConnection().chatColor;
         Message msg = new Message()
                 .addComponent(player.getName() + ": ", color)
                 .addComponent(message);

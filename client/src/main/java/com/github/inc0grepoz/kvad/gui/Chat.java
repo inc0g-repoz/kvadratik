@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.chat;
+package com.github.inc0grepoz.kvad.gui;
 
 import java.awt.Graphics;
 import java.util.LinkedList;

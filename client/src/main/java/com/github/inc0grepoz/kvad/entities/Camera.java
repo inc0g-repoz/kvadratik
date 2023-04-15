@@ -22,8 +22,8 @@ public class Camera extends Entity {
 
     public void scale(KvadratikCanvas canvas) {
         Rectangle cam = getRectangle();
-        cam.width = canvas.getWidth();
-        cam.height = canvas.getHeight();
+        cam.width = KvadratikGame.INSTANCE.getWidth();
+        cam.height = KvadratikGame.INSTANCE.getHeight();
     }
 
     public void focus(Entity entity) {

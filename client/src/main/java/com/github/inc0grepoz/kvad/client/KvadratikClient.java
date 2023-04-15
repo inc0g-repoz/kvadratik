@@ -7,8 +7,8 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.github.inc0grepoz.kvad.chat.Chat;
-import com.github.inc0grepoz.kvad.chat.Message;
+import com.github.inc0grepoz.kvad.gui.Chat;
+import com.github.inc0grepoz.kvad.gui.Message;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.protocol.PacketUtil;
@@ -126,13 +126,7 @@ public class KvadratikClient extends Worker {
 
         // Flushing the outgoing packets
         if (queue.size() != 0) {
-            for (Packet packet; (packet = queue.poll()) != null;) {
-                try {
-                    packet.send(socket.getOutputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            flushOut();
         }
 
         // Prevent the server from resetting the connection
@@ -141,11 +135,22 @@ public class KvadratikClient extends Worker {
                 Packet.out(PacketType.CLIENT_KEEP_ALIVE, " ").send(socket.getOutputStream());
             } catch (IOException e) {
                 disconnect();
+                KvadratikGame.INSTANCE.setLevel(null);
                 Logger.error("Connection reset");
 
                 Message message = new Message();
                 message.addComponent("Connection reset!", Color.RED);
                 chat.print(message);
+            }
+        }
+    }
+
+    public void flushOut() {
+        for (Packet packet; (packet = queue.poll()) != null;) {
+            try {
+                packet.send(socket.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

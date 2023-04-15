@@ -7,14 +7,14 @@ import javax.swing.ImageIcon;
 
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public class LevelObjectTemplateAnimated extends LevelObjectTemplate {
 
     final LevelObjectAnim anim;
 
     public LevelObjectTemplateAnimated(String type, Dimension size,
-            Dimension collSize, Vector collOffset, boolean collide,
+            Dimension collSize, Vector2D collOffset, boolean collide,
             LevelObjectAnim anim) {
         super(type, size, collSize, collOffset, collide);
         this.anim = anim;

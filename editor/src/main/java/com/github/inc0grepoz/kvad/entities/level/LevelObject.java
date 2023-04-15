@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public abstract class LevelObject extends Renderable {
     private final @Getter String type;
 
     public LevelObject(Level level, Rectangle rect,
-            Dimension collSize, Vector collOffset,
+            Dimension collSize, Vector2D collOffset,
             String type) {
         super(level, rect, collSize, collOffset);
         this.type = type;

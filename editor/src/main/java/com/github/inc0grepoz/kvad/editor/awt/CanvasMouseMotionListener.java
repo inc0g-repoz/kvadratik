@@ -8,7 +8,7 @@ import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public class CanvasMouseMotionListener implements MouseMotionListener {
 
@@ -43,7 +43,7 @@ public class CanvasMouseMotionListener implements MouseMotionListener {
                 if (etp.isAutoGridSizeEnabled()) {
                     // TODO: huh?
                 } else {
-                    Vector gs = etp.getGridSize();
+                    Vector2D gs = etp.getGridSize();
                     sel.selGrid.setGridSize(gs.x, gs.y);
                 }
                 sel.selGrid.locate(cam.x + e.getX(), cam.y + e.getY());

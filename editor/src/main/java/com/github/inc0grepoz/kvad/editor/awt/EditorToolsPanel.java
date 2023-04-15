@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -20,7 +20,7 @@ public class EditorToolsPanel extends JPanel {
     private final JCheckBox cbAuto = new JCheckBox("Auto");
 
     private final @Getter ObjectList objectsList;
-    private @Getter Vector gridSize = new Vector(64, 64);
+    private @Getter Vector2D gridSize = new Vector2D(64, 64);
 
     public EditorToolsPanel(KvadratikEditor editor) {
         // Components are placed vertically

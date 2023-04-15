@@ -65,8 +65,22 @@ public class KvadratikServer implements Kvadratik {
                 .findFirst().orElse(null);
     }
 
+    public Player getPlayerByName(String name) {
+        return players.stream().filter(player -> player.getName().equals(name))
+                .findFirst().orElse(null);
+    }
+
     public void handlePlayerCommand(Player player, String command) {
         commandHandler.execute(player, command);
+    }
+
+    public Player unbindPlayer(String name) {
+        Player player = getPlayerByName(name);
+        if (player != null) {
+            player.delete();
+            return player;
+        }
+        return null;
     }
 
     public void closeExpiredConnections() {
@@ -74,19 +88,6 @@ public class KvadratikServer implements Kvadratik {
         while (eachCxn.hasNext()) {
             Connection cxn = eachCxn.next();
             if (cxn.hasExpired()) {
-                Iterator<Player> eachFromPList = players.iterator();
-
-                // Despawning the disconnected player for others
-                while (eachFromPList.hasNext()) {
-                    Player p = eachFromPList.next();
-                    if (p.getConnection().equals(cxn)) {
-                        Logger.info(p.getName() + " left the server");
-                        packetUtil.outBeingDespawn(p);
-                        p.delete();
-                        eachFromPList.remove();
-                    }
-                }
-
                 // Remove it from the playerlist
                 eachCxn.remove();
 
@@ -98,9 +99,22 @@ public class KvadratikServer implements Kvadratik {
                 }
             }
         }
+
+        // Despawning the disconnected players
+        Iterator<Player> eachPlayer = players.iterator();
+        while (eachPlayer.hasNext()) {
+            Player p = eachPlayer.next();
+            if (p.getConnection() == null || p.getConnection().hasExpired()) {
+                Logger.info(p.getName() + " left the server");
+                packetUtil.outBeingDespawn(p);
+
+                eachPlayer.remove();
+                p.delete();
+            }
+        }
     }
 
-    public void start() {
+    public void run() {
         workers.forEach(Worker::start);
     }
 

@@ -2,11 +2,12 @@ package com.github.inc0grepoz.kvad.entities.being;
 
 import java.util.Map;
 
-import com.github.inc0grepoz.kvad.entities.Entity;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.entities.Entity;
+import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.server.KvadratikServer;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -18,7 +19,7 @@ public class Being extends Entity {
     private @Getter String type;
     private @Getter Anim anim = Anim.IDLE_S;
 
-    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector2D collOffset,
             String type) {
         super(level, rect, collSize, collOffset);
         super.collide = true;
@@ -46,6 +47,7 @@ public class Being extends Entity {
 
     @Override
     public void delete() {
+        KvadratikServer.INSTANCE.packetUtil.outBeingDespawn(this);
         getLevel().getBeings().removeIf(b -> b.getId() == id);
     }
 

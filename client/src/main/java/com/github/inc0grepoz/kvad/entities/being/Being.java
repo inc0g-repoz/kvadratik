@@ -8,7 +8,7 @@ import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -17,7 +17,7 @@ public class Being extends Renderable {
     private static int lastId;
 
     private final @Getter int id;
-    private final Vector prevMove = new Vector();
+    private final Vector2D prevMove = new Vector2D();
 
     private @Getter Anim anim = Anim.IDLE_S;
     private long animExpiry; // 0 for infinite duration
@@ -25,7 +25,7 @@ public class Being extends Renderable {
 
     private @Getter String name, type;
 
-    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector2D collOffset,
             String type, int id) {
         super(level, rect, collSize, collOffset);
         super.collide = true;
@@ -33,7 +33,7 @@ public class Being extends Renderable {
         this.type = type;
     }
 
-    public Being(Level level, Rectangle rect, Dimension collSize, Vector collOffset,
+    public Being(Level level, Rectangle rect, Dimension collSize, Vector2D collOffset,
             String type) {
         this(level, rect, collSize, collOffset, type, -1);
     }

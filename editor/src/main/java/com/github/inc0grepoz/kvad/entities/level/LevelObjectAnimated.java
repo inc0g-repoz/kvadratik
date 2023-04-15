@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -17,7 +17,7 @@ public class LevelObjectAnimated extends LevelObject {
     private int stateSpriteIndex;
 
     public LevelObjectAnimated(Level level, Rectangle rect,
-            Dimension collSize, Vector collOffset,
+            Dimension collSize, Vector2D collOffset,
             LevelObjectAnim anim, String type) {
         super(level, rect, collSize, collOffset, type);
         this.anim = anim;

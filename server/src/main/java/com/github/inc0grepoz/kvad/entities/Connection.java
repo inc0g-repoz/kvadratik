@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.entities;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,10 +11,12 @@ import java.util.Queue;
 
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
+import com.github.inc0grepoz.kvad.utils.RGB;
 
 public class Connection {
 
     public boolean timeoutImmune;
+    public Color chatColor = RGB.random();
 
     private final KvadratikServer kvad;
     private final Socket socket;
@@ -26,9 +29,11 @@ public class Connection {
         this.socket = socket;
     }
 
-    public boolean equals(Connection c) {
-        return c instanceof Connection && c.getInetAddress().getHostAddress()
-                .equals(socket.getInetAddress().getHostAddress());
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Connection
+                && ((Connection) obj).getInetAddress().getHostAddress()
+                        .equals(socket.getInetAddress().getHostAddress());
     }
 
     public InetAddress getInetAddress() {
@@ -51,7 +56,7 @@ public class Connection {
     }
 
     public boolean hasExpired() {
-        return !timeoutImmune && System.currentTimeMillis() - lastResponse > kvad.settings.timeout;
+        return socket.isClosed() || !timeoutImmune && System.currentTimeMillis() - lastResponse > kvad.settings.timeout;
     }
 
     public void tick() {

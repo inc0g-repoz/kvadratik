@@ -5,20 +5,20 @@ import java.util.Map;
 
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
     private final Color color;
 
     public LevelObjectBackground(Level level, Rectangle rect,
-            Dimension collSize, Vector collOffset, LevelObjectAnim anim) {
+            Dimension collSize, Vector2D collOffset, LevelObjectAnim anim) {
         super(level, rect, collSize, collOffset, anim);
         this.color = null;
     }
 
     public LevelObjectBackground(Level level, Rectangle rect,
-            Dimension collSize, Vector collOffset, Color color) {
+            Dimension collSize, Vector2D collOffset, Color color) {
         super(level, rect, collSize, collOffset, LevelObjectAnim.COLOR);
         this.color = color;
     }

@@ -36,13 +36,13 @@ public class JSON {
 
             // Collider
             Dimension collSize = null;
-            Vector collOffset = null;
+            Vector2D collOffset = null;
             if (jTemplate.has("collider")) {
                 JsonArray jColl = jTemplate.getAsJsonArray("collider");
                 collSize = new Dimension(
                         jColl.get(0).getAsDouble(),
                         jColl.get(1).getAsDouble());
-                collOffset = new Vector(
+                collOffset = new Vector2D(
                         jColl.get(2).getAsDouble(),
                         jColl.get(3).getAsDouble());
             }
@@ -67,14 +67,14 @@ public class JSON {
 
             // Collider
             Dimension collSize = null;
-            Vector collOffset = null;
+            Vector2D collOffset = null;
             boolean collide = false;
             if (jTemplate.has("collider")) {
                 JsonArray jColl = jTemplate.getAsJsonArray("collider");
                 collSize = new Dimension(
                         jColl.get(0).getAsDouble(),
                         jColl.get(1).getAsDouble());
-                collOffset = new Vector(
+                collOffset = new Vector2D(
                         jColl.get(2).getAsDouble(),
                         jColl.get(3).getAsDouble());
             }

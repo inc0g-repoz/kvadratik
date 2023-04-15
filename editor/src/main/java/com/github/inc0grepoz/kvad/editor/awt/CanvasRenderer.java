@@ -14,22 +14,20 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
+import lombok.Getter;
+
 @SuppressWarnings("serial")
 public class CanvasRenderer extends Canvas {
 
     public boolean miscInfo = true;
 
     private final KvadratikEditor editor;
-    private final RenderWorker worker;
+    private final @Getter RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
     public CanvasRenderer(KvadratikEditor editor, int x, int y) {
         this.editor = editor;
         worker = new RenderWorker(this);
-    }
-
-    public RenderWorker getWorker() {
-        return worker;
     }
 
     public void setFrapsPerSecond(int fraps) {

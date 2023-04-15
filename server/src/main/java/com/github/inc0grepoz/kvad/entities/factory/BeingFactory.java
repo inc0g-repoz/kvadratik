@@ -51,4 +51,9 @@ public class BeingFactory {
         return getTemplate(type).createPlayer(connection, name, level, point);
     }
 
+    public Player createPlayerCopy(Player player, Level level, Point point) {
+        return getTemplate(player.getType()).createPlayer(player.getConnection(),
+                player.getName(), level, point);
+    }
+
 }

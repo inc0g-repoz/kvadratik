@@ -6,7 +6,7 @@ import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -15,11 +15,11 @@ public abstract class LevelObjectTemplate implements RenderableTemplate {
     private final @Getter String type;
 
     final @Getter Dimension size, collSize;
-    final Vector collOffset;
+    final Vector2D collOffset;
     final boolean collide;
 
     public LevelObjectTemplate(String type, Dimension size,
-            Dimension collSize, Vector collOffset, boolean collide) {
+            Dimension collSize, Vector2D collOffset, boolean collide) {
         this.type = type;
         this.size = size;
         this.collSize = collSize;

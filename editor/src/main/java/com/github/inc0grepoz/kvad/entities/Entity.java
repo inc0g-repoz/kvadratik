@@ -4,7 +4,7 @@ import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -15,9 +15,9 @@ public abstract class Entity {
 
     private final @Getter Level level;
     private final Rectangle rect, coll;
-    private final Vector collOffset;
+    private final Vector2D collOffset;
 
-    public Entity(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
+    public Entity(Level level, Rectangle rect, Dimension collSize, Vector2D collOffset) {
         this.level = level;
         this.rect = rect;
 

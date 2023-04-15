@@ -3,9 +3,9 @@ package com.github.inc0grepoz.kvad.server;
 import java.awt.Color;
 import java.util.Arrays;
 
-import com.github.inc0grepoz.kvad.chat.Message;
 import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.gui.Message;
 
 public class PlayerCommandHandler {
 

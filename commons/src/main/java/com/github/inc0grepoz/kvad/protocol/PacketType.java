@@ -5,25 +5,26 @@ import lombok.Getter;
 public enum PacketType {
 
     // Client -> Server
-    CLIENT_CHAT_MESSAGE(1),
-    CLIENT_CONSOLE_COMMAND(2),
-    CLIENT_KEEP_ALIVE(3),
-    CLIENT_LOGIN(4),
-    CLIENT_PLAYER_ANIM(5),
-    CLIENT_PLAYER_POINT(6),
+    CLIENT_CHAT_MESSAGE,
+    CLIENT_CONSOLE_COMMAND,
+    CLIENT_DISCONNECT,
+    CLIENT_KEEP_ALIVE,
+    CLIENT_LOGIN,
+    CLIENT_PLAYER_ANIM,
+    CLIENT_PLAYER_POINT,
 
     // Server -> Client
-    SERVER_ASSETS_URL(7),
-    SERVER_BEING_ANIM(8),
-    SERVER_BEING_DESPAWN(9),
-    SERVER_BEING_POINT(10),
-    SERVER_BEING_SPAWN(11),
-    SERVER_BEING_TELEPORT(12),
-    SERVER_BEING_TYPE(13),
-    SERVER_CHAT_MESSAGE(14),
-    SERVER_CONSOLE_MESSAGE(15),
-    SERVER_TRANSFER_CONTROL(16),
-    SERVER_LEVEL(17);
+    SERVER_ASSETS_URL,
+    SERVER_BEING_ANIM,
+    SERVER_BEING_DESPAWN,
+    SERVER_BEING_POINT,
+    SERVER_BEING_SPAWN,
+    SERVER_BEING_TELEPORT,
+    SERVER_BEING_TYPE,
+    SERVER_CHAT_MESSAGE,
+    SERVER_CONSOLE_MESSAGE,
+    SERVER_TRANSFER_CONTROL,
+    SERVER_LEVEL;
 
     public static PacketType byId(int id) {
         PacketType[] values = values();
@@ -35,10 +36,6 @@ public enum PacketType {
         return null;
     }
 
-    private final @Getter int id;
-
-    PacketType(int id) {
-        this.id = id;
-    }
+    private final @Getter int id = ordinal();
 
 }

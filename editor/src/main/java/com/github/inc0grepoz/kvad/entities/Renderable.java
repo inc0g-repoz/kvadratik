@@ -6,13 +6,13 @@ import java.awt.Graphics;
 import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public abstract class Renderable extends Entity {
 
     public boolean selected;
 
-    public Renderable(Level level, Rectangle rect, Dimension collSize, Vector collOffset) {
+    public Renderable(Level level, Rectangle rect, Dimension collSize, Vector2D collOffset) {
         super(level, rect, collSize, collOffset);
     }
 

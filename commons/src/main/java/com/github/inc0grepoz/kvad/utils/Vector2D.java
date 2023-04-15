@@ -1,35 +1,35 @@
 package com.github.inc0grepoz.kvad.utils;
 
-public class Vector {
+public class Vector2D {
 
     public double x, y;
 
-    public Vector() {}
+    public Vector2D() {}
 
-    public Vector(double x, double y) {
+    public Vector2D(double x, double y) {
         set(x, y);
     }
 
-    public Vector set(double x, double y) {
+    public Vector2D set(double x, double y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
-    public Vector multiply(double by) {
+    public Vector2D multiply(double by) {
         x *= by;
         y *= by;
         return this;
     }
 
-    public Vector divide(double by) {
+    public Vector2D divide(double by) {
         x /= by;
         y /= by;
         return this;
     }
 
-    public Vector clone() {
-        return new Vector(x, y);
+    public Vector2D clone() {
+        return new Vector2D(x, y);
     }
 
 }

@@ -38,7 +38,9 @@ public class Level {
     }
 
     public void join(Connection cxn, Level level, String playerName) {
-        Player player = playerPreset.spawn(cxn, playerName);
+        Player present = server.unbindPlayer(playerName);
+        Player player = present == null ? playerPreset.spawn(cxn, playerName)
+                : playerPreset.spawnCopy(present);
 
         // Sending the level data and all beings
         PacketUtil util = server.packetUtil;

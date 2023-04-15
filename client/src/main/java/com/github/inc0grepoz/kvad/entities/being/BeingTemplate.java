@@ -4,7 +4,7 @@ import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.Vector;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -12,10 +12,10 @@ public class BeingTemplate {
 
     private final @Getter String type;
     private final Dimension size, collSize;
-    private final Vector collOffset;
+    private final Vector2D collOffset;
 
     public BeingTemplate(String type, Dimension size,
-            Dimension collSize, Vector collOffset) {
+            Dimension collSize, Vector2D collOffset) {
         this.type = type;
         this.size = size;
         this.collSize = collSize;

@@ -33,8 +33,7 @@ public class KvadratikCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        int gw = getWidth(), gh = getHeight();
-        BufferedImage image = new BufferedImage(gw, gh, BufferedImage.TYPE_BYTE_INDEXED);
+        BufferedImage image = new BufferedImage(640, 480, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics2D g2d = image.createGraphics();
 
         Level level = game.getLevel();
@@ -66,7 +65,10 @@ public class KvadratikCanvas extends Canvas {
         }
 
         g2d.dispose();
-        g.drawImage(image, 0, 0, gw, gh, this);
+        int gWidth = getWidth(), gHeight = getHeight();
+//      int xOffset = (gWidth - 640) / 2, yOffset = (gHeight - 480) / 2;
+//      Image scaled = image.getScaledInstance(gWidth, gHeight, 0);
+        g.drawImage(image, 0, 0, gWidth, gHeight, this);
     }
 
 }

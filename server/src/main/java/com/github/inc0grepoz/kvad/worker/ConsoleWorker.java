@@ -12,6 +12,7 @@ public class ConsoleWorker extends Worker {
     private final KvadratikServer kvad;
     private final String[] commandList = new String[] {
             "help",
+            "kick",
             "log_packets",
             "stats",
             "stop"
@@ -27,7 +28,7 @@ public class ConsoleWorker extends Worker {
 
     @Override
     protected void work() {
-        String command = scan.nextLine().toLowerCase();
+        String command = scan.nextLine();
 
         switch (command) {
             case "help": {
@@ -55,6 +56,17 @@ public class ConsoleWorker extends Worker {
                 kvad.stop();
                 return;
             }
+        }
+
+        if (command.startsWith("kick ")) {
+            String name = command.substring(5);
+            try {
+                kvad.getPlayerByName(name).disconnect();
+                Logger.info("Kicked " + name);
+            } catch (Exception nfe) {
+                Logger.error(name + " not found");
+            }
+            return;
         }
 
         Logger.error("Get some help");
