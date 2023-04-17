@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,16 +17,36 @@ public class AssetsProvider {
 
     public String assetsParent;
 
+    public boolean copy(String path) {
+        String ppp = getAssetsParent() + path;
+        File file = new File(ppp);
+
+        if (file.exists()) {
+            return false;
+        }
+
+        Logger.info("Copying " + ppp);
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream(path);
+            Files.copy(is, file.toPath());
+            is.close();
+            return true;
+        } catch (Exception e) {}
+
+        Logger.error("Invalid file: " + ppp);
+        return false;
+    }
+
     public BufferedImage image(String path) {
         String ppp = getAssetsParent() + path;
         Logger.info("Loading " + ppp);
 
         try {
-            return ImageIO.read(getClass().getClassLoader().getResource(path));
+            return ImageIO.read(new File(ppp));
         } catch (Exception e) {}
 
         try {
-            return ImageIO.read(new File(ppp));
+            return ImageIO.read(getClass().getClassLoader().getResource(path));
         } catch (Exception e) {}
 
         Logger.error("Invalid image: " + ppp);
@@ -95,7 +116,7 @@ public class AssetsProvider {
     }
 
     private String getAssetsParent() {
-        return assetsParent == null ? "" : assetsParent + "/";
+        return (assetsParent == null ? "" : assetsParent + "/").replaceAll("(/)+", "/");
     }
 
 }

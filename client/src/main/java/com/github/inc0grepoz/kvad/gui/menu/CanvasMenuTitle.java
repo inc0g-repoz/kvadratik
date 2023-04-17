@@ -1,4 +1,4 @@
-package com.github.inc0grepoz.kvad.client.awt;
+package com.github.inc0grepoz.kvad.gui.menu;
 
 import java.awt.Canvas;
 import java.awt.Graphics;

@@ -22,6 +22,15 @@ import com.google.gson.JsonParser;
 
 public class JSON {
 
+    public static void fromJsonSettings(KvadratikGame game, String json) {
+        JsonObject jSettings = JsonParser.parseString(json).getAsJsonObject();
+        if (!game.getClient().isInfoProvided()) {
+            String profileName = jSettings.getAsJsonObject("profile").get("name").getAsString();
+            Logger.info(profileName);
+            game.getClient().setNickname(profileName);
+        }
+    }
+
     public static BeingTemplate[] fromJsonBeingTemplates(String json) {
         List<BeingTemplate> list = new LinkedList<>();
         JsonObject jLevel = JsonParser.parseString(json).getAsJsonObject();

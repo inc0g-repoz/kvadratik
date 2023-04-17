@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
-import com.github.inc0grepoz.kvad.client.awt.CanvasMouseListener;
-import com.github.inc0grepoz.kvad.client.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.gui.Message;
-import com.github.inc0grepoz.kvad.protocol.Packet;
-import com.github.inc0grepoz.kvad.protocol.PacketType;
+import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseListener;
+import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
+import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 
@@ -47,14 +46,15 @@ public class KvadratikGame extends Frame implements Kvadratik {
         client = new KvadratikClient(this, 50L);
 
         addShutdownListener(() -> {
-            if (client.isConnected()) {
-                Packet.out(PacketType.CLIENT_DISCONNECT, " ").queue(client);
-                client.flushOut();
-            }
-
+            client.disconnect(); // If needed
             dispose();
             System.exit(0);
         });
+
+        // Copying and loading settings
+        ASSETS.copy("settings.json");
+        String settings = ASSETS.textFile("settings.json");
+        JSON.fromJsonSettings(this, settings);
 
         // Rendering
         canvas = new KvadratikCanvas(this, getWidth(), getHeight());
@@ -76,7 +76,7 @@ public class KvadratikGame extends Frame implements Kvadratik {
 
     @Override
     public void run() {
-        loadLevel("assets/levels/whitespace.json");
+        loadLevel("assets/levels/default.json");
     }
 
     public void loadLevel(String path) {
@@ -84,28 +84,34 @@ public class KvadratikGame extends Frame implements Kvadratik {
     }
 
     public void joinServer(String host) {
-        if (client.isInfoProvided()) {
-            try {
-                String[] ip = host.split(":");
-                client.setHost(ip[0]);
-                client.setPort(ip.length > 1 ? Integer.valueOf(ip[1]) : 30405);
-                client.start();
-                client.connect();
-            } catch (UnknownHostException e1) {
-                Logger.error("Unknown host");
+        try {
+            String[] ip = host.split(":");
+            client.setHost(ip[0]);
+            client.setPort(ip.length > 1 ? Integer.valueOf(ip[1]) : 30405);
+
+            if (!client.isInfoProvided()) {
+                Logger.error("Nickname provided in settings.json appears invalid");
 
                 Message message = new Message();
-                message.addComponent("Unknown host.", Color.RED);
+                message.addComponent("Nickname provided in settings.json appears invalid.", Color.RED);
                 client.getChat().print(message);
-            } catch (IOException e1) {
-                Logger.error("Unable to join the server");
-
-                Message message = new Message();
-                message.addComponent("Unable to join the server.", Color.RED);
-                client.getChat().print(message);
+                return;
             }
-        } else {
-            Logger.info("Nothing provided for the client");
+
+            client.start();
+            client.connect();
+        } catch (UnknownHostException e) {
+            Logger.error("Unknown host");
+
+            Message message = new Message();
+            message.addComponent("Unknown host.", Color.RED);
+            client.getChat().print(message);
+        } catch (IOException e) {
+            Logger.error("Unable to join the server");
+
+            Message message = new Message();
+            message.addComponent("Unable to join the server.", Color.RED);
+            client.getChat().print(message);
         }
     }
 

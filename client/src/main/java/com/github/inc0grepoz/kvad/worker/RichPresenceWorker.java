@@ -17,7 +17,7 @@ public class RichPresenceWorker extends Worker {
     private final DiscordRichPresence presence;
 
     public RichPresenceWorker(KvadratikGame game) {
-        super(500L);
+        super(2000L);
         this.game = game;
 
         rpc = DiscordRPC.INSTANCE;
@@ -42,7 +42,12 @@ public class RichPresenceWorker extends Worker {
         if (!Thread.currentThread().isInterrupted()) {
             Session session = game.getSession();
             if (session == null) {
-                presence.state = "Main Menu";
+                String state = "Main Menu";
+                if (!presence.state.equals(state)) {
+                    presence.partySize = 0;
+                    presence.state = state;
+                    rpc.Discord_UpdatePresence(presence);
+                }
             } else if (game.getClient().isConnected()) {
                 Level level = game.getSession().getLevel();
                 if (level != null) {
@@ -54,8 +59,12 @@ public class RichPresenceWorker extends Worker {
                     }
                 }
             } else {
-                presence.partySize = 0;
-                presence.state     = "Singleplayer";
+                String state = "Singleplayer";
+                if (!presence.state.equals(state)) {
+                    presence.partySize = 0;
+                    presence.state = state;
+                    rpc.Discord_UpdatePresence(presence);
+                }
             }
 
             rpc.Discord_RunCallbacks();

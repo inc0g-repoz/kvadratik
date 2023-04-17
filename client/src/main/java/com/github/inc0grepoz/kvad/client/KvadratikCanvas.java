@@ -6,10 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import com.github.inc0grepoz.kvad.client.awt.CanvasMenu;
-import com.github.inc0grepoz.kvad.client.awt.CanvasMenuTitle;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.gui.menu.CanvasMenu;
+import com.github.inc0grepoz.kvad.gui.menu.CanvasMenuTitle;
 import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
@@ -62,8 +62,8 @@ public class KvadratikCanvas extends Canvas {
             // Showing misc info
             if (miscInfo) {
                 g2d.drawString("FPS: " + fps.getFPS(), 10, 10);
-                g2d.drawString("Ren-ents: " + renEnts, 10, 25);
-                g2d.drawString("Res: " + getWidth() + "x" + getHeight(), 10, 40);
+                g2d.drawString("Res: " + getWidth() + "x" + getHeight(), 10, 25);
+                g2d.drawString("Ren-ents: " + renEnts, 10, 40);
             }
         }
 

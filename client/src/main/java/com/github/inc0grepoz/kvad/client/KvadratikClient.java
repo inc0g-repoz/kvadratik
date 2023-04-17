@@ -36,11 +36,17 @@ public class KvadratikClient extends Worker {
     }
 
     public boolean isConnected() {
-        return socket != null && socket.isConnected();
+        return socket != null && socket.isConnected() && !socket.isClosed();
     }
 
     public boolean isInfoProvided() {
         return nickname != null && host != null && port != 0;
+    }
+
+    public void setNickname(String nickname) {
+        if (nickname != null && !nickname.isEmpty() && nickname.matches("^\\w+$")) {
+            this.nickname = nickname;
+        }
     }
 
     public void queue(Packet packet) {
@@ -50,16 +56,16 @@ public class KvadratikClient extends Worker {
     }
 
     public void disconnect() {
-        if (socket != null) {
-            if (!socket.isClosed()) {
-                try {
-                    socket.close();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
+        if (isConnected()) {
+            try {
+                Packet.out(PacketType.CLIENT_DISCONNECT, " ").send(socket.getOutputStream());
+                socket.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
-            socket = null;
         }
+        queue.clear();
+        socket = null;
     }
 
     public void connect() throws UnknownHostException, IOException {
@@ -72,6 +78,16 @@ public class KvadratikClient extends Worker {
 
         socket = new Socket(host, port);
         Packet.out(PacketType.CLIENT_LOGIN, nickname).queue(this);
+    }
+
+    public void flushOut() {
+        for (Packet packet; (packet = queue.poll()) != null;) {
+            try {
+                packet.send(socket.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -143,16 +159,6 @@ public class KvadratikClient extends Worker {
                 Message message = new Message();
                 message.addComponent("Connection reset!", Color.RED);
                 chat.print(message);
-            }
-        }
-    }
-
-    public void flushOut() {
-        for (Packet packet; (packet = queue.poll()) != null;) {
-            try {
-                packet.send(socket.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
