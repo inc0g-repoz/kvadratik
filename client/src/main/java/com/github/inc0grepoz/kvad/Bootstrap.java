@@ -12,7 +12,7 @@ public class Bootstrap {
         KvadratikGame.INSTANCE.setTitle("kvadratik");
         KvadratikGame.INSTANCE.applyIcon("assets/icon.png");
         KvadratikGame.INSTANCE.setSize(640, 480);
-        KvadratikGame.INSTANCE.setResizable(true);
+        KvadratikGame.INSTANCE.setResizable(false);
         KvadratikGame.INSTANCE.setLocationRelativeTo(null);
         KvadratikGame.INSTANCE.setVisible(true);
     }
