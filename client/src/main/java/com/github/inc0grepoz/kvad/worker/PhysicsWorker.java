@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.worker;
 
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.Session;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.entities.being.Being;
@@ -10,10 +11,12 @@ import com.github.inc0grepoz.kvad.utils.TimeGap;
 public class PhysicsWorker extends Worker {
 
     private final KvadratikGame game;
+    private final Session session;
 
-    public PhysicsWorker(KvadratikGame game, long delay) {
+    public PhysicsWorker(KvadratikGame game, Session session, long delay) {
         super(delay);
         this.game = game;
+        this.session = session;
     }
 
     @Override
@@ -22,8 +25,7 @@ public class PhysicsWorker extends Worker {
             return;
         }
 
-        Level level = game.getLevel();
-
+        Level level = session.getLevel();
         if (level == null) {
             // TODO: Some menu code probably
             return;
@@ -45,6 +47,10 @@ public class PhysicsWorker extends Worker {
         }
 
         // TODO: AI
+
+        if (game.getSession() != session) {
+            kill();
+        }
     }
 
 }

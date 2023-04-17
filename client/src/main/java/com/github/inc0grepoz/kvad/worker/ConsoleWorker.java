@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.Session;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -15,9 +16,11 @@ public class ConsoleWorker extends Worker {
     private final String[] commandList = new String[] {
             "cam_follow",
             "cam_free",
+            "connect",
             "draw_colliders",
             "fps",
             "help",
+            "level",
             "log_keys",
             "log_packets",
             "teleport",
@@ -41,11 +44,11 @@ public class ConsoleWorker extends Worker {
 
         switch (command) {
             case "cam_follow":
-                game.getLevel().getCamera().mode = CameraMode.FOLLOW;
+                game.getSession().getLevel().getCamera().mode = CameraMode.FOLLOW;
                 Logger.info("Switched to default camera");
                 return;
             case "cam_free":
-                game.getLevel().getCamera().mode = CameraMode.FREE;
+                game.getSession().getLevel().getCamera().mode = CameraMode.FREE;
                 Logger.info("Switched to freecam");
                 return;
             case "draw_colliders":
@@ -69,7 +72,11 @@ public class ConsoleWorker extends Worker {
                 return;
         }
 
-        if (command.startsWith("fps ")) {
+        if (command.startsWith("connect ")) {
+            String ip = command.substring(8);
+            game.joinServer(ip);
+            return;
+        } else if (command.startsWith("fps ")) {
             try {
                 int cap = Integer.valueOf(command.substring(4));
                 game.getCanvas().setFrapsPerSecond(cap);
@@ -78,10 +85,19 @@ public class ConsoleWorker extends Worker {
                 Logger.error("Invalid value");
             }
             return;
+        } else if (command.startsWith("level ")) {
+            try {
+                String level = command.substring(6);
+                Logger.info("Loading " + level);
+                game.setSession(Session.loadLevel(level));
+            } catch (NumberFormatException nfe) {
+                Logger.error("Invalid level path");
+            }
+            return;
         } else if(command.startsWith("tick_delay ")) {
             try {
                 int cap = Integer.valueOf(command.substring(11));
-                game.getPhysics().setDelay(cap);
+                game.getSession().getPhysics().setDelay(cap);
                 Logger.info("Set tick delay capability to " + cap);
             } catch (NumberFormatException nfe) {
                 Logger.error("Invalid value");
@@ -91,7 +107,7 @@ public class ConsoleWorker extends Worker {
             try {
                 Integer[] args = Stream.of(command.substring(9).split(" "))
                         .map(Integer::valueOf).toArray(Integer[]::new);
-                game.getLevel().getPlayer().teleport(args[0], args[1]);
+                game.getSession().getLevel().getPlayer().teleport(args[0], args[1]);
                 Logger.info("Teleported to [" + args[0] + "," + args[1] + "]");
             } catch (Exception e) {
                 Logger.error("Invalid arguments");
@@ -100,7 +116,7 @@ public class ConsoleWorker extends Worker {
         } else if (command.startsWith("walk_speed ")) {
             try {
                 int speed = Integer.valueOf(command.substring(11));
-                game.getLevel().getPlayer().speed = speed;
+                game.getSession().getLevel().getPlayer().speed = speed;
                 Logger.info("Set FPS walking speed to " + speed);
             } catch (NumberFormatException nfe) {
                 Logger.error("Invalid value");

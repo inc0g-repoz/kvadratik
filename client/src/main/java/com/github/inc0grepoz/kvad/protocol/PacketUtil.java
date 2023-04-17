@@ -10,6 +10,7 @@ import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.Session;
 import com.github.inc0grepoz.kvad.entities.being.Anim;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.level.Level;
@@ -29,14 +30,14 @@ public class PacketUtil {
 
     public void outAnim() {
         if (game.getClient().isConnected()) {
-            String name = game.getLevel().getPlayer().getAnim().name();
+            String name = game.getSession().getLevel().getPlayer().getAnim().name();
             Packet.out(PacketType.CLIENT_PLAYER_ANIM, name).queue(game.getClient());
         }
     }
 
     public void outPoint(Being being, double moveX, double moveY) {
         if (!game.getClient().isConnected()
-                || being.getId() != game.getLevel().getPlayer().getId()) {
+                || being.getId() != game.getSession().getLevel().getPlayer().getId()) {
             return;
         }
 
@@ -60,7 +61,7 @@ public class PacketUtil {
         Anim anim = Anim.valueOf(map.get("anim"));
 
         // Looking for the desired being
-        Being being = game.getLevel().getBeings().stream()
+        Being being = game.getSession().getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
             being.applyAnim(anim);
@@ -96,7 +97,7 @@ public class PacketUtil {
 
     public void inBeingDespawn(Packet packet) {
         int id = Integer.valueOf(packet.string);
-        game.getLevel().getBeings().removeIf(being -> {
+        game.getSession().getLevel().getBeings().removeIf(being -> {
             return being.getId() == id;
         });
     }
@@ -109,7 +110,7 @@ public class PacketUtil {
         int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
         // Looking for the same being
-        Level level = game.getLevel();
+        Level level = game.getSession().getLevel();
         boolean hasOne = level.getBeings().stream()
                 .anyMatch(b -> b.getId() == id);
         if (hasOne) {
@@ -143,7 +144,7 @@ public class PacketUtil {
         int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
         // Looking for the same being
-        Level level = game.getLevel();
+        Level level = game.getSession().getLevel();
         Being being = level.getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being == null) {
@@ -164,7 +165,7 @@ public class PacketUtil {
         int id = idStr == null ? -1 : Integer.valueOf(idStr);
 
         // Looking for the same being
-        Being being = game.getLevel().getBeings().stream()
+        Being being = game.getSession().getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
             String type = map.get("type");
@@ -174,7 +175,7 @@ public class PacketUtil {
 
     public void inLevel(Packet packet) {
         Level level = JSON.fromJsonLevel(packet.string, true);
-        game.setLevel(level);
+        game.setSession(Session.loadLevel(level));
     }
 
     public void inPlayerMessage(Packet packet) {
@@ -194,7 +195,7 @@ public class PacketUtil {
         double y = Double.valueOf(map.get("y"));
 
         // Looking for the desired being
-        Being being = game.getLevel().getBeings().stream()
+        Being being = game.getSession().getLevel().getBeings().stream()
                 .filter(b -> b.getId() == id).findFirst().orElse(null);
         if (being != null) {
             being.teleport(x, y);
@@ -203,7 +204,7 @@ public class PacketUtil {
 
     public void inTransferControl(Packet packet) {
         int id = Integer.valueOf(packet.string);
-        Level level = game.getLevel();
+        Level level = game.getSession().getLevel();
         Being being = level.getBeings().stream()
                 .filter(b -> id == b.getId())
                 .findFirst().orElse(null);

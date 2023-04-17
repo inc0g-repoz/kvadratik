@@ -8,17 +8,16 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
+import com.github.inc0grepoz.kvad.client.awt.CanvasMouseListener;
+import com.github.inc0grepoz.kvad.client.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.gui.Message;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
-import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
-import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -36,9 +35,8 @@ public class KvadratikGame extends Frame implements Kvadratik {
     private final @Getter KvadratikCanvas canvas;
     private final @Getter KvadratikClient client;
     private final @Getter ConsoleWorker console;
-    private final @Getter PhysicsWorker physics;
 
-    private @Getter @Setter Level level;
+    private @Getter @Setter Session session;
 
     {
         if (INSTANCE != null) {
@@ -63,6 +61,8 @@ public class KvadratikGame extends Frame implements Kvadratik {
         canvas.setBackground(Color.BLACK);
         add(canvas);
         canvas.setFrapsPerSecond(60);
+        canvas.addMouseListener(new CanvasMouseListener(canvas));
+        canvas.addMouseMotionListener(new CanvasMouseMotionListener(canvas));
         canvas.getWorker().start();
 
         // Controls
@@ -72,40 +72,40 @@ public class KvadratikGame extends Frame implements Kvadratik {
         // Debug console
         console = new ConsoleWorker(this, 500L);
         console.start();
-
-        // Physics (default delay was 50L)
-        physics = new PhysicsWorker(this, 16L);
-        physics.start();
     }
 
+    @Override
     public void run() {
-        join: {
-            // Multiplayer client
-            if (client.isInfoProvided()) {
-                try {
-                    client.start();
-                    client.connect();
-                    break join;
-                } catch (UnknownHostException e1) {
-                    Logger.error("Unknown host");
+        loadLevel("assets/levels/whitespace.json");
+    }
 
-                    Message message = new Message();
-                    message.addComponent("Unknown host.", Color.RED);
-                    client.getChat().print(message);
-                } catch (IOException e1) {
-                    Logger.error("Unable to join the server");
+    public void loadLevel(String path) {
+        session = Session.loadLevel(path);
+    }
 
-                    Message message = new Message();
-                    message.addComponent("Unable to join the server.", Color.RED);
-                    client.getChat().print(message);
-                }
-            } else {
-                Logger.info("Nothing provided for the client");
+    public void joinServer(String host) {
+        if (client.isInfoProvided()) {
+            try {
+                String[] ip = host.split(":");
+                client.setHost(ip[0]);
+                client.setPort(ip.length > 1 ? Integer.valueOf(ip[1]) : 30405);
+                client.start();
+                client.connect();
+            } catch (UnknownHostException e1) {
+                Logger.error("Unknown host");
+
+                Message message = new Message();
+                message.addComponent("Unknown host.", Color.RED);
+                client.getChat().print(message);
+            } catch (IOException e1) {
+                Logger.error("Unable to join the server");
+
+                Message message = new Message();
+                message.addComponent("Unable to join the server.", Color.RED);
+                client.getChat().print(message);
             }
-
-            // Singleplayer
-            String levelJson = ASSETS.textFile("assets/levels/whitespace.json");
-            level = JSON.fromJsonLevel(levelJson, false);
+        } else {
+            Logger.info("Nothing provided for the client");
         }
     }
 

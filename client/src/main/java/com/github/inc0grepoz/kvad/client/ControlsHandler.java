@@ -34,11 +34,12 @@ public class ControlsHandler {
 
     public void onKeyPressed(Key key) {
         KvadratikGame game = controls.getGame();
-        Level level = game.getLevel();
+        Session session = game.getSession();
 
-        if (level == null) {
+        if (session == null) {
             // TODO: Some menu code here
         } else {
+            Level level = session.getLevel();
             Being player = level.getPlayer();
 
             if (player != null) {
@@ -51,10 +52,8 @@ public class ControlsHandler {
                         if (key == Key.ENTER) {
                             chat.typing = false;
                             chat.send(chat.draft);
-//                          chat.draft = null;
                         } else if (key == Key.ESCAPE) {
                             chat.typing = false;
-//                          chat.draft = null;
                         }
                         return;
                     } else if (key == Key.CHAT) {
@@ -122,15 +121,24 @@ public class ControlsHandler {
                     }
                 }
             }
+
+            // Exiting
+            if (key == Key.ESCAPE) {
+                if (game.getClient().isConnected()) {
+                    game.getClient().disconnect();
+                }
+                game.setSession(null);
+            }
         }
     }
 
     public void onKeyReleased(Key key) {
-        Level level = controls.getGame().getLevel();
+        Session session = controls.getGame().getSession();
 
-        if (level == null) {
+        if (session == null) {
             // TODO: Some menu code here
         } else {
+            Level level = session.getLevel();
             Being player = level.getPlayer();
 
             if (player != null) {

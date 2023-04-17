@@ -17,12 +17,12 @@ public abstract class Worker {
             while (running) {
                 try {
                     Thread.sleep(this.delay);
-                    executing = true;
-                    work();
-                    executing = false;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                executing = true;
+                work();
+                executing = false;
             }
         });
         thread.setName(getClass().getSimpleName());

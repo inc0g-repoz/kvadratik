@@ -21,6 +21,7 @@ import lombok.Setter;
 public class KvadratikClient extends Worker {
 
     private final Queue<Packet> queue = new LinkedList<>();
+    private final @Getter KvadratikGame game;
     private final @Getter PacketUtil packetUtil;
     private final @Getter Chat chat = new Chat(this);
 
@@ -30,6 +31,7 @@ public class KvadratikClient extends Worker {
 
     public KvadratikClient(KvadratikGame game, long delay) {
         super(delay);
+        this.game = game;
         packetUtil = new PacketUtil(game);
     }
 
@@ -135,7 +137,7 @@ public class KvadratikClient extends Worker {
                 Packet.out(PacketType.CLIENT_KEEP_ALIVE, " ").send(socket.getOutputStream());
             } catch (IOException e) {
                 disconnect();
-                KvadratikGame.INSTANCE.setLevel(null);
+                game.setSession(null);
                 Logger.error("Connection reset");
 
                 Message message = new Message();

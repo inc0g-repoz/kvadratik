@@ -1,6 +1,7 @@
 package com.github.inc0grepoz.kvad.worker;
 
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.Session;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -30,26 +31,31 @@ public class RichPresenceWorker extends Worker {
         presence.startTimestamp = System.currentTimeMillis() / 1000; // epoch second
         presence.endTimestamp   = 0;
         presence.largeImageKey  = "logo";
-        presence.details   = "";
-        presence.state     = "Singleplayer";
-        presence.partyMax  = 10;
+        presence.details  = "";
+        presence.state    = "Main Menu";
+        presence.partyMax = 10;
         rpc.Discord_UpdatePresence(presence);
     }
 
     @Override
     protected void work() {
         if (!Thread.currentThread().isInterrupted()) {
-            if (game.getClient().isConnected()) {
-                Level level = game.getLevel();
+            Session session = game.getSession();
+            if (session == null) {
+                presence.state = "Main Menu";
+            } else if (game.getClient().isConnected()) {
+                Level level = game.getSession().getLevel();
                 if (level != null) {
-                    int size = (int) game.getLevel().getBeings().stream()
-                            .filter(Being::hasName).count();
+                    int size = (int) level.getBeings().stream().filter(Being::hasName).count();
                     if (size != presence.partySize) {
                         presence.partySize = size;
                         presence.state     = "Multiplayer";
                         rpc.Discord_UpdatePresence(presence);
                     }
                 }
+            } else {
+                presence.partySize = 0;
+                presence.state     = "Singleplayer";
             }
 
             rpc.Discord_RunCallbacks();
