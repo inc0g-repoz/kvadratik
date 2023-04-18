@@ -15,8 +15,9 @@ public class CanvasMouseListener implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-        if (canvas.getMenu() != null) {
-            canvas.getMenu().click(event.getX(), event.getY());
+        CanvasMenu menu = canvas.getMenu();
+        if (menu != null) {
+            menu.click(event.getX(), event.getY());
         }
     }
 

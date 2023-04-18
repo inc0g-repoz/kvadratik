@@ -21,8 +21,9 @@ public class CanvasMouseMotionListener implements MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (canvas.getMenu() != null) {
-            canvas.getMenu().hover(e.getX(), e.getY());
+        CanvasMenu menu = canvas.getMenu();
+        if (menu != null) {
+            menu.hover(e.getX(), e.getY());
         }
     }
 

@@ -14,6 +14,7 @@ import com.github.inc0grepoz.kvad.utils.FrapsCounter;
 import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @SuppressWarnings("serial")
 public class KvadratikCanvas extends Canvas {
@@ -24,7 +25,7 @@ public class KvadratikCanvas extends Canvas {
     private final @Getter RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
-    private @Getter CanvasMenu menu;
+    private @Getter @Setter CanvasMenu menu;
 
     public KvadratikCanvas(KvadratikGame game, int x, int y) {
         this.game = game;

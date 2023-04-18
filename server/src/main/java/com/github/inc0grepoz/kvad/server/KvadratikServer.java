@@ -114,6 +114,7 @@ public class KvadratikServer implements Kvadratik {
         }
     }
 
+    @Override
     public void run() {
         workers.forEach(Worker::start);
     }

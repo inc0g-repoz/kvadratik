@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.inc0grepoz.kvad.client.KvadratikGame;
+
 import lombok.Getter;
 
 public abstract class CanvasMenu {
@@ -33,6 +35,7 @@ public abstract class CanvasMenu {
         for (CanvasButton button : buttons) {
             if (button.isAtPoint(x, y)) {
                 button.getCallback().run();
+                KvadratikGame.ASSETS.playSound("assets/sounds/gui_mouse_click.wav");
                 break;
             }
         }
@@ -40,7 +43,12 @@ public abstract class CanvasMenu {
 
     public void hover(int x, int y) {
         for (CanvasButton button : buttons) {
+            boolean wasSelected = button.isSelected();
             button.setSelected(button.isAtPoint(x, y));
+
+            if (!wasSelected && button.isSelected()) {
+                KvadratikGame.ASSETS.playSound("assets/sounds/gui_mouse_hover.wav");
+            }
         }
     }
 

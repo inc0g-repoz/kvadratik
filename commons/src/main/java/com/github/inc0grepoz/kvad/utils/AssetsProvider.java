@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class AssetsProvider {
 
@@ -35,6 +38,17 @@ public class AssetsProvider {
 
         Logger.error("Invalid file: " + ppp);
         return false;
+    }
+
+    public void playSound(String resourcePath) {
+        try {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass()
+                    .getClassLoader().getResource(resourcePath));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (Exception e) {
+        }
     }
 
     public BufferedImage image(String path) {

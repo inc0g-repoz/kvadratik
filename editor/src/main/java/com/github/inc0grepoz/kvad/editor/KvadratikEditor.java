@@ -85,6 +85,7 @@ public class KvadratikEditor extends Frame implements Kvadratik {
 //      pack();
     }
 
+    @Override
     public void run() {
         String levelJson = ASSETS.textFile("assets/levels/level.json");
         level = JSON.fromJsonLevel(this, levelJson, false);
