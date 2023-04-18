@@ -88,19 +88,9 @@ public class ConsoleWorker extends Worker {
         } else if (command.startsWith("level ")) {
             try {
                 String level = command.substring(6);
-                Logger.info("Loading " + level);
                 game.setSession(Session.loadLevel(level));
-            } catch (NumberFormatException nfe) {
+            } catch (Throwable t) {
                 Logger.error("Invalid level path");
-            }
-            return;
-        } else if(command.startsWith("tick_delay ")) {
-            try {
-                int cap = Integer.valueOf(command.substring(11));
-                game.getSession().getPhysics().setDelay(cap);
-                Logger.info("Set tick delay capability to " + cap);
-            } catch (NumberFormatException nfe) {
-                Logger.error("Invalid value");
             }
             return;
         } else if (command.startsWith("teleport ")) {
@@ -111,6 +101,15 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Teleported to [" + args[0] + "," + args[1] + "]");
             } catch (Exception e) {
                 Logger.error("Invalid arguments");
+            }
+            return;
+        } else if(command.startsWith("tick_delay ")) {
+            try {
+                int cap = Integer.valueOf(command.substring(11));
+                game.getSession().getPhysics().setDelay(cap);
+                Logger.info("Set tick delay capability to " + cap);
+            } catch (NumberFormatException nfe) {
+                Logger.error("Invalid value");
             }
             return;
         } else if (command.startsWith("walk_speed ")) {
