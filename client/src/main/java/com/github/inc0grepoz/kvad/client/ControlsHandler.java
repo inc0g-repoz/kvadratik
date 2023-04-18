@@ -8,8 +8,6 @@ import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.gui.Chat;
-import com.github.inc0grepoz.kvad.protocol.Packet;
-import com.github.inc0grepoz.kvad.protocol.PacketType;
 
 public class ControlsHandler {
 
