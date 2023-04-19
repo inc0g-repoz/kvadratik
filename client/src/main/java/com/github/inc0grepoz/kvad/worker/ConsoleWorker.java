@@ -24,7 +24,6 @@ public class ConsoleWorker extends Worker {
             "log_keys",
             "log_packets",
             "teleport",
-            "tick_delay",
             "view_misc",
             "walk_speed"
     };
