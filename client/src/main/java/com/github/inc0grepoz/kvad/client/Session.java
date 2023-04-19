@@ -8,7 +8,6 @@ import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.gui.Message;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
-import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;
 
@@ -47,12 +46,11 @@ public class Session {
         }
     }
 
-    private final @Getter PhysicsWorker physics = new PhysicsWorker(KvadratikGame.INSTANCE, this, 16L);
+    private final @Getter Physics physics = new Physics(this);
     private final @Getter Level level;
 
     private Session(Level level) {
         this.level = level;
-        physics.start();
     }
 
 }

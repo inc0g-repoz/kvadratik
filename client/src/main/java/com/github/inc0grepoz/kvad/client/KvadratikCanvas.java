@@ -49,6 +49,8 @@ public class KvadratikCanvas extends Canvas {
             }
             menu.render(g2d);
         } else {
+            session.getPhysics().tick();
+
             Level level = session.getLevel();
             Camera cam = level.getCamera();
 

@@ -103,15 +103,6 @@ public class ConsoleWorker extends Worker {
                 Logger.error("Invalid arguments");
             }
             return;
-        } else if(command.startsWith("tick_delay ")) {
-            try {
-                int cap = Integer.valueOf(command.substring(11));
-                game.getSession().getPhysics().setDelay(cap);
-                Logger.info("Set tick delay capability to " + cap);
-            } catch (NumberFormatException nfe) {
-                Logger.error("Invalid value");
-            }
-            return;
         } else if (command.startsWith("walk_speed ")) {
             try {
                 int speed = Integer.valueOf(command.substring(11));
