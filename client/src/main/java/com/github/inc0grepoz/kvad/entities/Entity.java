@@ -11,7 +11,7 @@ import lombok.Getter;
 public abstract class Entity {
 
     public boolean collide, move;
-    public int speed;
+    public double speed;
 
     private final @Getter Level level;
     private final Rectangle rect, coll;
@@ -44,7 +44,7 @@ public abstract class Entity {
                 .noneMatch(e -> e.getCollider().intersects(nextMinX, nextMinY, nextMaxX, nextMaxY));
     }
 
-    public boolean canMove(Way way, int speed) {
+    public boolean canMove(Way way, double speed) {
         return way != null && canMove(way.x * speed, way.y * speed);
     }
 
