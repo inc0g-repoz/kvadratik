@@ -86,8 +86,8 @@ public class ConsoleWorker extends Worker {
             return;
         } else if (command.startsWith("level ")) {
             try {
-                String level = command.substring(6);
-                game.setSession(Session.loadLevel(level));
+                String path = command.substring(6);
+                game.loadLevel(path);
             } catch (Throwable t) {
                 Logger.error("Invalid level path");
             }

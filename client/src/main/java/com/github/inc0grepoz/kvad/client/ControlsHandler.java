@@ -52,6 +52,9 @@ public class ControlsHandler {
 
                 if (menu != null && menu.getParent() != null) {
                     canvas.setMenu(menu.getParent());
+                } else {
+                    game.getClient().getChat().clear();
+                    canvas.mainMenu();
                 }
             }
         } else {
@@ -142,7 +145,9 @@ public class ControlsHandler {
             if (key == Key.ESCAPE) {
                 KvadratikClient client = game.getClient();
                 client.disconnect(); // If needed
+                client.getChat().clear();
                 game.setSession(null);
+                game.getCanvas().mainMenu();
             }
         }
     }

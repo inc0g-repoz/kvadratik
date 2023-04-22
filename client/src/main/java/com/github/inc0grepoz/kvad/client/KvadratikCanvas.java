@@ -44,10 +44,9 @@ public class KvadratikCanvas extends Canvas {
 
         Session session = game.getSession();
         if (session == null) {
-            if (menu == null) {
-                menu = new CanvasMenuTitle(this, g2d);
+            if (menu != null) {
+                menu.render(g2d);
             }
-            menu.render(g2d);
         } else {
             session.getPhysics().tick();
 
@@ -74,6 +73,10 @@ public class KvadratikCanvas extends Canvas {
 
         g2d.dispose();
         g.drawImage(image, 0, 0, cWidth, cHeight, this);
+    }
+
+    public void mainMenu() {
+        menu = new CanvasMenuTitle(this, getGraphics());
     }
 
 }

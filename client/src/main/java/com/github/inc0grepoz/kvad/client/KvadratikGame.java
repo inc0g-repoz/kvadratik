@@ -81,11 +81,12 @@ public class KvadratikGame extends Frame implements Kvadratik {
 
     public void loadLevel(String path) {
         canvas.setMenu(null);
-        client.getChat().clear();
+        client.disconnect(); // If needed
         session = Session.loadLevel(path);
     }
 
     public void joinServer(String host) {
+        canvas.setMenu(null);
         try {
             String[] ip = host.split(":");
             client.setHost(ip[0]);

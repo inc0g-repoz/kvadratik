@@ -13,7 +13,7 @@ public class CanvasMenuServer extends CanvasMenu {
     private CanvasItemTextField citfServerIp;
 
     public CanvasMenuServer(KvadratikCanvas canvas, Graphics buff) {
-        citfServerIp = addTextField("Enter the server IP:", "localhost");
+        citfServerIp = addTextField("Enter the server IP:", "127.0.0.1");
         addButton("Connect", () -> {
             KvadratikGame.INSTANCE.joinServer(citfServerIp.getContent());
             canvas.setMenu(null);

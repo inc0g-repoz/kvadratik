@@ -8,6 +8,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 public class RenderWorker extends Worker {
 
     private final KvadratikCanvas canvas;
+    private boolean graphicsValid;
 
     public RenderWorker(KvadratikCanvas canvas) {
         super(16L);
@@ -16,11 +17,15 @@ public class RenderWorker extends Worker {
 
     @Override
     protected void work() {
-        Graphics graphics = canvas.getGraphics();
-        if (graphics == null) {
+        Graphics gfx = canvas.getGraphics();
+        if (gfx == null) {
             Logger.error("Null graphics");
         } else {
-            canvas.paint(graphics);
+            if (!graphicsValid) {
+                graphicsValid = true;
+                canvas.mainMenu();
+            }
+            canvas.paint(gfx);
         }
     }
 
