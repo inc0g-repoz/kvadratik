@@ -80,6 +80,8 @@ public class KvadratikGame extends Frame implements Kvadratik {
     }
 
     public void loadLevel(String path) {
+        canvas.setMenu(null);
+        client.getChat().clear();
         session = Session.loadLevel(path);
     }
 

@@ -8,6 +8,7 @@ import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.gui.Chat;
+import com.github.inc0grepoz.kvad.gui.menu.CanvasMenu;
 
 public class ControlsHandler {
 
@@ -19,6 +20,7 @@ public class ControlsHandler {
 
     public void onKeyTyped(char kc) {
         Chat chat = controls.getGame().getClient().getChat();
+        CanvasMenu menu = controls.getGame().getCanvas().getMenu();
         if (chat.typing) {
             if (kc != '\u0008') {
                 if (chat.locked) {
@@ -29,6 +31,13 @@ public class ControlsHandler {
             } else if (chat.draft.length() != 0) {
                 chat.draft = chat.draft.substring(0, chat.draft.length() - 1);
             }
+        } else if (menu != null) {
+            if (kc != '\u0008') {
+                menu.type(kc);
+            } else {
+                menu.eraseChar();
+            }
+
         }
     }
 
@@ -37,7 +46,14 @@ public class ControlsHandler {
         Session session = game.getSession();
 
         if (session == null) {
-            // TODO: Some menu code here
+            if (key == Key.ESCAPE) {
+                KvadratikCanvas canvas = game.getCanvas();
+                CanvasMenu menu = canvas.getMenu();
+
+                if (menu != null && menu.getParent() != null) {
+                    canvas.setMenu(menu.getParent());
+                }
+            }
         } else {
             Level level = session.getLevel();
             Being player = level.getPlayer();

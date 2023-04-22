@@ -70,18 +70,9 @@ public class KvadratikCanvas extends Canvas {
             }
         }
 
-        KvadratikClient client = game.getClient();
-        if (client.isInfoProvided()) {
-            client.getChat().render(g2d);
-        }
-
-        // Console
-//      g2d.setColor(new Color(0, 0, 0, 127));
-//      g2d.fillRect(0, 0, cWidth, cHeight * 4 / 10);
+        game.getClient().getChat().render(g2d);
 
         g2d.dispose();
-//      int xOffset = (gWidth - 640) / 2, yOffset = (gHeight - 480) / 2;
-//      Image scaled = image.getScaledInstance(gWidth, gHeight, 0);
         g.drawImage(image, 0, 0, cWidth, cHeight, this);
     }
 

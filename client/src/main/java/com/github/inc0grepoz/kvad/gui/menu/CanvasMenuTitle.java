@@ -17,7 +17,9 @@ public class CanvasMenuTitle extends CanvasMenu {
             canvas.setMenu(null);
         });
         addButton("Multiplayer", () -> {
-            
+            CanvasMenuServer cmServer = new CanvasMenuServer(canvas, canvas.getGraphics());
+            cmServer.setParent(this);
+            canvas.setMenu(cmServer);
         });
         alignItems(canvas, buff);
     }
