@@ -16,6 +16,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import com.github.inc0grepoz.kvad.ksf.Script;
+import com.github.inc0grepoz.kvad.ksf.Variables;
+
 public class AssetsProvider {
 
     public String assetsParent;
@@ -101,6 +104,27 @@ public class AssetsProvider {
         Logger.error("Invalid text file: " + ppp);
         System.exit(0);
         return null;
+    }
+
+    public List<Script> scripts(String path, Variables vars) {
+        String ppp = getAssetsParent() + "scripts";
+        List<Script> scripts = new ArrayList<>();
+
+        File dir = new File(ppp);
+        if (!dir.isDirectory()) {
+            dir.mkdir();
+        }
+
+        File[] ksfArr = dir.listFiles(f -> f.isFile() && f.getName().endsWith(".ksf"));
+        Logger.info("Found " + ksfArr.length + " script(s)");
+
+        for (File ksf : ksfArr) {
+            Script script = Script.compile(ksf, vars);
+            scripts.add(script);
+            Logger.info("Compiled and loaded " + script.getName());
+        }
+
+        return scripts;
     }
 
     public Stream<String> listFiles(String path) {

@@ -8,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
@@ -25,7 +24,7 @@ import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import lombok.Getter;
 import lombok.Setter;
 
-public class KvadratikEditor extends Frame implements Kvadratik {
+public class KvadratikEditor extends Frame {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
@@ -85,11 +84,10 @@ public class KvadratikEditor extends Frame implements Kvadratik {
 //      pack();
     }
 
-    @Override
     public void run() {
-        String levelJson = ASSETS.textFile("assets/levels/level.json");
+        String levelJson = ASSETS.textFile("assets/levels/default.json");
         level = JSON.fromJsonLevel(this, levelJson, false);
-        level.setPath("assets/levels/level.json");
+        level.setPath("assets/levels/default.json");
     }
 
     public void applyIcon(String fileName) {

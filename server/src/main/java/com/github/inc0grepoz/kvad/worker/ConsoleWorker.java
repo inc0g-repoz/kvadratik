@@ -40,6 +40,12 @@ public class ConsoleWorker extends Worker {
                 Logger.info("Set packets logging to " + Boolean.toString(Packet.logging));
                 return;
             }
+            case "scripts": {
+                StringJoiner sjScripts = new StringJoiner(", ");
+                kvad.scripts.forEach(s -> sjScripts.add(s.getName()));
+                Logger.info(kvad.scripts.size() + " scripts: " + sjScripts.toString());
+                return;
+            }
             case "stats": {
                 StringJoiner sjStats = new StringJoiner("\n");
                 sjStats.add("Players: " + kvad.players.size());
