@@ -115,7 +115,8 @@ public class AssetsProvider {
             dir.mkdir();
         }
 
-        File[] ksfArr = dir.listFiles(f -> f.isFile() && f.getName().endsWith(".ksf"));
+        File[] ksfArr = dir.listFiles(f -> f.isFile()
+                && f.getName().toLowerCase().endsWith(Script.EXTENSION));
         Logger.info("Found " + ksfArr.length + " script(s)");
 
         for (File ksf : ksfArr) {

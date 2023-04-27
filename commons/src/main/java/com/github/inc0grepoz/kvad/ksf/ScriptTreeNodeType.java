@@ -1,97 +1,128 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
+
+import com.github.inc0grepoz.kvad.ksf.exp.ExpressionArguments;
+import com.github.inc0grepoz.kvad.ksf.var.Var;
+import com.github.inc0grepoz.kvad.ksf.var.VarXcs;
+import com.github.inc0grepoz.kvad.ksf.var.VarXcsField;
+import com.github.inc0grepoz.kvad.ksf.var.VarXcsMethod;
+
+@FunctionalInterface
+interface Compiler {
+    ScriptCompNode pass(Script script, ScriptTreeNode tn, VarPool varPool);
+}
 
 public enum ScriptTreeNodeType {
 
+    /* s  – script
+     * tn – tree node
+     * vp – varpool
+     */
     COMMENT(
-        n -> n.line.startsWith("//"),
-        n -> null
+        tn -> tn.line.startsWith("//"),
+        (s, tn, vp) -> null
     ),
     FOR(
-        n -> n.line.startsWith("for") && n.line.contains("(") && n.line.contains(")")
-          && n.line.matches("(for ?)\\(.+=.+;.+;.+\\)*"),
-        n -> null
+        tn -> tn.line.startsWith("for") && tn.line.contains("(") && tn.line.contains(")")
+           && tn.line.matches("(for ?)\\(.+=.+;.+;.+\\)*"),
+        (s, tn, vp) -> null
     ),
     FUN(
-        n -> n.line.startsWith("on ")
-          && n.line.matches("(on )(.+)\\(.+\\)*"),
-        n -> null
+        tn -> tn.line.startsWith("on ")
+           && tn.line.matches("(on )(.+)\\(.+\\)*"),
+        (s, tn, vp) -> null
     ),
     IF(
-        n -> n.line.startsWith("if") && n.line.contains("(") && n.line.contains(")")
-          && n.line.matches("(if ?)\\(.+\\)*"),
-        n -> null
+        tn -> tn.line.startsWith("if") && tn.line.contains("(") && tn.line.contains(")")
+           && tn.line.matches("(if ?)\\(.+\\)*"),
+        (s, tn, vp) -> null
     ),
     REF(
-        n -> n.line.contains("=")
-          && n.line.matches("(var )?(.+ ?)=( ?.+)")
-          && !n.line.matches("(.+)(for|if|while)(.+)"),
-        n -> null
+        tn -> tn.line.contains("=")
+           && tn.line.matches("(var )?(.+ ?)=( ?.+)")
+           && !tn.line.matches("(.+)(for|if|while)(.+)"),
+        (s, tn, vp) -> null
     ),
     VOID(
-        n -> n.line.contains(".") && !n.line.contains("=")
-          && n.line.contains("(") && n.line.contains(")")
-          && !n.line.matches("(.+)(for|if|while|on)(.+)"),
-        n -> {
-            ScriptCompNodeVoid comp = new ScriptCompNodeVoid();
+        tn -> tn.line.contains(".") && !tn.line.contains("=")
+           && tn.line.contains("(") && tn.line.contains(")")
+           && !tn.line.matches("(.+)(for|if|while|on)(.+)"),
+        (s, tn, vp) -> {
+            ScriptCompNodeVoid cn = new ScriptCompNodeVoid();
 
-            char[] chars = n.line.toCharArray();
-            boolean brace = false, quote = false;
-            boolean methodInvokation;
+            boolean quote = false, methodArgs = false;
+            char[] chars = tn.line.toCharArray();
+            int brackets = 0;
 
-            StringBuilder buffer = new StringBuilder();
+            String name = new String(), args = new String();
+            VarXcs varXcs = null;
 
             for (int i = 0; i < chars.length; i++) {
-                if (!quote && chars[i] == '.') {
-                    
-                }
-
-                // Braces for methods
-                if (!brace && !quote && chars[i] == '(') {
-//                    xs.methodInvokation = true; // 100% is a method
-                    brace = true;
-                } else if (brace && !quote && chars[i] == ')') {
-                    brace = false;
-                }
-
-                // For string values
-//                if (!xs.methodInvokation && chars[i] == '.') {}
-
-                if (chars[i] == '"') {
-                    if (chars[i - 1] == '\\') { // Quote is not a special symbol
-                        buffer.append(chars[i]);
-                        continue;
-                    } else if (!quote && chars[i - 1] == '"') { // Trailing quotes
-                        buffer.append(chars[i]);
+                if (
+                    !quote && brackets == 0 &&
+                    (chars[i] == '.' || chars[i] == ';')
+                ) {
+                    VarXcs nuXcs;
+                    if (methodArgs) {
+                        Var[] vars = ExpressionArguments.resolveWithComma(s.global, args);
+                        nuXcs = new VarXcsMethod(vp, name, vars);
+                        args = new String();
+                    } else {
+                        nuXcs = new VarXcsField(vp, name);
                     }
-                    quote = !quote;
+                    name = new String();
+
+                    if (varXcs == null) {
+                        varXcs = nuXcs;
+                    } else {
+                        varXcs = varXcs.nextXcs = nuXcs;
+                    }
+                    continue;
+                }
+
+                if (chars[i] == '(' && !quote) {
+                    if (brackets == 0) {
+                        methodArgs = true;
+                        continue; // 100% a method
+                    }
+                    brackets++;
+                }
+
+                if (chars[i] == ')' && !quote) {
+                    brackets--;
+                    if (brackets == 0) {
+                        methodArgs = false;
+                        continue; // Method invokation end
+                    }
+                }
+
+                if (methodArgs) {
+                    args += chars[i];
                 } else {
-//                    Variables.valueFromString(buffer.toString());
-                    buffer.append(chars[i]);
+                    name += chars[i];
                 }
             }
 
-            return comp;
+            return cn;
         }
     ),
     WHILE(
-        n -> n.line.startsWith("while")
-          && n.line.matches("(while ?)\\(.+\\)*"),
-        n -> null
+        tn -> tn.line.startsWith("while")
+           && tn.line.matches("(while ?)\\(.+\\)*"),
+        (s, tn, vp) -> null
     ),
     OTHER( // Needs to be in the end
-        n -> true,
-        n -> null
+        tn -> true,
+        (s, tn, vp) -> null
     );
 
     private final Predicate<ScriptTreeNode> pred;
-    private Function<ScriptTreeNode, ScriptCompNode> comp;
+    private Compiler comp;
 
     ScriptTreeNodeType(
         Predicate<ScriptTreeNode> pred,
-        Function<ScriptTreeNode, ScriptCompNode> comp
+        Compiler comp
     ) {
         this.pred = pred;
     }
@@ -100,8 +131,8 @@ public enum ScriptTreeNodeType {
         return pred.test(node);
     }
 
-    ScriptCompNode compile(ScriptTreeNode node) {
-        return comp.apply(node);
+    ScriptCompNode compile(Script script, ScriptTreeNode treeNode, VarPool varPool) {
+        return comp.pass(script, treeNode, varPool);
     }
 
 }

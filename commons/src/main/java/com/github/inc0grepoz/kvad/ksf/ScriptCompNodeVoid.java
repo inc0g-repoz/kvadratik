@@ -1,16 +1,14 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-import com.github.inc0grepoz.kvad.ksf.var.Var;
+import com.github.inc0grepoz.kvad.ksf.var.VarXcs;
 
 public class ScriptCompNodeVoid extends ScriptCompNode {
 
-//  final Queue<Access> qXcs = new LinkedList<>();
-    String varName;
+    VarXcs varXcs;
 
     @Override
-    void execute(VarPool varPool) {
-        Var var = varPool.get(varName);
-        
+    void execute(VarPool varPoolCopy) {
+        varXcs.getVar(varPoolCopy);
     }
 
 }

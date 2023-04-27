@@ -2,20 +2,23 @@ package com.github.inc0grepoz.kvad.ksf.var;
 
 import com.github.inc0grepoz.kvad.ksf.VarPool;
 
-public abstract class VarXcs extends Var {
+public abstract class VarXcs extends VarByName {
 
     public static Var resolve(String xcsStr) {
         return null;
     }
 
-    protected final String name;
-    protected final VarXcs nextXcs;
+    public VarXcs nextXcs;
 
-    VarXcs(VarPool varPool, String name, VarXcs nextXcs) {
-        this.name = name;
-        this.nextXcs = nextXcs;
+    VarXcs(VarPool varPool, String name) {
+        super(varPool, name);
     }
 
-    protected abstract VarXcs xcs(Var var);
+    @Override
+    public Var getVar(VarPool varPool) {
+        return xcs_r(varPool, null);
+    }
+
+    protected abstract Var xcs_r(VarPool varPool, Var var);
 
 }

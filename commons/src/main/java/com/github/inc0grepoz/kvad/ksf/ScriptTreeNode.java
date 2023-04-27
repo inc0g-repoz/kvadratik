@@ -28,25 +28,25 @@ public class ScriptTreeNode {
         return line;
     }
 
-    public ScriptCompNode compileRecursively() {
-        ScriptCompNode node = type.compile(null);
-        children.forEach(c -> c.compile(node));
+    ScriptCompNode compileRecursively(Script script, VarPool varPool) {
+        ScriptCompNode node = type.compile(script, this, varPool);
+        children.forEach(c -> c.compile(script, node, varPool));
         return node;
     }
 
-    public ScriptCompNode compile(ScriptCompNode parent) {
-        ScriptCompNode node = type.compile(this);
+    ScriptCompNode compile(Script script, ScriptCompNode parent, VarPool parentVarPool) {
+        ScriptCompNode node = type.compile(script, this, parentVarPool.copy());
         parent.children.add(node);
         node.parent = parent;
         return node;
     }
 
-    public void clearEmpty() {
+    void clearEmpty() {
         children.removeIf(n -> n.line.isEmpty());
         children.forEach(ScriptTreeNode::clearEmpty);
     }
 
-    public void defineType() {
+    void defineType() {
         for (ScriptTreeNodeType type : ScriptTreeNodeType.values()) {
             if (type.test(this)) {
                 this.type = type;
@@ -55,7 +55,7 @@ public class ScriptTreeNode {
         }
     }
 
-    public void defineTypesRecursively() {
+    void defineTypesRecursively() {
         defineType();
         children.forEach(ScriptTreeNode::defineTypesRecursively);
     }

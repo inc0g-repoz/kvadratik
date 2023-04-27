@@ -8,6 +8,8 @@ import lombok.Getter;
 
 public class Script {
 
+    public static final String EXTENSION = ".ksf";
+
     public static Script compile(File file, VarPool varPool) {
         ScriptTreeScript tree = new ScriptTreeScript(file);
 //      Logger.info(tree.toString());

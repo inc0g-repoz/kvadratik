@@ -6,21 +6,16 @@ public class VarXcsMethod extends VarXcs {
 
     private final Var[] args;
 
-    VarXcsMethod(VarPool varPool, String name, VarXcs nextXcs, Var... args) {
-        super(varPool, name, nextXcs);
+    public VarXcsMethod(VarPool varPool, String name, Var... args) {
+        super(varPool, name);
         this.args = args;
     }
 
     @Override
-    public Object getValue() {
-        
-        return null;
-    }
-
-    @Override
-    protected VarXcs xcs(Var var) {
-        // TODO Auto-generated method stub
-        return null;
+    protected Var xcs_r(VarPool varPool, Var var) {
+        Var passedVar = var == null ? varPool.get(name) : var;
+        Var xcssedVar = passedVar.methodVar(varPool, name, args);
+        return nextXcs == null ? xcssedVar : nextXcs.xcs_r(varPool, xcssedVar);
     }
 
 }
