@@ -3,39 +3,39 @@ package com.github.inc0grepoz.kvad.ksf;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class TreeNode {
+public class ScriptTreeNode {
 
     boolean quote, brace, curly;
     String line = new String();
 
-    TreeNode parent;
-    TreeNodeType type;
-    Queue<TreeNode> children = new LinkedList<>();
+    ScriptTreeNode parent;
+    ScriptTreeNodeType type;
+    Queue<ScriptTreeNode> children = new LinkedList<>();
 
     @Override
     public String toString() {
         String line = this.line + " [" + type.name() + "]\n";
 
-        TreeNode parent = this.parent;
+        ScriptTreeNode parent = this.parent;
         while (parent != null) {
             line = parent.line + " -> " + line;
             parent = parent.parent;
         }
 
-        for (TreeNode node : children) {
+        for (ScriptTreeNode node : children) {
             line += node.toString();
         }
         return line;
     }
 
-    public CompNode compileRecursively() {
-        CompNode node = type.compile(null);
+    public ScriptCompNode compileRecursively() {
+        ScriptCompNode node = type.compile(null);
         children.forEach(c -> c.compile(node));
         return node;
     }
 
-    public CompNode compile(CompNode parent) {
-        CompNode node = type.compile(this);
+    public ScriptCompNode compile(ScriptCompNode parent) {
+        ScriptCompNode node = type.compile(this);
         parent.children.add(node);
         node.parent = parent;
         return node;
@@ -43,11 +43,11 @@ public class TreeNode {
 
     public void clearEmpty() {
         children.removeIf(n -> n.line.isEmpty());
-        children.forEach(TreeNode::clearEmpty);
+        children.forEach(ScriptTreeNode::clearEmpty);
     }
 
     public void defineType() {
-        for (TreeNodeType type : TreeNodeType.values()) {
+        for (ScriptTreeNodeType type : ScriptTreeNodeType.values()) {
             if (type.test(this)) {
                 this.type = type;
                 break;
@@ -57,25 +57,25 @@ public class TreeNode {
 
     public void defineTypesRecursively() {
         defineType();
-        children.forEach(TreeNode::defineTypesRecursively);
+        children.forEach(ScriptTreeNode::defineTypesRecursively);
     }
 
-    TreeNode firstScopeMember() {
-        TreeNode first = new TreeNode();
+    ScriptTreeNode firstScopeMember() {
+        ScriptTreeNode first = new ScriptTreeNode();
         first.parent = this;
         children.add(first);
         return first;
     }
 
-    TreeNode nextScopeMember() {
-        TreeNode next = new TreeNode();
+    ScriptTreeNode nextScopeMember() {
+        ScriptTreeNode next = new ScriptTreeNode();
         next.parent = parent;
         parent.children.add(next);
         return next;
     }
 
-    TreeNode skipScopeMember() {
-        ((LinkedList<TreeNode>) parent.children).removeLast();
+    ScriptTreeNode skipScopeMember() {
+        ((LinkedList<ScriptTreeNode>) parent.children).removeLast();
         return nextScopeMember();
     }
 

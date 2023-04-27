@@ -17,7 +17,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import com.github.inc0grepoz.kvad.ksf.Script;
-import com.github.inc0grepoz.kvad.ksf.Variables;
+import com.github.inc0grepoz.kvad.ksf.VarPool;
 
 public class AssetsProvider {
 
@@ -106,7 +106,7 @@ public class AssetsProvider {
         return null;
     }
 
-    public List<Script> scripts(String path, Variables vars) {
+    public List<Script> scripts(String path, VarPool vars) {
         String ppp = getAssetsParent() + "scripts";
         List<Script> scripts = new ArrayList<>();
 

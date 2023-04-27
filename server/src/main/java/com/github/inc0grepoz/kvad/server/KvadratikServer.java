@@ -11,7 +11,7 @@ import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.ksf.Script;
-import com.github.inc0grepoz.kvad.ksf.Variables;
+import com.github.inc0grepoz.kvad.ksf.VarPool;
 import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
@@ -54,7 +54,7 @@ public class KvadratikServer {
         });
 
         // Compiling scripts
-        Variables vars = new Variables();
+        VarPool vars = new VarPool();
         vars.declare("kvad", this);
         scripts = ASSETS.scripts("scripts", vars);
 

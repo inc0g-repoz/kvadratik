@@ -6,11 +6,11 @@ import java.io.IOException;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class TreeScript {
+public class ScriptTreeScript {
 
-    TreeNode target = new TreeNode() {{ line = "root"; }};
+    ScriptTreeNode target = new ScriptTreeNode() {{ line = "root"; }};
 
-    public TreeScript(File file) {
+    public ScriptTreeScript(File file) {
         target = target.firstScopeMember();
 
         try {
@@ -34,7 +34,7 @@ public class TreeScript {
         target.defineTypesRecursively();
 
         Logger.info("Found " + target.children.size() + " members");
-        for (TreeNode member : target.children) {
+        for (ScriptTreeNode member : target.children) {
             Logger.info("- " + member.line);
         }
     }
