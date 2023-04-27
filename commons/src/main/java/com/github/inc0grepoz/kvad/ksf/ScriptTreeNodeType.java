@@ -61,7 +61,7 @@ public enum ScriptTreeNodeType {
             for (int i = 0; i < chars.length; i++) {
                 if (
                     !quote && brackets == 0 &&
-                    (chars[i] == '.' || chars[i] == ';')
+                    (chars[i] == '.' || i == chars.length)
                 ) {
                     VarXcs nuXcs;
                     if (methodArgs) {
