@@ -51,6 +51,7 @@ public enum ScriptTreeNodeType {
         (s, tn, vp) -> {
             ScriptCompNodeVoid cn = new ScriptCompNodeVoid();
 
+            // TODO: This whole thing needs to be in ExpressionArguments class
             boolean quote = false, methodArgs = false;
             char[] chars = tn.line.toCharArray();
             int brackets = 0;

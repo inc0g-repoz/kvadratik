@@ -26,11 +26,23 @@ public class ExpressionArguments {
         String localExp = exp.replaceAll(REGEX_OUTWARD_SPACES, "");
 
         // Removing brackets
+        /*
         if (localExp.charAt(0) == '(') {
             localExp = localExp.substring(1, localExp.length() - 1);
         }
         if (localExp.charAt(localExp.length() - 1) == ')') {
             localExp = localExp.substring(0, localExp.length() - 2);
+        }
+        */
+
+        char[] chars = exp.toCharArray();
+        boolean quote = false;
+        int brackets = 0;
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '.') {
+                
+            }
         }
 
         // TODO: no
