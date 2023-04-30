@@ -28,14 +28,14 @@ public class ScriptTreeNode {
         return line;
     }
 
-    ScriptCompNode compileRecursively(Script script, VarPool varPool) {
-        ScriptCompNode node = type.compile(script, this, varPool);
+    ScriptPipe compileRecursively(Script script, VarPool varPool) {
+        ScriptPipe node = type.compile(script, this, varPool);
         children.forEach(c -> c.compile(script, node, varPool));
         return node;
     }
 
-    ScriptCompNode compile(Script script, ScriptCompNode parent, VarPool parentVarPool) {
-        ScriptCompNode node = type.compile(script, this, parentVarPool.copy());
+    ScriptPipe compile(Script script, ScriptPipe parent, VarPool parentVarPool) {
+        ScriptPipe node = type.compile(script, this, parentVarPool.copy());
         parent.children.add(node);
         node.parent = parent;
         return node;

@@ -1,6 +1,7 @@
 package com.inc0grepoz.kvad.ksf;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
@@ -34,7 +35,9 @@ public class Bootstrap {
 
 
 
-        Logger.info(Boolean.parseBoolean("true && true"));
+        int[] a = {};
+        Object b = 0;
+        Logger.info(b.getClass().isArray());
 
 
 

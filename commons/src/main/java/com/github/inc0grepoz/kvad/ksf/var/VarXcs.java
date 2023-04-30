@@ -4,10 +4,6 @@ import com.github.inc0grepoz.kvad.ksf.VarPool;
 
 public abstract class VarXcs extends VarByName {
 
-    public static Var resolve(String xcsStr) {
-        return null;
-    }
-
     public VarXcs nextXcs;
 
     VarXcs(VarPool varPool, String name) {
