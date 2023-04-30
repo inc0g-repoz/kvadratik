@@ -35,14 +35,24 @@ public class Bootstrap {
 
 
 
-        int[] a = {};
-        Object b = 0;
-        Logger.info(b.getClass().isArray());
+        Object event = new Object() {
+            Object a = 1;
+        };
+        handler(event);
 
 
 
 //        ScriptTree tree = new ScriptTree("script.kcs");
 //        Logger.info("Script tree\n" + tree.toString());
+    }
+
+    public static void handler(Object event) {
+        try {
+            Object a = event.getClass().getDeclaredField("a").get(event);
+            Logger.info(a);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void test(Object i) {

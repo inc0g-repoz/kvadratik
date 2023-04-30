@@ -7,8 +7,8 @@ public class ScriptPipeVoid extends ScriptPipe {
     Var var; // Likely to be an instance of VarXcs
 
     @Override
-    void execute(VarPool varPoolCopy) {
-        var.getVar(varPoolCopy);
+    void execute(VarPool varPool) {
+        var.getVar(varPool);
     }
 
 }

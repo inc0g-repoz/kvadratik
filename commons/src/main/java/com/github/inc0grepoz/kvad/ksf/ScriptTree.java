@@ -6,11 +6,14 @@ import java.io.IOException;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptTreeScript {
+public class ScriptTree {
 
-    ScriptTreeNode target = new ScriptTreeNode() {{ line = "root"; }};
+    ScriptTreeNode target = new ScriptTreeNode() {{
+        line = "root";
+        type = ScriptTreeNodeType.ROOT;
+    }};
 
-    public ScriptTreeScript(File file) {
+    public ScriptTree(File file) {
         target = target.firstScopeMember();
 
         try {

@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.ksf;
 
 import java.io.File;
-import java.util.List;
 
 import lombok.Getter;
 
@@ -10,21 +9,27 @@ public class Script {
     public static final String EXTENSION = ".ksf";
 
     public static Script compile(File file, VarPool varPool) {
-        ScriptTreeScript tree = new ScriptTreeScript(file);
+        ScriptTree tree = new ScriptTree(file);
 //      Logger.info(tree.toString());
-        return new Script(file.getName(), tree, varPool);
+
+        // Compiling a pseudocode tree into a pipeline
+        Script script = new Script(file.getName(), tree, varPool);
+        script.pipeRoot = tree.target.compileRecursively(script, varPool);
+        script.pipeRoot.initHandlers();
+        return script;
     }
 
     final @Getter String name;
     final @Getter VarPool global;
-    final List<ScriptPipe> pipes;
+    ScriptPipeRoot pipeRoot;
 
-    private Script(String name, ScriptTreeScript tree, VarPool global) {
+    private Script(String name, ScriptTree tree, VarPool global) {
         this.name = name;
         this.global = global;
+    }
 
-        // Compiling a pseudocode tree into a pipeline
-        pipes = tree.target.compileRecursively(this, global).children;
+    public void fireEvent(String name, Object event) {
+        pipeRoot.findHandler(name).pass(global, event);
     }
 
 }

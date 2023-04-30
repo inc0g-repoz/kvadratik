@@ -28,8 +28,8 @@ public class ScriptTreeNode {
         return line;
     }
 
-    ScriptPipe compileRecursively(Script script, VarPool varPool) {
-        ScriptPipe node = type.compile(script, this, varPool);
+    ScriptPipeRoot compileRecursively(Script script, VarPool varPool) {
+        ScriptPipeRoot node = (ScriptPipeRoot) type.compile(script, this, varPool);
         children.forEach(c -> c.compile(script, node, varPool));
         return node;
     }
@@ -47,6 +47,9 @@ public class ScriptTreeNode {
     }
 
     void defineType() {
+        if (type != null) {
+            return;
+        }
         for (ScriptTreeNodeType type : ScriptTreeNodeType.values()) {
             if (type.test(this)) {
                 this.type = type;
