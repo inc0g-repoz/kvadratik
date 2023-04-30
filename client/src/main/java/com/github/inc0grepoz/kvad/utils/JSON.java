@@ -26,7 +26,6 @@ public class JSON {
         JsonObject jSettings = JsonParser.parseString(json).getAsJsonObject();
         if (!game.getClient().isInfoProvided()) {
             String profileName = jSettings.getAsJsonObject("profile").get("name").getAsString();
-            Logger.info(profileName);
             game.getClient().setNickname(profileName);
         }
     }
