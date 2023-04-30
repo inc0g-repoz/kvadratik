@@ -42,8 +42,8 @@ public class ConsoleWorker extends Worker {
             }
             case "scripts": {
                 StringJoiner sjScripts = new StringJoiner(", ");
-                kvad.scripts.forEach(s -> sjScripts.add(s.getName()));
-                Logger.info(kvad.scripts.size() + " scripts: " + sjScripts.toString());
+                kvad.scripts.getScripts().forEach(s -> sjScripts.add(s.getName()));
+                Logger.info(kvad.scripts.getScripts().size() + " scripts: " + sjScripts.toString());
                 return;
             }
             case "stats": {

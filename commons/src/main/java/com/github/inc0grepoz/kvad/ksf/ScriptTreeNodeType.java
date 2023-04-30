@@ -23,7 +23,10 @@ public enum ScriptTreeNodeType {
     EVENT(
         tn -> tn.line.startsWith("on ")
            && tn.line.matches("(on )(.+)\\(.+\\)*"),
-        (s, tn, vp) -> new ScriptPipeMissing()
+        (s, tn, vp) -> {
+            String[] args = tn.line.split("(^on )|\\(|\\)");
+            return new ScriptPipeEvent(args[1], args[2]);
+        }
     ),
     FOR(
         tn -> tn.line.startsWith("for") && tn.line.contains("(") && tn.line.contains(")")
@@ -50,9 +53,9 @@ public enum ScriptTreeNodeType {
            && tn.line.contains("(") && tn.line.contains(")")
            && !tn.line.matches("(.+)(for|if|while|on)(.+)"),
         (s, tn, vp) -> {
-            ScriptPipeVoid cn = new ScriptPipeVoid();
-            cn.var = ExpressionAccess.resolve(s.global, tn.line);
-            return cn;
+            ScriptPipeVoid pipe = new ScriptPipeVoid();
+            pipe.var = ExpressionAccess.resolve(s.global, tn.line);
+            return pipe;
         }
     ),
     WHILE(

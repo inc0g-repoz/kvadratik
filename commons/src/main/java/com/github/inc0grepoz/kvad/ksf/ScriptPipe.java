@@ -6,7 +6,8 @@ import java.util.List;
 public abstract class ScriptPipe {
 
     ScriptPipe parent;
-    List<ScriptPipe> children = new LinkedList<>();
+
+    final List<ScriptPipe> children = new LinkedList<>();
 
     abstract void execute(VarPool varPool);
 

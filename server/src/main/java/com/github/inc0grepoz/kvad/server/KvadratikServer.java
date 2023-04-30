@@ -5,24 +5,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.ksf.Script;
-import com.github.inc0grepoz.kvad.ksf.VarPool;
 import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.utils.ScriptManager;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import com.github.inc0grepoz.kvad.worker.PacketHandler;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 import com.github.inc0grepoz.kvad.worker.SocketAcceptor;
 import com.github.inc0grepoz.kvad.worker.Worker;
 
-public class KvadratikServer {
+public class KvadratikServer implements Kvadratik {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
@@ -32,8 +32,8 @@ public class KvadratikServer {
     public final List<Level> levels = new ArrayList<>();
     public final List<Player> players = new ArrayList<>();
     public final List<Connection> connections = new ArrayList<>();
-    public final List<Script> scripts;
 
+    public final ScriptManager scripts = new ScriptManager(this);
     public final PacketUtil packetUtil = new PacketUtil(this);
     public final Settings settings;
 
@@ -54,9 +54,7 @@ public class KvadratikServer {
         });
 
         // Compiling scripts
-        VarPool vars = new VarPool();
-        vars.declare("kvad", this);
-        scripts = ASSETS.scripts("scripts", vars);
+        scripts.loadScripts();
 
         // Loading the server settings
         String settingsJson = ASSETS.textFile("settings.json");
@@ -66,6 +64,11 @@ public class KvadratikServer {
         workers.add(new PacketHandler(this));
         workers.add(new PhysicsWorker(this, 50));
         workers.add(new SocketAcceptor(this, settings.port));
+    }
+
+    @Override
+    public AssetsProvider getAssetsProvider() {
+        return ASSETS;
     }
 
     public Level getLevelByName(String name) {

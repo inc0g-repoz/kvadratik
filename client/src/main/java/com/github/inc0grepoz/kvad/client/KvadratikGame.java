@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.gui.Message;
@@ -20,7 +21,7 @@ import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import lombok.Getter;
 import lombok.Setter;
 
-public class KvadratikGame extends Frame {
+public class KvadratikGame extends Frame implements Kvadratik {
 
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
@@ -71,6 +72,11 @@ public class KvadratikGame extends Frame {
         // Debug console
         console = new ConsoleWorker(this, 500L);
         console.start();
+    }
+
+    @Override
+    public AssetsProvider getAssetsProvider() {
+        return ASSETS;
     }
 
     public void run() {
