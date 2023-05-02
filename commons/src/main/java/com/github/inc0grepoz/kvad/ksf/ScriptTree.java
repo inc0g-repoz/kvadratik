@@ -13,7 +13,7 @@ public class ScriptTree {
         type = ScriptTreeNodeType.ROOT;
     }};
 
-    public ScriptTree(File file) {
+    ScriptTree(File file) {
         target = target.firstScopeMember();
 
         try {

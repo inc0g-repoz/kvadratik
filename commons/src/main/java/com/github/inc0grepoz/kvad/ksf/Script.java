@@ -25,13 +25,13 @@ public class Script {
         this.global = global;
 
         // Compiling a pseudocode tree into a pipeline
-        pipeRoot = tree.target.compileRecursively(this, global);
+        pipeRoot = tree.target.compileRecursively(global);
         pipeRoot.initHandlers();
         Logger.info("Found " + pipeRoot.handlers.size() + " handlers");
     }
 
-    public void fireEvent(String name, Object event) {
-        pipeRoot.findHandler(name).pass(global, event);
+    void handleEvent(String name, Object event) {
+        pipeRoot.streamHandlers(name).forEach(e -> e.pass(global, event));
     }
 
 }

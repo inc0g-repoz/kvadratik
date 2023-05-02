@@ -35,24 +35,14 @@ public class Bootstrap {
 
 
 
-        Object event = new Object() {
-            Object a = 1;
-        };
-        handler(event);
+        String line = "if (expression())  ";
+        String sub = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')'));
+        Logger.info(sub);
 
 
 
 //        ScriptTree tree = new ScriptTree("script.kcs");
 //        Logger.info("Script tree\n" + tree.toString());
-    }
-
-    public static void handler(Object event) {
-        try {
-            Object a = event.getClass().getDeclaredField("a").get(event);
-            Logger.info(a);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void test(Object i) {

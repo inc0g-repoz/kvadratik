@@ -2,6 +2,7 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
@@ -9,14 +10,14 @@ public class ScriptPipeRoot extends ScriptPipe {
 
     List<ScriptPipeEvent> handlers;
 
-    public ScriptPipeEvent findHandler(String name) {
-        return handlers.stream().filter(p -> p.event.equals(name))
-                .findFirst().orElse(null);
+    Stream<ScriptPipeEvent> streamHandlers(String name) {
+        return handlers.stream().filter(p -> p.event.equals(name));
     }
 
     @Override
-    void execute(VarPool varPool) {
+    boolean execute(VarPool varPool) {
         Logger.error("Tried to execute a script pipe root");
+        return false;
     }
 
     void initHandlers() {

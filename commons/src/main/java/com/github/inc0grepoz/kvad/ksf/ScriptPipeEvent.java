@@ -11,9 +11,8 @@ public class ScriptPipeEvent extends ScriptPipe {
     }
 
     @Override
-    void execute(VarPool varPool) {
-        VarPool vpCopy = varPool.copy();
-        children.forEach(p -> p.execute(vpCopy));
+    boolean execute(VarPool varPool) {
+        return executeChildren(varPool);
     }
 
     void pass(VarPool global, Object event) {

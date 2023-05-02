@@ -5,8 +5,9 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 public class ScriptPipeMissing extends ScriptPipe {
 
     @Override
-    void execute(VarPool varPool) {
+    boolean execute(VarPool varPool) {
         Logger.error("Tried to execute a non-implemented script pipe");
+        return false;
     }
 
 }
