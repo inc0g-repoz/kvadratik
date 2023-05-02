@@ -56,12 +56,16 @@ public class ScriptTree {
                 return;
             }
             case '(': {
-                target.brace = true;
+                if (!target.quote) {
+                    target.brackets++;
+                }
                 target.write(c);
                 return;
             }
             case ')': {
-                target.brace = false;
+                if (!target.quote) {
+                    target.brackets--;
+                }
                 target.write(c);
                 return;
             }
@@ -90,7 +94,7 @@ public class ScriptTree {
                 return;
             }
             case ';': {
-                if (target.brace || target.quote) {
+                if (target.brackets != 0 || target.quote) {
                     target.write(c);
                 } else {
                     target = target.nextScopeMember();
@@ -98,7 +102,7 @@ public class ScriptTree {
                 return;
             }
             default: {
-                if (!target.brace && !target.quote && target.line.isEmpty()
+                if (target.brackets == 0 && !target.quote && target.line.isEmpty()
                         && Character.isWhitespace(c)) {
                     return;
                 }

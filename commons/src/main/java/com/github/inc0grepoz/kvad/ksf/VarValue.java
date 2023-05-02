@@ -1,10 +1,8 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-import lombok.Getter;
-
 public class VarValue extends Var {
 
-    private final @Getter Object value;
+    Object value;
 
     VarValue(Object value) {
         this.value = value;
@@ -13,6 +11,11 @@ public class VarValue extends Var {
     @Override
     Var getVar(VarPool varPool) {
         return this;
+    }
+
+    @Override
+    public Object getValue(VarPool varPool) {
+        return value;
     }
 
 }

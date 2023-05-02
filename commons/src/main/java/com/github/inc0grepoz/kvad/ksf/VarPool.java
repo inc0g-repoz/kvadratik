@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class VarPool {
 
-    private final Map<String, Var> vars = new HashMap<>();
+    private final Map<String, VarValue> vars = new HashMap<>();
 
     void declare(String name, Object value) {
         vars.put(name, new VarValue(value));
@@ -15,7 +15,7 @@ public class VarPool {
         vars.remove(name);
     }
 
-    Var get(String name) {
+    VarValue get(String name) {
         return vars.getOrDefault(name, null);
     }
 

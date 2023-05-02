@@ -3,6 +3,8 @@ package com.github.inc0grepoz.kvad.ksf;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.inc0grepoz.kvad.utils.Logger;
+
 public class Expressions {
 
     private static final String REGEX_OUTWARD_SPACES = "(^(\t| )+)|((\t| )+$)";
@@ -13,11 +15,8 @@ public class Expressions {
     public static Var resolveXcs(String argExp) {
         String exp = argExp.replaceAll(REGEX_OUTWARD_SPACES, "");
 
-        if (exp.charAt(0) == '(') {
+        if (exp.charAt(0) == '(' && exp.charAt(exp.length() - 1) == ')') {
             exp = exp.substring(1, exp.length() - 1);
-        }
-
-        if (exp.charAt(exp.length() - 1) == ')') {
             exp = exp.substring(0, exp.length() - 2);
         }
 
@@ -39,14 +38,14 @@ public class Expressions {
         int brackets = 0;
 
         StringBuilder name = new StringBuilder(), args = new StringBuilder();
-        VarXcs varXcs = null;
+        VarXcs firstXcs = null, lastXcs = null;
 
         for (int i = 0; i < chars.length; i++) {
             // Not reading any string values here
             if (!quote) {
                 if (chars[i] == '.' || i == chars.length - 1) {
                     VarXcs nuXcs;
-                    if (methodArgs) {
+                    if (args.length() != 0) {
                         Var[] vars = resolveXcsBrackets(args.toString());
                         nuXcs = new VarXcsMethod(name.toString(), vars);
                         args.setLength(0);
@@ -55,10 +54,12 @@ public class Expressions {
                     }
                     name.setLength(0);
 
-                    if (varXcs == null) {
-                        varXcs = nuXcs;
+                    if (firstXcs == null) {
+                        firstXcs = nuXcs;
+                        lastXcs = nuXcs;
                     } else {
-                        varXcs = varXcs.nextXcs = nuXcs;
+                        lastXcs.nextXcs = nuXcs;
+                        lastXcs = nuXcs;
                     }
                     continue;
                 }
@@ -88,7 +89,7 @@ public class Expressions {
             }
         }
 
-        return varXcs;
+        return firstXcs;
     }
 
     public static Var[] resolveXcsBrackets(String args) {
@@ -122,10 +123,9 @@ public class Expressions {
             }
 
             if (brackets == 0 && !quote) {
+                arg.append(chars[i]);
                 if (chars[i] == ',' || i == last) {
                     elts.add(resolveXcs(arg.toString()));
-                } else {
-                    arg.append(chars[i]);
                 }
             }
         }

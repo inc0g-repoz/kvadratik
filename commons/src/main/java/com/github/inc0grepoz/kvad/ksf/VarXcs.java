@@ -15,6 +15,11 @@ public abstract class VarXcs extends Var {
         return xcs_r(varPool, null);
     }
 
-    abstract Var xcs_r(VarPool varPool, Var var);
+    @Override
+    Object getValue(VarPool varPool) {
+        return getVar(varPool).getValue(varPool);
+    }
+
+    abstract VarValue xcs_r(VarPool varPool, VarValue var);
 
 }

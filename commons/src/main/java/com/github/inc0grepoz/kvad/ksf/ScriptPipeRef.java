@@ -15,13 +15,20 @@ public class ScriptPipeRef extends ScriptPipeXcs {
 
     @Override
     boolean execute(VarPool varPool) {
-        if (newVar && varPool.get(name) != null) {
-            Logger.error("Duplicate variable '" + name + "'");
-            return false;
+        if (newVar) {
+            if (varPool.get(name) != null) {
+                Logger.error("Duplicate variable '" + name + "'");
+                return false;
+            }
+            varPool.declare(name, var.getValue(varPool));
+        } else {
+            VarValue varVal = varPool.get(name);
+            if (varVal == null) {
+                Logger.error("Unknown variable '" + name + "'");
+                return false;
+            }
+            varVal.value = var.getValue(varPool);
         }
-
-        Object val = var.getValue(varPool);
-        varPool.declare(name, val);
         return true;
     }
 

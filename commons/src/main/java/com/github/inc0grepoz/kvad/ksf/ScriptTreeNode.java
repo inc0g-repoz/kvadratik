@@ -5,12 +5,14 @@ import java.util.Queue;
 
 public class ScriptTreeNode {
 
-    boolean quote, brace, curly;
+    boolean quote, curly, oneChild;
+    int brackets;
     String line = new String();
 
     ScriptTreeNode parent;
     ScriptTreeNodeType type;
-    Queue<ScriptTreeNode> children = new LinkedList<>();
+
+    final Queue<ScriptTreeNode> children = new LinkedList<>();
 
     @Override
     public String toString() {
@@ -43,25 +45,19 @@ public class ScriptTreeNode {
         children.forEach(ScriptTreeNode::clearEmpty);
     }
 
-    void defineType() {
-        if (type != null) {
-            return;
-        }
-        for (ScriptTreeNodeType type : ScriptTreeNodeType.values()) {
-            if (type.test(this)) {
-                this.type = type;
-                break;
-            }
-        }
-    }
-
     void defineTypesRecursively() {
-        defineType();
+        if (type == null) {
+            type = ScriptTreeNodeType.of(this);
+        }
         children.forEach(ScriptTreeNode::defineTypesRecursively);
     }
 
     void write(char c) {
         line += c;
+    }
+
+    long countChars(char ch) {
+        return line.chars().filter(c -> c == ch).count();
     }
 
     ScriptTreeNode firstScopeMember() {

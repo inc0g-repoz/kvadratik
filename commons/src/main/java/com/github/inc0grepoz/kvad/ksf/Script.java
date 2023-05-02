@@ -30,6 +30,11 @@ public class Script {
         Logger.info("Found " + pipeRoot.handlers.size() + " handlers");
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     void handleEvent(String name, Object event) {
         pipeRoot.streamHandlers(name).forEach(e -> e.pass(global, event));
     }

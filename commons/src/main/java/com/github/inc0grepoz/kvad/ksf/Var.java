@@ -17,7 +17,7 @@ public abstract class Var {
         return null;
     }
 
-    Var fieldVar(VarPool varPool, String field) {
+    VarValue fieldVar(VarPool varPool, String field) {
         return new VarValue(fieldObject(varPool, field));
     }
 
@@ -34,14 +34,12 @@ public abstract class Var {
         return null;
     }
 
-    Var methodVar(VarPool varPool, String method, Var... varArgs) {
+    VarValue methodVar(VarPool varPool, String method, Var... varArgs) {
         Object[] args = Stream.of(varArgs).map(v -> v.getValue(varPool)).toArray(Object[]::new);
         return new VarValue(methodObject(varPool, method, args));
     }
 
-    Object getValue(VarPool varPool) {
-        return getVar(varPool).getValue(varPool);
-    }
+    abstract Object getValue(VarPool varPool);
 
     abstract Var getVar(VarPool varPool);
 

@@ -1,9 +1,10 @@
 package com.inc0grepoz.kvad.ksf;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 
-import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.Kvadratik;
+import com.github.inc0grepoz.kvad.ksf.ScriptManager;
+import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 
 public class Bootstrap {
 
@@ -24,29 +25,16 @@ public class Bootstrap {
 
 
 
+        Kvadratik kvad = new Tester();
+        ScriptManager scriptMan = new ScriptManager(kvad);
+        scriptMan.loadScripts();
 
-/*      REGEX TEST
-        String string = "\t  one, two  , three";
-        string = string.replaceAll("(^(\t| )+)|((\t| )+$)", "").replaceAll(string, string);
-        String regex = "((\\t| )+)?,((\\t| )+)?| ";
-        String resolved = String.join("<here>", string.split(regex));
-        Logger.info(resolved);
-*/
-
-
-
-        String line = "if (expression())  ";
-        String sub = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')'));
-        Logger.info(sub);
-
-
-
-//        ScriptTree tree = new ScriptTree("script.kcs");
-//        Logger.info("Script tree\n" + tree.toString());
-    }
-
-    public static void test(Object i) {
-        Logger.info(i);
+        Object event = new Object() {
+            public void call(int a) {
+                System.out.println(a);
+            }
+        };
+        scriptMan.fireEvent("test", event);
     }
 
     public static void bench(Runnable... rArr) {
@@ -56,6 +44,17 @@ public class Bootstrap {
             rArr[i].run();
             System.out.println(System.currentTimeMillis() - a);
         }
+    }
+
+}
+
+class Tester implements Kvadratik {
+
+    AssetsProvider assets = new AssetsProvider();
+
+    @Override
+    public AssetsProvider getAssetsProvider() {
+        return assets;
     }
 
 }

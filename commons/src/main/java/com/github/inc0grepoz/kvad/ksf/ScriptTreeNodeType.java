@@ -11,39 +11,36 @@ interface Compiler {
 
 public enum ScriptTreeNodeType {
 
-    /* 
-     * tn – tree node
-     * vp – varpool
-     */
     COMMENT(
+        null, null,
         tn -> tn.line.startsWith("//"),
         tn -> new ScriptPipeMissing()
     ),
     EVENT(
-        tn -> tn.line.startsWith("on ")
-           && tn.line.matches("(on )(.+)\\(.+\\)*"),
+        "(" + Keyword.EVENT + " )(.+)\\(.+\\)*", null,
+        tn -> tn.line.startsWith(Keyword.EVENT + " "),
         tn -> {
-            String[] args = tn.line.split("(^on )|\\(|\\)");
+            String[] args = tn.line.split("(^" + Keyword.EVENT + " )|\\(|\\)");
             return new ScriptPipeEvent(args[1], args[2]);
         }
     ),
     FOR(
-        tn -> tn.line.startsWith("for") && tn.line.contains("(") && tn.line.contains(")")
-           && tn.line.matches("(for ?)\\(.+=.+;.+;.+\\)*"),
+        "(" + Keyword.FOR + " ?)\\(.+=.+;.+;.+\\)*", null,
+        tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")"),
         tn -> new ScriptPipeMissing()
     ),
     IF(
-        tn -> tn.line.startsWith("if") && tn.line.contains("(") && tn.line.contains(")")
-           && tn.line.matches("(if ?)\\(.+\\)*"),
+        "(" + Keyword.IF + " ?)\\(.+\\)*", null,
+        tn -> tn.line.startsWith(Keyword.IF.toString()) && tn.line.contains("(") && tn.line.contains(")"),
         tn -> {
             String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
             return new ScriptPipeConditional(Expressions.resolveXcs(exp));
         }
     ),
     REF(
-        tn -> tn.line.contains("=")
-           && tn.line.matches("(var )?(.+ ?)=( ?.+)")
-           && !tn.line.matches("(.+)(for|if|while)(.+)"),
+        "(" + Keyword.VAR + " )?(.+ ?)=( ?.+)",
+        "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + ")(.+)",
+        tn -> tn.line.contains("="),
         tn -> {
             String[] leftRight = tn.line.split(" ?= ?");
 
@@ -54,41 +51,58 @@ public enum ScriptTreeNodeType {
         }
     ),
     ROOT(
+        null, null,
         tn -> false,
         tn -> tn.parent == null ? new ScriptPipeRoot() : null
     ),
     WHILE(
-        tn -> tn.line.startsWith("while")
-           && tn.line.matches("(while ?)\\(.+\\)*"),
+        "(" + Keyword.WHILE + " ?)\\(.+\\)*", null,
+        tn -> tn.line.startsWith(Keyword.WHILE.toString()),
         tn -> {
             String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
             return new ScriptPipeWhile(Expressions.resolveXcs(exp));
         }
     ),
     XCS(
+        null, "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + "|" + Keyword.EVENT + ")(.+)",
         tn -> tn.line.contains(".") && !tn.line.contains("=")
-           && tn.line.contains("(") && tn.line.contains(")")
-           && !tn.line.matches("(.+)(for|if|while|on)(.+)"),
+           && tn.line.contains("(") && tn.line.contains(")"),
         tn -> new ScriptPipeXcs(Expressions.resolveXcs(tn.line))
     ),
     OTHER( // Needs to be in the end
+        null, null,
         tn -> true,
         tn -> new ScriptPipeMissing()
     );
 
+    static ScriptTreeNodeType of(ScriptTreeNode tn) {
+        for (ScriptTreeNodeType type : values()) {
+            if (type.test(tn)) {
+                return type;
+            }
+        }
+        return OTHER;
+    }
+
+    private final String regEx, notRegEx;
     private final Predicate<ScriptTreeNode> pred;
     private Compiler comp;
 
     ScriptTreeNodeType(
+        String regEx,
+        String notRegEx,
         Predicate<ScriptTreeNode> pred,
         Compiler comp
     ) {
+        this.regEx = regEx;
+        this.notRegEx = notRegEx;
         this.pred = pred;
         this.comp = comp;
     }
 
     boolean test(ScriptTreeNode node) {
-        return pred.test(node);
+        return pred.test(node) && (regEx != null ? node.line.matches(regEx) : true)
+                && (notRegEx != null ? !node.line.matches(notRegEx) : true);
     }
 
     ScriptPipe compile(ScriptTreeNode treeNode) {
