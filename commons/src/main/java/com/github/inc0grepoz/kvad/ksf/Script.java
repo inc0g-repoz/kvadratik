@@ -12,7 +12,7 @@ public class Script {
 
     public static Script compile(File file, VarPool varPool) {
         ScriptTree tree = new ScriptTree(file);
-//      Logger.info(tree.toString());
+        Logger.info(tree.toString());
         return new Script(file.getName(), tree, varPool);
     }
 
@@ -25,7 +25,7 @@ public class Script {
         this.global = global;
 
         // Compiling a pseudocode tree into a pipeline
-        pipeRoot = tree.target.compileRecursively(global);
+        pipeRoot = (ScriptPipeRoot) tree.target.compile_r(null);
         pipeRoot.initHandlers();
         Logger.info("Found " + pipeRoot.handlers.size() + " handlers");
     }

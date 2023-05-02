@@ -6,7 +6,7 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 @FunctionalInterface
 interface Compiler {
-    ScriptPipe pass(ScriptTreeNode tn, VarPool varPool);
+    ScriptPipe pass(ScriptTreeNode tn);
 }
 
 public enum ScriptTreeNodeType {
@@ -17,12 +17,12 @@ public enum ScriptTreeNodeType {
      */
     COMMENT(
         tn -> tn.line.startsWith("//"),
-        (tn, vp) -> new ScriptPipeMissing()
+        tn -> new ScriptPipeMissing()
     ),
     EVENT(
         tn -> tn.line.startsWith("on ")
            && tn.line.matches("(on )(.+)\\(.+\\)*"),
-        (tn, vp) -> {
+        tn -> {
             String[] args = tn.line.split("(^on )|\\(|\\)");
             return new ScriptPipeEvent(args[1], args[2]);
         }
@@ -30,21 +30,21 @@ public enum ScriptTreeNodeType {
     FOR(
         tn -> tn.line.startsWith("for") && tn.line.contains("(") && tn.line.contains(")")
            && tn.line.matches("(for ?)\\(.+=.+;.+;.+\\)*"),
-        (tn, vp) -> new ScriptPipeMissing()
+        tn -> new ScriptPipeMissing()
     ),
     IF(
         tn -> tn.line.startsWith("if") && tn.line.contains("(") && tn.line.contains(")")
            && tn.line.matches("(if ?)\\(.+\\)*"),
-        (tn, vp) -> {
+        tn -> {
             String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-            return new ScriptPipeIf(Expressions.resolveXcs(exp));
+            return new ScriptPipeConditional(Expressions.resolveXcs(exp));
         }
     ),
     REF(
         tn -> tn.line.contains("=")
            && tn.line.matches("(var )?(.+ ?)=( ?.+)")
            && !tn.line.matches("(.+)(for|if|while)(.+)"),
-        (tn, vp) -> {
+        tn -> {
             String[] leftRight = tn.line.split(" ?= ?");
 
             boolean newVar = leftRight[0].startsWith("var ");
@@ -55,22 +55,25 @@ public enum ScriptTreeNodeType {
     ),
     ROOT(
         tn -> false,
-        (tn, vp) -> tn.parent == null ? new ScriptPipeRoot() : null
+        tn -> tn.parent == null ? new ScriptPipeRoot() : null
     ),
     WHILE(
         tn -> tn.line.startsWith("while")
            && tn.line.matches("(while ?)\\(.+\\)*"),
-        (tn, vp) -> new ScriptPipeMissing()
+        tn -> {
+            String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
+            return new ScriptPipeWhile(Expressions.resolveXcs(exp));
+        }
     ),
     XCS(
         tn -> tn.line.contains(".") && !tn.line.contains("=")
            && tn.line.contains("(") && tn.line.contains(")")
            && !tn.line.matches("(.+)(for|if|while|on)(.+)"),
-        (tn, vp) -> new ScriptPipeXcs(Expressions.resolveXcs(tn.line))
+        tn -> new ScriptPipeXcs(Expressions.resolveXcs(tn.line))
     ),
     OTHER( // Needs to be in the end
         tn -> true,
-        (tn, vp) -> new ScriptPipeMissing()
+        tn -> new ScriptPipeMissing()
     );
 
     private final Predicate<ScriptTreeNode> pred;
@@ -88,9 +91,9 @@ public enum ScriptTreeNodeType {
         return pred.test(node);
     }
 
-    ScriptPipe compile(ScriptTreeNode treeNode, VarPool varPool) {
+    ScriptPipe compile(ScriptTreeNode treeNode) {
         Logger.info("Compiling " + treeNode.line + " [" + treeNode.type.name() + "]");
-        return comp.pass(treeNode, varPool);
+        return comp.pass(treeNode);
     }
 
 }

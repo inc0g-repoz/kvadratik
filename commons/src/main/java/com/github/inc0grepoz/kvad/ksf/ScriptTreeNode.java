@@ -28,16 +28,13 @@ public class ScriptTreeNode {
         return line;
     }
 
-    ScriptPipeRoot compileRecursively(VarPool varPool) {
-        ScriptPipeRoot node = (ScriptPipeRoot) type.compile(this, varPool);
-        children.forEach(c -> c.compile(node, varPool));
-        return node;
-    }
-
-    ScriptPipe compile(ScriptPipe parent, VarPool parentVarPool) {
-        ScriptPipe node = type.compile(this, parentVarPool.copy());
-        parent.children.add(node);
-        node.parent = parent;
+    ScriptPipe compile_r(ScriptPipe parent) {
+        ScriptPipe node = type.compile(this);
+        if (parent != null) {
+            parent.children.add(node);
+            node.parent = parent;
+        }
+        children.forEach(c -> c.compile_r(node));
         return node;
     }
 
@@ -63,6 +60,10 @@ public class ScriptTreeNode {
         children.forEach(ScriptTreeNode::defineTypesRecursively);
     }
 
+    void write(char c) {
+        line += c;
+    }
+
     ScriptTreeNode firstScopeMember() {
         ScriptTreeNode first = new ScriptTreeNode();
         first.parent = this;
@@ -80,10 +81,6 @@ public class ScriptTreeNode {
     ScriptTreeNode skipScopeMember() {
         ((LinkedList<ScriptTreeNode>) parent.children).removeLast();
         return nextScopeMember();
-    }
-
-    void write(char c) {
-        line += c;
     }
 
 }
