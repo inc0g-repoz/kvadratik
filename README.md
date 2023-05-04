@@ -8,7 +8,8 @@
 
 # What's this?
 kvadratik is a custom 2D game engine which only uses [java.awt] to render the in-game objects.
-Players are able to connect to your server that provides a direct link for downloading all necessary assets for joining it. 
+Players are able to connect to your server that provides a direct link for downloading all necessary assets for joining it.
+The worst possible custom script engine would enable writing JIT scripts for servers and clients and manage the very same entities that the running game (or server) instance does. Currently, at an early stage of development.
 
 # Say, I wanna build this thing?
 Simply run Maven with goals `clean package` for the root project.
