@@ -3,8 +3,6 @@ package com.github.inc0grepoz.kvad.ksf;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.inc0grepoz.kvad.utils.Logger;
-
 public class Expressions {
 
     private static final String REGEX_OUTWARD_SPACES = "(^(\t| )+)|((\t| )+$)";
@@ -21,7 +19,7 @@ public class Expressions {
         }
 
         if (Character.isDigit(exp.charAt(0))) {
-            return new VarValue(toNumber(exp));
+            return toNumberVarValue(exp);
         }
 
         if (exp.charAt(0) == '\"' && exp.charAt(exp.length() - 1) == '\"') {
@@ -133,11 +131,11 @@ public class Expressions {
         return elts.stream().toArray(Var[]::new);
     }
 
-    public static Var resolveBoolean(String exp) {
+    public static VarValue resolveBoolean(String exp) {
         return new VarValue(Boolean.getBoolean(exp));
     }
 
-    private static Var toNumber(String string) {
+    private static VarValue toNumberVarValue(String string) {
         try {
             return new VarValue(Integer.parseInt(string));
         } catch (Throwable t) {}

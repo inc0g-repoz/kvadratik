@@ -11,8 +11,7 @@ public class VarXcsMethod extends VarXcs {
 
     @Override
     VarValue xcs_r(VarPool varPool, VarValue var) {
-        VarValue passedVar = var == null ? varPool.get(name) : var;
-        VarValue xcssedVar = passedVar.methodVar(varPool, name, args);
+        VarValue xcssedVar = var.methodVar(varPool, name, args);
         return nextXcs == null ? xcssedVar : nextXcs.xcs_r(varPool, xcssedVar);
     }
 

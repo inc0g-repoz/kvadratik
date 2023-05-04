@@ -34,7 +34,17 @@ public class Bootstrap {
                 System.out.println(a);
             }
         };
-        scriptMan.fireEvent("test", event);
+        bench(
+        () -> {
+            scriptMan.fireEvent("test", event);
+        },
+        () -> {
+            scriptMan.fireEvent("test", event);
+        },
+        () -> {
+            scriptMan.fireEvent("test", event);
+        }
+        );
     }
 
     public static void bench(Runnable... rArr) {
@@ -42,7 +52,7 @@ public class Bootstrap {
         for (int i = 0; i < rArr.length; i++) {
             a = System.currentTimeMillis();
             rArr[i].run();
-            System.out.println(System.currentTimeMillis() - a);
+            System.out.println((System.currentTimeMillis() - a) + " ms");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.ksf;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
@@ -7,12 +8,22 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public abstract class Var {
 
+    private static String typeName(Object o) {
+        return o == null ? "a null value" : o.getClass().isAnonymousClass() ? "anonymous class instance" : o.getClass().getSimpleName();
+    }
+
     Object fieldObject(VarPool varPool, String field) {
         Object sv = getValue(varPool);
         try {
             return sv.getClass().getField(field).get(sv);
-        } catch (Throwable t) {
-            Logger.error("Unknown field " + field + " of " + sv.getClass().getSimpleName());
+        } catch (IllegalArgumentException e) {
+            Logger.error("Whatever fields have to do with arguments, but they are wrong");
+        } catch (IllegalAccessException e) {
+            Logger.error("Field " + field + " of " + typeName(sv) + " cannot be accessed");
+        } catch (NoSuchFieldException e) {
+            Logger.error("Unknown field " + field + " of " + typeName(sv));
+        } catch (SecurityException e) {
+            Logger.error("Field " + field + " of " + typeName(sv) + " cannot be accessed");
         }
         return null;
     }
@@ -25,11 +36,18 @@ public abstract class Var {
         Object sv = getValue(varPool);
         Method m = findMethod(sv, method, args.length);
         if (m == null) {
-            Logger.error("Unknown method " + method + " of " + sv.getClass().getSimpleName());
-        } else try {
-            return m.invoke(sv, args);
-        } catch (Throwable t) {
-            Logger.error("Failed to access " + method + " of " + sv.getClass().getSimpleName());
+            Logger.error("Unknown method " + method + " of " + typeName(sv));
+        } else {
+            m.setAccessible(true);
+            try {
+                return m.invoke(sv, args);
+            } catch (IllegalAccessException e) {
+                Logger.error("Failed to access " + method + " of " + typeName(sv));
+            } catch (IllegalArgumentException e) {
+                Logger.error("Called " + method + "(...) from " + typeName(sv) + " with invalid arguments");
+            } catch (InvocationTargetException e) {
+                Logger.error("Invalid method call target (" + typeName(sv) + ")");
+            }
         }
         return null;
     }
