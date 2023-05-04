@@ -1,4 +1,13 @@
+// Commenting
 on test(e) {
-    // Commenting
-    e.call(1);
+    var testVar = e;
+    testVar.call(2);
+
+    var str = "abc";
+    str = "bca";
+    e.log.info(str);
+
+    if (true) {
+        e.log.info("test 2");
+    }
 }

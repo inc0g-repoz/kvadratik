@@ -1,12 +1,20 @@
 package com.github.inc0grepoz.kvad.ksf;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
 public abstract class Var {
+
+    private static Method findMethod(Object value, String name, int argsCount) {
+        return Stream.of(value.getClass().getMethods())
+                .filter(m -> m.getParameterCount() == argsCount && m.getName().equals(name))
+                .findAny().orElse(null);
+    }
 
     private static String typeName(Object o) {
         return o == null ? "a null value" : o.getClass().isAnonymousClass() ? "anonymous class instance" : o.getClass().getSimpleName();
@@ -15,7 +23,13 @@ public abstract class Var {
     Object fieldObject(VarPool varPool, String field) {
         Object sv = getValue(varPool);
         try {
-            return sv.getClass().getField(field).get(sv);
+            Field f = sv.getClass().getField(field);
+            if (!Modifier.isPublic(f.getModifiers())) {
+                Logger.error("Tried to access a non-public field " + field + " of " + typeName(sv));
+            } else {
+                f.setAccessible(true);
+                return f.get(sv);
+            }
         } catch (IllegalArgumentException e) {
             Logger.error("Whatever fields have to do with arguments, but they are wrong");
         } catch (IllegalAccessException e) {
@@ -37,6 +51,8 @@ public abstract class Var {
         Method m = findMethod(sv, method, args.length);
         if (m == null) {
             Logger.error("Unknown method " + method + " of " + typeName(sv));
+        } else if (!Modifier.isPublic(m.getModifiers())) {
+            Logger.error("Tried to access a non-public method " + method + " of " + typeName(sv));
         } else {
             m.setAccessible(true);
             try {
@@ -60,11 +76,5 @@ public abstract class Var {
     abstract Object getValue(VarPool varPool);
 
     abstract Var getVar(VarPool varPool);
-
-    private Method findMethod(Object value, String name, int argsCount) {
-        return Stream.of(value.getClass().getMethods())
-                .filter(m -> m.getParameterCount() == argsCount && m.getName().equals(name))
-                .findAny().orElse(null);
-    }
 
 }

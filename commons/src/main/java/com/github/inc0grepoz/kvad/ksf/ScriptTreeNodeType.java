@@ -34,7 +34,7 @@ public enum ScriptTreeNodeType {
         tn -> tn.line.startsWith(Keyword.IF.toString()) && tn.line.contains("(") && tn.line.contains(")"),
         tn -> {
             String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-            return new ScriptPipeConditional(Expressions.resolveXcs(exp));
+            return new ScriptPipeConditional(Expressions.resolveVar(exp));
         }
     ),
     REF(
@@ -42,12 +42,12 @@ public enum ScriptTreeNodeType {
         "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + ")(.+)",
         tn -> tn.line.contains("="),
         tn -> {
-            String[] leftRight = tn.line.split(" ?= ?");
+            String[] leftRight = tn.line.split(" ?= ?", 2);
 
             boolean newVar = leftRight[0].startsWith("var ");
             String name = newVar ? leftRight[0].substring(4) : leftRight[0];
 
-            return new ScriptPipeRef(Expressions.resolveXcs(leftRight[1]), name, newVar);
+            return new ScriptPipeRef(Expressions.resolveVar(leftRight[1]), name, newVar);
         }
     ),
     ROOT(
@@ -60,14 +60,14 @@ public enum ScriptTreeNodeType {
         tn -> tn.line.startsWith(Keyword.WHILE.toString()),
         tn -> {
             String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-            return new ScriptPipeWhile(Expressions.resolveXcs(exp));
+            return new ScriptPipeWhile(Expressions.resolveVar(exp));
         }
     ),
     XCS(
         null, "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + "|" + Keyword.EVENT + ")(.+)",
         tn -> tn.line.contains(".") && !tn.line.contains("=")
            && tn.line.contains("(") && tn.line.contains(")"),
-        tn -> new ScriptPipeXcs(Expressions.resolveXcs(tn.line))
+        tn -> new ScriptPipeXcs(Expressions.resolveVar(tn.line))
     ),
     OTHER( // Needs to be in the end
         null, null,
