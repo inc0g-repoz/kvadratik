@@ -1,13 +1,12 @@
 // Commenting
 on test(e) {
     var testVar = e;
-    testVar.call(2);
+    var two = testVar.self().call(2);
+    e.log.info(two);
 
-    var str = "abc";
-    str = "bca";
-    e.log.info(str);
-
+    var str = "bca";
     if (true) {
-        e.log.info("test 2");
+        var l = e.log;
+        l.info("test 2");
     }
 }

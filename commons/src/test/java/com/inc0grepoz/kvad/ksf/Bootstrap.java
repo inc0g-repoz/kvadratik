@@ -10,31 +10,22 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 public class Bootstrap {
 
     public static void main(String[] args) throws IOException {
-/*      BENCHMARKING
-        bench(
-        () -> {
-            System.out.println("for (int i = 0; i < 0; i++)".matches("(for ?)\\((.+ .+ ?= ?.+);(.+);(.+)\\)"));
-        },
-        () -> {
-            System.out.println("for (int i = 0; i < 0; i++)".matches("(for ?)\\((.+ .+ ?= ?.+);(.+);(.+)\\)"));
-        },
-        () -> {
-            System.out.println("for (int i = 0; i < 0; i++)".matches("(for ?)\\((.+ .+ ?= ?.+);(.+);(.+)\\)"));
-        }
-        );
-        */
-
-
-
         Kvadratik kvad = new Tester();
         ScriptManager scriptMan = new ScriptManager(kvad);
         scriptMan.loadScripts();
 
         Object event = new Object() {
+
             public Logger log = new Logger();
-            public void call(int a) {
-                System.out.println(a);
+
+            public int call(int a) {
+                return a;
             }
+
+            public Object self() {
+                return this;
+            }
+
         };
         scriptMan.fireEvent("test", event);
     }

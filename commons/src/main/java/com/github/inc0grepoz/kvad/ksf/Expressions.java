@@ -3,8 +3,6 @@ package com.github.inc0grepoz.kvad.ksf;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.inc0grepoz.kvad.utils.Logger;
-
 public class Expressions {
 
     private static final String REGEX_OUTWARD_SPACES = "(^(\t| )+)|((\t| )+$)";
@@ -36,6 +34,10 @@ public class Expressions {
     }
 
     private static VarXcs resolveXcs(String exp) {
+
+        /* TODO: Several access instances need to be resolved as
+         * operands seperated by arithmetic and boolean operators */
+
         boolean quote = false, methodArgs = false;
         char[] chars = exp.toCharArray();
         int brackets = 0;
@@ -150,7 +152,7 @@ public class Expressions {
     }
 
     public static VarValue resolveBoolean(String exp) {
-        return new VarValue(Boolean.getBoolean(exp));
+        return new VarValue(Boolean.parseBoolean(exp));
     }
 
     private static VarValue toNumberVarValue(String string) {
