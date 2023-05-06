@@ -12,7 +12,6 @@ public class Script {
 
     public static Script compile(File file, VarPool varPool) {
         ScriptTree tree = new ScriptTree(file);
-        Logger.info(tree.toString());
         return new Script(file.getName(), tree, varPool);
     }
 
@@ -23,6 +22,10 @@ public class Script {
     private Script(String name, ScriptTree tree, VarPool global) {
         this.name = name;
         this.global = global;
+
+        // Converting string values into wrapped variables
+        tree.target.wrapStrings_r(null).forEach(global::declare);
+        Logger.info(tree.toString());
 
         // Compiling a pseudocode tree into a pipeline
         pipeRoot = (ScriptPipeRoot) tree.target.compile_r(null);

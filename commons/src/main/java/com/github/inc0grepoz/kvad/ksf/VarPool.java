@@ -7,6 +7,10 @@ public class VarPool {
 
     private final Map<String, VarValue> vars = new HashMap<>();
 
+    void declareAll(VarPool vp) {
+        vars.putAll(vp.vars);
+    }
+
     void declare(String name, Object value) {
         vars.put(name, new VarValue(value));
     }

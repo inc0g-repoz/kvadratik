@@ -49,6 +49,10 @@ public enum Operator {
         return new VarValue(r % 1 == 0 ? (int) r : r);
     });
 
+    static Operator inTheEnd(char[] chars, int pos) {
+        return null;
+    }
+
     final char[] nttn;
     final Evaluator eval;
 

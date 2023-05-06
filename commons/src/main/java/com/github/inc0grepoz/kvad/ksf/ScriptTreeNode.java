@@ -1,9 +1,15 @@
 package com.github.inc0grepoz.kvad.ksf;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScriptTreeNode {
+
+    private static final Pattern QUOTES = Pattern.compile("\"([^\"]*)\"");
 
     boolean quote, curly, oneChild;
     int brackets;
@@ -38,6 +44,27 @@ public class ScriptTreeNode {
         }
         children.forEach(c -> c.compile_r(node));
         return node;
+    }
+
+    Map<String, String> wrapStrings_r(Map<String, String> passedMap) {
+        Map<String, String> map = passedMap == null ? new HashMap<>() : passedMap;
+
+        if (!line.isEmpty()) {
+            Matcher matcher = QUOTES.matcher(line);
+            StringBuffer buff = new StringBuffer();
+            String varName;
+
+            while (matcher.find()) {
+                varName = "wstr_var" + map.size();
+                map.put(varName, matcher.group());
+                matcher.appendReplacement(buff, varName);
+            }
+            matcher.appendTail(buff);
+            line = buff.toString();
+        }
+
+        children.forEach(c -> c.wrapStrings_r(map));
+        return map;
     }
 
     void clearEmpty() {

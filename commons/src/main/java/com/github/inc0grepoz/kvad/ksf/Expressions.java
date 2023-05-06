@@ -38,7 +38,7 @@ public class Expressions {
         /* TODO: Several access instances need to be resolved as
          * operands seperated by arithmetic and boolean operators */
 
-        boolean quote = false, methodArgs = false;
+        boolean methodArgs = false;
         char[] chars = exp.toCharArray();
         int brackets = 0;
 
@@ -47,29 +47,22 @@ public class Expressions {
 
         for (int i = 0; i < chars.length; i++) {
             write: {
-                if (chars[i] == '"' && !(i != 0 && chars[i - 1] == '\\')) {
-                    quote = !quote;
-                }
-
-                // Character is not in a string
-                else if (!quote) {
-                    if (chars[i] == '(') {
-                        brackets++;
-                        if (brackets == 1) {
-                            methodArgs = true; // 100% a method
-                            break write;
-                        }
-                    }
-                    if (chars[i] == ')') {
-                        brackets--;
-                        if (brackets == 0) {
-                            // Method args end found
-                            break write;
-                        }
-                    }
-                    if (chars[i] == '.') {
+                if (chars[i] == '(') {
+                    brackets++;
+                    if (brackets == 1) {
+                        methodArgs = true; // 100% a method
                         break write;
                     }
+                }
+                if (chars[i] == ')') {
+                    brackets--;
+                    if (brackets == 0) {
+                        // Method args end found
+                        break write;
+                    }
+                }
+                if (chars[i] == '.') {
+                    break write;
                 }
 
                 // Writing characters into buffers
@@ -112,7 +105,6 @@ public class Expressions {
     }
 
     public static Var[] resolveXcsBrackets(String args) {
-        boolean quote = false;
         char[] chars = args.toCharArray();
         int brackets = 0, last = chars.length - 1;
 
@@ -122,29 +114,21 @@ public class Expressions {
         for (int i = 0; i < chars.length; i++) {
             arg.append(chars[i]);
 
-            // Look, a quote!
-            if (chars[i] == '"' && !(i != 0 && chars[i - 1] == '\\')) {
-                quote = !quote;
+            switch (chars[i]) {
+                case '(': {
+                    brackets++;
+                    break;
+                }
+                case ')': {
+                    brackets--;
+                    break;
+                }
+                case ' ': continue;
             }
 
-            // No quote
-            if (!quote) {
-                switch (chars[i]) {
-                    case '(': {
-                        brackets++;
-                        break;
-                    }
-                    case ')': {
-                        brackets--;
-                        break;
-                    }
-                    case ' ': continue;
-                }
-
-                if (!quote && brackets == 0 && (chars[i] == ',' || i == last)) {
-                    elts.add(resolveVar(arg.toString()));
-                    arg.setLength(0);
-                }
+            if (brackets == 0 && (chars[i] == ',' || i == last)) {
+                elts.add(resolveVar(arg.toString()));
+                arg.setLength(0);
             }
         }
 
