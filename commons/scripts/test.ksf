@@ -5,6 +5,7 @@ on test(e) {
     e.log.info(two);
 
     var str = "bca";
+    e.log.info(str);
     if (true) {
         var l = e.log;
         l.info("test 2");

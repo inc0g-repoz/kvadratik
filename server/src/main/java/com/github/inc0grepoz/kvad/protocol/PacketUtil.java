@@ -66,7 +66,7 @@ public class PacketUtil {
         double x = Double.valueOf(map.get("x"));
         double y = Double.valueOf(map.get("y"));
         player.teleport(x, y);
-        outBeingPoint(player);
+        outBeingPointToOther(player);
     }
 
     public void outAnim(Being being) {
@@ -75,7 +75,21 @@ public class PacketUtil {
         allSameLevelExcludePlayer(packet, being);
     }
 
-    public void outBeingPoint(Being being) {
+    // TODO: Enable teleportation
+    public void outBeingPointToAll(Being being) {
+        Rectangle rect = being.getRectangle();
+        StringBuilder sb = new StringBuilder();
+        sb.append("id=");
+        sb.append(being.getId());
+        sb.append(";x=");
+        sb.append(rect.x);
+        sb.append(";y=");
+        sb.append(rect.y);
+        Packet packet = Packet.out(PacketType.SERVER_BEING_POINT, sb.toString());
+        allSameLevel(packet, being.getLevel());
+    }
+
+    public void outBeingPointToOther(Being being) {
         Rectangle rect = being.getRectangle();
         StringBuilder sb = new StringBuilder();
         sb.append("id=");

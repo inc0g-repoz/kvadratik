@@ -9,6 +9,7 @@ import lombok.Getter;
 public class ScriptManager {
 
     private final Kvadratik kvad;
+    private VarPool global;
     private @Getter List<Script> scripts;
 
     public ScriptManager(Kvadratik kvad) {
@@ -19,9 +20,12 @@ public class ScriptManager {
         scripts.forEach(s -> s.handleEvent(name, event));
     }
 
+    public void loadScript(String path) {
+        scripts.add(kvad.getAssetsProvider().script(path, global));
+    }
+
     public void loadScripts() {
-        VarPool global = new VarPool();
-        global.declare("kvad", kvad);
+        global = new VarPool() {{ declare("kvad", kvad); }};
         scripts = kvad.getAssetsProvider().scripts("scripts", global);
     }
 

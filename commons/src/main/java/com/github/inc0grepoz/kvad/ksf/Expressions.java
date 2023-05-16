@@ -2,13 +2,14 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Expressions {
 
+    private static final Pattern INNER_BRACKETS = Pattern.compile("\\([^\\(\\)]*\\)");
+
     private static final String REGEX_OUTWARD_SPACES = "(^(\t| )+)|((\t| )+$)";
     private static final String REGEX_SEP_QUOTES = "(^(\")+)|((\")+$)";
-//  private static final String REGEX_COMMA = ",";
-//  private static final String REGEX_SEMICOLON = ";";
 
     public static Var resolveVar(String argExp) {
         String exp = argExp.replaceAll(REGEX_OUTWARD_SPACES, "");
@@ -25,7 +26,10 @@ public class Expressions {
             return new VarValue(exp.replaceAll(REGEX_SEP_QUOTES, ""));
         }
 
-        // TODO: Use !|(\|\|)|(&&) and parse boolean expressions
+        // TODO: Resolve several access expressions as operands seperated by arithmetic and boolean operators:
+        // 1. search for expressions enclosed in brackets from deepest to the very last outer ones;
+        // 2. resolve operators using regular expressions in a prioritized order.
+        
         if (exp.matches("true|false")) {
             return resolveBoolean(exp);
         }
@@ -33,20 +37,31 @@ public class Expressions {
         return resolveXcs(exp);
     }
 
+    private static VarOp resolveOps(String exp) {
+        Operator op = null;
+        for (Operator enumOp : Operator.values()) {
+            if (exp.contains(enumOp.nttn)) {
+                op = enumOp;
+                break;
+            }
+        }
+        return null;
+    }
+
     private static VarXcs resolveXcs(String exp) {
-
-        /* TODO: Several access instances need to be resolved as
-         * operands seperated by arithmetic and boolean operators */
-
-        boolean methodArgs = false;
+        boolean negate = false, methodArgs = false;
         char[] chars = exp.toCharArray();
         int brackets = 0;
 
         StringBuilder name = new StringBuilder(), args = new StringBuilder();
         VarXcs firstXcs = null, lastXcs = null;
 
-        for (int i = 0; i < chars.length; i++) {
+        for (int i = 0; i < chars.length; i++) loop: {
             write: {
+                if (chars[i] == '!' && brackets == 0) {
+                    negate = true;
+                    break loop;
+                }
                 if (chars[i] == '(') {
                     brackets++;
                     if (brackets == 1) {
@@ -86,6 +101,11 @@ public class Expressions {
                 } else {
                     nuXcs = new VarXcsField(name.toString());
                 }
+                nuXcs.negate = negate;
+
+                // Assigning default values for the next iteration
+                negate = false;
+                methodArgs = false;
                 name.setLength(0);
 
                 if (firstXcs == null) {
@@ -95,8 +115,6 @@ public class Expressions {
                     lastXcs.nextXcs = nuXcs;
                     lastXcs = nuXcs;
                 }
-
-                methodArgs = false;
                 continue;
             }
         }

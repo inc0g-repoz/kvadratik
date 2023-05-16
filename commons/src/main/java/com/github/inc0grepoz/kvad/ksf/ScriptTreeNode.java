@@ -52,11 +52,12 @@ public class ScriptTreeNode {
         if (!line.isEmpty()) {
             Matcher matcher = QUOTES.matcher(line);
             StringBuffer buff = new StringBuffer();
-            String varName;
+            String varName, value;
 
             while (matcher.find()) {
                 varName = "wstr_var" + map.size();
-                map.put(varName, matcher.group());
+                value = matcher.group();
+                map.put(varName, value.substring(1, value.length() - 1));
                 matcher.appendReplacement(buff, varName);
             }
             matcher.appendTail(buff);

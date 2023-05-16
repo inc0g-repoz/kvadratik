@@ -106,6 +106,15 @@ public class AssetsProvider {
         return null;
     }
 
+    public Script script(String path, VarPool vars) {
+        String ppp = getAssetsParent() + path;
+
+        Script script = Script.compile(new File(ppp), vars);
+        Logger.info("Compiled and loaded " + script.getName());
+
+        return script;
+    }
+
     public List<Script> scripts(String path, VarPool vars) {
         String ppp = getAssetsParent() + "scripts";
         List<Script> scripts = new ArrayList<>();

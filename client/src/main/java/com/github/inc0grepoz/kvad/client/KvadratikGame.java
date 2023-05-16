@@ -13,6 +13,7 @@ import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.gui.Message;
 import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseMotionListener;
+import com.github.inc0grepoz.kvad.ksf.ScriptManager;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -35,6 +36,7 @@ public class KvadratikGame extends Frame implements Kvadratik {
     private final @Getter KvadratikClient client;
     private final @Getter ConsoleWorker console;
 
+    private @Getter ScriptManager scripts = new ScriptManager(this);
     private @Getter @Setter Session session;
 
     {
@@ -50,6 +52,9 @@ public class KvadratikGame extends Frame implements Kvadratik {
             dispose();
             System.exit(0);
         });
+
+        // Compiling scripts
+        scripts.loadScripts();
 
         // Copying and loading settings
         ASSETS.copy("settings.json");
