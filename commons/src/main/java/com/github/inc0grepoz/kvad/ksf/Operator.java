@@ -1,7 +1,8 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.github.inc0grepoz.kvad.utils.Logger;
 
 @FunctionalInterface
 interface Evaluator {
@@ -10,32 +11,31 @@ interface Evaluator {
 
 @FunctionalInterface
 interface Resolver {
-    void resolve(OpTemp temp);
-}
-
-class OpTemp {
-
-    boolean hasNext = true;
-    String exp;
-    VarOp lastItGave;
-
-    OpTemp(String exp) {
-        this.exp = exp;
-    }
-
+    VarOp resolve(String temp);
 }
 
 public enum Operator {
 
+    /*
+    BKTS(
+        "(",
+        "",
+        null,
+        null,
+        1
+    ),
+    */
     N_ADD(
         "+",
         "(\\w*)\\+(\\w*)",
         tmp -> {
-            String[] lr = tmp.exp.split("( )*+( )*");
-            tmp.lastItGave = new VarOp(null, Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+            String[] lr = tmp.split("( )*+( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
         },
         (vp, o) -> {
-            double r = (double) o[1].getValue(vp) + (double) o[2].getValue(vp);
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            double r = Double.valueOf(d1s) + Double.valueOf(d2s);
             return new VarValue(r % 1 == 0 ? (int) r : r);
         },
         2
@@ -43,9 +43,14 @@ public enum Operator {
     N_SUB(
         "-",
         "(\\w*)-(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*-( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> {
-            double r = (double) o[1].getValue(vp) - (double) o[2].getValue(vp);
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            double r = Double.valueOf(d1s) - Double.valueOf(d2s);
             return new VarValue(r % 1 == 0 ? (int) r : r);
         },
         2
@@ -53,9 +58,14 @@ public enum Operator {
     N_MULT(
         "*",
         "(\\w)\\*(\\w)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*\\*( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> {
-            double r = (double) o[1].getValue(vp) * (double) o[2].getValue(vp);
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            double r = Double.valueOf(d1s) * Double.valueOf(d2s);
             return new VarValue(r % 1 == 0 ? (int) r : r);
         },
         2
@@ -63,9 +73,14 @@ public enum Operator {
     N_DIV(
         "/",
         "(\\w*)\\/(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*\\/( )*");
+            return new VarOp(Expressions.resolveVar(lr[1]), Expressions.resolveVar(lr[2]));
+        },
         (vp, o) -> {
-            double r = (double) o[1].getValue(vp) / (double) o[2].getValue(vp);
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            double r = Double.valueOf(d1s) / Double.valueOf(d2s);
             return new VarValue(r % 1 == 0 ? (int) r : r);
         },
         2
@@ -73,9 +88,14 @@ public enum Operator {
     N_MOD(
         "%",
         "(\\w*)%(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*%( )*");
+            return new VarOp(Expressions.resolveVar(lr[1]), Expressions.resolveVar(lr[2]));
+        },
         (vp, o) -> {
-            double r = (double) o[1].getValue(vp) % (double) o[2].getValue(vp);
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            double r = Double.valueOf(d1s) % Double.valueOf(d2s);
             return new VarValue(r % 1 == 0 ? (int) r : r);
         },
         2
@@ -83,70 +103,115 @@ public enum Operator {
     B_NOT(
         "!",
         "!(\\w*)",
-        tmp -> {},
+        tmp -> new VarOp(Expressions.resolveVar(tmp.substring(1))),
         (vp, o) -> new VarValue(!(boolean) o[0].getValue(vp)),
         1
     ),
     B_AND(
         "&&",
         "(\\w*)&&(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*&&( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> new VarValue((boolean) o[0].getValue(vp) && (boolean) o[1].getValue(vp)),
         2
     ),
     B_OR(
         "||",
         "(\\w*)\\|\\|(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*\\|\\|( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> new VarValue((boolean) o[0].getValue(vp) || (boolean) o[1].getValue(vp)),
         2
     ),
     B_GTR(
         ">",
         "(\\w*)>(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*>( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> new VarValue((double) o[1].getValue(vp) > (double) o[2].getValue(vp)),
         2
     ),
     B_LSS(
         "<",
         "(\\w*)<(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )*<( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> new VarValue((double) o[1].getValue(vp) < (double) o[2].getValue(vp)),
         2
     ),
     B_EQ(
         "==",
         "(\\w*)==(\\w*)",
-        tmp -> {},
-        (vp, o) -> new VarValue((double) o[1].getValue(vp) == (double) o[2].getValue(vp)),
+        tmp -> {
+            String[] lr = tmp.split("( )*==( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
+        (vp, o) -> new VarValue(o[0].getValue(vp).equals(o[1].getValue(vp))),
+        2
+    ),
+    B_EQ_N(
+        "!=",
+        "(\\w*)!=(\\w*)",
+        tmp -> {
+            String[] lr = tmp.split("( )*!=( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
+        (vp, o) -> new VarValue(!o[0].getValue(vp).equals(o[1].getValue(vp))),
         2
     ),
     B_EQ_GTR(
         ">=",
         "(\\w*)>=(\\w*)",
-        tmp -> {},
-        (vp, o) -> new VarValue((double) o[1].getValue(vp) >= (double) o[2].getValue(vp)),
+        tmp -> {
+            String[] lr = tmp.split("( )*>=( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
+        (vp, o) -> {
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            return new VarValue(Double.valueOf(d1s) >= Double.valueOf(d2s));
+        },
         2
     ),
     B_EQ_LSS(
         "<=",
         "(\\w*)<=(\\w*)",
-        tmp -> {},
-        (vp, o) ->  new VarValue((double) o[1].getValue(vp) <= (double) o[2].getValue(vp)),
+        tmp -> {
+            String[] lr = tmp.split("( )*<=( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
+        (vp, o) -> {
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            return new VarValue(Double.valueOf(d1s) <= Double.valueOf(d2s));
+        },
         2
     ),
     B_TERN(
         "?",
-        "(\\w*)?(\\w*):(\\w*)",
-        tmp -> {},
+        "(\\w*)\\?(\\w*):(\\w*)",
+        tmp -> {
+            String[] lr = tmp.split("( )*(\\?|:)( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]), Expressions.resolveVar(lr[2]));
+        },
         (vp, o) -> new VarValue((boolean) o[0].getValue(vp) ? o[1].getValue(vp) : o[2].getValue(vp)),
         3
     ),
     V_ASG(
         "=",
         "(\\w*)=(\\w*)",
-        tmp -> {},
+        tmp -> {
+            String[] lr = tmp.split("( )=( )*");
+            return new VarOp(Expressions.resolveVar(lr[0]), Expressions.resolveVar(lr[1]));
+        },
         (vp, o) -> {
             VarValue vv = (VarValue) o[0];
             vv.value = o[1].getValue(vp);
@@ -155,27 +220,12 @@ public enum Operator {
         2
     );
 
-    static Operator find(String exp) {
-        OpTemp opTemp = null;
-        for (Operator optr : values()) {
-            if (!exp.contains(optr.nttn)) {
-                continue;
+    static Operator find(String codeLine) {
+        for (Operator enumOp : Operator.values()) {
+            if (codeLine.contains(enumOp.nttn)) {
+                return enumOp;
             }
-
-            Matcher m = optr.syntax.matcher(exp);
-            StringBuffer buff = new StringBuffer();
-            String varName;
-
-            while (m.find()) {
-                //varName
-                m.appendReplacement(buff, exp);
-            }
-            m.appendTail(buff);
         }
-        return null;
-    }
-
-    static Operator find(OpTemp obr) {
         return null;
     }
 

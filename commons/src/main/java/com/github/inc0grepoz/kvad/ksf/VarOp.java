@@ -11,12 +11,12 @@ public class VarOp extends Var {
 
     @Override
     Object getValue(VarPool varPool) {
-        return op.eval(varPool, vars);
+        return getVar(varPool).getValue(varPool);
     }
 
     @Override
     Var getVar(VarPool varPool) {
-        return new VarValue(getValue(varPool));
+        return op.eval(varPool, vars);
     }
 
 }

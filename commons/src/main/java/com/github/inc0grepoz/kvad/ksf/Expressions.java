@@ -6,7 +6,8 @@ import java.util.regex.Pattern;
 
 public class Expressions {
 
-    private static final Pattern INNER_BRACKETS = Pattern.compile("\\([^\\(\\)]*\\)");
+    private static final Pattern REGEX_BOOLEAN = Pattern.compile("true|false");
+    private static final Pattern REGEX_INNER_BRACKETS = Pattern.compile("\\([^\\(\\)]*\\)");
 
     private static final String REGEX_OUTWARD_SPACES = "(^(\t| )+)|((\t| )+$)";
     private static final String REGEX_SEP_QUOTES = "(^(\")+)|((\")+$)";
@@ -18,7 +19,8 @@ public class Expressions {
             exp = exp.substring(1, exp.length() - 1);
         }
 
-        if (Character.isDigit(exp.charAt(0))) {
+//      if (Character.isDigit(exp.charAt(0))) {
+        if (exp.matches("[0-9d]")) {
             return toNumberVarValue(exp);
         }
 
@@ -29,15 +31,15 @@ public class Expressions {
         // TODO: Resolve several access expressions as operands seperated by arithmetic and boolean operators:
         // 1. search for expressions enclosed in brackets from deepest to the very last outer ones;
         // 2. resolve operators using regular expressions in a prioritized order.
-        
+
         if (exp.matches("true|false")) {
             return resolveBoolean(exp);
         }
 
-        return resolveXcs(exp);
+        return resolveVarOp(exp);
     }
 
-    private static VarOp resolveOps(String exp) {
+    private static Var resolveVarOp(String exp, Var... vars) {
         Operator op = null;
         for (Operator enumOp : Operator.values()) {
             if (exp.contains(enumOp.nttn)) {
@@ -45,7 +47,15 @@ public class Expressions {
                 break;
             }
         }
-        return null;
+
+        // Stopping recursion if no operator found
+        if (op != null) {
+            VarOp varOp = op.reslv.resolve(exp);
+            varOp.op = op;
+            return varOp;
+        }
+
+        return resolveXcs(exp);
     }
 
     private static VarXcs resolveXcs(String exp) {
