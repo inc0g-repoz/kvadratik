@@ -15,8 +15,6 @@ public class ScriptPipeConditional extends ScriptPipe {
         Object val = boolExp.getValue(varPool);
 
         if (!(val instanceof Boolean)) {
-            Logger.error(val.getClass());
-            Logger.error(((VarValue) val).getValue(varPool));
             Logger.error("Invalid boolean expression");
             return false;
         }
