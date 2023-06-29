@@ -6,33 +6,37 @@ import java.util.regex.Pattern;
 
 public class Expressions {
 
-    private static final Pattern REGEX_BOOLEAN = Pattern.compile("true|false");
-    private static final Pattern REGEX_INNER_BRACKETS = Pattern.compile("\\([^\\(\\)]*\\)");
-
-    private static final String REGEX_OUTWARD_SPACES = "(^(\t| )+)|((\t| )+$)";
-    private static final String REGEX_SEP_QUOTES = "(^(\")+)|((\")+$)";
+//  private static final Pattern REGEX_BOOLEAN = Pattern.compile("true|false");
+//  private static final Pattern REGEX_INNER_BRACKETS = Pattern.compile("\\([^\\(\\)]*\\)");
+//  private static final Pattern REGEX_OUTWARD_SPACES = Pattern.compile("^((\t| )+)|((\t| )+)$");
+    private static final Pattern REGEX_DIGITS = Pattern.compile("[\\-0-9d]");
 
     public static Var resolveVar(String argExp) {
-        String exp = argExp.replaceAll(REGEX_OUTWARD_SPACES, "");
+        StringBuffer sb = new StringBuffer(argExp);
 
-        while (exp.charAt(0) == '(' && exp.charAt(exp.length() - 1) == ')') {
-            exp = exp.substring(1, exp.length() - 1);
+        while (sb.charAt(0) == ' ') {
+            sb.deleteCharAt(0);
         }
 
-//      if (Character.isDigit(exp.charAt(0))) {
-        if (exp.matches("[0-9d]")) {
+        int last = sb.length() - 1;
+        while (sb.charAt(last) == ' ') {
+            sb.deleteCharAt(last);
+            last--;
+        }
+
+        while (sb.charAt(0) == '(' && sb.charAt(last) == ')') {
+            sb.deleteCharAt(last);
+            sb.deleteCharAt(0);
+            last -= 2;
+        }
+
+        String exp = sb.toString();
+
+        if (REGEX_DIGITS.matcher(exp).matches()) {
             return toNumberVarValue(exp);
         }
 
-        if (exp.charAt(0) == '"' && exp.charAt(exp.length() - 1) == '"') {
-            return new VarValue(exp.replaceAll(REGEX_SEP_QUOTES, ""));
-        }
-
-        // TODO: Resolve several access expressions as operands seperated by arithmetic and boolean operators:
-        // 1. search for expressions enclosed in brackets from deepest to the very last outer ones;
-        // 2. resolve operators using regular expressions in a prioritized order.
-
-        if (exp.matches("true|false")) {
+        if (exp.equals("true") || exp.equals("false")) {
             return resolveBoolean(exp);
         }
 
@@ -40,19 +44,13 @@ public class Expressions {
     }
 
     private static Var resolveVarOp(String exp, Var... vars) {
-        Operator op = null;
-        for (Operator enumOp : Operator.values()) {
-            if (exp.contains(enumOp.nttn)) {
-                op = enumOp;
-                break;
-            }
-        }
+        VarOp varOp = null;
 
-        // Stopping recursion if no operator found
-        if (op != null) {
-            VarOp varOp = op.reslv.resolve(exp);
-            varOp.op = op;
-            return varOp;
+        for (Operator enumOp : Operator.values()) {
+            varOp = enumOp.resolve(exp);
+            if (varOp != null) {
+                return varOp;
+            }
         }
 
         return resolveXcs(exp);
