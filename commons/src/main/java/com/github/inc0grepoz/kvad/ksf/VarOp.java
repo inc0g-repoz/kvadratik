@@ -3,9 +3,10 @@ package com.github.inc0grepoz.kvad.ksf;
 public class VarOp extends Var {
 
     final Var[] vars;
-    Operator op;
+    final Operator op;
 
-    VarOp(Var... vars) {
+    VarOp(Operator op, Var... vars) {
+        this.op = op;
         this.vars = vars;
     }
 
