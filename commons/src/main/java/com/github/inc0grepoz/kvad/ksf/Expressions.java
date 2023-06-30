@@ -6,9 +6,56 @@ import java.util.regex.Pattern;
 
 public class Expressions {
 
-    private static final Pattern REGEX_DIGITS = Pattern.compile("-?[0-9.]+(d|f)?");
+    private static final Pattern REGEX_DIGITS = Pattern.compile("-?[0-9\\.]+(d|f)?");
+
+    static int enclosedExpressionsCount(StringBuffer sb) {
+        int allClosed = 0, brackets = 0;
+        for (int i = 0; i < sb.length(); i++) {
+            if (sb.charAt(i) == '(') {
+                brackets++;
+            } else if (sb.charAt(i) == ')') {
+                brackets--;
+                if (brackets == 0) {
+                    allClosed++;
+                }
+            }
+        }
+        return allClosed;
+    }
+
+    static String[] oneLineStatement(String ols) {
+        StringBuilder sbStatement = new StringBuilder(), sbLine = new StringBuilder();
+        boolean closed = false;
+        int brackets = 0;
+        for (int i = 0; i < ols.length(); i++) {
+            if (closed) {
+                sbLine.append(ols.charAt(i));
+            } else {
+                if (ols.charAt(i) == '(') {
+                    brackets++;
+                    if (brackets == 1) {
+                        continue;
+                    }
+                } else if (ols.charAt(i) == ')') {
+                    brackets--;
+                    if (brackets == 0) {
+                        closed = true;
+                        continue;
+                    }
+                }
+                if (brackets != 0) {
+                    sbStatement.append(ols.charAt(i));
+                }
+            }
+        }
+        return new String[] { sbStatement.toString(), sbLine.toString() };
+    }
 
     static Var resolveVar(String argExp) {
+        if (argExp == null || argExp.isEmpty()) {
+            return new VarValue(0);
+        }
+
         StringBuffer sb = new StringBuffer(argExp);
 
         while (sb.charAt(0) == ' ') {
@@ -21,23 +68,9 @@ public class Expressions {
             last--;
         }
 
-        brackets: while (sb.charAt(0) == '(' && sb.charAt(last) == ')') {
-            int allClosed = 0, brackets = 0;
-
-            for (int i = 0; i < sb.length(); i++) {
-                if (sb.charAt(i) == '(') {
-                    if (allClosed != 0) {
-                        break brackets;
-                    }
-
-                    brackets++;
-                } else if (sb.charAt(i) == ')') {
-                    brackets--;
-
-                    if (brackets == 0) {
-                        allClosed++;
-                    }
-                }
+        while (sb.charAt(0) == '(' && sb.charAt(last) == ')') {
+            if (enclosedExpressionsCount(sb) > 1) {
+                break;
             }
 
             sb.deleteCharAt(last);

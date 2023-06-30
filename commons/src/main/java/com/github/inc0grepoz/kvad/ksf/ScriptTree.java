@@ -34,7 +34,7 @@ public class ScriptTree {
         }
 
         target.clearEmpty();
-        target.defineTypesRecursively();
+        target.defineTypes_r();
 
         Logger.info("Found " + target.children.size() + " members");
         for (ScriptTreeNode member : target.children) {
@@ -49,7 +49,7 @@ public class ScriptTree {
 
     private void write(char c) {
         switch (c) {
-            case '\n': {
+            case '\n': case '\r': {
                 if (target.line.startsWith("//")) {
                     target = target.skipScopeMember();
                 }

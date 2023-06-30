@@ -1,6 +1,15 @@
 // Commenting
 on test(e) {
-    var d = 3.14;
-    e.log.info(d = 2);
-    e.log.info(true && true && (d == 2));
+    var d = e.call(2) ^ 4;
+    e.log.info(d);
+
+    var i = 0;
+    while (i < 10) {
+        i = i + 1;
+        e.log.info(i);
+    }
+
+    if (1 == 1 && !false) {
+        e.log.info("true");
+    }
 }

@@ -73,15 +73,19 @@ public class ScriptTreeNode {
         children.forEach(ScriptTreeNode::clearEmpty);
     }
 
-    void defineTypesRecursively() {
+    void defineTypes_r() {
         if (type == null) {
             type = ScriptTreeNodeType.of(this);
         }
-        children.forEach(ScriptTreeNode::defineTypesRecursively);
+        children.forEach(ScriptTreeNode::defineTypes_r);
     }
 
     void write(char c) {
         line += c;
+    }
+
+    void write(String s) {
+        line += s;
     }
 
     long countChars(char ch) {

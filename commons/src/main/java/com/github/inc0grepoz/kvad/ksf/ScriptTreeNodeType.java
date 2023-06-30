@@ -16,8 +16,13 @@ public enum ScriptTreeNodeType {
         tn -> tn.line.startsWith("//"),
         tn -> new ScriptPipeOther()
     ),
+    ELSE(
+        null, null,
+        tn -> false,
+        tn -> new ScriptPipeOther()
+    ),
     EVENT(
-        "(" + Keyword.EVENT + " )(.+)\\(.+\\)*", null,
+        "(" + Keyword.EVENT + " )(.+)\\(.+\\)(.*)", null,
         tn -> tn.line.startsWith(Keyword.EVENT + " "),
         tn -> {
             String[] args = tn.line.split("(^" + Keyword.EVENT + " )|\\(|\\)");
@@ -25,20 +30,27 @@ public enum ScriptTreeNodeType {
         }
     ),
     FOR(
-        "(" + Keyword.FOR + " ?)\\(.+=.+;.+;.+\\)*", null,
+        "(" + Keyword.FOR + " ?)\\(.+=.+;.+;.+\\)(.*)", null,
         tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")"),
         tn -> new ScriptPipeOther()
     ),
     IF(
-        "(" + Keyword.IF + " ?)\\(.+\\)*", null,
+        "(" + Keyword.IF + " ?)\\(.+\\)(.*)", null,
         tn -> tn.line.startsWith(Keyword.IF.toString()) && tn.line.contains("(") && tn.line.contains(")"),
         tn -> {
-            String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-            return new ScriptPipeConditional(Expressions.resolveVar(exp));
+            if (tn.children.isEmpty()) {
+                String[] ols = Expressions.oneLineStatement(tn.line);
+                tn.firstScopeMember().write(ols[1]);
+                tn.defineTypes_r();
+                return new ScriptPipeConditional(Expressions.resolveVar(ols[0]));
+            } else {
+                String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
+                return new ScriptPipeConditional(Expressions.resolveVar(exp));
+            }
         }
     ),
     REF(
-        Keyword.VAR + " (.+ ?)=( ?.+)",
+        Keyword.VAR + " (.+ *)=( *.+)",
         "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + ")(.+)",
         tn -> tn.line.contains("="),
         tn -> {
@@ -59,8 +71,15 @@ public enum ScriptTreeNodeType {
         "(" + Keyword.WHILE + " ?)\\(.+\\)*", null,
         tn -> tn.line.startsWith(Keyword.WHILE.toString()),
         tn -> {
-            String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-            return new ScriptPipeWhile(Expressions.resolveVar(exp));
+            if (tn.children.isEmpty()) {
+                String[] ols = Expressions.oneLineStatement(tn.line);
+                tn.firstScopeMember().write(ols[1]);
+                tn.defineTypes_r();
+                return new ScriptPipeWhile(Expressions.resolveVar(ols[0]));
+            } else {
+                String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
+                return new ScriptPipeWhile(Expressions.resolveVar(exp));
+            }
         }
     ),
     XCS(
