@@ -2,8 +2,7 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
-import com.github.inc0grepoz.kvad.utils.Logger;
+import java.util.stream.Stream;
 
 @FunctionalInterface
 interface Evaluator {
@@ -20,13 +19,20 @@ public enum Operator {
     N_ADD(
         "+",
         (vp, o) -> {
-            String s;
-            double r = 0;
-            for (Var v : o) {
-                s = String.valueOf(v.getValue(vp));
-                r += Double.valueOf(s);
+            Object[] values = Stream.of(o).map(var -> var.getValue(vp)).toArray(Object[]::new);
+            if (Stream.of(values).anyMatch(v -> v instanceof String)) {
+                StringBuilder sb = new StringBuilder();
+                for (Object obj : values) {
+                    sb.append(String.valueOf(obj));
+                }
+                return new VarValue(sb.toString());
+            } else {
+                double r = 0;
+                for (Object v : values) {
+                    r += Double.valueOf(String.valueOf(v));
+                }
+                return new VarValue(r % 1 == 0 ? (Object) (int) r : (Object) r);
             }
-            return new VarValue(r % 1 == 0 ? (Object) (int) r : (Object) r);
         },
         2
     ),
