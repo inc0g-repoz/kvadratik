@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Stream;
 
-import com.github.inc0grepoz.kvad.utils.Logger;
-
 @FunctionalInterface
 interface Evaluator {
     VarValue passOperands(VarPool varPool, Var... o);

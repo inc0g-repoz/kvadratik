@@ -1,14 +1,17 @@
 // Commenting
 on test(e) {
-    var d = e.call(2) ^ 4;
-    e.log.info(d);
+	var d = e.call(2) ^ 4;
+	e.self().log.info(d);
 
-    var i = 0;
-    while (i < 10) {
-        i = i + 1;
-        e.log.info(i);
-    }
+	var bool = (false && 1 == 2) || false || (1 + 2 == 3);
+	e.log.info(bool);
 
-    if (1 == 2) e.log.info("true");
-    else e.log.info("false");
+	var i = 0;
+	while (i < 10) {
+		i = i + 1;
+		e.log.info(i);
+	}
+
+	if (!true) e.log.info("true");
+	else e.log.info("false");
 }

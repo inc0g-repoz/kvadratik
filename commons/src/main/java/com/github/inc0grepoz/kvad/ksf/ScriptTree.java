@@ -49,7 +49,7 @@ public class ScriptTree {
 
     private void write(char c) {
         switch (c) {
-            case '\n': case '\r': {
+            case '\n': {
                 if (target.line.startsWith("//")) {
                     target = target.skipScopeMember();
                 }
@@ -102,8 +102,11 @@ public class ScriptTree {
                 return;
             }
             default: {
-                if (target.brackets == 0 && !target.quote && target.line.isEmpty()
-                        && Character.isWhitespace(c)) {
+                if (target.brackets == 0 && !target.quote
+                        && (c == ' ' || c == '\t' || c == '\r')) {
+                    if (!target.line.isEmpty()) {
+                        target.write(' ');
+                    }
                     return;
                 }
                 target.write(c);
