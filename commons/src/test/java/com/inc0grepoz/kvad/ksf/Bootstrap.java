@@ -1,7 +1,6 @@
 package com.inc0grepoz.kvad.ksf;
 
 import java.io.IOException;
-import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.ksf.ScriptManager;

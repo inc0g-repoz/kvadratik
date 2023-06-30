@@ -6,12 +6,9 @@ import java.util.regex.Pattern;
 
 public class Expressions {
 
-//  private static final Pattern REGEX_BOOLEAN = Pattern.compile("true|false");
-//  private static final Pattern REGEX_INNER_BRACKETS = Pattern.compile("\\([^\\(\\)]*\\)");
-//  private static final Pattern REGEX_OUTWARD_SPACES = Pattern.compile("^((\t| )+)|((\t| )+)$");
-    private static final Pattern REGEX_DIGITS = Pattern.compile("[\\-0-9d]");
+    private static final Pattern REGEX_DIGITS = Pattern.compile("-?[0-9]+d?");
 
-    public static Var resolveVar(String argExp) {
+    static Var resolveVar(String argExp) {
         StringBuffer sb = new StringBuffer(argExp);
 
         while (sb.charAt(0) == ' ') {
@@ -24,7 +21,25 @@ public class Expressions {
             last--;
         }
 
-        while (sb.charAt(0) == '(' && sb.charAt(last) == ')') {
+        brackets: while (sb.charAt(0) == '(' && sb.charAt(last) == ')') {
+            int allClosed = 0, brackets = 0;
+
+            for (int i = 0; i < sb.length(); i++) {
+                if (sb.charAt(i) == '(') {
+                    if (allClosed != 0) {
+                        break brackets;
+                    }
+
+                    brackets++;
+                } else if (sb.charAt(i) == ')') {
+                    brackets--;
+
+                    if (brackets == 0) {
+                        allClosed++;
+                    }
+                }
+            }
+
             sb.deleteCharAt(last);
             sb.deleteCharAt(0);
             last -= 2;
@@ -130,7 +145,7 @@ public class Expressions {
         return firstXcs;
     }
 
-    public static Var[] resolveXcsBrackets(String args) {
+    private static Var[] resolveXcsBrackets(String args) {
         char[] chars = args.toCharArray();
         int brackets = 0, last = chars.length - 1;
 
@@ -161,7 +176,7 @@ public class Expressions {
         return elts.stream().toArray(Var[]::new);
     }
 
-    public static VarValue resolveBoolean(String exp) {
+    private static VarValue resolveBoolean(String exp) {
         return new VarValue(Boolean.parseBoolean(exp));
     }
 

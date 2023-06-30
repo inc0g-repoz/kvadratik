@@ -1,13 +1,6 @@
 // Commenting
 on test(e) {
-    var testVar = e;
-    var two = testVar.self().call(2);
-    e.log.info(two);
-
-    var str = "bca";
-    e.log.info(str);
-    if (true == false) {
-        var l = e.log;
-        l.info("test 2");
-    }
+    var d = 2 + 3 * 5 + 3 / 2;
+    e.log.info(d);
+    e.log.info((false && true) || (false || false) || true);
 }

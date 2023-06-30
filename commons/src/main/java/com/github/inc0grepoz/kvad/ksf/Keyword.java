@@ -16,6 +16,7 @@ public enum Keyword {
         this.scope = scope;
     }
 
+    @Override
     public String toString() {
         return word;
     }

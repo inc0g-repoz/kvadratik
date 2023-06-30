@@ -1,12 +1,9 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import com.github.inc0grepoz.kvad.utils.Logger;
 
 @FunctionalInterface
 interface Evaluator {
@@ -22,51 +19,55 @@ public enum Operator {
 
     N_ADD(
         "+",
-        "(\\w*)\\+(\\w*)",
         (vp, o) -> {
-            String d1s = String.valueOf(o[0].getValue(vp));
-            String d2s = String.valueOf(o[1].getValue(vp));
-            double r = Double.valueOf(d1s) + Double.valueOf(d2s);
-            return new VarValue(r % 1 == 0 ? (int) r : r);
+            String s;
+            double r = 0;
+            for (Var v : o) {
+                s = String.valueOf(v.getValue(vp));
+                r += Double.valueOf(s);
+            }
+            return new VarValue(r % 1 == 0 ? (Object) (int) r : (Object) r);
         },
         2
     ),
     N_SUB(
         "-",
-        "(\\w*)-(\\w*)",
         (vp, o) -> {
-            String d1s = String.valueOf(o[0].getValue(vp));
-            String d2s = String.valueOf(o[1].getValue(vp));
-            double r = Double.valueOf(d1s) - Double.valueOf(d2s);
-            return new VarValue(r % 1 == 0 ? (int) r : r);
+            String s = String.valueOf(o[0].getValue(vp));
+            double r = Double.valueOf(s);
+            for (int i = 1; i < o.length; i++) {
+                s = String.valueOf(o[i].getValue(vp));
+                r -= Double.valueOf(s);
+            }
+            return new VarValue(r % 1 == 0 ? (Object) (int) r : (Object) r);
         },
         2
     ),
     N_MULT(
         "*",
-        "(\\w)\\*(\\w)",
         (vp, o) -> {
-            String d1s = String.valueOf(o[0].getValue(vp));
-            String d2s = String.valueOf(o[1].getValue(vp));
-            double r = Double.valueOf(d1s) * Double.valueOf(d2s);
-            return new VarValue(r % 1 == 0 ? (int) r : r);
+            String s = String.valueOf(o[0].getValue(vp));
+            double r = Double.valueOf(s);
+            for (int i = 1; i < o.length; i++) {
+                s = String.valueOf(o[i].getValue(vp));
+                r *= Double.valueOf(s);
+            }
+            return new VarValue(r % 1 == 0 ? (Object) (int) r : (Object) r);
         },
         2
     ),
     N_DIV(
         "/",
-        "(\\w*)\\/(\\w*)",
         (vp, o) -> {
             String d1s = String.valueOf(o[0].getValue(vp));
             String d2s = String.valueOf(o[1].getValue(vp));
             double r = Double.valueOf(d1s) / Double.valueOf(d2s);
-            return new VarValue(r % 1 == 0 ? (int) r : r);
+            return new VarValue(r % 1 == 0 ? (Object) (int) r : (Object) r);
         },
         2
     ),
     N_MOD(
         "%",
-        "(\\w*)%(\\w*)",
         (vp, o) -> {
             String d1s = String.valueOf(o[0].getValue(vp));
             String d2s = String.valueOf(o[1].getValue(vp));
@@ -75,15 +76,8 @@ public enum Operator {
         },
         2
     ),
-    B_NOT(
-        "!",
-        "!(\\w*)",
-        (vp, o) -> new VarValue(!(boolean) o[1].getValue(vp)),
-        1
-    ),
     B_AND(
         "&&",
-        "(\\w*)&&(\\w*)",
         (vp, o) -> {
             for (Var v : o) {
                 if (!(boolean) v.getValue(vp)) {
@@ -96,7 +90,6 @@ public enum Operator {
     ),
     B_OR(
         "||",
-        "(\\w*)\\|\\|(\\w*)",
         (vp, o) -> {
             for (Var v : o) {
                 if ((boolean) v.getValue(vp)) {
@@ -109,31 +102,34 @@ public enum Operator {
     ),
     B_GTR(
         ">",
-        "(\\w*)>(\\w*)",
-        (vp, o) -> new VarValue((double) o[1].getValue(vp) > (double) o[2].getValue(vp)),
+        (vp, o) -> {
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            return new VarValue(Double.valueOf(d1s) > Double.valueOf(d2s));
+        },
         2
     ),
     B_LSS(
         "<",
-        "(\\w*)<(\\w*)",
-        (vp, o) -> new VarValue((double) o[1].getValue(vp) < (double) o[2].getValue(vp)),
+        (vp, o) -> {
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            return new VarValue(Double.valueOf(d1s) < Double.valueOf(d2s));
+        },
         2
     ),
     B_EQ(
         "==",
-        "(\\w*)==(\\w*)",
         (vp, o) -> new VarValue(o[0].getValue(vp).equals(o[1].getValue(vp))),
         2
     ),
     B_EQ_N(
         "!=",
-        "(\\w*)!=(\\w*)",
         (vp, o) -> new VarValue(!o[0].getValue(vp).equals(o[1].getValue(vp))),
         2
     ),
     B_EQ_GTR(
         ">=",
-        "(\\w*)>=(\\w*)",
         (vp, o) -> {
             String d1s = String.valueOf(o[0].getValue(vp));
             String d2s = String.valueOf(o[1].getValue(vp));
@@ -143,7 +139,6 @@ public enum Operator {
     ),
     B_EQ_LSS(
         "<=",
-        "(\\w*)<=(\\w*)",
         (vp, o) -> {
             String d1s = String.valueOf(o[0].getValue(vp));
             String d2s = String.valueOf(o[1].getValue(vp));
@@ -153,45 +148,50 @@ public enum Operator {
     ),
     B_TERN(
         new String[] { "?", ":" },
-        "(\\w*)\\?(\\w*):(\\w*)",
         (vp, o) -> new VarValue((boolean) o[0].getValue(vp) ? o[1].getValue(vp) : o[2].getValue(vp)),
         3
     ),
+    B_NOT(
+        "!",
+        (vp, o) -> new VarValue(!(boolean) o[1].getValue(vp)),
+        1
+    ),
+    /*
     V_ASG(
         "=",
-        "(\\w*)=(\\w*)",
+        "(var )?(\\w*)=(\\w*)",
         (vp, o) -> {
             VarValue vv = (VarValue) o[0];
             vv.value = o[1].getValue(vp);
             return vv;
         },
         2
-    );
+    ),
+    */
+    ;
 
-    final static Operator[] REVERSED;
+//  final static Operator[] REVERSED;
 
+    /*
     static {
         List<Operator> list = Stream.of(values()).collect(Collectors.toList());
         Collections.reverse(list);
         REVERSED = list.stream().toArray(Operator[]::new);
     }
+    */
 
     final String[] nttn;    // Notation
-    final Pattern syntax; // Syntax template
-//  final Resolver reslv; // Syntax resolver
     final Evaluator eval; // Implementation
     final int oc;         // Operands count
 
-    Operator(String nttn[], String syntax, Evaluator eval, int operands) {
+    Operator(String nttn[], Evaluator eval, int operands) {
         this.nttn = nttn;
-        this.syntax = Pattern.compile(syntax);
         this.eval = eval;
         this.oc = operands;
     }
 
-    Operator(String nttn, String syntax, Evaluator eval, int operands) {
+    Operator(String nttn, Evaluator eval, int operands) {
         this.nttn = new String[] { nttn };
-        this.syntax = Pattern.compile(syntax);
         this.eval = eval;
         this.oc = operands;
     }
