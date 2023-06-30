@@ -28,7 +28,7 @@ public class Bootstrap {
 
         };
 
-        bench(() -> scriptMan.fireEvent("test", event));
+        bench(() -> scriptMan.fireEvent("testFibonacci", event));
     }
 
     public static void bench(Runnable... rArr) {

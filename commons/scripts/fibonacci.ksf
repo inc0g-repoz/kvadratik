@@ -1,0 +1,18 @@
+on testFibonacci(e) {
+	var n1 = 0;
+	var n2 = 1;
+	var n3 = 0;
+	var count = 10;
+
+	// Printing 0 and 1
+	e.log.info(n1);
+	e.log.info(n2);
+
+	// Loop starts from 2 because 0 and 1 are already printed
+	for (var i = 2; i < count; i = i + 1) {
+		n3 = n1 + n2;
+		e.log.info(n3);
+		n1 = n2;
+		n2 = n3;
+	}    
+}
