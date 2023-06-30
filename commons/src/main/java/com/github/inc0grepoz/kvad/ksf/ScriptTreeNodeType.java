@@ -14,12 +14,14 @@ public enum ScriptTreeNodeType {
     COMMENT(
         null, null,
         tn -> tn.line.startsWith("//"),
-        tn -> new ScriptPipeOther()
-    ),
-    ELSE(
-        null, null,
-        tn -> false,
-        tn -> new ScriptPipeOther()
+        tn -> new ScriptPipeOther() {
+
+            @Override
+            boolean execute(VarPool vp) {
+                return true;
+            }
+
+        }
     ),
     EVENT(
         "(" + Keyword.EVENT + " )(.+)\\(.+\\)(.*)", null,
@@ -42,11 +44,34 @@ public enum ScriptTreeNodeType {
                 String[] ols = Expressions.oneLineStatement(tn.line);
                 tn.firstScopeMember().write(ols[1]);
                 tn.defineTypes_r();
-                return new ScriptPipeConditional(Expressions.resolveVar(ols[0]));
+                return new ScriptPipeIf(Expressions.resolveVar(ols[0]));
             } else {
                 String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-                return new ScriptPipeConditional(Expressions.resolveVar(exp));
+                return new ScriptPipeIf(Expressions.resolveVar(exp));
             }
+        }
+    ),
+    ELSE(
+        null, null,
+        tn -> tn.line.startsWith(Keyword.ELSE.toString()),
+        tn -> {
+            if (tn.prev == null || tn.prev.type != IF) {
+                throw new IllegalStateException("Else statements need to be put after if statements");
+            }
+            if (tn.children.isEmpty()) {
+                String ols = tn.line.substring(Keyword.ELSE.toString().length());
+                tn.firstScopeMember().write(ols);
+                tn.defineTypes_r();
+            }
+            ScriptPipeIf ifSt = (ScriptPipeIf) tn.prev.compiled;
+            return ifSt.elsePipe = new ScriptPipeOther() {
+
+                @Override
+                boolean execute(VarPool vp) {
+                    return true;
+                }
+
+            };
         }
     ),
     REF(

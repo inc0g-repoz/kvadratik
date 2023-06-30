@@ -2,12 +2,12 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public abstract class ScriptPipeConditional extends ScriptPipe {
+public class ScriptPipeIf extends ScriptPipeConditional {
 
-    final Var boolExp;
+    ScriptPipeOther elsePipe;
 
-    ScriptPipeConditional(Var boolExp) {
-        this.boolExp = boolExp;
+    ScriptPipeIf(Var boolExp) {
+        super(boolExp);
     }
 
     @Override
@@ -19,7 +19,8 @@ public abstract class ScriptPipeConditional extends ScriptPipe {
             return false;
         }
 
-        return (boolean) val ? executeChildren(varPool) : true;
+        return (boolean) val ? executeChildren(varPool) : elsePipe == null
+                ? true : elsePipe.executeChildren(varPool);
     }
 
 }

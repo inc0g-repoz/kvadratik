@@ -15,8 +15,9 @@ public class ScriptTreeNode {
     int brackets;
     String line = new String();
 
-    ScriptTreeNode parent;
+    ScriptTreeNode parent, prev;
     ScriptTreeNodeType type;
+    ScriptPipe compiled;
 
     final Queue<ScriptTreeNode> children = new LinkedList<>();
 
@@ -37,13 +38,13 @@ public class ScriptTreeNode {
     }
 
     ScriptPipe compile_r(ScriptPipe parent) {
-        ScriptPipe node = type.compile(this);
+        compiled = type.compile(this);
         if (parent != null) {
-            parent.children.add(node);
-            node.parent = parent;
+            parent.children.add(compiled);
+            compiled.parent = parent;
         }
-        children.forEach(c -> c.compile_r(node));
-        return node;
+        children.forEach(c -> c.compile_r(compiled));
+        return compiled;
     }
 
     Map<String, String> wrapStrings_r(Map<String, String> passedMap) {
@@ -102,6 +103,7 @@ public class ScriptTreeNode {
     ScriptTreeNode nextScopeMember() {
         ScriptTreeNode next = new ScriptTreeNode();
         next.parent = parent;
+        next.prev = this;
         parent.children.add(next);
         return next;
     }
