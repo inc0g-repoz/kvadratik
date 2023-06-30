@@ -25,12 +25,14 @@ public class Script {
 
         // Converting string values into wrapped variables
         tree.target.wrapStrings_r(null).forEach(global::declare);
-        Logger.info(tree.toString());
+        if (ScriptManager.debugMode) {
+            Logger.info(tree.toString());
+        }
 
         // Compiling a pseudocode tree into a pipeline
         pipeRoot = (ScriptPipeRoot) tree.target.compile_r(null);
         pipeRoot.initHandlers();
-        Logger.info("Found " + pipeRoot.handlers.size() + " handlers");
+        Logger.info("Found " + pipeRoot.handlers.size() + " handler(s)");
     }
 
     @Override

@@ -150,7 +150,9 @@ public enum ScriptTreeNodeType {
     }
 
     ScriptPipe compile(ScriptTreeNode treeNode) {
-        Logger.info("Compiling " + treeNode.line + " [" + treeNode.type.name() + "]");
+        if (ScriptManager.debugMode) {
+            Logger.info("Compiling " + treeNode.line + " [" + treeNode.type.name() + "]");
+        }
         return comp.pass(treeNode);
     }
 

@@ -36,7 +36,7 @@ public class ScriptTree {
         target.clearEmpty();
         target.defineTypes_r();
 
-        Logger.info("Found " + target.children.size() + " members");
+        Logger.info("Found " + target.children.size() + " member(s)");
         for (ScriptTreeNode member : target.children) {
             Logger.info("- " + member.line);
         }
