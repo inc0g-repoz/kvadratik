@@ -12,7 +12,8 @@ public class Bootstrap {
     public static void main(String[] args) throws IOException {
         Kvadratik kvad = new Tester();
         ScriptManager scriptMan = new ScriptManager(kvad);
-        scriptMan.loadScripts();
+
+        bench(() -> scriptMan.loadScripts());
 
         Object event = new Object() {
 
