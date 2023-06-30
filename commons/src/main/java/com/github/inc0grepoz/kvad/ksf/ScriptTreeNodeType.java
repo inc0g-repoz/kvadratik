@@ -14,7 +14,7 @@ public enum ScriptTreeNodeType {
     COMMENT(
         null, null,
         tn -> tn.line.startsWith("//"),
-        tn -> new ScriptPipeMissing()
+        tn -> new ScriptPipeOther()
     ),
     EVENT(
         "(" + Keyword.EVENT + " )(.+)\\(.+\\)*", null,
@@ -27,7 +27,7 @@ public enum ScriptTreeNodeType {
     FOR(
         "(" + Keyword.FOR + " ?)\\(.+=.+;.+;.+\\)*", null,
         tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")"),
-        tn -> new ScriptPipeMissing()
+        tn -> new ScriptPipeOther()
     ),
     IF(
         "(" + Keyword.IF + " ?)\\(.+\\)*", null,
@@ -38,7 +38,7 @@ public enum ScriptTreeNodeType {
         }
     ),
     REF(
-        "(" + Keyword.VAR + " )?(.+ ?)=( ?.+)",
+        Keyword.VAR + " (.+ ?)=( ?.+)",
         "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + ")(.+)",
         tn -> tn.line.contains("="),
         tn -> {
@@ -72,7 +72,7 @@ public enum ScriptTreeNodeType {
     OTHER( // Needs to be in the end
         null, null,
         tn -> true,
-        tn -> new ScriptPipeMissing()
+        tn -> new ScriptPipeXcs(Expressions.resolveVar(tn.line))
     );
 
     static ScriptTreeNodeType of(ScriptTreeNode tn) {

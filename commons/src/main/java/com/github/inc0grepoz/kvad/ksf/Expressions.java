@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Expressions {
 
-    private static final Pattern REGEX_DIGITS = Pattern.compile("-?[0-9]+d?");
+    private static final Pattern REGEX_DIGITS = Pattern.compile("-?[0-9.]+(d|f)?");
 
     static Var resolveVar(String argExp) {
         StringBuffer sb = new StringBuffer(argExp);
@@ -181,12 +181,14 @@ public class Expressions {
     }
 
     private static VarValue toNumberVarValue(String string) {
+        char lastChar = Character.toLowerCase(string.charAt(string.length() - 1));
+
+        if (string.indexOf('.') == -1 && lastChar != 'f' && lastChar != 'd')
         try {
             return new VarValue(Integer.parseInt(string));
         } catch (Throwable t) {}
 
-        char lastChar = Character.toLowerCase(string.charAt(string.length() - 1));
-        if (lastChar != 'd') try {
+        if (lastChar == 'f') try {
             return new VarValue(Float.parseFloat(string));
         } catch (Throwable t) {}
 

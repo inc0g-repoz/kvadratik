@@ -4,17 +4,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Stream;
 
+import com.github.inc0grepoz.kvad.utils.Logger;
+
 @FunctionalInterface
 interface Evaluator {
     VarValue passOperands(VarPool varPool, Var... o);
 }
 
 public enum Operator {
-
-    // TODO: Resolve several access expressions as operands seperated by arithmetic and boolean operators:
-    // 1. search for expressions enclosed in brackets from deepest to the very last outer ones;
-    // 2. resolve operators using regular expressions in a prioritized order.
-    // 3. brackets operator
 
     N_ADD(
         "+",
@@ -162,18 +159,15 @@ public enum Operator {
         (vp, o) -> new VarValue(!(boolean) o[1].getValue(vp)),
         1
     ),
-    /*
     V_ASG(
         "=",
-        "(var )?(\\w*)=(\\w*)",
         (vp, o) -> {
-            VarValue vv = (VarValue) o[0];
+            VarValue vv = (VarValue) o[0].getVar(vp);
             vv.value = o[1].getValue(vp);
             return vv;
         },
         2
     ),
-    */
     ;
 
 //  final static Operator[] REVERSED;
