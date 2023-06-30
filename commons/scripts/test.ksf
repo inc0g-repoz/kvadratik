@@ -12,7 +12,7 @@ on test(e) {
 		e.log.info(i);
 	}
 
-	for (int j = 1; j <= 2; j = j + 1) {
+	for (var j = 1; j <= 2; j = j + 1) {
 		e.log.info(j);
 	}
 
