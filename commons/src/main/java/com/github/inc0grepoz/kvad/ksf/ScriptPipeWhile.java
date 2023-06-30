@@ -10,18 +10,18 @@ public class ScriptPipeWhile extends ScriptPipeConditional {
 
     @Override
     boolean execute(VarPool varPool) {
-        Object val = boolExp.getValue(varPool);
+        Object bool = boolExp.getValue(varPool);
 
-        if (!(val instanceof Boolean)) {
-            Logger.error("Invalid boolean expression");
+        if (!(bool instanceof Boolean)) {
+            Logger.error("Invalid boolean expression in a `while` loop");
             return false;
         }
 
-        while ((boolean) val) {
+        while ((boolean) bool) {
             if (!executeChildren(varPool)) {
                 return false;
             }
-            val = boolExp.getValue(varPool);
+            bool = boolExp.getValue(varPool);
         }
 
         return true;

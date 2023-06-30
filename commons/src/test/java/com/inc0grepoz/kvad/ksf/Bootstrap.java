@@ -27,7 +27,8 @@ public class Bootstrap {
             }
 
         };
-        scriptMan.fireEvent("test", event);
+
+        bench(() -> scriptMan.fireEvent("test", event));
     }
 
     public static void bench(Runnable... rArr) {

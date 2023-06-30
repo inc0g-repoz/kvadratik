@@ -32,9 +32,22 @@ public enum ScriptTreeNodeType {
         }
     ),
     FOR(
-        "(" + Keyword.FOR + " ?)\\(.+=.+;.+;.+\\)(.*)", null,
+        "(" + Keyword.FOR + " ?)\\((.+=.+)?;.*;.*\\)(.*)", null,
         tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")"),
-        tn -> new ScriptPipeOther()
+        tn -> {
+            String[] ols = Expressions.oneLineStatement(tn.line);
+            String[] params = ols[0].split(";");
+
+            ScriptPipeRef ref = ScriptPipeRef.resolve(params[0]);
+            Var boolExp = Expressions.resolveVar(params[1]);
+            Var op = Expressions.resolveVar(params[2]);
+
+            if (tn.children.isEmpty()) {
+                tn.firstScopeMember().write(ols[1]);
+                tn.defineTypes_r();
+            }
+            return new ScriptPipeFor(ref, boolExp, op);
+        }
     ),
     IF(
         "(" + Keyword.IF + " ?)\\(.+\\)(.*)", null,
@@ -68,6 +81,7 @@ public enum ScriptTreeNodeType {
 
                 @Override
                 boolean execute(VarPool vp) {
+                    Logger.error("Else statement is executed twice");
                     return true;
                 }
 
@@ -78,14 +92,7 @@ public enum ScriptTreeNodeType {
         Keyword.VAR + " (.+ *)=( *.+)",
         "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + ")(.+)",
         tn -> tn.line.contains("="),
-        tn -> {
-            String[] leftRight = tn.line.split(" ?= ?", 2);
-
-            boolean newVar = leftRight[0].startsWith("var ");
-            String name = newVar ? leftRight[0].substring(4) : leftRight[0];
-
-            return new ScriptPipeRef(Expressions.resolveVar(leftRight[1]), name, newVar);
-        }
+        tn -> ScriptPipeRef.resolve(tn.line)
     ),
     ROOT(
         null, null,

@@ -12,14 +12,14 @@ public class ScriptPipeIf extends ScriptPipeConditional {
 
     @Override
     boolean execute(VarPool varPool) {
-        Object val = boolExp.getValue(varPool);
+        Object bool = boolExp.getValue(varPool);
 
-        if (!(val instanceof Boolean)) {
-            Logger.error("Invalid boolean expression");
+        if (!(bool instanceof Boolean)) {
+            Logger.error("Invalid boolean expression in an `if` statement");
             return false;
         }
 
-        return (boolean) val ? executeChildren(varPool) : elsePipe == null
+        return (boolean) bool ? executeChildren(varPool) : elsePipe == null
                 ? true : elsePipe.executeChildren(varPool);
     }
 

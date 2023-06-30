@@ -7,9 +7,13 @@ on test(e) {
 	e.log.info(bool);
 
 	var i = 0;
-	while (i < 10) {
+	while (i < 2) {
 		i = i + 1;
 		e.log.info(i);
+	}
+
+	for (int j = 1; j <= 2; j = j + 1) {
+		e.log.info(j);
 	}
 
 	if (!true) e.log.info("true");

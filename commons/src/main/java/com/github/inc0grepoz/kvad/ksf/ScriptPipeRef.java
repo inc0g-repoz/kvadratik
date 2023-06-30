@@ -4,31 +4,26 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class ScriptPipeRef extends ScriptPipeXcs {
 
-    String name;
-    boolean newVar;
+    static ScriptPipeRef resolve(String line) {
+        String[] leftRight = line.split(" *= *", 2);
+        String name = leftRight[0].substring(4);
+        return new ScriptPipeRef(Expressions.resolveVar(leftRight[1]), name);
+    }
 
-    ScriptPipeRef(Var var, String name, boolean newVar) {
+    String name;
+
+    ScriptPipeRef(Var var, String name) {
         super(var);
         this.name = name;
-        this.newVar = newVar;
     }
 
     @Override
     boolean execute(VarPool varPool) {
-        if (newVar) {
-            if (varPool.get(name) != null) {
-                Logger.error("Duplicate variable '" + name + "'");
-                return false;
-            }
-            varPool.declare(name, var.getValue(varPool));
-        } else {
-            VarValue varVal = varPool.get(name);
-            if (varVal == null) {
-                Logger.error("Unknown variable '" + name + "'");
-                return false;
-            }
-            varVal.value = var.getValue(varPool);
+        if (varPool.get(name) != null) {
+            Logger.error("Duplicate variable '" + name + "'");
+            return false;
         }
+        varPool.declare(name, var.getValue(varPool));
         return true;
     }
 

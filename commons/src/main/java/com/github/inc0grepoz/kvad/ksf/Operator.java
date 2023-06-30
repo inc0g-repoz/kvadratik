@@ -47,6 +47,24 @@ public enum Operator {
         },
         2
     ),
+    B_EQ_GTR(
+        ">=",
+        (vp, o) -> {
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            return new VarValue(Double.valueOf(d1s) >= Double.valueOf(d2s));
+        },
+        2
+    ),
+    B_EQ_LSS(
+        "<=",
+        (vp, o) -> {
+            String d1s = String.valueOf(o[0].getValue(vp));
+            String d2s = String.valueOf(o[1].getValue(vp));
+            return new VarValue(Double.valueOf(d1s) <= Double.valueOf(d2s));
+        },
+        2
+    ),
     B_GTR(
         ">",
         (vp, o) -> {
@@ -68,24 +86,6 @@ public enum Operator {
     B_EQ_N(
         "!=",
         (vp, o) -> new VarValue(!o[0].getValue(vp).equals(o[1].getValue(vp))),
-        2
-    ),
-    B_EQ_GTR(
-        ">=",
-        (vp, o) -> {
-            String d1s = String.valueOf(o[0].getValue(vp));
-            String d2s = String.valueOf(o[1].getValue(vp));
-            return new VarValue(Double.valueOf(d1s) >= Double.valueOf(d2s));
-        },
-        2
-    ),
-    B_EQ_LSS(
-        "<=",
-        (vp, o) -> {
-            String d1s = String.valueOf(o[0].getValue(vp));
-            String d2s = String.valueOf(o[1].getValue(vp));
-            return new VarValue(Double.valueOf(d1s) <= Double.valueOf(d2s));
-        },
         2
     ),
     V_ASG(
