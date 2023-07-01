@@ -9,6 +9,7 @@ import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.gui.Chat;
 import com.github.inc0grepoz.kvad.gui.menu.CanvasMenu;
+import com.github.inc0grepoz.kvad.ksf.Event;
 
 public class ControlsHandler {
 
@@ -59,9 +60,9 @@ public class ControlsHandler {
             }
         } else {
             Level level = session.getLevel();
-            Being player = level.getPlayer();
+            Being playerBeing = level.getPlayer();
 
-            if (player != null) {
+            if (playerBeing != null) {
                 KvadratikClient client = game.getClient();
 
                 // The chat code
@@ -83,9 +84,21 @@ public class ControlsHandler {
                     }
                 }
 
+                // Firing an interaction event for scripts to handle
+                if (key == Key.INTERACT) {
+                    Event event = new Event("interact") {
+
+                        @SuppressWarnings("unused") // IT CAN BE EVENTUALLY USED!
+                        Being player = playerBeing;
+
+                    };
+                    game.getScripts().fireEvent(event);
+                    return;
+                }
+
                 // Choosing a proper player animation
-                player.move = Controls.isPlayerMoving();
-                if (player.move) {
+                playerBeing.move = Controls.isPlayerMoving();
+                if (playerBeing.move) {
                     Anim anim = null;
                     boolean sprint = Key.SPRINT.pressed;
                     switch (key) {
@@ -102,7 +115,7 @@ public class ControlsHandler {
                             anim = sprint ? Anim.RUN_D : Anim.WALK_D;
                             break;
                         case SPRINT:
-                            Anim ca = player.getAnim();
+                            Anim ca = playerBeing.getAnim();
                             if (ca == Anim.WALK_W) {
                                 anim = Anim.RUN_W;
                             } else if (ca == Anim.WALK_S) {
@@ -115,7 +128,7 @@ public class ControlsHandler {
                             break;
                         default:
                     }
-                    player.applyAnim(anim);
+                    playerBeing.applyAnim(anim);
                 }
 
                 // Defining the camera moving direction

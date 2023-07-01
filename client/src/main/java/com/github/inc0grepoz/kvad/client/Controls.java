@@ -14,6 +14,7 @@ public class Controls implements KeyListener {
         CHAT         (84), // T
         ENTER        (10), // Enter
         ESCAPE       (27), // Escape
+        INTERACT     (69), // E
         MOVE_UP      (87), // W
         MOVE_DOWN    (83), // S
         MOVE_LEFT    (65), // A
@@ -23,8 +24,7 @@ public class Controls implements KeyListener {
         SELECT_LEFT  (37), // Left
         SELECT_RIGHT (39), // Right
         SPRINT       (16), // Shift
-        JUMP         (32), // Space
-        NAN          (-1);
+        JUMP         (32); // Space
 
         private static Key byCode(int code) {
             Key[] values = values();

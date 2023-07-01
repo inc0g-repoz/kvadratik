@@ -24,8 +24,7 @@ public class Controls implements KeyListener {
         SELECT_RIGHT (39),  // Right
         SPRINT       (16),  // Shift
         JUMP         (32),  // Space
-        DELETE       (127), // Delete
-        NAN          (-1);
+        DELETE       (127); // Delete
 
         private static Key byCode(int code) {
             Key[] values = values();

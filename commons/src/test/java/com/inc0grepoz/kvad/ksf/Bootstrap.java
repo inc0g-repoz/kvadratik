@@ -3,9 +3,9 @@ package com.inc0grepoz.kvad.ksf;
 import java.io.IOException;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
+import com.github.inc0grepoz.kvad.ksf.Event;
 import com.github.inc0grepoz.kvad.ksf.ScriptManager;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
-import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class Bootstrap {
 
@@ -15,10 +15,9 @@ public class Bootstrap {
 
         scriptMan.loadScripts();
 
-        Object event = new Object() {
+        Event event = new Event("testIfElse") {
 
             public int[] arr = { 1, 2 };
-            public Logger log = new Logger();
 
             public int call(int a) {
                 return a;
@@ -30,7 +29,7 @@ public class Bootstrap {
 
         };
 
-        bench(() -> scriptMan.fireEvent("testIfElse", event));
+        bench(() -> scriptMan.fireEvent(event));
     }
 
     public static void bench(Runnable... rArr) {

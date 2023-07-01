@@ -1,0 +1,3 @@
+on interact(e) {
+	e.logger.info("Successfully interacted");
+}

@@ -1,24 +1,24 @@
 // Commenting
 on test(e) {
 	var d = e.call(2) ^ 4;
-	e.self().log.info(d);
+	e.logger.info(d);
 
 	var bool = (false && 1 == 2) || false || (1 + 2 == 3);
-	e.log.info(bool);
+	e.logger.info(bool);
 
 	var i = 0;
 	while (i < 2) {
 		i = i + 1;
-		e.log.info(i);
+		e.logger.info(i);
 	}
 
 	for (var j = 1; j <= 2; j = j + 1) {
-		e.log.info(j);
+		e.logger.info(j);
 	}
 
-	if (!true) e.log.info("true");
-	else e.log.info("false");
+	if (!true) e.logger.info("true");
+	else e.logger.info("false");
 
 	var arr = e.arr[0];
-	e.log.info(arr);
+	e.logger.info(arr);
 }

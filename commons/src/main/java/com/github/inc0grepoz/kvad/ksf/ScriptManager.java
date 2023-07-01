@@ -18,8 +18,8 @@ public class ScriptManager {
         this.kvad = kvad;
     }
 
-    public void fireEvent(String name, Object event) {
-        scripts.forEach(s -> s.handleEvent(name, event));
+    public void fireEvent(Event event) {
+        scripts.forEach(s -> s.handleEvent(event.getName(), event));
     }
 
     public void loadScript(String path) {
