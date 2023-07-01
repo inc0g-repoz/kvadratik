@@ -18,4 +18,7 @@ on test(e) {
 
 	if (!true) e.log.info("true");
 	else e.log.info("false");
+
+	var arr = e.arr[0];
+	e.log.info(arr);
 }

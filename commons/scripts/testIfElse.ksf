@@ -1,0 +1,4 @@
+on testIfElse(e) {
+	if (!true) e.log.info("true");
+	else e.log.info("false");
+}

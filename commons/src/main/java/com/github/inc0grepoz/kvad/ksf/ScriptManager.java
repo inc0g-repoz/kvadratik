@@ -8,7 +8,7 @@ import lombok.Getter;
 
 public class ScriptManager {
 
-    static boolean debugMode = false;
+    static boolean debugMode = true;
 
     private final Kvadratik kvad;
     private VarPool global;

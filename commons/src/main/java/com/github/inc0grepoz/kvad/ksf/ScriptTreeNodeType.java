@@ -64,6 +64,7 @@ public enum ScriptTreeNodeType {
             }
         }
     ),
+    // TODO: Get rid of duplicate `else` statements
     ELSE(
         null, null,
         tn -> tn.line.startsWith(Keyword.ELSE.toString()),
@@ -81,7 +82,9 @@ public enum ScriptTreeNodeType {
 
                 @Override
                 boolean execute(VarPool vp) {
-                    Logger.error("Else statement is executed twice");
+                    if (ScriptManager.debugMode) {
+                        Logger.error("Else statement is executed twice");
+                    }
                     return true;
                 }
 
@@ -137,7 +140,7 @@ public enum ScriptTreeNodeType {
 
     private final String regEx, notRegEx;
     private final Predicate<ScriptTreeNode> pred;
-    private Compiler comp;
+    private final Compiler comp;
 
     ScriptTreeNodeType(
         String regEx,
@@ -156,11 +159,13 @@ public enum ScriptTreeNodeType {
                 && (notRegEx != null ? !node.line.matches(notRegEx) : true);
     }
 
-    ScriptPipe compile(ScriptTreeNode treeNode) {
+    ScriptPipe compile(ScriptTreeNode treeNode, int lineIndex) {
         if (ScriptManager.debugMode) {
-            Logger.info("Compiling " + treeNode.line + " [" + treeNode.type.name() + "]");
+            Logger.info("Compiling " + treeNode.line + " [" + lineIndex + "] (" + treeNode.type.name() + ")");
         }
-        return comp.pass(treeNode);
+        ScriptPipe pipe = comp.pass(treeNode);
+        pipe.lineIndex = lineIndex;
+        return pipe;
     }
 
 }

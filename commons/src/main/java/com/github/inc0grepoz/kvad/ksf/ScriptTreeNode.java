@@ -12,10 +12,10 @@ public class ScriptTreeNode {
     private static final Pattern QUOTES = Pattern.compile("\"([^\"]*)\"");
 
     boolean quote, curly, oneChild;
-    int brackets;
+    int brackets, lineIndex = 1;
     String line = new String();
 
-    ScriptTreeNode parent, prev;
+    ScriptTreeNode parent, prev, next;
     ScriptTreeNodeType type;
     ScriptPipe compiled;
 
@@ -23,7 +23,7 @@ public class ScriptTreeNode {
 
     @Override
     public String toString() {
-        String line = this.line + " [" + type.name() + "]\n";
+        String line = this.line + " [" + lineIndex + "] (" + type.name() + ")\n";
 
         ScriptTreeNode parent = this.parent;
         while (parent != null) {
@@ -38,7 +38,7 @@ public class ScriptTreeNode {
     }
 
     ScriptPipe compile_r(ScriptPipe parent) {
-        compiled = type.compile(this);
+        compiled = type.compile(this, lineIndex);
         if (parent != null) {
             parent.children.add(compiled);
             compiled.parent = parent;
@@ -101,7 +101,7 @@ public class ScriptTreeNode {
     }
 
     ScriptTreeNode nextScopeMember() {
-        ScriptTreeNode next = new ScriptTreeNode();
+        next = new ScriptTreeNode();
         next.parent = parent;
         next.prev = this;
         parent.children.add(next);

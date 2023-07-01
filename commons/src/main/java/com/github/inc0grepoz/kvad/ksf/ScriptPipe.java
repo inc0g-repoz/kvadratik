@@ -5,6 +5,7 @@ import java.util.Queue;
 
 public abstract class ScriptPipe {
 
+    int lineIndex;
     ScriptPipe parent;
 
     final Queue<ScriptPipe> children = new LinkedList<>();

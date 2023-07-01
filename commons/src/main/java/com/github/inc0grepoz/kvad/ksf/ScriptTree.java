@@ -8,6 +8,8 @@ import com.github.inc0grepoz.kvad.utils.Logger;
 
 public class ScriptTree {
 
+    int lineCounter = 1;
+
     ScriptTreeNode target = new ScriptTreeNode() {{
         line = "root";
         type = ScriptTreeNodeType.ROOT;
@@ -50,6 +52,7 @@ public class ScriptTree {
     private void write(char c) {
         switch (c) {
             case '\n': {
+                target.lineIndex = ++lineCounter;
                 if (target.line.startsWith("//")) {
                     target = target.skipScopeMember();
                 }

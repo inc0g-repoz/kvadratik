@@ -1,5 +1,6 @@
 package com.github.inc0grepoz.kvad.ksf;
 
+import java.lang.reflect.Array;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Stream;
@@ -185,9 +186,16 @@ public enum Operator {
         },
         2
     ),
+    /* TODO: Doesn't enable writing elements, thus I'm not quite sure
+     * it's supposed to be an operator */
+    V_ARR_ELT(
+        new String[] { "[", "]" },
+        (vp, o) -> new VarValue(Array.get(o[0].getValue(vp), (int) o[1].getValue(vp))),
+        2
+    ),
     ;
 
-    final String[] nttn;    // Notation
+    final String[] nttn;  // Notation
     final Evaluator eval; // Implementation
     final int oc;         // Operands count
 

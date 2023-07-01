@@ -13,10 +13,11 @@ public class Bootstrap {
         Kvadratik kvad = new Tester();
         ScriptManager scriptMan = new ScriptManager(kvad);
 
-        bench(() -> scriptMan.loadScripts());
+        scriptMan.loadScripts();
 
         Object event = new Object() {
 
+            public int[] arr = { 1, 2 };
             public Logger log = new Logger();
 
             public int call(int a) {
@@ -29,7 +30,7 @@ public class Bootstrap {
 
         };
 
-        bench(() -> scriptMan.fireEvent("testFibonacci", event));
+        bench(() -> scriptMan.fireEvent("testIfElse", event));
     }
 
     public static void bench(Runnable... rArr) {
