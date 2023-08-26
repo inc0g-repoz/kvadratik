@@ -1,0 +1,7 @@
+on testForEach(e) {
+	for (var param : e.arr) {
+		e.logger.info(param);
+	}
+	var arr = e.list.size();
+	e.logger.info(arr);
+}

@@ -1,6 +1,8 @@
 package com.inc0grepoz.kvad.ksf;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.ksf.Event;
@@ -15,9 +17,14 @@ public class Bootstrap {
 
         scriptMan.loadScripts();
 
-        Event event = new Event("testIfElse") {
+        Event event = new Event("testForEach") {
 
-            public int[] arr = { 1, 2 };
+            public int[] arr = { 1, 2, 3 };
+            public List<Integer> list = new ArrayList<Integer>() {{
+                add(1);
+                add(2);
+                add(3);
+            }};
 
             public int call(int a) {
                 return a;

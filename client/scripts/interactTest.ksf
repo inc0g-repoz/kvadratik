@@ -1,3 +1,8 @@
 on interact(e) {
-	e.logger.info("Successfully interacted");
+    var rect = e.player.getRectangle();
+	if (rect.x > 0 && rect.y > 0) {
+		e.logger.info("Successfully interacted");
+	} else {
+		e.logger.info("Failed to interact");
+	}
 }

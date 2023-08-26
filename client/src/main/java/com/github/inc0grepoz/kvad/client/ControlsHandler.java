@@ -89,7 +89,7 @@ public class ControlsHandler {
                     Event event = new Event("interact") {
 
                         @SuppressWarnings("unused") // IT CAN BE EVENTUALLY USED!
-                        Being player = playerBeing;
+                        public Being player = playerBeing;
 
                     };
                     game.getScripts().fireEvent(event);

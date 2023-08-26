@@ -1,5 +1,7 @@
 package com.github.inc0grepoz.kvad.ksf;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -33,7 +35,7 @@ public enum ScriptTreeNodeType {
     ),
     FOR(
         "(" + Keyword.FOR + " ?)\\((.+=.+)?;.*;.*\\)(.*)", null,
-        tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")"),
+        tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")") && tn.line.contains(";"),
         tn -> {
             String[] ols = Expressions.oneLineStatement(tn.line);
             String[] params = ols[0].split(";");
@@ -47,6 +49,27 @@ public enum ScriptTreeNodeType {
                 tn.defineTypes_r();
             }
             return new ScriptPipeFor(ref, boolExp, op);
+        }
+    ),
+    FOR_EACH(
+        "(" + Keyword.FOR + " ?)\\(.+:.+\\)(.*)", null,
+        tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")") && tn.line.contains(":"),
+        tn -> {
+            String[] ols = Expressions.oneLineStatement(tn.line);
+            String[] params = ols[0].split(":");
+
+            List<String> typeParam = new ArrayList<>();
+            for (String w : params[0].split(" +")) {
+                if (!w.isEmpty()) {
+                    typeParam.add(w);
+                }
+            }
+
+            if (tn.children.isEmpty()) {
+                tn.firstScopeMember().write(ols[1]);
+                tn.defineTypes_r();
+            }
+            return new ScriptPipeForEach(typeParam.get(1), Expressions.resolveVar(params[1]));
         }
     ),
     IF(
