@@ -23,8 +23,15 @@ public class AssetsProvider {
 
     public String assetsParent;
 
+    // Makes it run in your IDE
+    {
+        String parent = "src/main/resources";
+        File file = new File(parent);
+        assetsParent = file.exists() ? parent + "/" : "";
+    }
+
     public boolean copy(String path) {
-        String ppp = getAssetsParent() + path;
+        String ppp = assetsParent + path;
         File file = new File(ppp);
 
         if (file.exists()) {
@@ -55,7 +62,7 @@ public class AssetsProvider {
     }
 
     public BufferedImage image(String path) {
-        String ppp = getAssetsParent() + path;
+        String ppp = assetsParent + path;
         Logger.info("Loading " + ppp);
 
         try {
@@ -72,7 +79,7 @@ public class AssetsProvider {
     }
 
     public String textFile(String path) {
-        String ppp = getAssetsParent() + path;
+        String ppp = assetsParent + path;
         Logger.info("Loading " + ppp);
 
         InputStream stream;
@@ -107,7 +114,7 @@ public class AssetsProvider {
     }
 
     public Script script(String path, VarPool vars) {
-        String ppp = getAssetsParent() + path;
+        String ppp = assetsParent + path;
 
         Script script = Script.compile(new File(ppp), vars);
         Logger.info("Compiled and loaded " + script.getName());
@@ -116,7 +123,7 @@ public class AssetsProvider {
     }
 
     public List<Script> scripts(String path, VarPool vars) {
-        String ppp = getAssetsParent() + "scripts";
+        String ppp = assetsParent + "scripts";
         List<Script> scripts = new ArrayList<>();
 
         File dir = new File(ppp);
@@ -138,10 +145,10 @@ public class AssetsProvider {
     }
 
     public Stream<String> listFiles(String path) {
-        String ppp = getAssetsParent() + path;
+        String ppp = assetsParent + path;
         try {
             File dir = new File(ppp);
-            return Stream.of(dir.list()).map(fn -> ppp + "/" + fn);
+            return Stream.of(dir.list()).map(fn -> path + "/" + fn);
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -163,8 +170,8 @@ public class AssetsProvider {
         return null;
     }
 
-    private String getAssetsParent() {
-        return (assetsParent == null ? "" : assetsParent + "/").replaceAll("(/)+", "/");
+    public void setAssetsParent(String path) {
+        assetsParent = path == null ? "" : (path + "/").replaceAll("/+", "/");
     }
 
 }

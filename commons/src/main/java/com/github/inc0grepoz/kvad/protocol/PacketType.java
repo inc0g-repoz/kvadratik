@@ -14,6 +14,8 @@ public enum PacketType {
     CLIENT_PLAYER_POINT,
 
     // Server -> Client
+    SERVER_ASSET_IMAGE,
+    SERVER_ASSETS_DONE,
     SERVER_ASSETS_URL,
     SERVER_BEING_ANIM,
     SERVER_BEING_DESPAWN,
@@ -26,7 +28,8 @@ public enum PacketType {
     SERVER_TRANSFER_CONTROL,
     SERVER_LEVEL;
 
-    public static PacketType byId(int id) {
+    public static PacketType byId(int ordinal) {
+        /*
         PacketType[] values = values();
         for (int i = 0; i < values.length; i++) {
             if (values[i].id == id) {
@@ -34,6 +37,8 @@ public enum PacketType {
             }
         }
         return null;
+        */
+        return values()[ordinal];
     }
 
     private final @Getter int id = ordinal();
