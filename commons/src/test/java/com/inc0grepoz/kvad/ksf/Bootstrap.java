@@ -5,21 +5,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
+import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.ksf.Event;
 import com.github.inc0grepoz.kvad.ksf.ScriptManager;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 
 import lombok.Getter;
 
-@SuppressWarnings("unused") // It's all used
+@SuppressWarnings("all") // It's all used
 public class Bootstrap {
 
     public static void main(String[] args) throws IOException {
         Kvadratik kvad = new Kvadratik() {
 
-            @Getter
-            AssetsProvider assetsProvider = new AssetsProvider();
+            @Getter AssetsProvider assetsProvider = new AssetsProvider();
+            @Getter JsonMapper jsonMapper = new JsonMapper();
+            @Getter BeingFactory beingFactory;
+            @Getter LevelObjectFactory levelObjectFactory;
 
         };
 
