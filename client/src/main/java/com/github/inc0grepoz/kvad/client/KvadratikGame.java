@@ -6,8 +6,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Map;
 
-import com.github.inc0grepoz.common.util.json.mapper.JsonMapper;
+import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
@@ -16,13 +17,13 @@ import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.ksf.ScriptManager;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
-import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings("unchecked")
 public class KvadratikGame extends Frame implements Kvadratik {
 
     public static final JsonMapper JSON_MAPPER = new JsonMapper();
@@ -60,8 +61,10 @@ public class KvadratikGame extends Frame implements Kvadratik {
 
         // Copying and loading settings
         ASSETS.copy("settings.json");
-        String settings = ASSETS.textFile("settings.json");
-        JSON.fromJsonSettings(this, settings);
+        Map<String, String> settings = JSON_MAPPER.deserialize(ASSETS.textFile("settings.json"), Map.class, String.class, String.class);
+        if (!client.isInfoProvided()) {
+            client.setNickname(settings.getOrDefault("username", "DummyName"));
+        }
 
         // Rendering
         canvas = new KvadratikCanvas(this, getWidth(), getHeight());

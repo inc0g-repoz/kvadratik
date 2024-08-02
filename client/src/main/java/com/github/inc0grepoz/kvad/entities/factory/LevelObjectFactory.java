@@ -1,33 +1,42 @@
 package com.github.inc0grepoz.kvad.entities.factory;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnim;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
-import com.github.inc0grepoz.kvad.utils.JSON;
 
+@SuppressWarnings("unchecked")
 public class LevelObjectFactory {
 
-    private LevelObjectTemplate[] templates;
+    private final Map<String, LevelObjectTemplate> templates = new HashMap<>();
 
     public void validatePreload() {
-        if (templates == null) {
-            String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
+        if (templates.isEmpty()) {
+            // Preloading level objects animations
             String levelObjectsAnimsJson = KvadratikGame.ASSETS.textFile("assets/objects/anims.json");
-            LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
-            templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
+            List<LevelObjectAnim> animList = KvadratikGame.JSON_MAPPER.deserialize(levelObjectsAnimsJson, List.class, LevelObjectAnim.class);
+            Map<String, LevelObjectAnim> animMap = new HashMap<>();
+            animList.forEach(anim -> {
+                anim.precacheSprites();
+                animMap.put(anim.getName(), anim);
+            });
+            LevelObjectAnim.init(animMap);
+
+            // Preloading level objects data
+            String levelObjectsJson = KvadratikGame.ASSETS.textFile("assets/objects/objects.json");
+            List<LevelObjectTemplate> list = KvadratikGame.JSON_MAPPER.deserialize(levelObjectsJson, List.class, LevelObjectTemplate.class);
+            list.forEach(lot -> templates.put(lot.getName(), lot));
         }
     }
 
     public LevelObjectTemplate getTemplate(String type) {
-        for (int i = 0; i < templates.length; i++) {
-            if (templates[i].getType().equals(type)) {
-                return templates[i];
-            }
-        }
-        return null;
+        return templates.get(type);
     }
 
     public LevelObject create(String name, Level level, Point point) {

@@ -26,7 +26,8 @@ public class KvadratikClient extends Worker {
     private final @Getter Chat chat = new Chat(this);
 
     private @Setter int port;
-    private @Setter String host, nickname;
+    private @Setter String host;
+    private String nickname;
     private Socket socket;
 
     public KvadratikClient(KvadratikGame game, long delay) {
