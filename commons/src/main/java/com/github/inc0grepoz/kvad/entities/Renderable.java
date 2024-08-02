@@ -63,7 +63,7 @@ public abstract class Renderable extends Entity {
 
     public void drawCollider(Graphics gfx, int x, int y, int width, int height) {
         Color color = gfx.getColor();
-        gfx.setColor(Color.GREEN);
+        gfx.setColor(Color.ORANGE);
         gfx.drawRect(x, y, width, height);
         gfx.setColor(color);
     }
@@ -75,7 +75,7 @@ public abstract class Renderable extends Entity {
         gfx.setColor(color);
     }
 
-    public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {}
+    public abstract void typeText(Graphics gfx, Rectangle cam, Rectangle rect);
 
     public abstract void delete();
 

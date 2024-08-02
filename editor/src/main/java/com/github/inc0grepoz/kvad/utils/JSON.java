@@ -77,7 +77,7 @@ public class JSON {
             jPoint.add(point.x);
             jPoint.add(point.y);
 
-            jLevelObject.addProperty("type", lo.getName());
+            jLevelObject.addProperty("type", lo.getType());
             jLevelObject.add("point", jPoint);
             jLevelObjects.add(jLevelObject);
         });

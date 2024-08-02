@@ -21,7 +21,7 @@ public class CanvasRenderer extends Canvas {
 
     public boolean miscInfo = true;
 
-    private final KvadratikEditor editor;
+    private final @Getter KvadratikEditor editor;
     private final @Getter RenderWorker worker;
     private final FrapsCounter fps = new FrapsCounter();
 
@@ -71,10 +71,6 @@ public class CanvasRenderer extends Canvas {
 
         g2d.dispose();
         g.drawImage(image, 0, 0, gw, gh, this);
-    }
-
-    public KvadratikEditor getEditor() {
-        return editor;
     }
 
 }

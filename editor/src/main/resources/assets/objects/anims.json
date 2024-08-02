@@ -8,5 +8,30 @@
         "name": "mewo",
         "delay": 1000,
         "paths": ["state_1.png", "state_2.png"]
+    },
+    {
+        "name": "tv",
+        "delay": 250,
+        "paths": ["state_1.png", "state_2.png"]
+    },
+    {
+        "name": "wall_cat",
+        "delay": 1000,
+        "paths": ["state_1.png"]
+    },
+    {
+        "name": "wall_front",
+        "delay": 1000,
+        "paths": ["state_1.png"]
+    },
+    {
+        "name": "ladder",
+        "delay": 1000,
+        "paths": ["state_1.png"]
+    },
+    {
+        "name": "photo",
+        "delay": 200,
+        "paths": ["state_1.png", "state_2.png"]
     }
 ]

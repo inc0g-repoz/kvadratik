@@ -4,25 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
-import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.utils.Platform;
-import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public class LevelObjectBackground extends LevelObjectAnimated {
 
     private final Color color;
 
     public LevelObjectBackground(Level level, Rectangle rect,
-            Dimension collSize, Vector2D collOffset, LevelObjectAnim anim) {
-        super(level, rect, collSize, collOffset, anim);
+            LevelObjectTemplate temp, LevelObjectAnim anim) {
+        super(level, rect, temp, anim);
         this.color = null;
     }
 
     public LevelObjectBackground(Level level, Rectangle rect,
-            Dimension collSize, Vector2D collOffset, Color color) {
-        super(level, rect, collSize, collOffset, LevelObjectAnim.COLOR);
+            LevelObjectTemplate temp, Color color) {
+        super(level, rect, temp, LevelObjectAnim.COLOR);
         this.color = color;
     }
 
