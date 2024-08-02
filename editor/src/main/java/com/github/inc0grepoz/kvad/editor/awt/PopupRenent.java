@@ -6,13 +6,11 @@ import javax.swing.JPopupMenu;
 import com.github.inc0grepoz.kvad.entities.Renderable;
 import com.github.inc0grepoz.kvad.utils.Logger;
 
+@SuppressWarnings("serial")
 public class PopupRenent extends JPopupMenu {
 
-    private static final long serialVersionUID = 4299511615543327229L;
-
-    private final JMenuItem
-        miSetType = new JMenuItem("Set Type"),
-        miDelete = new JMenuItem("Delete");
+    private final JMenuItem miSetType = new JMenuItem("Set Type");
+    private final JMenuItem miDelete  = new JMenuItem("Delete");
 
     Renderable renEnt;
 

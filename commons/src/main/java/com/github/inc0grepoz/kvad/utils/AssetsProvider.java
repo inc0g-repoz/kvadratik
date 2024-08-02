@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -82,33 +84,32 @@ public class AssetsProvider {
         String ppp = assetsParent + path;
         Logger.info("Loading " + ppp);
 
-        InputStream stream;
         File file = new File(ppp);
-
         try {
             if (file.exists()) {
-                stream = new FileInputStream(file);
-            } else {
-                stream = getClass().getClassLoader().getResourceAsStream(path);
+                return textFile(file);
             }
 
-            InputStreamReader isr = new InputStreamReader(stream);
-            BufferedReader br = new BufferedReader(isr);
-
-            // Reading the lines
-            String string = br.lines().collect(StringBuilder::new,
-                    (b, s) -> b.append(s), (b1, b2) -> b1.append(b2))
-                    .toString();
-
-            // Closing the streams
-            stream.close();
-            isr.close();
-            br.close();
-
-            return string;
+            return textFile(getClass().getClassLoader().getResourceAsStream(path));
         } catch (Exception e) {}
 
         Logger.error("Invalid text file: " + ppp);
+        System.exit(0);
+        return null;
+    }
+
+    public String textFile(File file) {
+        try {
+            return textFile(new FileInputStream(file));
+        } catch (FileNotFoundException e) {}
+        System.exit(0);
+        return null;
+    }
+
+    public String textFile(InputStream stream) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
+            return br.lines().collect(StringBuilder::new, (b, s) -> b.append(s), (b1, b2) -> b1.append(b2)).toString();
+        } catch (IOException e) {}
         System.exit(0);
         return null;
     }
