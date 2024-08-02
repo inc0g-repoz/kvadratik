@@ -1,23 +1,29 @@
-{
-    "background": {
-        "size": [0, 0],
-        "type": "Background",
+[
+    {
+        "name": "background",
+        "type": "BACKGROUND",
+        "size": {"width": 0, "height": 0},
         "color": [255, 255, 255]
     },
-    "rug": {
-        "size": [128, 97],
-        "type": "Rectangle"
+    {
+        "name": "rug",
+        "type": "RECTANGLE",
+        "size": {"width": 128, "height": 97}
     },
-	"mewo": {
-        "size": [30, 30],
-        "collider": [26, 16, 2, 5],
-        "type": "Animated",
+	{
+        "name": "mewo",
+        "type": "ANIMATED",
+        "size": {"width": 30, "height": 30},
+        "colliderSize": {"width": 26, "height": 16},
+        "colliderOffset": {"x": 2, "y": 5},
         "collide": true
     },
-	"laptop": {
-        "size": [22, 22],
-        "collider": [18, 22, 2, 0],
-        "type": "Animated",
+	{
+        "name": "laptop",
+        "type": "ANIMATED",
+        "size": {"width": 22, "height": 22},
+        "colliderSize": {"width": 18, "height": 22},
+        "colliderOffset": {"x": 2, "y": 0},
         "collide": true
     }
-}
+]

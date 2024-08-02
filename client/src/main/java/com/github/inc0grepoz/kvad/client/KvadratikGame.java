@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
+import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.gui.Message;
@@ -18,6 +19,7 @@ import com.github.inc0grepoz.kvad.gui.menu.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.ksf.ScriptManager;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.utils.Platform;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 
 import lombok.Getter;
@@ -30,7 +32,7 @@ public class KvadratikGame extends Frame implements Kvadratik {
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
-    public static final KvadratikGame INSTANCE = new KvadratikGame();
+    public static final KvadratikGame INSTANCE = Platform.init(new KvadratikGame());
 
     private static final long serialVersionUID = 3533037507759276338L;
 
@@ -87,6 +89,36 @@ public class KvadratikGame extends Frame implements Kvadratik {
     @Override
     public AssetsProvider getAssetsProvider() {
         return ASSETS;
+    }
+
+    @Override
+    public JsonMapper getJsonMapper() {
+        return JSON_MAPPER;
+    }
+
+    @Override
+    public BeingFactory getBeingFactory() {
+        return BEING_FACTORY;
+    }
+
+    @Override
+    public LevelObjectFactory getLevelObjectFactory() {
+        return OBJECT_FACTORY;
+    }
+
+    @Override
+    public void move(Being being, double dx, double dy) {
+        client.getPacketUtil().outPoint(being, dx, dy);
+    }
+
+    @Override
+    public void sendAnim(Being being) {
+        client.getPacketUtil().outAnim();
+    }
+
+    @Override
+    public boolean isDrawingColliders() {
+        return canvas.drawColliders;
     }
 
     public void run() {
