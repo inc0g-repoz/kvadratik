@@ -13,10 +13,8 @@ import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.server.KvadratikServer;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
 public class Level {
 
     private final @Getter KvadratikServer server;
@@ -27,6 +25,12 @@ public class Level {
     private final @Getter List<Being> beings = new ArrayList<>();
 
     private @Getter @Setter PlayerPreset playerPreset;
+
+    public Level(KvadratikServer kvad, String name, String json) {
+        this.server = kvad;
+        this.name = name;
+        this.json = json;
+    }
 
     @Override
     public String toString() {

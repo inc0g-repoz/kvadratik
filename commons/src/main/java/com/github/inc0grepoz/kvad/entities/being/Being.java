@@ -51,7 +51,7 @@ public class Being extends Renderable {
     }
 
     public void moveOn(long timeGap) {
-        double moveSpeed = anim.speed * timeGap;
+        double moveSpeed = anim.moveSpeed * timeGap;
         boolean moved = move(anim.way, moveSpeed);
 
         if (moved) {
@@ -132,12 +132,6 @@ public class Being extends Renderable {
             x -= width / 2;
             y -= 5;
             gfx.drawString(name, x, y);
-        } else if (selected) {
-            int x = (int) (rect.getCenterX() - cam.x), y = (int) (rect.y + rect.height - cam.y);
-            int width = gfx.getFontMetrics().stringWidth(type);
-            x -= width / 2;
-            y += 15;
-            gfx.drawString(type, x, y);
         }
     }
 

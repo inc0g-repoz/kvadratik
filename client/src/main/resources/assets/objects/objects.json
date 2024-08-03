@@ -10,7 +10,7 @@
         "type": "RECTANGLE",
         "size": {"width": 128, "height": 97}
     },
-    {
+	{
         "name": "mewo",
         "type": "ANIMATED",
         "size": {"width": 30, "height": 30},
@@ -18,33 +18,12 @@
         "colliderOffset": {"x": 2, "y": 5},
         "collide": true
     },
-    {
+	{
         "name": "laptop",
         "type": "ANIMATED",
         "size": {"width": 22, "height": 22},
         "colliderSize": {"width": 18, "height": 22},
         "colliderOffset": {"x": 2, "y": 0},
         "collide": true
-    },
-    {
-        "name": "ladder",
-        "type": "ANIMATED",
-        "size": {"width": 74, "height": 221}
-    },
-    {
-        "name": "tv",
-        "type": "ANIMATED",
-        "size": {"width": 27, "height": 31},
-        "collide": true
-    },
-    {
-        "name": "wall_cat",
-        "size": {"width": 475, "height": 132},
-        "type": "ANIMATED"
-    },
-    {
-        "name": "wall_front",
-        "type": "ANIMATED",
-        "size": {"width": 10, "height": 16}
     }
 ]

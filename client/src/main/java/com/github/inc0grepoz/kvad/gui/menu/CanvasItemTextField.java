@@ -14,7 +14,7 @@ public class CanvasItemTextField extends CanvasItem {
     protected @Getter String content = "";
 
     private @Getter @Setter boolean typing;
-    private int capY, cntY;
+    private int capY, cntX, cntY;
 
     public CanvasItemTextField(String caption, String content) {
         super(caption, new Rectangle(0, 0, 200, 20));

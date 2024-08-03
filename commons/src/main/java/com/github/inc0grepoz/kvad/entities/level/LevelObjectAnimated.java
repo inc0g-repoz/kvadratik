@@ -3,8 +3,10 @@ package com.github.inc0grepoz.kvad.entities.level;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.utils.Platform;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
@@ -16,8 +18,9 @@ public class LevelObjectAnimated extends LevelObject{
     private int stateSpriteIndex;
 
     public LevelObjectAnimated(Level level, Rectangle rect,
-            LevelObjectTemplate temp, LevelObjectAnim anim) {
-        super(level, rect, temp);
+            Dimension collSize, Vector2D collOffset,
+            LevelObjectAnim anim) {
+        super(level, rect, collSize, collOffset);
         this.anim = anim;
     }
 

@@ -8,9 +8,6 @@ import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.protocol.PacketType;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class Chat {
 
     public boolean locked, typing;
@@ -18,6 +15,10 @@ public class Chat {
 
     private final KvadratikClient kvad;
     private final Queue<Message> messages = new LinkedList<>();
+
+    public Chat(KvadratikClient kvad) {
+        this.kvad = kvad;
+    }
 
     public void clear() {
         messages.clear();

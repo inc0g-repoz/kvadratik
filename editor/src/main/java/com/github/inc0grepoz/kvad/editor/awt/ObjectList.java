@@ -18,19 +18,10 @@ public class ObjectList extends JList<String> {
         setDropMode(DropMode.INSERT);
         setCellRenderer(new ObjectListCellRenderer());
         addListSelectionListener(e -> {
-            editor.getSelection().selGrid.setFactory(editor.getLevelObjectFactory());
+            editor.getSelection().selGrid.setFactory(KvadratikEditor.OBJECT_FACTORY);
         });
 
         updateData();
-        (new Thread(() -> {
-            try {
-                Thread.sleep(1000L);
-            } catch (InterruptedException e) {
-            }
-
-            updateData();
-            System.out.println("leva edita");
-        })).start();
     }
 
     public void updateData() {

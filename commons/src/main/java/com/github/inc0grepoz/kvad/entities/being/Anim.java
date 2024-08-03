@@ -6,8 +6,6 @@ import java.util.HashMap;
 import com.github.inc0grepoz.kvad.utils.Platform;
 import com.github.inc0grepoz.kvad.utils.Vector2D;
 
-import lombok.RequiredArgsConstructor;
-
 public enum Anim {
 
     HIT_W(0, 0, Way.W),
@@ -79,7 +77,6 @@ public enum Anim {
             "walk_d_2.png",
             "idle_d.png");
 
-    @RequiredArgsConstructor
     public static enum Way {
 
         W(0, -1), A(-1, 0), S(0, 1), D(1, 0);
@@ -89,7 +86,8 @@ public enum Anim {
         public static Way fromVector(Vector2D vector) {
             Way[] ways = values();
             for (int i = 0; i < ways.length; i++) {
-                if (compareDigits(ways[i].x, vector.x) && compareDigits(ways[i].y, vector.y)) {
+                if (compareDigits(ways[i].x, vector.x)
+                        && compareDigits(ways[i].y, vector.y)) {
                     return ways[i];
                 }
             }
@@ -97,20 +95,27 @@ public enum Anim {
         }
 
         private static boolean compareDigits(double a, double b) {
-            return a > 0 && b > 0 || a == 0 && b == 0 || a < 0 && b < 0;
+            return a > 0 && b > 0
+                    || a == 0 && b == 0
+                    || a < 0 && b < 0;
+        }
+
+        Way(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
 
     }
 
     public final Way way;
     public final long delay;
-    public final double speed;
+    public final double moveSpeed;
 
     private final HashMap<String, BufferedImage[]> images = new HashMap<>();
 
     Anim(long delay, double speed, Way way, String... paths) {
         this.delay = delay;
-        this.speed = speed;
+        this.moveSpeed = speed;
         this.way = way;
 
         String[] bt = Platform.getInstance().getBeingFactory().getTypes();

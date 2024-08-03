@@ -1,41 +1,25 @@
 package com.github.inc0grepoz.kvad.entities.level;
 
-import java.awt.Graphics;
-
+import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.Renderable;
+import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
 
-@Getter
 public abstract class LevelObject extends Renderable {
 
-    private LevelObjectTemplate template;
+    @Getter
+    private String name;
 
-    public LevelObject(Level level, Rectangle rect, LevelObjectTemplate template) {
-        super(level, rect, template.getColliderSize(), template.getColliderOffset());
-        this.template = template;
-    }
-
-    @Override
-    public void typeText(Graphics gfx, Rectangle cam, Rectangle rect) {
-        if (selected) {
-            String tempName = getType();
-            int x = (int) (rect.getCenterX() - cam.x), y = (int) (rect.y + rect.height - cam.y);
-            int width = gfx.getFontMetrics().stringWidth(tempName);
-            x -= width / 2;
-            y += 15;
-            gfx.drawString(tempName, x, y);
-        }
+    public LevelObject(Level level, Rectangle rect,
+            Dimension collSize, Vector2D collOffset) {
+        super(level, rect, collSize, collOffset);
     }
 
     @Override
     public void delete() {
         getLevel().getLevelObjects().remove(this);
-    }
-
-    public String getType() {
-        return template == null ? null : template.getName();
     }
 
 }

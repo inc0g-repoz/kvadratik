@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @FunctionalInterface
 interface Factory {
-    LevelObject supply(LevelObjectTemplate template, Level level, Rectangle rect);
+    LevelObject supply(LevelObjectTemplate t, Level level, Rectangle rect);
 }
 
 @Getter
@@ -17,15 +17,15 @@ interface Factory {
 public enum LevelObjectType {
 
     ANIMATED  ((t, l, r) -> {
-        return new LevelObjectAnimated(l, r, t, LevelObjectAnim.valueOf(t.getName()));
+        return new LevelObjectAnimated(l, r, t.getColliderSize(), t.getColliderOffset(), LevelObjectAnim.valueOf(t.getName()));
     }),
     BACKGROUND((t, l, r) -> {
         int[] color = t.getColor();
         return color == null
-             ? new LevelObjectBackground(l, r, t, LevelObjectAnim.COLOR)
-             : new LevelObjectBackground(l, r, t, new Color(color[0], color[1], color[2]));
+             ? new LevelObjectBackground(l, r, t.getColliderSize(), t.getColliderOffset(), LevelObjectAnim.COLOR)
+             : new LevelObjectBackground(l, r, t.getColliderSize(), t.getColliderOffset(), new Color(color[0], color[1], color[2]));
     }),
-    RECTANGLE ((t, l, r) -> new LevelObjectRectangle(l, r, t));
+    RECTANGLE ((t, l, r) -> new LevelObjectRectangle(l, r));
 
     private final Factory factory;
 

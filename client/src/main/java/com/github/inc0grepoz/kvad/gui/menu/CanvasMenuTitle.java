@@ -21,9 +21,6 @@ public class CanvasMenuTitle extends CanvasMenu {
             cmServer.setParent(this);
             canvas.setMenu(cmServer);
         });
-        addButton("Level Editor", () -> {
-            
-        });
         alignItems(canvas, buff);
     }
 
