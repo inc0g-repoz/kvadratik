@@ -7,7 +7,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
+import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
@@ -20,19 +22,20 @@ import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
+import com.github.inc0grepoz.kvad.utils.Platform;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings("serial")
 public class KvadratikEditor extends Frame implements Kvadratik {
 
+    public static final JsonMapper JSON_MAPPER = new JsonMapper();
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
-    public static final KvadratikEditor INSTANCE = new KvadratikEditor();
-
-    private static final long serialVersionUID = -1333875604612316915L;
+    public static final KvadratikEditor INSTANCE = Platform.init(new KvadratikEditor());
 
     private final @Getter EditorToolBar toolBar = new EditorToolBar(this);
     private final @Getter EditorToolsPanel panel = new EditorToolsPanel(this);
@@ -57,7 +60,7 @@ public class KvadratikEditor extends Frame implements Kvadratik {
         canvas = new CanvasRenderer(this, 640, 480);
         canvas.setBounds(0, 0, 640, 480);
         canvas.setBackground(Color.BLACK);
-        canvas.setFrapsPerSecond(20);
+        canvas.setFrapsPerSecond(60);
         canvas.getWorker().start();
 
         // Canvas Drag & Drop
@@ -90,10 +93,31 @@ public class KvadratikEditor extends Frame implements Kvadratik {
         return ASSETS;
     }
 
+    @Override
+    public JsonMapper getJsonMapper() {
+        return JSON_MAPPER;
+    }
+
+    @Override
+    public BeingFactory getBeingFactory() {
+        return BEING_FACTORY;
+    }
+
+    @Override
+    public LevelObjectFactory getLevelObjectFactory() {
+        return OBJECT_FACTORY;
+    }
+
     public void run() {
         String levelJson = ASSETS.textFile("assets/levels/default.json");
-        level = JSON.fromJsonLevel(this, levelJson, false);
+        level = JSON.fromJsonLevel(levelJson, false);
         level.setPath("assets/levels/default.json");
+    }
+
+    public void loadLevel(File file) {
+        String levelJson = ASSETS.textFile(file);
+        level = JSON.fromJsonLevel(levelJson, false);
+        level.setPath(file.getPath());
     }
 
     public void applyIcon(String fileName) {

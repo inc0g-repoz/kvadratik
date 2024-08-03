@@ -1,31 +1,34 @@
 package com.github.inc0grepoz.kvad.entities.factory;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.entities.level.LevelObject;
-import com.github.inc0grepoz.kvad.entities.level.LevelObjectAnim;
 import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
-import com.github.inc0grepoz.kvad.server.KvadratikServer;
-import com.github.inc0grepoz.kvad.utils.JSON;
+import com.github.inc0grepoz.kvad.utils.Platform;
 
+@SuppressWarnings("unchecked")
 public class LevelObjectFactory {
 
-    private final LevelObjectTemplate[] templates;
+    private final Map<String, LevelObjectTemplate> templates = new HashMap<>();
 
-    {
-        String levelObjectsJson = KvadratikServer.ASSETS.textFile("assets/objects/objects.json");
-        String levelObjectsAnimsJson = KvadratikServer.ASSETS.textFile("assets/objects/anims.json");
-        LevelObjectAnim.init(JSON.fromJsonLevelObjectAnim(levelObjectsAnimsJson));
-        templates = JSON.fromJsonLevelObjectTemplates(levelObjectsJson);
+    public void validatePreload() {
+        if (templates.isEmpty()) {
+            Kvadratik kvad = Platform.getInstance();
+
+            // Preloading level objects data
+            String levelObjectsJson = kvad.getAssetsProvider().textFile("assets/objects/objects.json");
+            List<LevelObjectTemplate> list = kvad.getJsonMapper().deserialize(levelObjectsJson, List.class, LevelObjectTemplate.class);
+            list.forEach(lot -> templates.put(lot.getType(), lot));
+        }
     }
 
     public LevelObjectTemplate getTemplate(String type) {
-        for (int i = 0; i < templates.length; i++) {
-            if (templates[i].getType().equals(type)) {
-                return templates[i];
-            }
-        }
-        return null;
+        return templates.get(type);
     }
 
     public LevelObject create(String name, Level level, Point point) {

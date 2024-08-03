@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.being.Player;
@@ -16,6 +17,7 @@ import com.github.inc0grepoz.kvad.protocol.PacketUtil;
 import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.utils.Platform;
 import com.github.inc0grepoz.kvad.worker.ConsoleWorker;
 import com.github.inc0grepoz.kvad.worker.PacketHandler;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
@@ -24,10 +26,11 @@ import com.github.inc0grepoz.kvad.worker.Worker;
 
 public class KvadratikServer implements Kvadratik {
 
+    public static final JsonMapper JSON_MAPPER = new JsonMapper();
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
-    public static final KvadratikServer INSTANCE = new KvadratikServer();
+    public static final KvadratikServer INSTANCE = Platform.init(new KvadratikServer());
 
     public final List<Level> levels = new ArrayList<>();
     public final List<Player> players = new ArrayList<>();
@@ -69,6 +72,21 @@ public class KvadratikServer implements Kvadratik {
     @Override
     public AssetsProvider getAssetsProvider() {
         return ASSETS;
+    }
+
+    @Override
+    public JsonMapper getJsonMapper() {
+        return JSON_MAPPER;
+    }
+
+    @Override
+    public BeingFactory getBeingFactory() {
+        return BEING_FACTORY;
+    }
+
+    @Override
+    public LevelObjectFactory getLevelObjectFactory() {
+        return OBJECT_FACTORY;
     }
 
     public Level getLevelByName(String name) {

@@ -7,13 +7,12 @@ import com.github.inc0grepoz.kvad.entities.being.Player;
 import com.github.inc0grepoz.kvad.entities.level.Level;
 import com.github.inc0grepoz.kvad.gui.Message;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class PlayerCommandHandler {
 
     private final KvadratikServer kvad;
-
-    public PlayerCommandHandler(KvadratikServer kvad) {
-        this.kvad = kvad;
-    }
 
     public void execute(Player player, String command) {
         command = command.substring(1);
