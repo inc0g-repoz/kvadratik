@@ -44,8 +44,7 @@ public class Message {
     @Override
     public String toString() {
         JsonArray jArr = new JsonArray();
-
-        for (Component comp: components) {
+        components.forEach(comp -> {
             JsonObject jComp = new JsonObject();
             jComp.addProperty("text", comp.text);
 
@@ -56,15 +55,14 @@ public class Message {
             jComp.add("color", jCol);
 
             jArr.add(jComp);
-        }
-
+        });
         return jArr.toString();
     }
 
     public void render(Graphics gfx, int x, int y) {
         Color color = gfx.getColor();
 
-        for (Component comp: components) {
+        for (Component comp : components) {
             gfx.setColor(comp.color);
             gfx.drawString(comp.text, x, y);
             x += gfx.getFontMetrics().stringWidth(comp.text);

@@ -49,7 +49,7 @@ public class CanvasRenderer extends Canvas {
             Camera cam = level.getCamera();
 
             // Drawing all entities
-            cam.scale();
+            cam.scale(this);
             g2d.setColor(Color.BLACK);
 
             int renEnts = level.renEntsStreamSorted()

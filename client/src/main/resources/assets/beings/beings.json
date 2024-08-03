@@ -1,12 +1,12 @@
 [
     {
-        "name": "auby",
+        "type": "auby",
         "size": {"width": 32, "height":32},
         "colliderSize": {"width": 18, "height": 10},
         "colliderOffset": {"x": 7, "y": 21}
     },
     {
-        "name": "iomor",
+        "type": "iomor",
         "size": {"width": 32, "height":32},
         "colliderSize": {"width": 18, "height": 10},
         "colliderOffset": {"x": 7, "y": 21}

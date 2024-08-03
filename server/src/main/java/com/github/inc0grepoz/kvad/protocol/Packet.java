@@ -118,8 +118,7 @@ public class Packet {
 
     Map<String, String> toMap(int eltsCount) {
         Map<String, String> map = new HashMap<>();
-        String[] content = string.contains(";")
-                ? string.split(";", eltsCount)
+        String[] content = string.contains(";") ? string.split(";", eltsCount)
                 : new String[] { string };
         for (int i = 0; i < content.length; i++) {
             if (content[i].contains("=")) {

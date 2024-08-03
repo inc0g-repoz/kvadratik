@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.client.KvadratikCanvas;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
+import com.github.inc0grepoz.kvad.client.Session;
 import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
 import com.github.inc0grepoz.kvad.protocol.Packet;
 import com.github.inc0grepoz.kvad.utils.Logger;
@@ -22,7 +23,6 @@ public class ConsoleWorker extends Worker {
             "level",
             "log_keys",
             "log_packets",
-            "morph",
             "teleport",
             "view_misc",
             "walk_speed"
@@ -90,14 +90,6 @@ public class ConsoleWorker extends Worker {
                 game.loadLevel(path);
             } catch (Throwable t) {
                 Logger.error("Invalid level path");
-            }
-            return;
-        } else if (command.startsWith("morph ")) {
-            try {
-                String morph = command.substring(6);
-                game.getSession().getLevel().getPlayer().morph(morph);
-            } catch (Throwable t) {
-                Logger.error("Invalid morph ID");
             }
             return;
         } else if (command.startsWith("teleport ")) {
