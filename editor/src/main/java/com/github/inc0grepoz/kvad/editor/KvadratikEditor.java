@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
 import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
@@ -112,12 +111,6 @@ public class KvadratikEditor extends Frame implements Kvadratik {
         String levelJson = ASSETS.textFile("assets/levels/default.json");
         level = JSON.fromJsonLevel(levelJson, false);
         level.setPath("assets/levels/default.json");
-    }
-
-    public void loadLevel(File file) {
-        String levelJson = ASSETS.textFile(file);
-        level = JSON.fromJsonLevel(levelJson, false);
-        level.setPath(file.getPath());
     }
 
     public void applyIcon(String fileName) {

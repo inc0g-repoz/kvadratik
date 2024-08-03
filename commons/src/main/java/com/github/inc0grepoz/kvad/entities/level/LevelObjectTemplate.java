@@ -9,7 +9,6 @@ import com.github.inc0grepoz.kvad.awt.geom.Dimension;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
-import com.github.inc0grepoz.kvad.utils.Platform;
 import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
@@ -18,9 +17,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class LevelObjectTemplate implements RenderableTemplate {
-
-    private static final Icon MISSING = new ImageIcon(Platform.getInstance().getAssetsProvider()
-            .image("assets/editor/icons/missing.png").getScaledInstance(32, 32, Image.SCALE_FAST));
 
     private String name;
     private LevelObjectType type;
@@ -41,7 +37,7 @@ public class LevelObjectTemplate implements RenderableTemplate {
     public Icon getListIcon() {
         LevelObjectAnim anim = LevelObjectAnim.valueOf(name);
         if (anim == null) {
-            return MISSING;
+            return null;
         }
 
         Image[] images = anim.getImages();
@@ -51,7 +47,7 @@ public class LevelObjectTemplate implements RenderableTemplate {
             return new ImageIcon(image);
         }
 
-        return MISSING;
+        return null;
     }
 
 }
