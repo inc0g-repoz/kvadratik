@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.github.inc0grepoz.common.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.entities.Connection;
 import com.github.inc0grepoz.kvad.entities.being.Player;
@@ -25,7 +24,6 @@ import com.github.inc0grepoz.kvad.worker.Worker;
 
 public class KvadratikServer implements Kvadratik {
 
-    public static final JsonMapper JSON_MAPPER = new JsonMapper();
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();

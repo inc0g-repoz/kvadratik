@@ -7,7 +7,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import com.github.inc0grepoz.common.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
@@ -25,7 +24,6 @@ import lombok.Setter;
 
 public class KvadratikGame extends Frame implements Kvadratik {
 
-    public static final JsonMapper JSON_MAPPER = new JsonMapper();
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();

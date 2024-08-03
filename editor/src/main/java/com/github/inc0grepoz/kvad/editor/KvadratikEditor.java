@@ -8,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.github.inc0grepoz.common.util.json.mapper.JsonMapper;
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
@@ -28,7 +27,6 @@ import lombok.Setter;
 
 public class KvadratikEditor extends Frame implements Kvadratik {
 
-    public static final JsonMapper JSON_MAPPER = new JsonMapper();
     public static final AssetsProvider ASSETS = new AssetsProvider();
     public static final BeingFactory BEING_FACTORY = new BeingFactory();
     public static final LevelObjectFactory OBJECT_FACTORY = new LevelObjectFactory();
