@@ -46,5 +46,10 @@
         "name": "wall_front",
         "type": "ANIMATED",
         "size": {"width": 10, "height": 16}
+    },
+    {
+        "name": "photo",
+        "type": "ANIMATED",
+        "size": {"width": 24, "height": 18}
     }
 ]

@@ -23,7 +23,7 @@ import com.github.inc0grepoz.kvad.ksf.VarPool;
 
 public class AssetsProvider {
 
-    public String assetsParent;
+    private String assetsParent;
 
     // Makes it run in your IDE
     {
@@ -172,6 +172,7 @@ public class AssetsProvider {
     }
 
     public void setAssetsParent(String path) {
+        Logger.info("Set assets parent directory to " + path);
         assetsParent = path == null ? "" : (path + "/").replaceAll("/+", "/");
     }
 

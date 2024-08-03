@@ -1,0 +1,48 @@
+{
+  "name": "Neighbors",
+  "player": {
+    "type": "iomor",
+    "point": [
+      60.0,
+      138.5
+    ]
+  },
+  "levelObjects": [
+    {
+      "type": "background",
+      "point": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "type": "tv",
+      "point": [
+        147.0,
+        132.5
+      ]
+    },
+    {
+      "type": "wall_cat",
+      "point": [
+        -141.0,
+        -161.5
+      ]
+    },
+    {
+      "type": "ladder",
+      "point": [
+        236.0,
+        -65.5
+      ]
+    },
+    {
+      "type": "photo",
+      "point": [
+        -23.0,
+        -11.5
+      ]
+    }
+  ],
+  "beings": []
+}
