@@ -89,7 +89,7 @@ public class PacketUtil {
                 Unzipper.unzip(assetsZip, assetsDir);
                 assetsZip.delete();
             }
-            KvadratikGame.ASSETS.setAssetsParent(assetsDir.toString());
+            KvadratikGame.ASSETS.assetsParent = assetsDir.toString();
         } catch (IOException e) {
             Logger.error("Invalid assets URL");
         }

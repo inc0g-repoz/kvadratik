@@ -14,10 +14,27 @@
         "type": "Animated",
         "collide": true
     },
+	"ladder": {
+        "size": [74, 221],
+        "type": "Animated"
+    },
 	"laptop": {
         "size": [22, 22],
         "collider": [18, 22, 2, 0],
         "type": "Animated",
         "collide": true
+    },
+	"tv": {
+        "size": [27, 31],
+        "type": "Animated",
+        "collide": true
+    },
+	"wall_cat": {
+        "size": [475, 132],
+        "type": "Animated"
+    },
+	"wall_front": {
+        "size": [10, 16],
+        "type": "Animated"
     }
 }
