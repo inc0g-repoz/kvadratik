@@ -6,18 +6,27 @@ import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-public class LevelObjectTemplate {
+public abstract class LevelObjectTemplate {
 
-    @Getter String name;
+    private final @Getter String type;
 
-    LevelObjectType type;
-    Dimension size, colliderSize;
-    Vector2D colliderOffset;
-    boolean collide;
-    int[] color;
+    final Dimension size, collSize;
+    final Vector2D collOffset;
+    final boolean collide;
+
+    public LevelObjectTemplate(String type, Dimension size,
+            Dimension collSize, Vector2D collOffset, boolean collide) {
+        this.type = type;
+        this.size = size;
+        this.collSize = collSize;
+        this.collOffset = collOffset;
+        this.collide = collide;
+    }
+
+    public LevelObjectTemplate(String type, Dimension size) {
+        this(type, size, null, null, false);
+    }
 
     public LevelObject create(Level level, Point point) {
         Rectangle rect = new Rectangle(point, size);
@@ -26,8 +35,6 @@ public class LevelObjectTemplate {
         return lo;
     }
 
-    LevelObject supply(Level level, Rectangle rect) {
-        return type.getFactory().supply(this, level, rect);
-    }
+    abstract LevelObject supply(Level level, Rectangle rect);
 
 }

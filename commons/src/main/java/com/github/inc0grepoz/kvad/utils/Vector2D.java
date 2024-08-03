@@ -1,11 +1,10 @@
 package com.github.inc0grepoz.kvad.utils;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-public class Vector2D implements Cloneable {
+public class Vector2D {
 
     public double x, y;
+
+    public Vector2D() {}
 
     public Vector2D(double x, double y) {
         set(x, y);
@@ -29,7 +28,6 @@ public class Vector2D implements Cloneable {
         return this;
     }
 
-    @Override
     public Vector2D clone() {
         return new Vector2D(x, y);
     }
