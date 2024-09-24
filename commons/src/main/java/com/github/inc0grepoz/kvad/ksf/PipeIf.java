@@ -2,11 +2,11 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptPipeIf extends ScriptPipeConditional {
+public class PipeIf extends PipeConditional {
 
-    ScriptPipeOther elsePipe;
+    PipeOther elsePipe;
 
-    ScriptPipeIf(Var boolExp) {
+    PipeIf(Var boolExp) {
         super(boolExp);
     }
 

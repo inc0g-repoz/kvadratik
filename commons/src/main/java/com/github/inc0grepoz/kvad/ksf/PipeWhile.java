@@ -2,9 +2,9 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptPipeWhile extends ScriptPipeConditional {
+public class PipeWhile extends PipeConditional {
 
-    ScriptPipeWhile(Var boolExp) {
+    PipeWhile(Var boolExp) {
         super(boolExp);
     }
 

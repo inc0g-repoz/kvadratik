@@ -2,12 +2,12 @@ package com.github.inc0grepoz.kvad.ksf;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptPipeFor extends ScriptPipeConditional {
+public class PipeFor extends PipeConditional {
 
-    final ScriptPipeRef param;
+    final PipeRef param;
     final Var op;
 
-    ScriptPipeFor(ScriptPipeRef param, Var boolExp, Var op) {
+    PipeFor(PipeRef param, Var boolExp, Var op) {
         super(boolExp);
         this.param = param;
         this.op = op;

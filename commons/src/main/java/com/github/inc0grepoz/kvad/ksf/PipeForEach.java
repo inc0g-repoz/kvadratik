@@ -4,12 +4,12 @@ import java.lang.reflect.Array;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptPipeForEach extends ScriptPipe {
+public class PipeForEach extends Pipe {
 
     final String paramName;
     final Var iterVar;
 
-    ScriptPipeForEach(String paramName, Var iterVar) {
+    PipeForEach(String paramName, Var iterVar) {
         this.paramName = paramName;
         this.iterVar = iterVar;
     }

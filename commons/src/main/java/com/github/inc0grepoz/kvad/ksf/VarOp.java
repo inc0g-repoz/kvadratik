@@ -17,7 +17,7 @@ public class VarOp extends Var {
 
     @Override
     Var getVar(VarPool varPool) {
-        return op.eval(varPool, vars);
+        return op.passOperands(varPool, vars);
     }
 
 }

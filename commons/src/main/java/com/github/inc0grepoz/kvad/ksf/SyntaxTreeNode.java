@@ -7,7 +7,7 @@ import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ScriptTreeNode {
+public class SyntaxTreeNode {
 
     private static final Pattern QUOTES = Pattern.compile("\"([^\"]*)\"");
 
@@ -15,29 +15,29 @@ public class ScriptTreeNode {
     int brackets, lineIndex = 1;
     String line = new String();
 
-    ScriptTreeNode parent, prev, next;
-    ScriptTreeNodeType type;
-    ScriptPipe compiled;
+    SyntaxTreeNode parent, prev, next;
+    SyntaxTreeNodeType type;
+    Pipe compiled;
 
-    final Queue<ScriptTreeNode> children = new LinkedList<>();
+    final Queue<SyntaxTreeNode> children = new LinkedList<>();
 
     @Override
     public String toString() {
         String line = this.line + " [" + lineIndex + "] (" + type.name() + ")\n";
 
-        ScriptTreeNode parent = this.parent;
+        SyntaxTreeNode parent = this.parent;
         while (parent != null) {
             line = parent.line + " -> " + line;
             parent = parent.parent;
         }
 
-        for (ScriptTreeNode node : children) {
+        for (SyntaxTreeNode node : children) {
             line += node.toString();
         }
         return line;
     }
 
-    ScriptPipe compile_r(ScriptPipe parent) {
+    Pipe compile_r(Pipe parent) {
         compiled = type.compile(this, lineIndex);
         if (parent != null) {
             parent.children.add(compiled);
@@ -71,14 +71,14 @@ public class ScriptTreeNode {
 
     void clearEmpty() {
         children.removeIf(n -> n.line.isEmpty());
-        children.forEach(ScriptTreeNode::clearEmpty);
+        children.forEach(SyntaxTreeNode::clearEmpty);
     }
 
-    void defineTypes_r() {
+    void defineNodeTypes_r() {
         if (type == null) {
-            type = ScriptTreeNodeType.of(this);
+            type = SyntaxTreeNodeType.of(this);
         }
-        children.forEach(ScriptTreeNode::defineTypes_r);
+        children.forEach(SyntaxTreeNode::defineNodeTypes_r);
     }
 
     void write(char c) {
@@ -93,23 +93,23 @@ public class ScriptTreeNode {
         return line.chars().filter(c -> c == ch).count();
     }
 
-    ScriptTreeNode firstScopeMember() {
-        ScriptTreeNode first = new ScriptTreeNode();
+    SyntaxTreeNode firstScopeMember() {
+        SyntaxTreeNode first = new SyntaxTreeNode();
         first.parent = this;
         children.add(first);
         return first;
     }
 
-    ScriptTreeNode nextScopeMember() {
-        next = new ScriptTreeNode();
+    SyntaxTreeNode nextScopeMember() {
+        next = new SyntaxTreeNode();
         next.parent = parent;
         next.prev = this;
         parent.children.add(next);
         return next;
     }
 
-    ScriptTreeNode skipScopeMember() {
-        ((LinkedList<ScriptTreeNode>) parent.children).removeLast();
+    SyntaxTreeNode skipScopeMember() {
+        ((LinkedList<SyntaxTreeNode>) parent.children).removeLast();
         return nextScopeMember();
     }
 

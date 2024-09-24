@@ -3,20 +3,16 @@ package com.github.inc0grepoz.kvad.ksf;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-@FunctionalInterface
-interface Compiler {
-    ScriptPipe pass(ScriptTreeNode tn);
-}
-
-public enum ScriptTreeNodeType {
+public enum SyntaxTreeNodeType {
 
     COMMENT(
         null, null,
         tn -> tn.line.startsWith("//"),
-        tn -> new ScriptPipeOther() {
+        tn -> new PipeOther() {
 
             @Override
             boolean execute(VarPool vp) {
@@ -30,7 +26,7 @@ public enum ScriptTreeNodeType {
         tn -> tn.line.startsWith(Keyword.EVENT + " "),
         tn -> {
             String[] args = tn.line.split("(^" + Keyword.EVENT + " )|\\(|\\)");
-            return new ScriptPipeEvent(args[1], args[2]);
+            return new PipeEvent(args[1], args[2]);
         }
     ),
     FOR(
@@ -40,15 +36,15 @@ public enum ScriptTreeNodeType {
             String[] ols = Expressions.oneLineStatement(tn.line);
             String[] params = ols[0].split(";");
 
-            ScriptPipeRef ref = ScriptPipeRef.resolve(params[0]);
+            PipeRef ref = PipeRef.resolve(params[0]);
             Var boolExp = Expressions.resolveVar(params[1]);
             Var op = Expressions.resolveVar(params[2]);
 
             if (tn.children.isEmpty()) {
                 tn.firstScopeMember().write(ols[1]);
-                tn.defineTypes_r();
+                tn.defineNodeTypes_r();
             }
-            return new ScriptPipeFor(ref, boolExp, op);
+            return new PipeFor(ref, boolExp, op);
         }
     ),
     FOR_EACH(
@@ -67,9 +63,9 @@ public enum ScriptTreeNodeType {
 
             if (tn.children.isEmpty()) {
                 tn.firstScopeMember().write(ols[1]);
-                tn.defineTypes_r();
+                tn.defineNodeTypes_r();
             }
-            return new ScriptPipeForEach(typeParam.get(1), Expressions.resolveVar(params[1]));
+            return new PipeForEach(typeParam.get(1), Expressions.resolveVar(params[1]));
         }
     ),
     IF(
@@ -79,11 +75,11 @@ public enum ScriptTreeNodeType {
             if (tn.children.isEmpty()) {
                 String[] ols = Expressions.oneLineStatement(tn.line);
                 tn.firstScopeMember().write(ols[1]);
-                tn.defineTypes_r();
-                return new ScriptPipeIf(Expressions.resolveVar(ols[0]));
+                tn.defineNodeTypes_r();
+                return new PipeIf(Expressions.resolveVar(ols[0]));
             } else {
                 String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-                return new ScriptPipeIf(Expressions.resolveVar(exp));
+                return new PipeIf(Expressions.resolveVar(exp));
             }
         }
     ),
@@ -98,10 +94,10 @@ public enum ScriptTreeNodeType {
             if (tn.children.isEmpty()) {
                 String ols = tn.line.substring(Keyword.ELSE.toString().length());
                 tn.firstScopeMember().write(ols);
-                tn.defineTypes_r();
+                tn.defineNodeTypes_r();
             }
-            ScriptPipeIf ifSt = (ScriptPipeIf) tn.prev.compiled;
-            return ifSt.elsePipe = new ScriptPipeOther() {
+            PipeIf ifSt = (PipeIf) tn.prev.compiled;
+            return ifSt.elsePipe = new PipeOther() {
 
                 @Override
                 boolean execute(VarPool vp) {
@@ -118,12 +114,12 @@ public enum ScriptTreeNodeType {
         Keyword.VAR + " (.+ *)=( *.+)",
         "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + ")(.+)",
         tn -> tn.line.contains("="),
-        tn -> ScriptPipeRef.resolve(tn.line)
+        tn -> PipeRef.resolve(tn.line)
     ),
     ROOT(
         null, null,
         tn -> false,
-        tn -> tn.parent == null ? new ScriptPipeRoot() : null
+        tn -> tn.parent == null ? new PipeRoot() : null
     ),
     WHILE(
         "(" + Keyword.WHILE + " ?)\\(.+\\)*", null,
@@ -132,11 +128,11 @@ public enum ScriptTreeNodeType {
             if (tn.children.isEmpty()) {
                 String[] ols = Expressions.oneLineStatement(tn.line);
                 tn.firstScopeMember().write(ols[1]);
-                tn.defineTypes_r();
-                return new ScriptPipeWhile(Expressions.resolveVar(ols[0]));
+                tn.defineNodeTypes_r();
+                return new PipeWhile(Expressions.resolveVar(ols[0]));
             } else {
                 String exp = tn.line.substring(tn.line.indexOf('(') + 1, tn.line.lastIndexOf(')'));
-                return new ScriptPipeWhile(Expressions.resolveVar(exp));
+                return new PipeWhile(Expressions.resolveVar(exp));
             }
         }
     ),
@@ -144,16 +140,16 @@ public enum ScriptTreeNodeType {
         null, "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + "|" + Keyword.EVENT + ")(.+)",
         tn -> tn.line.contains(".") && !tn.line.contains("=")
            && tn.line.contains("(") && tn.line.contains(")"),
-        tn -> new ScriptPipeXcs(Expressions.resolveVar(tn.line))
+        tn -> new PipeXcs(Expressions.resolveVar(tn.line))
     ),
     OTHER( // Needs to be in the end
         null, null,
         tn -> true,
-        tn -> new ScriptPipeXcs(Expressions.resolveVar(tn.line))
+        tn -> new PipeXcs(Expressions.resolveVar(tn.line))
     );
 
-    static ScriptTreeNodeType of(ScriptTreeNode tn) {
-        for (ScriptTreeNodeType type : values()) {
+    static SyntaxTreeNodeType of(SyntaxTreeNode tn) {
+        for (SyntaxTreeNodeType type : values()) {
             if (type.test(tn)) {
                 return type;
             }
@@ -161,32 +157,33 @@ public enum ScriptTreeNodeType {
         return OTHER;
     }
 
-    private final String regEx, notRegEx;
-    private final Predicate<ScriptTreeNode> pred;
-    private final Compiler comp;
+    private final Pattern regEx, notRegEx;
+    private final Predicate<SyntaxTreeNode> pred;
+    private final SyntaxTreeCompiler comp;
 
-    ScriptTreeNodeType(
+    SyntaxTreeNodeType(
         String regEx,
         String notRegEx,
-        Predicate<ScriptTreeNode> pred,
-        Compiler comp
+        Predicate<SyntaxTreeNode> pred,
+        SyntaxTreeCompiler comp
     ) {
-        this.regEx = regEx;
-        this.notRegEx = notRegEx;
+        this.regEx    = regEx    == null ? null : Pattern.compile(regEx);
+        this.notRegEx = notRegEx == null ? null : Pattern.compile(notRegEx);
         this.pred = pred;
         this.comp = comp;
     }
 
-    boolean test(ScriptTreeNode node) {
-        return pred.test(node) && (regEx != null ? node.line.matches(regEx) : true)
-                && (notRegEx != null ? !node.line.matches(notRegEx) : true);
+    boolean test(SyntaxTreeNode node) {
+        return pred.test(node)
+                && (regEx != null ? regEx.matcher(node.line).matches() : true)
+                && (notRegEx != null ? !notRegEx.matcher(node.line).matches() : true);
     }
 
-    ScriptPipe compile(ScriptTreeNode treeNode, int lineIndex) {
+    Pipe compile(SyntaxTreeNode treeNode, int lineIndex) {
         if (ScriptManager.debugMode) {
             Logger.info("Compiling " + treeNode.line + " [" + lineIndex + "] (" + treeNode.type.name() + ")");
         }
-        ScriptPipe pipe = comp.pass(treeNode);
+        Pipe pipe = comp.pass(treeNode);
         pipe.lineIndex = lineIndex;
         return pipe;
     }

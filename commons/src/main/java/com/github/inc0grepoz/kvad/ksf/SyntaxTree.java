@@ -6,16 +6,16 @@ import java.io.IOException;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptTree {
+public class SyntaxTree {
 
     int lineCounter = 1;
 
-    ScriptTreeNode target = new ScriptTreeNode() {{
+    SyntaxTreeNode target = new SyntaxTreeNode() {{
         line = "root";
-        type = ScriptTreeNodeType.ROOT;
+        type = SyntaxTreeNodeType.ROOT;
     }};
 
-    ScriptTree(File file) {
+    SyntaxTree(File file) {
         target = target.firstScopeMember();
 
         try {
@@ -36,10 +36,10 @@ public class ScriptTree {
         }
 
         target.clearEmpty();
-        target.defineTypes_r();
+        target.defineNodeTypes_r();
 
         Logger.info("Found " + target.children.size() + " member(s)");
-        for (ScriptTreeNode member : target.children) {
+        for (SyntaxTreeNode member : target.children) {
             Logger.info("- " + member.line);
         }
     }

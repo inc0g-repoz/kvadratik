@@ -1,11 +1,11 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-public class ScriptPipeEvent extends ScriptPipe {
+public class PipeEvent extends Pipe {
 
     final String event;
     final String varName;
 
-    ScriptPipeEvent(String event, String varName) {
+    PipeEvent(String event, String varName) {
         this.event = event;
         this.varName = varName;
     }

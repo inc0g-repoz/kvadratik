@@ -6,11 +6,11 @@ import java.util.stream.Stream;
 
 import com.github.inc0grepoz.kvad.utils.Logger;
 
-public class ScriptPipeRoot extends ScriptPipe {
+public class PipeRoot extends Pipe {
 
-    List<ScriptPipeEvent> handlers;
+    List<PipeEvent> handlers;
 
-    Stream<ScriptPipeEvent> streamHandlers(String name) {
+    Stream<PipeEvent> streamHandlers(String name) {
         return handlers.stream().filter(p -> p.event.equals(name));
     }
 
@@ -21,8 +21,8 @@ public class ScriptPipeRoot extends ScriptPipe {
     }
 
     void initHandlers() {
-        handlers = children.stream().filter(p -> p instanceof ScriptPipeEvent)
-                .map(ScriptPipeEvent.class::cast).collect(Collectors.toList());
+        handlers = children.stream().filter(p -> p instanceof PipeEvent)
+                .map(PipeEvent.class::cast).collect(Collectors.toList());
     }
 
 }

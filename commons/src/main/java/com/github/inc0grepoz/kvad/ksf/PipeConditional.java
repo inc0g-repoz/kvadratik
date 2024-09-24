@@ -1,10 +1,10 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-public abstract class ScriptPipeConditional extends ScriptPipe {
+public abstract class PipeConditional extends Pipe {
 
     final Var boolExp;
 
-    ScriptPipeConditional(Var boolExp) {
+    PipeConditional(Var boolExp) {
         this.boolExp = boolExp;
     }
 

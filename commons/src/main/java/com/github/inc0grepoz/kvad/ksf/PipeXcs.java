@@ -1,10 +1,10 @@
 package com.github.inc0grepoz.kvad.ksf;
 
-public class ScriptPipeXcs extends ScriptPipe {
+public class PipeXcs extends Pipe {
 
     final Var var; // Likely to be an instance of VarXcs
 
-    ScriptPipeXcs(Var var) {
+    PipeXcs(Var var) {
         this.var = var;
     }
 

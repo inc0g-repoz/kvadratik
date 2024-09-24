@@ -94,7 +94,7 @@ public class Expressions {
     private static Var resolveVarOp(String exp, Var... vars) {
         VarOp varOp = null;
 
-        for (Operator enumOp : Operator.values()) {
+        for (OperatorType enumOp : OperatorType.values()) {
             varOp = enumOp.resolve(exp);
             if (varOp != null) {
                 return varOp;

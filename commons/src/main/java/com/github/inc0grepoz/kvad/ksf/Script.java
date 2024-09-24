@@ -11,15 +11,15 @@ public class Script {
     public static final String EXTENSION = ".ksf";
 
     public static Script compile(File file, VarPool varPool) {
-        ScriptTree tree = new ScriptTree(file);
+        SyntaxTree tree = new SyntaxTree(file);
         return new Script(file.getName(), tree, varPool);
     }
 
     final @Getter String name;
     final @Getter VarPool global;
-    final ScriptPipeRoot pipeRoot;
+    final PipeRoot pipeRoot;
 
-    private Script(String name, ScriptTree tree, VarPool global) {
+    private Script(String name, SyntaxTree tree, VarPool global) {
         this.name = name;
         this.global = global;
 
@@ -30,7 +30,7 @@ public class Script {
         }
 
         // Compiling a pseudocode tree into a pipeline
-        pipeRoot = (ScriptPipeRoot) tree.target.compile_r(null);
+        pipeRoot = (PipeRoot) tree.target.compile_r(null);
         pipeRoot.initHandlers();
         Logger.info("Found " + pipeRoot.handlers.size() + " handler(s)");
     }

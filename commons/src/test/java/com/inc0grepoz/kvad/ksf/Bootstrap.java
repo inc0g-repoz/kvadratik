@@ -1,8 +1,8 @@
 package com.inc0grepoz.kvad.ksf;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
@@ -21,17 +21,19 @@ public class Bootstrap {
     public static void main(String[] args) throws IOException {
         Kvadratik kvad = new Kvadratik() {
 
-            @Getter AssetsProvider assetsProvider = new AssetsProvider();
             @Getter JsonMapper jsonMapper = new JsonMapper();
             @Getter BeingFactory beingFactory;
             @Getter LevelObjectFactory levelObjectFactory;
+            @Getter AssetsProvider assetsProvider = new AssetsProvider() {{
+                setAssetsParent("src/test/resources");
+            }};
 
         };
 
         ScriptManager scriptMan = new ScriptManager(kvad);
         scriptMan.loadScripts();
 
-        testForEach(scriptMan);
+//      testForEach(scriptMan);
         scriptMan.fireEvent(new Event("testFibonacci"));
     }
 
@@ -65,7 +67,7 @@ public class Bootstrap {
 
         };
 
-        bench(() -> scriptMan.fireEvent(event));Arrays.copyOfRange(new int[2], 0, 0);
+        bench(() -> scriptMan.fireEvent(event));
     }
 
 }
