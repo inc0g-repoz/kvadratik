@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import com.github.inc0grepoz.commons.util.json.mapper.annotation.IgnoreEmpty;
+
 /**
  * Serializes Java instances into JSON string values.
  * 
@@ -16,6 +18,9 @@ import java.util.UUID;
  */
 public class JsonSerializer
 {
+
+    // Not designed to be instantiated outside the mapper
+    JsonSerializer() {}
 
     String serialize(Object instance)
     throws Throwable
@@ -48,7 +53,7 @@ public class JsonSerializer
         {
             // Creating a string joiner to write all values
             // of the array and delimit them by a comma
-            StringJoiner arrayJoiner = new StringJoiner(", ");
+            StringJoiner arrayJoiner = new StringJoiner(", ", "[", "]");
 
             // Iterating through all the array elements
             for (int i = 0; i < Array.getLength(instance); i++)
@@ -57,13 +62,13 @@ public class JsonSerializer
             }
 
             // Joining the array collection into the compound
-            return "[" + arrayJoiner + "]";
+            return arrayJoiner.toString();
         }
         else if (instance instanceof Collection)
         {
             // Creating a string joiner to write all values
             // of the collection and delimit them by a comma
-            StringJoiner collectionJoiner = new StringJoiner(", ");
+            StringJoiner collectionJoiner = new StringJoiner(", ", "[", "]");
 
             // Iterating through all the collection elements
             for (Object element: (Iterable<?>) instance)
@@ -72,13 +77,13 @@ public class JsonSerializer
             }
 
             // Joining the serialized collection into the compound
-            return "[" + collectionJoiner + "]";
+            return collectionJoiner.toString();
         }
         else if (instance instanceof Map)
         {
             // Creating a string joiner to write all values
             // of the map and delimit them by a comma
-            StringJoiner mapJoiner = new StringJoiner(", ");
+            StringJoiner mapJoiner = new StringJoiner(", ", "{", "}");
 
             // Iterating through all the key value pairs
             Map<?, ?> map = (Map<?, ?>) instance;
@@ -88,19 +93,19 @@ public class JsonSerializer
             }
 
             // Joining the serialized map into the compound
-            return "{" + mapJoiner + "}";
+            return mapJoiner.toString();
         }
 
         // Creating a string joiner to write each field
         // and it's value in a string representation
-        StringJoiner compoundJoiner = new StringJoiner(", ");
+        StringJoiner compoundJoiner = new StringJoiner(", ", "{", "}");
 
         // Creating a class reference to walk through all fields
         // declared in the passed object including ones inherited
         // from it's superclasses
         Class<?> clazz = instance.getClass();
 
-        // Temporary object in field pointer
+        // Temporary object to a field value pointer
         Object temp;
 
         // Serializing fields values for each inherited class
@@ -116,7 +121,7 @@ public class JsonSerializer
                     Modifier.isStatic(field.getModifiers()) ||
                     Modifier.isTransient(field.getModifiers()))
                 {
-                    continue; // Skipping if it's transient
+                    continue; // Skipping, if it's transient
                 }
 
                 // Retrieving the field value
@@ -126,6 +131,12 @@ public class JsonSerializer
                 // Only write non-null values
                 if (!PrimitiveTester.isDefaultValue(temp))
                 {
+                    if (field.isAnnotationPresent(IgnoreEmpty.class)
+                            && (boolean) temp.getClass().getMethod("isEmpty").invoke(temp))
+                    {
+                        continue; // Skipping, if it's an empty collection (map)
+                    }
+
                     compoundJoiner.add("\"" + field.getName() + "\": " + serialize(temp));
                 }
             }
@@ -133,7 +144,7 @@ public class JsonSerializer
             clazz = clazz.getSuperclass();
         }
 
-        return "{" + compoundJoiner + "}";
+        return compoundJoiner.toString();
     }
 
     // Creates a copy of String, where every '"' quote

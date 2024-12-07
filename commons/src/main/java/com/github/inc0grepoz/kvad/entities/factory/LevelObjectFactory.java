@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
@@ -20,7 +21,7 @@ public class LevelObjectFactory implements RenderableFactory {
 
     public void validatePreload() {
         if (templates.isEmpty()) {
-            Kvadratik kvad = Platform.getInstance();
+            Kvadratik kvad = Objects.requireNonNull(Platform.getInstance(), "null platform");
 
             // Preloading level objects animations
             String levelObjectsAnimsJson = kvad.getAssetsProvider().textFile("assets/objects/anims.json");

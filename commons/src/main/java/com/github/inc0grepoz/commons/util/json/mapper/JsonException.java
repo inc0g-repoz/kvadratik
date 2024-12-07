@@ -4,12 +4,12 @@ package com.github.inc0grepoz.commons.util.json.mapper;
 public class JsonException extends RuntimeException
 {
 
-    public JsonException(String message)
+    JsonException(String message)
     {
         super(message);
     }
 
-    public JsonException(String message, Throwable throwable)
+    JsonException(String message, Throwable throwable)
     {
         super(message, throwable);
     }

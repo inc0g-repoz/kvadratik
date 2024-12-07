@@ -3,12 +3,14 @@ package com.github.inc0grepoz.commons.util.json.mapper;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +32,9 @@ import com.github.inc0grepoz.commons.util.json.mapper.annotation.TypeParameters;
 @SuppressWarnings("all")
 public class JsonDeserializer
 {
+
+    // Not designed to be instantiated outside the mapper
+    JsonDeserializer() {}
 
     <T> T deserialize(String json, Class<T> clazz, Class<?>... typeParameters)
     throws Throwable
@@ -164,29 +169,7 @@ public class JsonDeserializer
 
         // Creating an instance of the class in the argument
         // to recursively write the values from the string
-        T instance;
-        if (map && clazz.isInterface())
-        {
-            // Using the default map implementation, if an interface class is passed
-            instance = (T) new HashMap();
-        }
-        else
-        {
-            Constructor<?> constructor;
-            try
-            {
-                // Looking for a default constructor
-                constructor = clazz.getConstructor();
-            }
-            catch (Throwable t)
-            {
-                // Looking for a declared constuctor, possibly,
-                // with a private access modifier applied
-                constructor = clazz.getDeclaredConstructor();
-                constructor.setAccessible(true);
-            }
-            instance = (T) constructor.newInstance();
-        }
+        T instance = createInstance(map, clazz, typeParameters);
 
         // Stores the name of the field in which the object is written
         String fieldName = null;
@@ -381,6 +364,42 @@ public class JsonDeserializer
         return instance;
     }
 
+    private <T> T createInstance(boolean map, Class<T> clazz, Class<?>... typeParameters)
+    throws Throwable
+    {
+        if (map)
+        {
+            // Using the default map implementation, if an interface class is passed
+            if (clazz.isInterface())
+            {
+                return (T) new HashMap();
+            }
+
+            // Using different constructors depending on the implementation
+            else if (clazz == EnumMap.class)
+            {
+                return (T) new EnumMap(typeParameters[0]);
+            }
+        }
+
+        // Any classes with no arguments constructors can be
+        // instantiated below
+        Constructor<?> constructor;
+        try
+        {
+            // Looking for a default constructor
+            constructor = clazz.getConstructor();
+        }
+        catch (Throwable t)
+        {
+            // Looking for a declared constuctor, possibly,
+            // with a private access modifier applied
+            constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+        }
+        return (T) constructor.newInstance();
+    }
+
     private <T> void addJsonArrayElements(String json, Collection rawCollection, Class<T> elementType)
     throws Throwable
     {
@@ -477,13 +496,14 @@ public class JsonDeserializer
     }
 
     private <T> void putValue(T instance, boolean map, String fieldName, String json,
-            Class<?> clazz, Class<?>... typeArguments)
+            Class<?> clazz, Class<?>... typeParameters)
     throws Throwable
     {
         if (map)
         {
             // Deserializing and putting the object into the map
-            ((Map) instance).put(fieldName, deserialize(json, typeArguments[1]));
+            ((Map) instance).put(deserialize(fieldName, typeParameters[0]),
+                    deserialize(json, typeParameters[1]));
         }
         else
         {

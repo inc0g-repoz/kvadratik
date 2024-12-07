@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
  * <p>This annotation must have at least one class specified,
  * if declared. Otherwise, an {@link IllegalStateException}
  * is thrown by the deserializer.
+ * 
+ * @author inc0g-repoz
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -19,8 +21,8 @@ public @interface Implementation
 
     /**
      * Returns the implementations array. If not empty,
-     * the first <code>Class</code> is used to initialize
-     * an instance.
+     * the first {@code Class} is used to initialize an
+     * instance.
      * 
      * @return the implementation classes array
      */

@@ -6,21 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Provides the type parameter classes implementations
- * to the deserializer.
+ * Labels fields for the serializer to ignore, if they
+ * store empty {@code Collection} or {@code Map} instances.
  * 
  * @author inc0g-repoz
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface TypeParameters
-{
-
-    /**
-     * Returns the type parameter classes implementations array.
-     * 
-     * @return the type parameter classes implementations array
-     */
-    Class<?>[] value() default {};
-
-}
+public @interface IgnoreEmpty
+{}
