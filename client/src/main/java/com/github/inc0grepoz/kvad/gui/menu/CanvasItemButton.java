@@ -1,10 +1,11 @@
 package com.github.inc0grepoz.kvad.gui.menu;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import com.github.inc0grepoz.kvad.awt.Canvas;
 
 public class CanvasItemButton extends CanvasItem {
 

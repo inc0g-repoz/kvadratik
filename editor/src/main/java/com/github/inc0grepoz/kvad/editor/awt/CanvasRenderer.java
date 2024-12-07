@@ -1,18 +1,14 @@
 package com.github.inc0grepoz.kvad.editor.awt;
 
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
+import com.github.inc0grepoz.kvad.awt.Canvas;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.editor.Selection.SelectionMode;
 import com.github.inc0grepoz.kvad.entities.Camera;
 import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.FrapsCounter;
-import com.github.inc0grepoz.kvad.worker.RenderWorker;
 
 import lombok.Getter;
 
@@ -22,24 +18,13 @@ public class CanvasRenderer extends Canvas {
     public boolean miscInfo = true;
 
     private final @Getter KvadratikEditor editor;
-    private final @Getter RenderWorker worker;
-    private final FrapsCounter fps = new FrapsCounter();
 
     public CanvasRenderer(KvadratikEditor editor, int x, int y) {
         this.editor = editor;
-        worker = new RenderWorker(this);
-    }
-
-    public void setFrapsPerSecond(int fraps) {
-        worker.setDelay(1000L / fraps);
     }
 
     @Override
-    public void paint(Graphics g) {
-        int gw = getWidth(), gh = getHeight();
-        BufferedImage image = new BufferedImage(gw, gh, BufferedImage.TYPE_BYTE_INDEXED);
-        Graphics2D g2d = image.createGraphics();
-
+    public void update(Graphics2D g2d) {
         Level level = editor.getLevel();
         if (level == null) {
 
@@ -64,13 +49,10 @@ public class CanvasRenderer extends Canvas {
 
             // Showing misc info
             if (miscInfo) {
-                g2d.drawString("FPS: " + fps.getFPS(), 10, 10);
+                g2d.drawString("FPS: " + getFrapsPerSecond(), 10, 10);
                 g2d.drawString("Ren-ents: " + renEnts, 10, 25);
             }
         }
-
-        g2d.dispose();
-        g.drawImage(image, 0, 0, gw, gh, this);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.github.inc0grepoz.kvad.entities;
 
-import java.awt.Canvas;
-
+import com.github.inc0grepoz.kvad.awt.Canvas;
 import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
 import com.github.inc0grepoz.kvad.entities.level.Level;

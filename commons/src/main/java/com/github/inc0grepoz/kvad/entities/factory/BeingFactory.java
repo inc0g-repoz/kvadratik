@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.github.inc0grepoz.kvad.Kvadratik;
 import com.github.inc0grepoz.kvad.awt.geom.Point;
@@ -22,7 +23,7 @@ public class BeingFactory implements RenderableFactory {
 
     public void validatePreload() {
         if (types == null) {
-            Kvadratik kvad = Platform.getInstance();
+            Kvadratik kvad = Objects.requireNonNull(Platform.getInstance(), "null platform");
             String json = kvad.getAssetsProvider().textFile("assets/beings/beings.json");
             List<BeingTemplate> list = kvad.getJsonMapper().deserialize(json, List.class, BeingTemplate.class);
             list.forEach(bt -> templates.put(bt.getName(), bt));

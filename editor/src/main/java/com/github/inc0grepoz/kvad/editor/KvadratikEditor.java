@@ -60,8 +60,6 @@ public class KvadratikEditor extends Frame implements Kvadratik {
         canvas = new CanvasRenderer(this, 640, 480);
         canvas.setBounds(0, 0, 640, 480);
         canvas.setBackground(Color.BLACK);
-        canvas.setFrapsPerSecond(60);
-        canvas.getWorker().start();
 
         // Canvas Drag & Drop
         CanvasDropTarget dropTarget = new CanvasDropTarget(this);

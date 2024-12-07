@@ -71,15 +71,13 @@ public class KvadratikGame extends Frame implements Kvadratik {
         // Rendering
         canvas = new KvadratikCanvas(this, getWidth(), getHeight());
         canvas.setBackground(Color.BLACK);
-        add(canvas);
-        canvas.setFrapsPerSecond(60);
         canvas.addMouseListener(new CanvasMouseListener(canvas));
         canvas.addMouseMotionListener(new CanvasMouseMotionListener(canvas));
-        canvas.getWorker().start();
+        add(canvas);
 
         // Controls
         controls = new Controls(this);
-        canvas.addKeyListener(controls);
+        addKeyListener(controls);
 
         // Debug console
         console = new ConsoleWorker(this, 500L);

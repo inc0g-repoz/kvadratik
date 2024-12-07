@@ -1,10 +1,10 @@
 package com.github.inc0grepoz.kvad.gui.menu;
 
-import java.awt.Canvas;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.inc0grepoz.kvad.awt.Canvas;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 
 import lombok.Getter;

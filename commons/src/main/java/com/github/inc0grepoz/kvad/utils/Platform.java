@@ -11,7 +11,9 @@ public class Platform {
             throw new IllegalStateException("Platform already has been initialized");
         }
 
+        Logger.info("Intitializing the platform");
         Platform.instance = instance;
+
         return instance;
     }
 

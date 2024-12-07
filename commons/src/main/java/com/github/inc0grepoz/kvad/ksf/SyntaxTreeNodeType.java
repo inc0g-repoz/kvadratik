@@ -31,7 +31,10 @@ public enum SyntaxTreeNodeType {
     ),
     FOR(
         "(" + Keyword.FOR + " ?)\\((.+=.+)?;.*;.*\\)(.*)", null,
-        tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")") && tn.line.contains(";"),
+        tn -> tn.line.startsWith(Keyword.FOR.toString()) &&
+              tn.line.contains("(") &&
+              tn.line.contains(")") &&
+              tn.line.contains(";"),
         tn -> {
             String[] ols = Expressions.oneLineStatement(tn.line);
             String[] params = ols[0].split(";");
@@ -49,7 +52,10 @@ public enum SyntaxTreeNodeType {
     ),
     FOR_EACH(
         "(" + Keyword.FOR + " ?)\\(.+:.+\\)(.*)", null,
-        tn -> tn.line.startsWith(Keyword.FOR.toString()) && tn.line.contains("(") && tn.line.contains(")") && tn.line.contains(":"),
+        tn -> tn.line.startsWith(Keyword.FOR.toString()) &&
+              tn.line.contains("(") &&
+              tn.line.contains(")") &&
+              tn.line.contains(":"),
         tn -> {
             String[] ols = Expressions.oneLineStatement(tn.line);
             String[] params = ols[0].split(":");
@@ -70,7 +76,9 @@ public enum SyntaxTreeNodeType {
     ),
     IF(
         "(" + Keyword.IF + " ?)\\(.+\\)(.*)", null,
-        tn -> tn.line.startsWith(Keyword.IF.toString()) && tn.line.contains("(") && tn.line.contains(")"),
+        tn -> tn.line.startsWith(Keyword.IF.toString()) &&
+              tn.line.contains("(") &&
+              tn.line.contains(")"),
         tn -> {
             if (tn.children.isEmpty()) {
                 String[] ols = Expressions.oneLineStatement(tn.line);
@@ -138,8 +146,10 @@ public enum SyntaxTreeNodeType {
     ),
     XCS(
         null, "(.+)(" + Keyword.FOR + "|" + Keyword.IF + "|" + Keyword.WHILE + "|" + Keyword.EVENT + ")(.+)",
-        tn -> tn.line.contains(".") && !tn.line.contains("=")
-           && tn.line.contains("(") && tn.line.contains(")"),
+        tn -> tn.line.contains(".") &&
+             !tn.line.contains("=") &&
+              tn.line.contains("(") &&
+              tn.line.contains(")"),
         tn -> new PipeXcs(Expressions.resolveVar(tn.line))
     ),
     OTHER( // Needs to be in the end

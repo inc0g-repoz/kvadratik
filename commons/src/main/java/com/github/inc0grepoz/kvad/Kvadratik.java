@@ -1,10 +1,9 @@
 package com.github.inc0grepoz.kvad;
 
-import java.awt.Canvas;
-
 import javax.naming.OperationNotSupportedException;
 
 import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
+import com.github.inc0grepoz.kvad.awt.Canvas;
 import com.github.inc0grepoz.kvad.entities.being.Being;
 import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
