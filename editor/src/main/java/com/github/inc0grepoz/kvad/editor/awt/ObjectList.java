@@ -3,8 +3,8 @@ package com.github.inc0grepoz.kvad.editor.awt;
 import javax.swing.DropMode;
 import javax.swing.JList;
 
+import com.github.inc0grepoz.kvad.common.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 
 @SuppressWarnings("serial")
 public class ObjectList extends JList<String> {

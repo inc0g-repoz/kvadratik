@@ -45,7 +45,8 @@ public class JsonMapper
      * @return a deserialized instance of class
      * @throws JsonException if fails to deserialize an instance
      */
-    public <T> T deserialize(String json, Class<T> clazz, Class<?>... typeParameters)
+    @SafeVarargs
+    public final <T> T deserialize(String json, Class<T> clazz, Class<?>... typeParameters)
     throws JsonException
     {
         try

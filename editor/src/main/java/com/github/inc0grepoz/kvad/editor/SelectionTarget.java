@@ -1,6 +1,6 @@
 package com.github.inc0grepoz.kvad.editor;
 
-import com.github.inc0grepoz.kvad.entities.Renderable;
+import com.github.inc0grepoz.kvad.common.entities.Renderable;
 
 import lombok.Getter;
 

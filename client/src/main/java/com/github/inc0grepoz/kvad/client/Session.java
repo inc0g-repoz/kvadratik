@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.gui.Message;
-import com.github.inc0grepoz.kvad.utils.JSON;
-import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.client.utils.JSON;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.gui.Message;
+import com.github.inc0grepoz.kvad.common.utils.Logger;
 
 import lombok.Getter;
 

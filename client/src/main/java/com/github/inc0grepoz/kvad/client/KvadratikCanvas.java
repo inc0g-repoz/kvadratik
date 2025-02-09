@@ -3,12 +3,12 @@ package com.github.inc0grepoz.kvad.client;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.github.inc0grepoz.kvad.awt.Canvas;
-import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.gui.menu.CanvasMenu;
-import com.github.inc0grepoz.kvad.gui.menu.CanvasMenuTitle;
+import com.github.inc0grepoz.kvad.client.gui.menu.CanvasMenu;
+import com.github.inc0grepoz.kvad.client.gui.menu.CanvasMenuTitle;
+import com.github.inc0grepoz.kvad.common.awt.Canvas;
+import com.github.inc0grepoz.kvad.common.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
 
 import lombok.Getter;
 import lombok.Setter;

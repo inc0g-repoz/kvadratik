@@ -3,12 +3,12 @@ package com.github.inc0grepoz.kvad.editor.awt;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.github.inc0grepoz.kvad.awt.Canvas;
+import com.github.inc0grepoz.kvad.common.awt.Canvas;
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
 import com.github.inc0grepoz.kvad.editor.Selection.SelectionMode;
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 
 import lombok.Getter;
 

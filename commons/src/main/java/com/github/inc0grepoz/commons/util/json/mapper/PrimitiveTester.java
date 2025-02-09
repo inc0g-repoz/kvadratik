@@ -9,7 +9,7 @@ public class PrimitiveTester
 {
 
     /**
-     * Returns {@code true} if the passed object is a primitive or it's wrapper
+     * Returns {@code true}, if the passed object is a primitive or it's wrapper
      * and {@code false} otherwise.
      * 
      * @param clazz a class to test
@@ -21,7 +21,7 @@ public class PrimitiveTester
     }
 
     /**
-     * Returns {@code true} if the passed {@code Class} represents a primitive
+     * Returns {@code true}, if the passed {@code Class} represents a primitive
      * or it's wrapper and {@code false} otherwise.
      * 
      * @param clazz a class to test
@@ -41,7 +41,7 @@ public class PrimitiveTester
     }
 
     /**
-     * Returns {@code true} if the passed parameter (can be a primitive or an
+     * Returns {@code true}, if the passed parameter (can be a primitive or an
      * object as well) has a default value, meaning that one of the following
      * conditions is met:
      * 

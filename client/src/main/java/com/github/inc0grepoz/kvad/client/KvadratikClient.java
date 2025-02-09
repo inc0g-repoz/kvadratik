@@ -7,13 +7,13 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.github.inc0grepoz.kvad.gui.Chat;
-import com.github.inc0grepoz.kvad.gui.Message;
-import com.github.inc0grepoz.kvad.protocol.Packet;
-import com.github.inc0grepoz.kvad.protocol.PacketType;
-import com.github.inc0grepoz.kvad.protocol.PacketUtil;
-import com.github.inc0grepoz.kvad.utils.Logger;
-import com.github.inc0grepoz.kvad.worker.Worker;
+import com.github.inc0grepoz.kvad.client.gui.Chat;
+import com.github.inc0grepoz.kvad.client.protocol.Packet;
+import com.github.inc0grepoz.kvad.client.protocol.PacketUtil;
+import com.github.inc0grepoz.kvad.common.gui.Message;
+import com.github.inc0grepoz.kvad.common.protocol.PacketType;
+import com.github.inc0grepoz.kvad.common.utils.Logger;
+import com.github.inc0grepoz.kvad.common.worker.Worker;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -3,8 +3,8 @@ package com.github.inc0grepoz.kvad.editor.awt;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.utils.Logger;
+import com.github.inc0grepoz.kvad.common.entities.Renderable;
+import com.github.inc0grepoz.kvad.common.utils.Logger;
 
 @SuppressWarnings("serial")
 public class PopupRenent extends JPopupMenu {

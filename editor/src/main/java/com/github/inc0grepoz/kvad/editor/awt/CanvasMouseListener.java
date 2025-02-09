@@ -3,15 +3,15 @@ package com.github.inc0grepoz.kvad.editor.awt;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import com.github.inc0grepoz.kvad.awt.geom.Dimension;
-import com.github.inc0grepoz.kvad.awt.geom.Point;
-import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.awt.geom.Dimension;
+import com.github.inc0grepoz.kvad.common.awt.geom.Point;
+import com.github.inc0grepoz.kvad.common.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.entities.Renderable;
+import com.github.inc0grepoz.kvad.common.entities.factory.RenderableFactory;
+import com.github.inc0grepoz.kvad.common.entities.factory.RenderableTemplate;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
-import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.entities.factory.RenderableFactory;
-import com.github.inc0grepoz.kvad.entities.factory.RenderableTemplate;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class CanvasMouseListener implements MouseListener {
 

@@ -3,7 +3,6 @@ package com.github.inc0grepoz.commons.util.json.mapper;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
@@ -46,6 +45,22 @@ public class JsonDeserializer
         }
         if (clazz == UUID.class)
         {
+            // Fixing 32-digit UUIDs (inserting dashes)
+            if (json.length() == 32)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.append(json.substring(0, 8));
+                builder.append('-');
+                builder.append(json.substring(8, 12));
+                builder.append('-');
+                builder.append(json.substring(12, 16));
+                builder.append('-');
+                builder.append(json.substring(16, 20));
+                builder.append('-');
+                builder.append(json.substring(20));
+                json = builder.toString();
+            }
+
             // UUID instances are written as String values as well
             return (T) UUID.fromString(json);
         }
@@ -105,8 +120,8 @@ public class JsonDeserializer
 
         if (clazz.isArray())
         {
-            // Not specifying the generic parameter
-            // to avoid excessive complexity
+            // Not specifying the generic parameter,
+            // since it's determined in runtime
             ArrayList list = new ArrayList();
 
             // Reading and adding elements
@@ -125,8 +140,8 @@ public class JsonDeserializer
         // Checking if the object can be assigned to a collection field
         if (Collection.class.isAssignableFrom(clazz))
         {
-            // Not specifying the generic parameter, since
-            // it's determined in runtime
+            // Not specifying the generic parameter,
+            // since it's determined in runtime
             Collection collection;
 
             // Creating an implementad instance of the given class

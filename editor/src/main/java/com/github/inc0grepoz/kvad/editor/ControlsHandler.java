@@ -1,11 +1,11 @@
 package com.github.inc0grepoz.kvad.editor;
 
-import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.Renderable;
+import com.github.inc0grepoz.kvad.common.entities.being.Anim.Way;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
 import com.github.inc0grepoz.kvad.editor.Controls.Key;
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class ControlsHandler {
 

@@ -1,10 +1,10 @@
 package com.github.inc0grepoz.kvad.client;
 
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
-import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.TimeGap;
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.Camera.CameraMode;
+import com.github.inc0grepoz.kvad.common.entities.being.Being;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.utils.TimeGap;
 
 public class Physics {
 

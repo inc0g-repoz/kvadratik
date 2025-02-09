@@ -1,8 +1,9 @@
 package com.github.inc0grepoz.kvad.worker;
 
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.worker.Worker;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class PhysicsWorker extends Worker {
 

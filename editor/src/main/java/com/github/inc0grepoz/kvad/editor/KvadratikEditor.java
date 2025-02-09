@@ -10,19 +10,19 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 
 import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
-import com.github.inc0grepoz.kvad.Kvadratik;
+import com.github.inc0grepoz.kvad.common.Kvadratik;
+import com.github.inc0grepoz.kvad.common.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.common.entities.factory.LevelObjectFactory;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.utils.AssetsProvider;
+import com.github.inc0grepoz.kvad.common.utils.Platform;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.editor.awt.EditorToolBar;
 import com.github.inc0grepoz.kvad.editor.awt.EditorToolsPanel;
-import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
-import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.utils.AssetsProvider;
 import com.github.inc0grepoz.kvad.utils.JSON;
-import com.github.inc0grepoz.kvad.utils.Platform;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;

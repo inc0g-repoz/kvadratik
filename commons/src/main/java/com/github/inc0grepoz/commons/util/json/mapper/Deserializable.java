@@ -25,7 +25,8 @@ public class Deserializable
 
     /**
      * Returns a deserialized instance of the class in the argument
-     * from it's JSON string representation.
+     * from it's JSON string representation. The result is cached
+     * by this instance.
      * 
      * @param <T> a type of instance that needs to be deserialized
      * @param json a string representation of an instance
@@ -35,7 +36,8 @@ public class Deserializable
      * @throws JsonException if fails to deserialize an instance
      * @see JsonMapper#deserialize(String, Class, Class...)
      */
-    public <T> T deserialize(Class<T> clazz, Class<?>... typeParameters)
+    @SafeVarargs
+    public final <T> T deserialize(Class<T> clazz, Class<?>... typeParameters)
     throws JsonException
     {
         if (object != null) return (T) object;
@@ -53,7 +55,8 @@ public class Deserializable
     }
 
     // Returns the JSON String the wrapped instance was deserialized from
-    String getJsonString() {
+    String getJsonString()
+    {
         return jsonString;
     }
 

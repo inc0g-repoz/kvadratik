@@ -7,8 +7,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+import com.github.inc0grepoz.kvad.common.entities.level.LevelObjectTemplate;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.entities.level.LevelObjectTemplate;
 
 @SuppressWarnings("serial")
 public class ObjectListCellRenderer extends DefaultListCellRenderer {

@@ -1,15 +1,15 @@
 package com.github.inc0grepoz.kvad.client;
 
 import com.github.inc0grepoz.kvad.client.Controls.Key;
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.Camera.CameraMode;
-import com.github.inc0grepoz.kvad.entities.being.Anim;
-import com.github.inc0grepoz.kvad.entities.being.Anim.Way;
-import com.github.inc0grepoz.kvad.entities.being.Being;
-import com.github.inc0grepoz.kvad.entities.level.Level;
-import com.github.inc0grepoz.kvad.gui.Chat;
-import com.github.inc0grepoz.kvad.gui.menu.CanvasMenu;
-import com.github.inc0grepoz.kvad.ksf.Event;
+import com.github.inc0grepoz.kvad.client.gui.Chat;
+import com.github.inc0grepoz.kvad.client.gui.menu.CanvasMenu;
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.Camera.CameraMode;
+import com.github.inc0grepoz.kvad.common.entities.being.Anim;
+import com.github.inc0grepoz.kvad.common.entities.being.Being;
+import com.github.inc0grepoz.kvad.common.entities.being.Anim.Way;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.ksf.Event;
 
 public class ControlsHandler {
 

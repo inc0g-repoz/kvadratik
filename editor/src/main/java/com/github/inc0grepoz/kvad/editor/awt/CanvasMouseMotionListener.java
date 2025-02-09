@@ -3,12 +3,12 @@ package com.github.inc0grepoz.kvad.editor.awt;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-import com.github.inc0grepoz.kvad.awt.geom.Point;
-import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.awt.geom.Point;
+import com.github.inc0grepoz.kvad.common.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.entities.Renderable;
+import com.github.inc0grepoz.kvad.common.utils.Vector2D;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
 import com.github.inc0grepoz.kvad.editor.Selection;
-import com.github.inc0grepoz.kvad.entities.Renderable;
-import com.github.inc0grepoz.kvad.utils.Vector2D;
 
 public class CanvasMouseMotionListener implements MouseMotionListener {
 

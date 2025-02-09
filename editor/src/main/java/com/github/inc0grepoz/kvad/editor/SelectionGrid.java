@@ -3,10 +3,10 @@ package com.github.inc0grepoz.kvad.editor;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.github.inc0grepoz.kvad.awt.geom.Rectangle;
-import com.github.inc0grepoz.kvad.entities.Camera;
-import com.github.inc0grepoz.kvad.entities.factory.RenderableFactory;
-import com.github.inc0grepoz.kvad.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.awt.geom.Rectangle;
+import com.github.inc0grepoz.kvad.common.entities.Camera;
+import com.github.inc0grepoz.kvad.common.entities.factory.RenderableFactory;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -4,8 +4,8 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetListener;
 import java.util.TooManyListenersException;
 
+import com.github.inc0grepoz.kvad.common.utils.Logger;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.utils.Logger;
 
 @SuppressWarnings("serial")
 public class CanvasDropTarget extends DropTarget {

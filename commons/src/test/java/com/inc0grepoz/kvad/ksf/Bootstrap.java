@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.inc0grepoz.commons.util.json.mapper.JsonMapper;
-import com.github.inc0grepoz.kvad.Kvadratik;
-import com.github.inc0grepoz.kvad.entities.factory.BeingFactory;
-import com.github.inc0grepoz.kvad.entities.factory.LevelObjectFactory;
-import com.github.inc0grepoz.kvad.ksf.Event;
-import com.github.inc0grepoz.kvad.ksf.ScriptManager;
-import com.github.inc0grepoz.kvad.utils.AssetsProvider;
+import com.github.inc0grepoz.kvad.common.Kvadratik;
+import com.github.inc0grepoz.kvad.common.entities.factory.BeingFactory;
+import com.github.inc0grepoz.kvad.common.entities.factory.LevelObjectFactory;
+import com.github.inc0grepoz.kvad.common.ksf.Event;
+import com.github.inc0grepoz.kvad.common.ksf.ScriptManager;
+import com.github.inc0grepoz.kvad.common.utils.AssetsProvider;
 
 import lombok.Getter;
 

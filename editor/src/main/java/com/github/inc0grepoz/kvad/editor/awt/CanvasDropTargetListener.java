@@ -5,9 +5,9 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
-import com.github.inc0grepoz.kvad.awt.geom.Point;
+import com.github.inc0grepoz.kvad.common.awt.geom.Point;
+import com.github.inc0grepoz.kvad.common.entities.level.Level;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.entities.level.Level;
 
 public class CanvasDropTargetListener implements DropTargetListener {
 
