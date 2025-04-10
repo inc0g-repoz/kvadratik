@@ -9,7 +9,6 @@ import java.util.UUID;
 import com.github.inc0grepoz.kvad.client.KvadratikClient;
 import com.github.inc0grepoz.kvad.client.KvadratikGame;
 import com.github.inc0grepoz.kvad.client.Session;
-import com.github.inc0grepoz.kvad.client.utils.JSON;
 import com.github.inc0grepoz.kvad.common.awt.geom.Point;
 import com.github.inc0grepoz.kvad.common.awt.geom.Rectangle;
 import com.github.inc0grepoz.kvad.common.entities.being.Anim;
@@ -18,6 +17,7 @@ import com.github.inc0grepoz.kvad.common.entities.level.Level;
 import com.github.inc0grepoz.kvad.common.gui.Message;
 import com.github.inc0grepoz.kvad.common.protocol.PacketType;
 import com.github.inc0grepoz.kvad.common.utils.Downloader;
+import com.github.inc0grepoz.kvad.common.utils.JSON;
 import com.github.inc0grepoz.kvad.common.utils.Logger;
 import com.github.inc0grepoz.kvad.common.utils.Unzipper;
 

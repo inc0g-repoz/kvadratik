@@ -15,6 +15,7 @@ import com.github.inc0grepoz.kvad.common.entities.factory.BeingFactory;
 import com.github.inc0grepoz.kvad.common.entities.factory.LevelObjectFactory;
 import com.github.inc0grepoz.kvad.common.entities.level.Level;
 import com.github.inc0grepoz.kvad.common.utils.AssetsProvider;
+import com.github.inc0grepoz.kvad.common.utils.JSON;
 import com.github.inc0grepoz.kvad.common.utils.Platform;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasDropTarget;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseListener;
@@ -22,7 +23,6 @@ import com.github.inc0grepoz.kvad.editor.awt.CanvasMouseMotionListener;
 import com.github.inc0grepoz.kvad.editor.awt.CanvasRenderer;
 import com.github.inc0grepoz.kvad.editor.awt.EditorToolBar;
 import com.github.inc0grepoz.kvad.editor.awt.EditorToolsPanel;
-import com.github.inc0grepoz.kvad.utils.JSON;
 import com.github.inc0grepoz.kvad.worker.PhysicsWorker;
 
 import lombok.Getter;

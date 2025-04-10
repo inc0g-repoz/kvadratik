@@ -1,10 +1,9 @@
-package com.github.inc0grepoz.kvad.utils;
+package com.github.inc0grepoz.kvad.common.utils;
 
 import com.github.inc0grepoz.kvad.common.Kvadratik;
 import com.github.inc0grepoz.kvad.common.awt.geom.Point;
 import com.github.inc0grepoz.kvad.common.entities.being.Being;
 import com.github.inc0grepoz.kvad.common.entities.level.Level;
-import com.github.inc0grepoz.kvad.common.utils.Platform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

@@ -14,9 +14,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JToolBar;
 
 import com.github.inc0grepoz.kvad.common.entities.level.Level;
+import com.github.inc0grepoz.kvad.common.utils.JSON;
 import com.github.inc0grepoz.kvad.common.utils.Logger;
 import com.github.inc0grepoz.kvad.editor.KvadratikEditor;
-import com.github.inc0grepoz.kvad.utils.JSON;
 
 @SuppressWarnings("serial")
 public class EditorToolBar extends JToolBar {
